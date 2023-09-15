@@ -1,0 +1,68 @@
+:root {
+  /*spacing*/
+  --spacing-sm: 10px;
+  --spacing-md: 20px;
+  --spacing-lg: 30px;
+
+  /*color*/
+  --primary-color: #f8242f;
+  --contrast-color: #FEFEFE;
+  --main-color: #191817;
+  --sub-color: #868686;
+
+  /*font size*/
+  --font-s-sm: 1.4rem;
+  --font-s-md: 1.6rem;
+  --font-s-lg: 2rem;
+
+  /* border radius */
+  --border-r-lt: 4px;
+  --border-r-md: 14px;
+  --border-r-md-1: 30px;
+
+  --border-radius-mch: 9999px;
+  
+  /* z-index */
+  --z-highest: 99;
+  --z-higher: 9;
+  --z-high: 1;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  border: none;
+}
+
+a,
+Link {
+  color: var(--contrast-color);
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+    outline: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+
