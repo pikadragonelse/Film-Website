@@ -1,6 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './index.scss';
+import { DefaultLayout } from '../../component/default-layout';
 
 export const Home = () => {
-    return <Link to="search">Search</Link>;
+    return <DefaultLayout></DefaultLayout>;
 };
