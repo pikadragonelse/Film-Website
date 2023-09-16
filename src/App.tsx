@@ -1,10 +1,10 @@
-import React from "react";
-import "./app.scss";
-import { Route, Routes } from "react-router-dom";
-import { Header } from "./component/header";
-import { Footer } from "./component/footer";
-import { Home } from "./page/home";
-import { Search } from "./page/search";
+import React from 'react';
+import './app.scss';
+import { Route, Routes } from 'react-router-dom';
+import { Header } from './component/header';
+import { Footer } from './component/footer';
+import { Home } from './page/home';
+import { Search } from './page/search';
 
 export const App = () => {
     return (
