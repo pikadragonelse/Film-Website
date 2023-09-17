@@ -1,0 +1,58 @@
+.wrapper-header{
+    position: fixed;
+    background-color: transparent;
+    color:black;
+    width:100%;
+}
+.logo{
+    margin-right: 60px;
+}
+.menu-items{
+    display: flex;
+    flex-direction: row;
+    color: var(--contrast-color);
+    font-size: 15px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.btn-vip{
+    background-color: #6a600f;
+    color:#FFE300;
+    box-shadow: 0 2px 0 rgba(106, 96, 15, 0.1);
+
+    &:where(.css-dev-only-do-not-override-i0102m).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+        color: #6a600f;
+        background-color: #FFE300;
+    }
+}
+.notification{
+    position: relative;
+    cursor: pointer;
+
+    .notification-btn{
+        padding:10px;
+        font-size: 20px;
+        color: var(--contrast-color);
+        
+    }
+    
+}
+.number-notification{
+    position: absolute;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: #f1f1f2;
+    top: 7%;
+    left: 18px;
+    padding: 0px 3px;
+}
+.avatar{
+    background-color: #6a600f;
+    cursor: pointer;
+}
+.login{
+    padding:10px;
+    font-size: 20px;
+    color: var(--contrast-color);
+    cursor: pointer;
+}
