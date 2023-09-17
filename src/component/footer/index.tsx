@@ -3,8 +3,18 @@ import React from 'react';
 import './index.scss';
 import { Logo } from '../../asset/icon/logo';
 
-export const Footer = () => {
-    const regulations = [
+interface RegulationItem {
+    text: string;
+    link: string;
+}
+
+interface HelpItem {
+    text: string;
+    link: string;
+}
+
+export const Footer: React.FC = () => {
+    const regulations: RegulationItem[] = [
         {
             text: 'Điều khoản sử dụng',
             link: '',
@@ -23,7 +33,7 @@ export const Footer = () => {
         },
     ];
 
-    const helpItems = [
+    const helpItems: HelpItem[] = [
         {
             text: 'Trung Tâm Hỗ Trợ',
             link: '',
@@ -41,7 +51,7 @@ export const Footer = () => {
             <footer>
                 <div className="py-6">
                     <hr className="my-6 border-neutral-800" />
-                    <div className="flex justify-between ml-14">
+                    <div className="flex justify-between ml-10">
                         <div className="mb-6">
                             <a className="flex">
                                 <Logo />
@@ -76,7 +86,7 @@ export const Footer = () => {
                         </div>
                     </div>
                     <hr className="my-6 border-neutral-800" />
-                    <div className="flex items-center justify-between ml-14">
+                    <div className="flex items-center justify-between ml-10">
                         <div className="text-gray-300 mt-6">
                             Công ty Cổ phần Movies - Địa chỉ: Tầng 5, 222
                             Pasteur, Phường Võ Thị Sáu, Quận 3, Đà Nẵng.
@@ -104,7 +114,7 @@ export const Footer = () => {
                             Giấy phép Cung cấp Dịch vụ Phát thanh, Truyền hình
                             trả tiền số 247/GP-BTTTT cấp ngày 21/07/2023.
                         </div>
-                        <div className="flex mt-8 mb-4 space-x-5 mr-14">
+                        <div className="flex mt-8 mb-4 space-x-5 mr-10">
                             <img
                                 className="w-[80px] h-[80px]"
                                 src="https://media.alzheimer-nederland.nl/s3fs-public/styles/w780/public/media/2022-12/images/AN_QR-code_07-2022.jpg.webp?VersionId=NWHJWB0BZl_DTZXaMjIG5Blpvo.iy6rn&itok=v3Y46mT2"

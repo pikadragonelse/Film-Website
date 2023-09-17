@@ -12,26 +12,28 @@ export const Header = () => {
     const currentUser = false;
     return (
         <header className="wrapper-header">
-            <div className="flex flex-wrap  items-center mx-auto max-w-screen-xl">
-                <div className="logo">
-                    <Link to="/">
-                        <Logo />
-                    </Link>
-                </div>
+            <div className="flex justify-between items-center mx-auto">
+                <div className="flex justify-between items-center">
+                    <div className="logo">
+                        <Link to="/">
+                            <Logo />
+                        </Link>
+                    </div>
 
-                <div
-                    className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1 r-10px"
-                    id="mobile-menu-2"
-                >
-                    <Search />
-                    {items.map((item, index) => (
-                        <ul className="menu-items" key={index}>
-                            <DropdownList
-                                title={item.title}
-                                data={item.childrens || []}
-                            />
-                        </ul>
-                    ))}
+                    <div
+                        className="hidden  items-center w-full lg:flex lg:w-auto lg:order-1 r-10px"
+                        id="mobile-menu-2"
+                    >
+                        <Search />
+                        {items.map((item, index) => (
+                            <ul className="menu-items" key={index}>
+                                <DropdownList
+                                    title={item.title}
+                                    data={item.childrens || []}
+                                />
+                            </ul>
+                        ))}
+                    </div>
                 </div>
                 <div
                     style={{
