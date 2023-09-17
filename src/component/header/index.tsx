@@ -12,28 +12,7 @@ export const Header = () => {
     const currentUser = false;
     return (
         <header className="wrapper-header">
-<<<<<<< Updated upstream
-            <div className="flex flex-wrap  items-center mx-auto max-w-screen-xl">
-                <div className="logo">
-                    <Link to="/">
-                        <Logo />
-                    </Link>
-                </div>
 
-                <div
-                    className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1 r-10px"
-                    id="mobile-menu-2"
-                >
-                    <Search />
-                    {items.map((item, index) => (
-                        <ul className="menu-items" key={index}>
-                            <DropdownList
-                                title={item.title}
-                                data={item.childrens || []}
-                            />
-                        </ul>
-                    ))}
-=======
             <div className="flex justify-between items-center mx-auto ml-10">
                 <div className="flex justify-between items-center">
                     <div className="logo">
@@ -44,6 +23,7 @@ export const Header = () => {
 
                     <div
                         className="hidden  items-center w-full lg:flex lg:w-auto lg:order-1 mr-10"
+
                         id="mobile-menu-2"
                     >
                         <Search />
@@ -56,7 +36,6 @@ export const Header = () => {
                             </ul>
                         ))}
                     </div>
->>>>>>> Stashed changes
                 </div>
                 <div
                     style={{ width: '13rem' }}
