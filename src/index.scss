@@ -1,67 +1,64 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400;1,500&display=swap');
-
-
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
 :root {
-  /*spacing*/
-  --spacing-sm: 10px;
-  --spacing-md: 20px;
-  --spacing-lg: 30px;
+    /*spacing*/
+    --spacing-sm: 10px;
+    --spacing-md: 20px;
+    --spacing-lg: 40px;
 
-  /*color*/
-  --primary-color: #f8242f;
-  --contrast-color: #FEFEFE;
-  --main-color: #191817;
-  --sub-color: #868686;
+    /*color*/
+    --primary-color: #f8242f;
+    --contrast-color: #fefefe;
+    --main-color: #111111;
+    --sub-color: #868686;
 
-  /*font size*/
-  --font-s-sm: 1.4rem;
-  --font-s-md: 1.6rem;
-  --font-s-lg: 2rem;
+    /*font size*/
+    --font-s-sm: 1.4rem;
+    --font-s-md: 1.6rem;
+    --font-s-lg: 2rem;
 
-  /* border radius */
-  --border-r-lt: 5px;
-  --border-r-md: 10px;
-  --border-radius-mch: 9999px;
-  
-  /* z-index */
-  --z-highest: 99;
-  --z-higher: 9;
-  --z-high: 1;
+    /* border radius */
+    --border-r-lt: 5px;
+    --border-r-md: 10px;
+    --border-radius-mch: 9999px;
+
+    /* z-index */
+    --z-highest: 99;
+    --z-higher: 9;
+    --z-high: 1;
 }
 
 * {
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
 html {
-  font-size: 62.5%;
-  height: 100%;
+    font-size: 93.75%;
+    height: 100%;
 }
 
 body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 100%;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    height: 100%;
 }
 
 #root {
-  height: 100%;
+    height: 100%;
 }
 
 button {
-  border: none;
+    border: none;
 }
 
 a,
 Link {
-  color: var(--contrast-color);
-  text-decoration: none;
+    color: var(--contrast-color);
+    text-decoration: none;
 }
 
 button,
@@ -71,9 +68,7 @@ textarea {
 }
 
 ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
-
-
