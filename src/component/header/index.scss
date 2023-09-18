@@ -7,14 +7,14 @@
     width: 100%;
 }
 .logo{
-    margin-right: 60px;
+    margin-right: calc(var(--spacing-lg) + var(--spacing-md));
 }
 .menu-items{
     display: flex;
     flex-direction: row;
     color: var(--contrast-color);
-    font-size: 15px;
-    padding: 0 10px;
+    font-size: var(--font-s-md);
+    padding: 0 var(--spacing-sm-2);
     cursor: pointer;
 }
 .btn-vip{
@@ -32,8 +32,8 @@
     cursor: pointer;
 
     .notification-btn{
-        padding:10px;
-        font-size: 20px;
+        padding:var(--spacing-sm-2);
+        font-size: var(--font-s-lg);
         color: var(--contrast-color);
         
     }
@@ -41,7 +41,7 @@
 }
 .number-notification{
     position: absolute;
-    font-size: 10px;
+    font-size: var(--font-s-sm-1);
     border-radius: 50%;
     background-color: var(--primary-color);
     color: #f1f1f2;
@@ -54,8 +54,8 @@
     cursor: pointer;
 }
 .login{
-    padding:10px;
-    font-size: 20px;
+    padding:var(--spacing-sm-2);
+    font-size: var(--font-s-lg);
     color: var(--contrast-color);
     cursor: pointer;
 }
