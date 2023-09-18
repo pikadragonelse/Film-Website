@@ -3,16 +3,18 @@ import './app.scss';
 import { Route, Routes } from 'react-router-dom';
 import { Header } from './component/header';
 import { Footer } from './component/footer';
-import { Home } from './page/home';
-import { Search } from './page/search';
+import { HomePage } from './page/home';
+import { SearchPage } from './page/search';
+import { WatchingPage } from './page/watching';
 
 export const App = () => {
     return (
         <div className="wrapper">
             <Header />
             <Routes>
-                <Route path="" element={<Home />} />
-                <Route path="/search" element={<Search />} />
+                <Route path="" element={<HomePage />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/watching" element={<WatchingPage />} />
             </Routes>
             <Footer />
         </div>
