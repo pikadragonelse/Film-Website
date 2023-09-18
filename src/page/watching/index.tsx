@@ -9,8 +9,9 @@ export const WatchingPage = () => {
                 <div className="watching-main-info"></div>
                 <div className="watching-sub-info"></div>
             </div>
-            <div className="watching-"></div>
-            <div className="watching-sub-relation"></div>
+            <div className="watching-episode"></div>
+            <div className="watching-relation"></div>
+            <div className="watching-comment"></div>
         </div>
     );
 };
