@@ -1,0 +1,43 @@
+.film-item-container {
+    width: 306px;
+    height: 235px;
+    background-color: var(--contrast-color);
+    border-radius: var(--border-r-sm);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+
+    .film-item-image {
+        object-fit: cover;
+        height: 100%;
+        transition: scale 0.2s ease-in-out;
+    }
+
+    &:hover .film-item-image {
+        scale: 1.1;
+    }
+
+    .film-item-info {
+        position: absolute;
+        backdrop-filter: blur(10px);
+        width: 250px;
+        bottom: var(--spacing-md);
+        padding: var(--spacing-sm-1);
+        border-radius: var(--border-r-sm);
+        overflow: hidden;
+        z-index: var(--z-high);
+
+        .film-item-title {
+            font-size: var(--font-s-md-1);
+            font-weight: 500;
+        }
+
+        .film-item-sub-info {
+            font-weight: 300;
+            font-size: var(--font-s-sm-1);
+        }
+
+    }
+}
