@@ -4,7 +4,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
 :root {
     /*spacing*/
-    --spacing-sm: 10px;
+    --spacing-sm: 2px;
+    --spacing-sm-1: 5px;
+    --spacing-sm-2: 10px;
     --spacing-md: 20px;
     --spacing-lg: 40px;
 
@@ -15,12 +17,14 @@
     --sub-color: #868686;
 
     /*font size*/
-    --font-s-sm: 1.4rem;
-    --font-s-md: 1.6rem;
-    --font-s-lg: 2rem;
+    --font-s-sm: 0.6rem;
+    --font-s-sm-1: 0.8rem;
+    --font-s-md: 1rem;
+    --font-s-md-1: 1.2rem;
+    --font-s-lg: 1.4rem;
 
     /* border radius */
-    --border-r-lt: 5px;
+    --border-r-sm: 5px;
     --border-r-md: 10px;
     --border-radius-mch: 9999px;
 
