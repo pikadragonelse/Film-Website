@@ -12,7 +12,6 @@ export const Header = () => {
     const currentUser = false;
     return (
         <header className="wrapper-header">
-
             <div className="flex justify-between items-center mx-auto ml-10">
                 <div className="flex justify-between items-center">
                     <div className="logo">
@@ -23,7 +22,6 @@ export const Header = () => {
 
                     <div
                         className="hidden  items-center w-full lg:flex lg:w-auto lg:order-1 mr-10"
-
                         id="mobile-menu-2"
                     >
                         <Search />
