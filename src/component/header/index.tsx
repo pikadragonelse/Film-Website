@@ -12,7 +12,13 @@ export const Header = () => {
     const currentUser = false;
     return (
         <header className="wrapper-header">
-            <div className="flex justify-between items-center mx-auto ml-10">
+
+            <div
+                style={{
+                    marginLeft: 'var(--spacing-lg)',
+                }}
+                className="flex justify-between items-center mx-auto"
+            >
                 <div className="flex justify-between items-center">
                     <div className="logo">
                         <Link to="/">
@@ -21,7 +27,10 @@ export const Header = () => {
                     </div>
 
                     <div
-                        className="hidden  items-center w-full lg:flex lg:w-auto lg:order-1 mr-10"
+                        style={{
+                            marginRight: 'var(--spacing-lg)',
+                        }}
+                        className="hidden  items-center w-full lg:flex lg:w-auto lg:order-1"
                         id="mobile-menu-2"
                     >
                         <Search />
@@ -36,8 +45,11 @@ export const Header = () => {
                     </div>
                 </div>
                 <div
-                    style={{ width: '13rem' }}
-                    className="flex justify-between items-center lg:order-2 mr-10"
+                    style={{
+                        width: '13rem',
+                        marginRight: 'var(--spacing-lg)',
+                    }}
+                    className="flex justify-between items-center lg:order-2"
                 >
                     <Link to={'/VIPpackage'}>
                         <Button
