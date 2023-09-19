@@ -6,9 +6,11 @@
     left: 0;
     width: 100%;
 }
+
 .logo{
     margin-right: calc(var(--spacing-lg) + var(--spacing-md));
 }
+
 .menu-items{
     display: flex;
     flex-direction: row;
@@ -17,6 +19,7 @@
     padding: 0 var(--spacing-sm-2);
     cursor: pointer;
 }
+
 .btn-vip{
     background-color: #6a600f;
     color:#FFE300;
@@ -27,6 +30,7 @@
         background-color: #FFE300;
     }
 }
+
 .notification{
     position: relative;
     cursor: pointer;
@@ -39,6 +43,7 @@
     }
     
 }
+
 .number-notification{
     position: absolute;
     font-size: var(--font-s-sm-1);
@@ -49,10 +54,12 @@
     left: 18px;
     padding: 0px 3px;
 }
+
 .avatar{
     background-color: #6a600f;
     cursor: pointer;
 }
+
 .login{
     padding:var(--spacing-sm-2);
     font-size: var(--font-s-lg);

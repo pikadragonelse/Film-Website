@@ -47,7 +47,7 @@ export const Footer: React.FC = () => {
     ];
 
     return (
-        <div className="footer fixed-bottom">
+        <div className="footer">
             <footer>
                 <div className="py-6">
                     <hr className="my-6 border-neutral-800" />

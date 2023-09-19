@@ -12,6 +12,7 @@ export const Header = () => {
     const currentUser = false;
     return (
         <header className="wrapper-header">
+
             <div
                 style={{
                     marginLeft: 'var(--spacing-lg)',
