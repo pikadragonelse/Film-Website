@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDebouced } from '../../../redux/hook';
 
 import {
     LoadingOutlined,
@@ -15,21 +16,31 @@ export const Search = () => {
     const navigate = useNavigate();
     const valueRef = useRef<HTMLInputElement | null>(null);
 
+    const debouncedValue: string = useDebouced(searchValue, 500);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
         if (!searchValue.startsWith(' ')) {
             setSearchValue(searchValue);
-            console.log(searchValue);
         }
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            navigate('/timkiem');
+        if (event.key === 'Enter' && debouncedValue.trim() !== '') {
+            setSearchValue('');
+            navigate('/search', {
+                state: { searchValue: encodeURIComponent(debouncedValue) },
+            });
         }
     };
     const handleSearch = () => {
-        navigate('/timkiem');
+        if (debouncedValue.trim() !== '') {
+            setSearchValue('');
+            navigate('/search', {
+                state: { searchValue: encodeURIComponent(debouncedValue) },
+            });
+            // navigate(`/search?query=${encodeURIComponent(debouncedValue)}`);
+        }
     };
     const handleClear = () => {
         setSearchValue('');
@@ -39,19 +50,38 @@ export const Search = () => {
     };
 
     useEffect(() => {
-        if (!searchValue.trim()) {
+        if (!debouncedValue.trim()) {
             setShowbtnLoading(false);
             return;
         } else {
             setShowbtnLoading(true);
         }
 
+        // console.log(debouncedValue);
+
+        //
         const timeoutId = setTimeout(() => {
             setShowbtnClear(true);
             setShowbtnLoading(false);
-        }, 500);
+        }, 300);
         return () => clearTimeout(timeoutId);
-    }, [searchValue]);
+        //
+    }, [debouncedValue]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                valueRef.current &&
+                !valueRef.current.contains(event.target as Node)
+            ) {
+                setSearchValue('');
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="search">
@@ -63,6 +93,7 @@ export const Search = () => {
                 onChange={handleChange}
                 onKeyDown={handleKeyDown}
             />
+
             {showbtnloading && (
                 <button className="loading-search">
                     <LoadingOutlined />
