@@ -89,6 +89,18 @@ const filmMap: Array<FilmItem> = [
         yearOfManufacture: 2023,
         poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
     },
+    {
+        name: 'One piece',
+        category: 'Anime',
+        yearOfManufacture: 2023,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+    {
+        name: 'One piece',
+        category: 'Anime',
+        yearOfManufacture: 2023,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
 ];
 
 export const WatchingPage = () => {
@@ -193,13 +205,7 @@ export const WatchingPage = () => {
                         <div>
                             <Row gutter={10} justify="center">
                                 {filmMap.map((value) => (
-                                    <Col
-                                        span={6}
-                                        style={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
+                                    <Col span={4} className="list-col">
                                         <FilmItem
                                             name={value.name}
                                             category={value.category}
@@ -213,9 +219,9 @@ export const WatchingPage = () => {
                             </Row>
                         </div>
                         <div>
-                            <Row gutter={10}>
+                            <Row gutter={10} justify="center">
                                 {filmMap.map((value) => (
-                                    <Col className="gutter-row" span={6}>
+                                    <Col span={4} className="list-col">
                                         <FilmItem
                                             name={value.name}
                                             category={value.category}
