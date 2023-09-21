@@ -19,12 +19,57 @@ interface Option {
     children?: Option[];
 }
 
+const filmMap: Array<FilmItem> = [
+    {
+        name: 'asdfadsf',
+        category: 'asdsdf',
+        yearOfManufacture: 2022,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+    {
+        name: 'asdfadsf',
+        category: 'asdsdf',
+        yearOfManufacture: 2022,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+    {
+        name: 'asdfadsf',
+        category: 'asdsdf',
+        yearOfManufacture: 2022,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+    {
+        name: 'asdfadsf',
+        category: 'asdsdf',
+        yearOfManufacture: 2022,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+    {
+        name: 'asdfadsf',
+        category: 'asdsdf',
+        yearOfManufacture: 2022,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+    {
+        name: 'asdfadsf',
+        category: 'asdsdf',
+        yearOfManufacture: 2022,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+    {
+        name: 'asdfadsf',
+        category: 'asdsdf',
+        yearOfManufacture: 2022,
+        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
+    },
+];
+
 export const SearchPage: React.FC = () => {
     const location = useLocation();
     const { searchValue } = location.state;
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const resultsPerPage = 4;
+    const resultsPerPage = 5;
     const startIndex = (currentPage - 1) * resultsPerPage;
     const endIndex = startIndex + resultsPerPage;
     const displayedResults = searchResults.slice(startIndex, endIndex);
@@ -145,34 +190,32 @@ export const SearchPage: React.FC = () => {
                 </Button>
             </div>
             <hr className="my-6 border-neutral-800" />
-            <div className="listfilm">
-                <div className="header-listfilm">
-                    <VideoCameraOutlined className="header-listfilm-icon" />
-                    <p className="header-listfilm-title">Kết quả tìm kiếm</p>
+            <div className="list-film">
+                <div className="header-list-film">
+                    <VideoCameraOutlined className="header-list-film-icon" />
+                    <p className="header-list-film-title">Kết quả tìm kiếm</p>
                 </div>
-                <div className="content-listfilm">
+                <div className="content-list-film">
                     {hasResults ? (
-                        <Row gutter={[8, 24]}>
-                            {displayedResults.map((result, index) => (
+                        <Row gutter={[12, 24]}>
+                            {filmMap.map((result, index) => (
                                 <Col
-                                    xs={24}
-                                    sm={12}
-                                    md={8}
-                                    lg={6}
+                                    // xs={24}
+                                    // sm={12}
+                                    // md={8}
+                                    // lg={4}
                                     className="gutter-row"
-                                    span={6}
+                                    span={4}
                                     key={index}
                                 >
-                                    <div className="film-item">
-                                        <FilmItem
-                                            name={result.name || ''}
-                                            category={result.category || ''}
-                                            yearOfManufacture={
-                                                result.yearOfManufacture || 0
-                                            }
-                                            poster={result.poster || ''}
-                                        />
-                                    </div>
+                                    <FilmItem
+                                        name={result.name || ''}
+                                        category={result.category || ''}
+                                        yearOfManufacture={
+                                            result.yearOfManufacture || 0
+                                        }
+                                        poster={result.poster || ''}
+                                    />
                                 </Col>
                             ))}
                         </Row>
@@ -180,7 +223,7 @@ export const SearchPage: React.FC = () => {
                         <p>Không tìm thấy kết quả phù hợp.</p>
                     )}
                 </div>
-                <div className="footer-listfilm">
+                <div className="footer-list-film">
                     <Pagination
                         current={currentPage}
                         defaultPageSize={resultsPerPage}
