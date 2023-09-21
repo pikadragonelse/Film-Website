@@ -1,15 +1,13 @@
 import React from 'react';
+import './index.scss';
 
-export type SubInfo = { title: string; content: string };
-export const SubInfo = () => {
+export type SubInfo = { title: string; content: string; className?: string };
+export const SubInfo = ({ title, content, className }: SubInfo) => {
     return (
-        <div className="watching-sub-info-item">
-            <span className="watching-sub-info-item-title">Diễn viên:</span>
+        <div className={`sub-info-container ${className}`}>
+            <span className="sub-info-title">{title}:</span>
             &nbsp;
-            <span className="watching-sub-info-item-content">
-                Monkey.D Luffy, Rononoa Zoro, Chopper, Usopp, Brook, Franky,
-                Robin, Nami, Jinbei, Sanji
-            </span>
+            <span className="sub-info-content">{content}</span>
         </div>
     );
 };
