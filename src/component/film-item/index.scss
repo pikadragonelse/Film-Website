@@ -1,6 +1,6 @@
 .film-item-container {
-    width: 230px;
-    height: 300px;
+    width: 200px;
+    height: 260px;
     background-color: var(--contrast-color);
     border-radius: var(--border-r-sm);
     overflow: hidden;
@@ -22,7 +22,7 @@
     .film-item-info {
         position: absolute;
         backdrop-filter: blur(10px);
-        width: 250px;
+        width: 180px;
         bottom: var(--spacing-md);
         padding: var(--spacing-sm-1);
         border-radius: var(--border-r-sm);

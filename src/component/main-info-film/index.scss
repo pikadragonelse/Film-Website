@@ -1,0 +1,40 @@
+.main-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+
+    .name {
+        font-size: var(--font-s-lg);
+        font-weight: 500;
+    }
+
+    .view-info {
+        display: flex;
+        gap: var(--spacing-md);
+
+        .rate .rate-icon {
+            color: var(--gold-color);
+        }
+    }
+
+    .hashtag {
+
+        .hashtag-item {
+            padding: 0 var(--spacing-md);
+            border-right: 1px solid var(--sub-color);
+
+            &:first-child {
+                padding-left: 0;
+            }
+
+            &:last-child {
+                border: none;
+            }
+        }
+    }
+
+    .desc {
+        color: var(--contrast-color);
+        font-size: var(--font-s-md);
+    }
+}
