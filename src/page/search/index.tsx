@@ -156,6 +156,7 @@ export const SearchPage: React.FC = () => {
 
     return (
         <div className="wrapper-searchPage">
+            <div className="searchPage-header"></div>
             <div className="header-filter">
                 {items.map((item, index) => {
                     const options = item.childrens.map((child) => ({

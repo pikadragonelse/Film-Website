@@ -1,8 +1,12 @@
 .wrapper-searchPage {
-    margin-top: var(--spacing-lg);
     padding:  var(--spacing-lg);
+
+    .searchPage-header{
+        margin-top: calc(var(--spacing-lg) * 2);
+    }
  
 }
+
 
 .header-filter{
     display: flex;
