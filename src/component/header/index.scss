@@ -1,52 +1,59 @@
-.wrapper-header{
+.wrapper-header {
     position: fixed;
-    background-color:var(--main-color);
-    color:black;
+    color: black;
     top: 0;
     left: 0;
     width: 100%;
     height: 66px;
-    z-index: var(--z-highest);
+    z-index: var(--z-high);
 }
 
-.logo{
+.scroll-header {
+    z-index: var(--z-highest);
+    background-color: var(--main-color);
+    box-shadow: rgba(0, 0, 0, 0.28) 0px 19px 38px,
+        rgba(0, 0, 0, 0.2) 0px 15px 12px;
+}
+
+.logo {
     margin-right: calc(var(--spacing-lg) + var(--spacing-md));
 }
 
-.menu-items{
+.menu-items {
     display: flex;
     flex-direction: row;
     color: var(--contrast-color);
     font-size: var(--font-s-md);
-    padding: 0 var(--spacing-sm-2);
+    padding: 12px var(--spacing-sm-2) 0 var(--spacing-sm-2);
     cursor: pointer;
+    text-shadow: 0px 0px 1px #e8e8e8;
 }
 
-.btn-vip{
+.btn-vip {
     background-color: #6a600f;
-    color:#FFE300;
+    color: #ffe300;
     box-shadow: 0 2px 0 rgba(106, 96, 15, 0.1);
 
-    &:where(.css-dev-only-do-not-override-i0102m).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+    &:where(.css-dev-only-do-not-override-i0102m).ant-btn-primary:not(
+            :disabled
+        ):not(.ant-btn-disabled):hover {
         color: #6a600f;
-        background-color: #FFE300;
+        background-color: #ffe300;
     }
 }
 
-.notification{
+.notification {
     position: relative;
     cursor: pointer;
 
-    .notification-btn{
-        padding:var(--spacing-sm-2);
+    .notification-btn {
+        padding: var(--spacing-sm-2);
         font-size: var(--font-s-lg);
         color: var(--contrast-color);
-        
     }
-    
 }
 
-.number-notification{
+.number-notification {
     position: absolute;
     font-size: var(--font-s-sm-1);
     border-radius: 50%;
@@ -57,13 +64,13 @@
     padding: 0px 3px;
 }
 
-.avatar{
+.avatar {
     background-color: #6a600f;
     cursor: pointer;
 }
 
-.login{
-    padding:var(--spacing-sm-2);
+.login {
+    padding: var(--spacing-sm-2);
     font-size: var(--font-s-lg);
     color: var(--contrast-color);
     cursor: pointer;

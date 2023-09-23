@@ -7,12 +7,31 @@ import items from '../header/menuItem.json';
 import { Button, Avatar } from 'antd';
 import { CrownOutlined, BellOutlined, LoginOutlined } from '@ant-design/icons';
 import { DropdownList } from './dropdownList/index';
+import { useEffect } from 'react';
 
 export const Header = () => {
     const currentUser = false;
-    return (
-        <header className="wrapper-header">
+    useEffect(() => {
+        function scrollHeader() {
+            const header = document.getElementById('header');
+            if (header) {
+                if (window.scrollY >= 50) {
+                    header.classList.add('scroll-header');
+                } else {
+                    header.classList.remove('scroll-header');
+                }
+            }
+        }
 
+        window.addEventListener('scroll', scrollHeader);
+
+        return () => {
+            window.removeEventListener('scroll', scrollHeader);
+        };
+    }, []);
+
+    return (
+        <header id="header" className="wrapper-header">
             <div
                 style={{
                     marginLeft: 'var(--spacing-lg)',
