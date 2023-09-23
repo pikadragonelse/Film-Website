@@ -8,7 +8,6 @@ import items from '../header/menuItem.json';
 import { Button, Avatar } from 'antd';
 import { CrownOutlined, BellOutlined, LoginOutlined } from '@ant-design/icons';
 import { DropdownList } from './dropdownList/index';
-import { useEffect } from 'react';
 
 export const Header = () => {
     const scrollThreshold = 50;
