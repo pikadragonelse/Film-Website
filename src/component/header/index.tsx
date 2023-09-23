@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import { Logo } from '../../asset/icon/logo';
@@ -10,28 +11,27 @@ import { DropdownList } from './dropdownList/index';
 import { useEffect } from 'react';
 
 export const Header = () => {
-    const currentUser = false;
+    const scrollThreshold = 50;
+
     useEffect(() => {
-        function scrollHeader() {
-            const header = document.getElementById('header');
+        const header = document.querySelector('.wrapper-header') as HTMLElement;
+        const handleScroll = () => {
             if (header) {
-                if (window.scrollY >= 50) {
-                    header.classList.add('scroll-header');
+                if (window.scrollY > scrollThreshold) {
+                    header.style.backgroundColor = 'var(--main-color)';
                 } else {
-                    header.classList.remove('scroll-header');
+                    header.style.backgroundColor = 'transparent';
                 }
             }
-        }
-
-        window.addEventListener('scroll', scrollHeader);
-
+        };
+        window.addEventListener('scroll', handleScroll);
         return () => {
-            window.removeEventListener('scroll', scrollHeader);
+            window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-
+    const currentUser = false;
     return (
-        <header id="header" className="wrapper-header">
+        <header className="wrapper-header">
             <div
                 style={{
                     marginLeft: 'var(--spacing-lg)',

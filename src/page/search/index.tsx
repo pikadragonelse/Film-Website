@@ -118,7 +118,6 @@ export const SearchPage: React.FC = () => {
         const latestOptionsMap: { [key: string]: Option } = {};
 
         setSelectedOptionsMap({});
-
         for (const cascaderName in selectedOptionsMap) {
             if (selectedOptionsMap.hasOwnProperty(cascaderName)) {
                 const latestOptions = selectedOptionsMap[cascaderName];
@@ -126,32 +125,33 @@ export const SearchPage: React.FC = () => {
                 latestOptionsMap[cascaderName] = latestOption;
             }
         }
+        console.log(latestOptionsMap);
 
-        for (const cascaderName in latestOptionsMap) {
-            if (latestOptionsMap.hasOwnProperty(cascaderName)) {
-                // const latestOption = latestOptionsMap[cascaderName];
-                //thực hiện lọc
-                const keywords: string[] = Object.values(latestOptionsMap)
-                    .map((latestOption) => latestOption?.label?.toString())
-                    .filter(
-                        (keyword) => keyword !== undefined && keyword !== null,
-                    ) as string[];
+        // for (const cascaderName in latestOptionsMap) {
+        //     if (latestOptionsMap.hasOwnProperty(cascaderName)) {
+        //         // const latestOption = latestOptionsMap[cascaderName];
+        //         //thực hiện lọc
+        //         const keywords: string[] = Object.values(latestOptionsMap)
+        //             .map((latestOption) => latestOption?.label?.toString())
+        //             .filter(
+        //                 (keyword) => keyword !== undefined && keyword !== null,
+        //             ) as string[];
 
-                const filteredResults = searchResults.filter((result) => {
-                    const resultContainsKeyword = keywords.some((keyword) => {
-                        return (
-                            result.nation?.includes(keyword) ||
-                            result.category?.includes(keyword)
-                        );
-                    });
+        //         const filteredResults = searchResults.filter((result) => {
+        //             const resultContainsKeyword = keywords.some((keyword) => {
+        //                 return (
+        //                     result.nation?.includes(keyword) ||
+        //                     result.category?.includes(keyword)
+        //                 );
+        //             });
 
-                    return resultContainsKeyword;
-                });
+        //             return resultContainsKeyword;
+        //         });
 
-                setHasResults(filteredResults.length > 0);
-                setSearchResults(filteredResults);
-            }
-        }
+        //         setHasResults(filteredResults.length > 0);
+        //         setSearchResults(filteredResults);
+        //     }
+        // }
     };
 
     return (
@@ -198,7 +198,7 @@ export const SearchPage: React.FC = () => {
                 <div className="content-list-film">
                     {hasResults ? (
                         <Row gutter={[12, 24]}>
-                            {filmMap.map((result, index) => (
+                            {displayedResults.map((result, index) => (
                                 <Col
                                     // xs={24}
                                     // sm={12}
