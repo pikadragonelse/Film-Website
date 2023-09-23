@@ -47,17 +47,27 @@ export const Footer: React.FC = () => {
     ];
 
     return (
-        <div className="footer">
+        <div
+            className="footer"
+            style={{
+                marginLeft: 'var(--spacing-lg)',
+            }}
+        >
             <footer>
                 <div className="py-6">
                     <hr className="my-6 border-neutral-800" />
-                    <div className="flex justify-between ml-10">
+                    <div className="flex justify-between">
                         <div className="mb-6">
                             <a className="flex">
                                 <Logo />
                             </a>
                         </div>
-                        <div className="grid grid-cols-2">
+                        <div
+                            className="grid grid-cols-2"
+                            style={{
+                                marginRight: 'var(--spacing-lg)',
+                            }}
+                        >
                             <div>
                                 <h2 className="mb-6 font-semibold uppercase">
                                     Quy Định
@@ -86,7 +96,7 @@ export const Footer: React.FC = () => {
                         </div>
                     </div>
                     <hr className="my-6 border-neutral-800" />
-                    <div className="flex items-center justify-between ml-10">
+                    <div className="flex items-center justify-between">
                         <div className="text-gray-300 mt-6">
                             Công ty Cổ phần Movies - Địa chỉ: Tầng 5, 222
                             Pasteur, Phường Võ Thị Sáu, Quận 3, Đà Nẵng.
@@ -121,7 +131,12 @@ export const Footer: React.FC = () => {
                                 alt="QRCode"
                             />
 
-                            <div className="flex flex-col justify-center items-center">
+                            <div
+                                className="flex flex-col justify-center items-center "
+                                style={{
+                                    marginRight: 'var(--spacing-lg)',
+                                }}
+                            >
                                 <div className="text-gray-300">
                                     Quét mã QR để tải ứng dụng
                                 </div>

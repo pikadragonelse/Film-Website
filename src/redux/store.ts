@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
+import debouncedReducer from './debouncedSlide';
 
 export const store = configureStore({
     reducer: {
-        
+        debounced: debouncedReducer,
     },
 });
 

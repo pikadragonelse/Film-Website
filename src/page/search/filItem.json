@@ -1,0 +1,90 @@
+[
+    {
+        "label": "--Sắp xếp--",
+        "value":"--Sắp xếp--",
+        "childrens":[
+            {
+                "label":"Ngày đăng phim",
+                "value":"Ngày đăng phim"
+            },
+            {
+                "label":"Năm sản xuất",
+                "value":"Năm sản xuất"
+            },
+            {
+                "label":"Tên phim",
+                "value":"Tên phim"
+            },
+            {
+                "label":"Lượt xem",
+                "value":"Lượt xem"
+            }
+        ]
+    },
+    {
+        "label": "--Thể loại--",
+        "value":"--Thể loại--",
+        "childrens":[
+            {
+                "label":"Hành Động",
+                "value":"Hành Động"
+            },
+            {
+                "label":"Tình Cảm",
+                "value":"Tình Cảm"
+            },
+            {
+                "label":"Hài Hước",
+                "value":"Hài Hước"
+            },
+            {
+                "label":"Thần Thoại",
+                "value":"Thần Thoại"
+            }
+        ]
+    },
+    {
+        "label": "--Quốc gia--",
+        "value":"--Quốc gia--",
+        "childrens":[
+            {
+                "label":"Trung Quốc",
+                "value":"Trung Quốc"
+            },
+            {
+                "label":"Hàn Quốc",
+                "value":"Hàn Quốc"
+            },
+            {
+                "label":"Thái Lan",
+                "value":"Thái Lan"
+            },
+            {
+                "label":"Mỹ",
+                "value":"Mỹ"
+            }
+        ]
+    },
+    {
+        "label": "--Năm--",
+        "value": "--Năm--",
+        "childrens":[
+            {
+                "label":"Năm 2023",
+                "value":"Năm 2023"
+            },
+            {
+                "label":"Năm 2022",
+                "value":"Năm 2022"
+            },
+            {
+                "label":"Năm 2021",
+                "value":"Năm 2021"
+            },
+            {
+                "label":"Năm 2019",
+                "value":"Năm 2019"
+            }
+        ]
+    }
+]
