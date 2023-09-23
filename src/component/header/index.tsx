@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import { Logo } from '../../asset/icon/logo';
@@ -9,10 +10,27 @@ import { CrownOutlined, BellOutlined, LoginOutlined } from '@ant-design/icons';
 import { DropdownList } from './dropdownList/index';
 
 export const Header = () => {
+    const scrollThreshold = 50;
+
+    useEffect(() => {
+        const header = document.querySelector('.wrapper-header') as HTMLElement;
+        const handleScroll = () => {
+            if (header) {
+                if (window.scrollY > scrollThreshold) {
+                    header.style.backgroundColor = 'var(--main-color)';
+                } else {
+                    header.style.backgroundColor = 'transparent';
+                }
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     const currentUser = false;
     return (
         <header className="wrapper-header">
-
             <div
                 style={{
                     marginLeft: 'var(--spacing-lg)',

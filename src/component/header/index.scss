@@ -1,6 +1,6 @@
 .wrapper-header{
     position: fixed;
-    background-color:var(--main-color);
+    background-color:transparent;
     color:black;
     top: 0;
     left: 0;
@@ -27,9 +27,9 @@
     color:#FFE300;
     box-shadow: 0 2px 0 rgba(106, 96, 15, 0.1);
 
-    &:where(.css-dev-only-do-not-override-i0102m).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
-        color: #6a600f;
-        background-color: #FFE300;
+    &:hover {
+        color: #6a600f !important;
+        background-color: #FFE300 !important;
     }
 }
 
