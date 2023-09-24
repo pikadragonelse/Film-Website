@@ -1,11 +1,12 @@
 import React from 'react';
 import Slide from '../../component/slide';
-import Item from 'antd/es/list/Item';
 
+import FilmList from '../../component/film-list';
 export const HomePage = () => {
     return (
         <div>
             <Slide />
+            <FilmList />
         </div>
     );
 };
