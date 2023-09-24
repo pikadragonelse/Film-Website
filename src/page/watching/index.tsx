@@ -16,6 +16,8 @@ import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
 import { FilmItem } from '../../component/film-item';
 import { CarouselRef } from 'antd/es/carousel';
 import Title from 'antd/es/typography/Title';
+import { ListFilm } from '../../component/list-film';
+import { CommentSection } from '../../component/comment-section';
 
 const subInfo: Array<SubInfo> = [
     {
@@ -105,7 +107,6 @@ const filmMap: Array<FilmItem> = [
 
 export const WatchingPage = () => {
     const [playTime, setPlayTime] = useState(0);
-    const listRef = useRef<CarouselRef>(null);
 
     const handleProgress = (state: OnProgressProps) => {
         setPlayTime(state.playedSeconds);
@@ -159,86 +160,26 @@ export const WatchingPage = () => {
                     </div>
                 </div>
             </div>
-            <div className="watching-list-container">
-                <div className="watching-list-heading">
-                    <Title level={2} className="watching-list-title">
-                        Danh sách tập
-                    </Title>
-                    <div className="watching-list-sub-info">
-                        <p className="watching-list-sub-info-item">16/16</p>
-                        <p className="watching-list-sub-info-item">
-                            Phát sóng lúc 20h thứ 7 hàng tuần
-                        </p>
-                    </div>
-                </div>
-                <div className="session-section">
-                    <Dropdown
-                        menu={{ items }}
-                        trigger={['click']}
-                        className="session-section-select"
-                    >
-                        <Button className="session-btn-select">
-                            Mùa 1
-                            <DownOutlined />
-                        </Button>
-                    </Dropdown>
-                    <span className="session-section-episode">01-07</span>
-                </div>
-                <div className="watching-list">
-                    <div
-                        className="watching-list-icon left-move-container"
-                        onClick={listRef.current?.prev}
-                    >
-                        <LeftOutlined />
-                    </div>
-                    <div
-                        className="watching-list-icon right-move-container"
-                        onClick={listRef.current?.next}
-                    >
-                        <RightOutlined />
-                    </div>
-                    <Carousel
-                        className="list-content"
-                        dots={false}
-                        ref={listRef}
-                    >
-                        <div>
-                            <Row gutter={10} justify="center">
-                                {filmMap.map((value) => (
-                                    <Col span={4} className="list-col">
-                                        <FilmItem
-                                            name={value.name}
-                                            category={value.category}
-                                            yearOfManufacture={
-                                                value.yearOfManufacture
-                                            }
-                                            poster={value.poster}
-                                        />
-                                    </Col>
-                                ))}
-                            </Row>
-                        </div>
-                        <div>
-                            <Row gutter={10} justify="center">
-                                {filmMap.map((value) => (
-                                    <Col span={4} className="list-col">
-                                        <FilmItem
-                                            name={value.name}
-                                            category={value.category}
-                                            yearOfManufacture={
-                                                value.yearOfManufacture
-                                            }
-                                            poster={value.poster}
-                                        />
-                                    </Col>
-                                ))}
-                            </Row>
-                        </div>
-                    </Carousel>
-                </div>
+            <div className="watching-list-film-container">
+                <ListFilm
+                    title="Danh sách tập"
+                    subInfo={['16/16', 'Phát sóng lúc 20h thứ 7 hàng tuần']}
+                    sessions={items}
+                    multiSessions
+                    listFilm={[filmMap, filmMap]}
+                />
+                <ListFilm
+                    title="Phim liên quan"
+                    listFilm={[filmMap, filmMap]}
+                />
             </div>
-            <div className="watching-list"></div>
-            <div className="watching-comment"></div>
+            <div
+                data-colorscheme="dark"
+                className="fb-comments"
+                data-href="https://developers.facebook.com/docs/plugins/comments#configurator"
+                data-width="1000"
+                data-numposts="10"
+            ></div>
         </div>
     );
 };
