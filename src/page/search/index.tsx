@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button, Cascader } from 'antd';
 import { FilmItem } from '../../component/film-item';
-import { VideoCameraOutlined } from '@ant-design/icons';
 import './index.scss';
-import { Col, Row, Pagination } from 'antd';
+import { PaginationFilm } from '../../component/pagination-film';
 interface SearchResult {
     name: string;
     category: string;
@@ -68,14 +67,6 @@ export const SearchPage: React.FC = () => {
     const location = useLocation();
     const { searchValue } = location.state;
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const resultsPerPage = 5;
-    const startIndex = (currentPage - 1) * resultsPerPage;
-    const endIndex = startIndex + resultsPerPage;
-    const displayedResults = searchResults.slice(startIndex, endIndex);
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
 
     useEffect(() => {
         if (searchValue) {
@@ -94,7 +85,6 @@ export const SearchPage: React.FC = () => {
 
     //lọc
 
-    // const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
     const [hasResults, setHasResults] = useState(true);
     const [selectedOptionsMap, setSelectedOptionsMap] = useState<{
         [key: string]: Option[];
@@ -191,48 +181,14 @@ export const SearchPage: React.FC = () => {
                 </Button>
             </div>
             <hr className="my-6 border-neutral-800" />
-            <div className="list-film">
-                <div className="header-list-film">
-                    <VideoCameraOutlined className="header-list-film-icon" />
-                    <p className="header-list-film-title">Kết quả tìm kiếm</p>
-                </div>
-                <div className="content-list-film">
-                    {hasResults ? (
-                        <Row gutter={[12, 24]}>
-                            {displayedResults.map((result, index) => (
-                                <Col
-                                    // xs={24}
-                                    // sm={12}
-                                    // md={8}
-                                    // lg={4}
-                                    className="gutter-row"
-                                    span={4}
-                                    key={index}
-                                >
-                                    <FilmItem
-                                        name={result.name || ''}
-                                        category={result.category || ''}
-                                        yearOfManufacture={
-                                            result.yearOfManufacture || 0
-                                        }
-                                        poster={result.poster || ''}
-                                    />
-                                </Col>
-                            ))}
-                        </Row>
-                    ) : (
-                        <p>Không tìm thấy kết quả phù hợp.</p>
-                    )}
-                </div>
-                <div className="footer-list-film">
-                    <Pagination
-                        current={currentPage}
-                        defaultPageSize={resultsPerPage}
-                        total={searchResults.length}
-                        onChange={handlePageChange}
-                    />
-                </div>
-            </div>
+            {hasResults ? (
+                <PaginationFilm
+                    title="Kết quả tìm kiếm"
+                    listFilm={searchResults}
+                />
+            ) : (
+                <p>Không tìm thấy kết quả phù hợp.</p>
+            )}
         </div>
     );
 };
