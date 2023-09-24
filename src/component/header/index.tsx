@@ -14,20 +14,24 @@ export const Header = () => {
 
     useEffect(() => {
         const header = document.querySelector('.wrapper-header') as HTMLElement;
+
         const handleScroll = () => {
             if (header) {
                 if (window.scrollY > scrollThreshold) {
-                    header.style.backgroundColor = 'var(--main-color)';
+                    header.classList.add('scroll-header');
                 } else {
-                    header.style.backgroundColor = 'transparent';
+                    header.classList.remove('scroll-header');
                 }
             }
         };
+
         window.addEventListener('scroll', handleScroll);
+
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
     const currentUser = false;
     return (
         <header className="wrapper-header">

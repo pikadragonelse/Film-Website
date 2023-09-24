@@ -1,4 +1,3 @@
-import React from 'react';
 import './index.scss';
 
 export type FilmItem = {
@@ -18,7 +17,7 @@ export const FilmItem = ({
             <div className="film-item-info">
                 <h1 className="film-item-title">{name}</h1>
                 <p className="film-item-sub-info">
-                    {yearOfManufacture}•{category}
+                    {yearOfManufacture} {'•'} {category}
                 </p>
             </div>
             <img src={poster} alt="" className="film-item-image" />
