@@ -32,7 +32,7 @@ export const Header = () => {
         };
     }, []);
 
-    const currentUser = false;
+    const currentUser = true;
     return (
         <header className="wrapper-header">
             <div
@@ -87,7 +87,7 @@ export const Header = () => {
                         <p className="number-notification">12</p>
                     </div>
                     {currentUser ? (
-                        <Link to="/profile">
+                        <Link to="/foryou">
                             <Avatar
                                 className="avatar"
                                 style={{
