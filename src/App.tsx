@@ -8,6 +8,7 @@ import { Footer } from './component/footer';
 import { SearchPage } from './page/search';
 import { WatchingPage } from './page/watching';
 import { HomePage } from './page/home/index';
+import { LayoutUser } from './component/layout-user';
 
 export const App = () => {
     return (
@@ -18,6 +19,7 @@ export const App = () => {
                     <Route path="" element={<HomePage />} />
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/watching" element={<WatchingPage />} />
+                    <Route path="/foryou" element={<LayoutUser />} />
                 </Routes>
                 <Footer />
             </div>
