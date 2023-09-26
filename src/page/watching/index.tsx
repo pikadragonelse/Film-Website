@@ -1,23 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './index.scss';
 import ReactPlayer from 'react-player';
 import { OnProgressProps } from 'react-player/base';
-import {
-    CommentOutlined,
-    DownOutlined,
-    LeftOutlined,
-    RightOutlined,
-    ShareAltOutlined,
-} from '@ant-design/icons';
+import { CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { MainInfoFilm } from '../../component/main-info-film';
 import { IconWithText } from '../../component/icon-with-text';
 import { SubInfo } from '../../component/sub-info';
-import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
+import { MenuProps } from 'antd';
 import { FilmItem } from '../../component/film-item';
-import { CarouselRef } from 'antd/es/carousel';
-import Title from 'antd/es/typography/Title';
 import { ListFilm } from '../../component/list-film';
-import { CommentSection } from '../../component/comment-section';
+import { PluginComment } from '../../component/plugin-comment';
 
 const subInfo: Array<SubInfo> = [
     {
@@ -173,13 +165,9 @@ export const WatchingPage = () => {
                     listFilm={[filmMap, filmMap]}
                 />
             </div>
-            <div
-                data-colorscheme="dark"
-                className="fb-comments"
-                data-href="https://developers.facebook.com/docs/plugins/comments#configurator"
-                data-width="1000"
-                data-numposts="10"
-            ></div>
+            <div className="box-comment" id="tabs-facebook">
+                <PluginComment dataHref="http://localhost:3000/watching" />
+            </div>
         </div>
     );
 };

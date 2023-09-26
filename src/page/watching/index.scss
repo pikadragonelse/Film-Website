@@ -44,8 +44,10 @@
         gap: var(--spacing-md);
     }
 
-    body.plugin.webkit.win.x1-5.Locale_vi_VN {
-        color: white;
+    .box-comment {
+        background-color: var(--contrast-color);
+        margin-top: var(--spacing-lg-1);
+        border-radius:  var(--border-r-md);
     }
 
 }
