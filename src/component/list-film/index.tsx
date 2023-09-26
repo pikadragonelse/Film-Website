@@ -5,6 +5,7 @@ import { FilmItem } from '../film-item';
 import Title from 'antd/es/typography/Title';
 import './index.scss';
 import { CarouselRef } from 'antd/es/carousel';
+import Link from 'antd/es/typography/Link';
 
 export type ListFilm = {
     title?: string;
@@ -12,6 +13,7 @@ export type ListFilm = {
     sessions?: MenuProps['items'];
     listFilm: Array<Array<FilmItem>>;
     multiSessions?: boolean;
+    isShowAll?: boolean;
 };
 export const ListFilm = ({
     title,
@@ -19,6 +21,7 @@ export const ListFilm = ({
     sessions = [],
     listFilm,
     multiSessions = false,
+    isShowAll = false,
 }: ListFilm) => {
     const listRef = useRef<CarouselRef>(null);
     const [page, setPage] = useState<number>(0);
@@ -45,6 +48,14 @@ export const ListFilm = ({
                         <p className="list-sub-info-item">{item}</p>
                     ))}
                 </div>
+                <Link
+                    href=""
+                    className={`list-show-all ${
+                        isShowAll === false ? 'hide' : ''
+                    }`}
+                >
+                    Xem tất cả
+                </Link>
             </div>
             <div
                 className={`session-section ${
