@@ -1,6 +1,6 @@
 import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FilmItem } from '../film-item';
 import Title from 'antd/es/typography/Title';
 import './index.scss';
@@ -21,6 +21,18 @@ export const ListFilm = ({
     multiSessions = false,
 }: ListFilm) => {
     const listRef = useRef<CarouselRef>(null);
+    const [page, setPage] = useState<number>(0);
+
+    const handleLimited = (page: number) => {
+        switch (page) {
+            case 0:
+                return 'left';
+            case listFilm.length - 1:
+                return 'right';
+            default:
+                return '';
+        }
+    };
 
     return (
         <div className="list-container">
@@ -52,18 +64,26 @@ export const ListFilm = ({
             </div>
             <div className="list">
                 <div
-                    className="list-icon left-move-container"
+                    className={`icon-list-container left-move-container ${
+                        handleLimited(page) === 'left' ? 'hide' : ''
+                    }`}
                     onClick={() => {
                         listRef.current?.prev();
+                        setPage((prev) => prev - 1);
                     }}
                 >
-                    <LeftOutlined />
+                    <LeftOutlined className="icon-list " />
                 </div>
                 <div
-                    className="list-icon right-move-container"
-                    onClick={() => listRef.current?.next()}
+                    className={`icon-list-container right-move-container ${
+                        handleLimited(page) === 'right' ? 'hide' : ''
+                    }`}
+                    onClick={() => {
+                        listRef.current?.next();
+                        setPage((prev) => prev + 1);
+                    }}
                 >
-                    <RightOutlined />
+                    <RightOutlined className="icon-list" />
                 </div>
                 <Carousel className="list-content" dots={false} ref={listRef}>
                     {listFilm.map((row) => (
