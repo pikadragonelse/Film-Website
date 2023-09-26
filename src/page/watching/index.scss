@@ -1,12 +1,13 @@
 .watching-container {
     position: relative;
-    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-lg-1);
 
     .watching-info-container {
         margin-top: var(--spacing-md);
         font-size: var(--font-s-md);
         display: flex;
         gap: calc(4 * var(--spacing-lg-1));
+        padding: 0 var(--spacing-lg);
 
         .watching-main-info-container {
             flex: 0.8;
@@ -42,12 +43,16 @@
         display: flex;
         flex-direction: column;
         gap: var(--spacing-md);
+        padding: 0 var(--spacing-lg);
+
     }
 
     .box-comment {
         background-color: var(--contrast-color);
-        margin-top: var(--spacing-lg-1);
         border-radius:  var(--border-r-md);
+        margin: 0 var(--spacing-lg);
+        margin-top: var(--spacing-lg);
+        padding: var(--spacing-sm-2) var(--spacing-md);
     }
 
 }
