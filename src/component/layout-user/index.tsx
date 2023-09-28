@@ -11,6 +11,7 @@ import {
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { HomePage } from '../../page/home';
+import { UserProfile } from '../user-profile';
 
 const { Header, Content, Sider } = Layout;
 
@@ -51,7 +52,7 @@ export const LayoutUser = () => {
 
     switch (selectedPage) {
         case 'profile':
-            content = <HomePage />;
+            content = <UserProfile />;
             break;
         case 'vip-package':
             content = <div>VIP package</div>;
