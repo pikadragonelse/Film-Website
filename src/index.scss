@@ -13,7 +13,10 @@
 
     /*color*/
     --primary-color: #ff0000;
+    --secondary-color: #ff4c4c;
+    --sub-primary-color: rgb(255, 106, 106);
     --contrast-color: #ffffff;
+    --sub-contrast-color: #e9e9e9;
     --main-color: #111111;
     --sub-color: #868686;
     --gold-color: #fadb14;
@@ -83,4 +86,50 @@ ul {
     padding: 0;
     margin: 0;
 }
+
+.ant-btn-default {
+    background-color: var(--contrast-color);
+
+    &:hover {
+        color: var(--sub-primary-color) !important;
+        border: 1px solid var(--sub-primary-color) !important;
+    }
+}
+
+.ant-btn-dashed {
+    background-color: var(--contrast-color);
+
+    &:hover {
+        color: var(--sub-primary-color) !important;
+        border: 1px dashed var(--sub-primary-color) !important;
+    }
+}
+
+.ant-btn-primary {
+    background-color: var(--primary-color);
+
+    &:hover {
+        background-color: var(--secondary-color) !important;
+        color: var(--contrast-color) !important;
+        border: 1px solid var(--secondary-color) !important;
+    }
+}
+
+.ant-btn-text {
+    color: var(--contrast-color);
+
+    &:hover {
+        color: var(--sub-contrast-color) !important;
+    }
+}
+
+.ant-btn-link {
+    color: var(--primary-color);
+
+    &:hover {
+        color: var(--sub-primary-color) !important;
+    }
+}
+
+
 
