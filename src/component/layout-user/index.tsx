@@ -11,6 +11,8 @@ import {
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { HomePage } from '../../page/home';
+import { VIPPackageUser } from '../../page/VIP-package-user';
+import { WatchLater } from '../../page/watch-later';
 
 const { Header, Content, Sider } = Layout;
 
@@ -54,10 +56,10 @@ export const LayoutUser = () => {
             content = <HomePage />;
             break;
         case 'vip-package':
-            content = <div>VIP package</div>;
+            content = <VIPPackageUser />;
             break;
         case 'watch-later':
-            content = <div>Watch later</div>;
+            content = <WatchLater />;
             break;
         case 'watched-movies':
             content = <div>Watched movies</div>;
