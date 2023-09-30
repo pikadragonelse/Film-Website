@@ -2,15 +2,8 @@ import Avatar from 'antd/es/avatar/avatar';
 import React, { useState } from 'react';
 import './index.scss';
 import Title from 'antd/es/typography/Title';
-import {
-    Button,
-    DatePicker,
-    Descriptions,
-    DescriptionsProps,
-    Input,
-    Modal,
-    Tabs,
-} from 'antd';
+import { Button, Descriptions, DescriptionsProps, Form } from 'antd';
+import { ModalEditUser } from '../modal-edit-user';
 
 const items2: DescriptionsProps['items'] = [
     {
@@ -38,29 +31,16 @@ const items2: DescriptionsProps['items'] = [
 export type UserProfile = {};
 export const UserProfile = () => {
     const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
+    const [form] = Form.useForm();
+
     return (
         <div className="user-profile-container">
-            <Modal
-                title="Title"
+            <ModalEditUser
                 open={isOpenEdit}
-                onCancel={() => setIsOpenEdit(false)}
-                footer={[
-                    <Button
-                        type="primary"
-                        className="user-profile-btn"
-                        onClick={() => setIsOpenEdit(false)}
-                    >
-                        Cancel
-                    </Button>,
-                    <Button
-                        type="primary"
-                        className="user-profile-btn"
-                        onClick={() => setIsOpenEdit(false)}
-                    >
-                        Edit
-                    </Button>,
-                ]}
-            ></Modal>
+                onCancel={() => {
+                    setIsOpenEdit(false);
+                }}
+            />
             <div className="user-profile-general">
                 <Avatar
                     src="https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg"

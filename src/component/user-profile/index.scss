@@ -38,17 +38,18 @@
         position: relative;
         width: max-content;
         margin-left: auto;
-
-        .user-profile-btn {
-            background-color: var(--primary-color);
-
-    
-            &:hover {
-                background-color: var(--sub-color) !important;
-            }
-        }
+        margin-top: var(--spacing-md);
     }
 
-
 }
+
+.btn-form-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-date-picker {
+    width: 100%;
+}
+
 
