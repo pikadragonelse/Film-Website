@@ -12,7 +12,8 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { HomePage } from '../../page/home';
 import { UserProfile } from '../user-profile';
-
+import { VIPPackageUser } from '../../page/VIP-package-user';
+import { WatchLater } from '../../page/watch-later';
 
 const { Header, Content, Sider } = Layout;
 
@@ -68,7 +69,7 @@ export const LayoutUser = () => {
             content = <div>Delete account</div>;
             break;
         default:
-            content = <HomePage />;
+            content = <UserProfile />;
     }
     return (
         <div className="wrapper">

@@ -1,6 +1,6 @@
 import { BellOutlined, CrownOutlined, LoginOutlined } from '@ant-design/icons';
 import { Avatar, Button } from 'antd';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
 import items from '../header/menuItem.json';
@@ -17,15 +17,17 @@ export const Header = () => {
 
     const scrollThreshold = 50;
 
+    const headerRef = useRef<HTMLElement>(null);
+
     useEffect(() => {
         const header = document.querySelector('.wrapper-header') as HTMLElement;
 
         const handleScroll = () => {
             if (header) {
                 if (window.scrollY > scrollThreshold) {
-                    header.classList.add('scroll-header');
+                    headerRef.current?.classList.add('scroll-header');
                 } else {
-                    header.classList.remove('scroll-header');
+                    headerRef.current?.classList.remove('scroll-header');
                 }
             }
         };
@@ -37,10 +39,13 @@ export const Header = () => {
         };
     }, []);
 
-    const currentUser = false;
+    const currentUser = true;
 
     return (
-        <header className={`wrapper-header ${isLoginPage ? 'hidden' : ''}`}>
+        <header
+            ref={headerRef}
+            className={`wrapper-header ${isLoginPage ? 'hidden' : ''}`}
+        >
             <div
                 style={{
                     marginLeft: 'var(--spacing-lg)',

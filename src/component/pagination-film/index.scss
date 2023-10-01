@@ -1,64 +1,40 @@
-.header-list-film{
+.header-list-film {
     display: flex;
     align-items: center;
 }
-.header-list-film-icon{
+.header-list-film-icon {
     font-size: calc(var(--font-s-md) * 2);
     margin-right: var(--spacing-sm-2);
-    color:var(--primary-color);
+    color: var(--primary-color);
 }
-.header-list-film-title{
+.header-list-film-title {
     font-size: calc(var(--font-s-sm-1) * 2);
     color: var(--contrast-color);
 }
-.content-list-film{
-    margin-top:var(--spacing-md) ; 
+.content-list-film {
+    margin-top: var(--spacing-md);
 }
-.film-item{
+.film-item {
     display: flex;
     justify-content: center;
 }
-.footer-list-film{
+.footer-list-film {
     display: flex;
     justify-content: center;
-    margin-top:var(--spacing-lg) ;
+    margin-top: var(--spacing-lg);
 
-    .ant-pagination .ant-pagination-item-active{
+    .ant-pagination .ant-pagination-item-active {
         border: 1px solid var(--primary-color);
-        color:var(--primary-color);
+        color: var(--primary-color);
         background-color: transparent;
     }
-    
-    .ant-pagination .ant-pagination-item a{
-        color:var(--contrast-color);
-    }
 
-   
+    .ant-pagination .ant-pagination-item a {
+        color: var(--contrast-color);
+    }
 }
 .ant-pagination .ant-pagination-disabled .ant-pagination-item-link,
 .ant-pagination .ant-pagination-prev button,
-.ant-pagination .ant-pagination-next button{
-    color:var(--contrast-color);
-}
-button, [type='button']{
-    &:where(.css-dev-only-do-not-override-1vr7spz).ant-btn-default{
-        border-color: #d9d9d9;
-        color: rgba(0, 0, 0, 0.88);
-        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
-    }
-    &:where(.css-dev-only-do-not-override-1vr7spz).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover{
-        color: var(--primary-color) ;
-        border-color: var(--primary-color) ;
-    }
-    &:where(.css-dev-only-do-not-override-1vr7spz).ant-btn-primary{
-        border-color: #d9d9d9;
-        color: rgba(0, 0, 0, 0.88);
-        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
-    }
-    &:where(.css-dev-only-do-not-override-1vr7spz).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover{
-        background-color: var(--primary-color);
-    }
-    &:where(.css-dev-only-do-not-override-1vr7spz).ant-btn:not(:disabled):focus-visible{
-        outline: 4px solid var(--primary-color);
-    }
+.ant-pagination .ant-pagination-next button {
+    color: var(--contrast-color);
 }
