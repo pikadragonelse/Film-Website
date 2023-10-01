@@ -8,6 +8,7 @@
     --spacing-sm-1: 5px;
     --spacing-sm-2: 10px;
     --spacing-md: 20px;
+    --spacing-md-1: 30px;
     --spacing-lg: 40px;
     --spacing-lg-1: 60px;
 
@@ -18,6 +19,7 @@
     --contrast-color: #ffffff;
     --sub-contrast-color: #e9e9e9;
     --main-color: #111111;
+    --sub-color-1: rgb(57, 57, 57); 
     --sub-color: #868686;
     --gold-color: #fadb14;
 
@@ -35,7 +37,7 @@
     /* border radius */
     --border-r-sm: 5px;
     --border-r-md: 10px;
-    --border-radius-mch: 9999px;
+    --border-r-mch: 9999px;
 
     /* z-index */
     --z-highest: 99;
@@ -79,6 +81,10 @@ button,
 input,
 textarea {
     outline: none;
+}
+
+input {
+    color: var(--contrast-color);
 }
 
 ul {
@@ -130,6 +136,67 @@ ul {
         color: var(--sub-primary-color) !important;
     }
 }
+
+.ant-modal-content, .ant-modal-header {
+    background-color: var(--sub-color-1) !important;
+    color: var(--contrast-color) !important;
+}
+
+.ant-modal-title, .ant-modal-close {
+    color: var(--contrast-color) !important;
+}
+
+.ant-upload.ant-upload-select:hover {
+    border-color: var(--primary-color) !important;
+}
+
+.ant-form-item-label > label {
+    color: var(--contrast-color) !important;
+}
+
+.ant-input {
+    background-color: var(--main-color) !important;
+    border: 1px solid transparent !important;
+    color: var(--contrast-color) !important;
+
+    &::placeholder {
+        color: var(--sub-color) !important;
+    }
+
+    &:hover {
+        border-color: var(--sub-primary-color) !important;
+    }
+    &:focus {
+        border-color: var(--primary-color) !important;
+    }
+}
+
+.ant-picker {
+    background-color: var(--main-color) !important;
+    border: 1px solid transparent !important;
+    color: var(--contrast-color) !important;
+
+    &:hover, &:focus-within, &:focus-visible {
+        border-color: var(--sub-primary-color) !important;
+    }
+    &:focus, &:active, &:target {
+        border-color: var(--primary-color) !important;
+    }
+}
+
+.ant-picker-suffix {
+    color: var(--contrast-color) !important;
+}
+
+.ant-picker-input > input {
+    color: var(--contrast-color) !important;
+    &::placeholder {
+        color: var(--sub-color) !important;
+    }
+}
+
+
+
 
 
 
