@@ -1,0 +1,76 @@
+.register-form {
+    position: absolute;
+    top: 4%;
+    left: 32%;
+    height: 100%;
+    padding: 5rem 6rem;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    &__header {
+        margin-bottom: 60px;
+        font-weight: 600;
+
+        &__large {
+            font-size: 2.2rem;
+        }
+        &__small {
+            font-size: var(--font-s-md-1);
+        }
+    }
+
+    &__confirm {
+        display: flex;
+    }
+
+    &__item {
+        margin-top: -12px;
+
+        &-input {
+            height: 36px;
+        }
+
+        &-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        &-input:hover {
+            border-color: var(--primary-color);
+        }
+
+        &-checkbox {
+            color: var(--contrast-color);
+        }
+    }
+
+    &__button {
+        margin-left: -180px;
+        margin-top: 60px;
+
+        Button {
+            width: 100%;
+            height: 40px;
+        }
+
+        p {
+            color: var(--contrast-color);
+            text-align: center;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+@keyframes moveUpDown {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+.animated-text {
+    color: var(--primary-color);
+    margin-top: 20px;
+    animation: moveUpDown 0.5s infinite alternate;
+}
