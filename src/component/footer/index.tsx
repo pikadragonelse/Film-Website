@@ -55,7 +55,10 @@ export const Footer: React.FC = () => {
         >
             <footer>
                 <div className="py-6">
-                    <hr className="my-6 border-neutral-800" />
+                    <hr
+                        className="my-6 border-neutral-800"
+                        style={{ marginLeft: '-40px' }}
+                    />
                     <div className="flex justify-between">
                         <div className="mb-6">
                             <a className="flex">
@@ -95,7 +98,10 @@ export const Footer: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <hr className="my-6 border-neutral-800" />
+                    <hr
+                        className="my-6 border-neutral-800"
+                        style={{ marginLeft: '-40px' }}
+                    />
                     <div className="flex items-center justify-between">
                         <div className="text-gray-300 mt-6">
                             Công ty Cổ phần Movies - Địa chỉ: Tầng 5, 222

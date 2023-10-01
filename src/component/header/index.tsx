@@ -1,15 +1,20 @@
-import React from 'react';
+import { BellOutlined, CrownOutlined, LoginOutlined } from '@ant-design/icons';
+import { Avatar, Button } from 'antd';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './index.scss';
+import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
-import { Search } from '../header/search/index';
 import items from '../header/menuItem.json';
-import { Button, Avatar } from 'antd';
-import { CrownOutlined, BellOutlined, LoginOutlined } from '@ant-design/icons';
+import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
+import './index.scss';
 
 export const Header = () => {
+    const location = useLocation();
+    const isLoginPage =
+        location.pathname === '/login' ||
+        location.pathname === '/register' ||
+        location.pathname === '/payment';
+
     const scrollThreshold = 50;
 
     useEffect(() => {
@@ -32,9 +37,10 @@ export const Header = () => {
         };
     }, []);
 
-    const currentUser = true;
+    const currentUser = false;
+
     return (
-        <header className="wrapper-header">
+        <header className={`wrapper-header ${isLoginPage ? 'hidden' : ''}`}>
             <div
                 style={{
                     marginLeft: 'var(--spacing-lg)',
@@ -100,7 +106,7 @@ export const Header = () => {
                         </Link>
                     ) : (
                         <Link to="/login">
-                            <div className="login">
+                            <div className="icon-login">
                                 <LoginOutlined />
                             </div>
                         </Link>

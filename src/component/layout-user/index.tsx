@@ -13,6 +13,7 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { HomePage } from '../../page/home';
 import { UserProfile } from '../user-profile';
 
+
 const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -55,10 +56,10 @@ export const LayoutUser = () => {
             content = <UserProfile />;
             break;
         case 'vip-package':
-            content = <div>VIP package</div>;
+            content = <VIPPackageUser />;
             break;
         case 'watch-later':
-            content = <div>Watch later</div>;
+            content = <WatchLater />;
             break;
         case 'watched-movies':
             content = <div>Watched movies</div>;

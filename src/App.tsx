@@ -9,6 +9,9 @@ import { SearchPage } from './page/search';
 import { WatchingPage } from './page/watching';
 import { HomePage } from './page/home/index';
 import { LayoutUser } from './component/layout-user';
+import { Register } from './component/register';
+import { Login } from './component/login';
+import { Payment } from './page/payment';
 
 export const App = () => {
     return (
@@ -20,6 +23,9 @@ export const App = () => {
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/watching" element={<WatchingPage />} />
                     <Route path="/foryou" element={<LayoutUser />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/payment" element={<Payment />} />
                 </Routes>
                 <Footer />
             </div>

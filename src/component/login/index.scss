@@ -1,0 +1,82 @@
+.header-logo {
+    position: absolute;
+    top: 2%;
+    left: 2%;
+}
+
+.form-list {
+    width: 100%;
+}
+
+.form-header {
+    margin-bottom: 50px;
+    font-weight: 600;
+
+    &__large {
+        font-size: 2.2rem;
+    }
+    &__small {
+        font-size: 1.2rem;
+    }
+}
+
+.form-group {
+    margin-left: 8px;
+    margin-right: -14px;
+}
+.form-img {
+    position: relative;
+    background-size: contain;
+    background-position: center;
+    width: 100%;
+    margin-bottom: 50px;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(15, 12, 12, 0.6);
+    }
+}
+
+.form-item {
+    margin-bottom: -18px;
+}
+
+.form-info {
+    position: absolute;
+    top: 8%;
+    left: 34%;
+    height: auto;
+    padding: 5rem 3.6rem;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.form-button {
+    color: var(--contrast-color);
+    width: 350px;
+    padding: 0.8rem 0;
+}
+.form-button span:hover {
+    color: var(--contrast-color);
+}
+
+.form-change {
+    color: var(--contrast-color);
+    text-align: center;
+    margin-top: -20px;
+}
+.form-signup {
+    font-size: var(--font-s-md);
+    color: var(--primary-color);
+}
+
+.form-input:focus {
+    border-color: var(--primary-color);
+}
+.form-input:hover {
+    border-color: var(--primary-color);
+}
