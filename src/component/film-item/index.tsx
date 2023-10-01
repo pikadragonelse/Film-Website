@@ -1,16 +1,19 @@
 import './index.scss';
+import { CloseOutlined } from '@ant-design/icons';
 
 export type FilmItem = {
     name: string;
     yearOfManufacture: number;
     category: string;
     poster: string;
+    onCancelClick?: () => void;
 };
 export const FilmItem = ({
     name,
     yearOfManufacture,
     category,
     poster,
+    onCancelClick,
 }: FilmItem) => {
     return (
         <div className="film-item-container">
@@ -21,6 +24,11 @@ export const FilmItem = ({
                 </p>
             </div>
             <img src={poster} alt="" className="film-item-image" />
+            {onCancelClick ? (
+                <div className="btn-close" onClick={onCancelClick}>
+                    <CloseOutlined />
+                </div>
+            ) : undefined}
         </div>
     );
 };

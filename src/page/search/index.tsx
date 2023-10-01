@@ -184,7 +184,9 @@ export const SearchPage: React.FC = () => {
             {hasResults ? (
                 <PaginationFilm
                     title="Kết quả tìm kiếm"
-                    listFilm={searchResults}
+                    number={4}
+                    // listFilm={searchResults}
+                    listFilm={filmMap}
                 />
             ) : (
                 <p>Không tìm thấy kết quả phù hợp.</p>

@@ -1,0 +1,41 @@
+.wrapper-summary{
+    margin-top: var(--spacing-md);
+    // border: 1px solid var(--contrast-color);
+    background-color: #262323;
+    border-radius: var(--border-r-sm);
+    padding: var(--spacing-md);
+    height: 520px;
+    width: 400px;
+    font-size: var(--font-s-md);
+    line-height: 26px;
+    position: relative;
+    .title-summary{
+        font-size: var(--font-s-lg-2);
+        font-weight: 700;
+    }
+    .information{
+        // padding-top: var(--spacing-md);
+        font-weight: 600;
+        .user,.name-package,.term,.time-start,.time-end, .VAT,.price,
+        .name-account,.number-account,.ex-day, .CVV{
+            display: flex;
+            flex-direction: row;
+            position: relative;
+        }
+        .value{
+            position: absolute;
+            right: var(--spacing-sm-2);
+            font-weight: 500;
+        }
+    }
+    .btn-confirm{
+        position: absolute;
+        right: var(--spacing-md);
+        bottom: var(--spacing-md);
+        box-shadow: 0 2px 0 rgba(0, 0, 0, 0.5);
+        background-color: #e46d6d;
+        &:hover{
+            background-color: var(--primary-color) !important;
+        }
+    }
+}
