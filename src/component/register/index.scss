@@ -2,7 +2,7 @@
     position: absolute;
     top: 4%;
     left: 32%;
-    height: 100%;
+    height: auto;
     padding: 5rem 6rem;
     background-color: rgba(0, 0, 0, 0.75);
 
@@ -43,7 +43,6 @@
     }
 
     &__button {
-        border: none;
         color: var(--contrast-color);
         margin-left: -180px;
         margin-top: 60px;
