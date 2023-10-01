@@ -16,19 +16,19 @@ export const TermPackage: React.FC<TermPackageProps> = ({
     const terms: TermPackage[] = [
         {
             value: '1 tháng',
-            price: '69000 VND',
+            price: '69000 ₫',
         },
         {
             value: '3 tháng',
-            price: '79000 VND',
+            price: '79000 ₫',
         },
         {
             value: '6 tháng',
-            price: '99000 VND',
+            price: '99000 ₫',
         },
         {
             value: '12 tháng',
-            price: '100000 VND',
+            price: '100000 ₫',
         },
     ];
     const [value, setValue] = useState('1 tháng');
@@ -50,14 +50,16 @@ export const TermPackage: React.FC<TermPackageProps> = ({
                     <Space direction="vertical">
                         {terms.map((term, index) => (
                             <Radio key={index} value={term.value}>
-                                <div className="items">
-                                    <div className="value-term">
-                                        {term.value}
+                                <Space>
+                                    <div className="items">
+                                        <div className="value-term">
+                                            {term.value}
+                                        </div>
+                                        <div className="price-term">
+                                            {term.price}
+                                        </div>
                                     </div>
-                                    <div className="price-term">
-                                        {term.price}
-                                    </div>
-                                </div>
+                                </Space>
                             </Radio>
                         ))}
                     </Space>

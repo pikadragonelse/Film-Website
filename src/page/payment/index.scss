@@ -1,14 +1,18 @@
 .container-payment {
-    background-color: var(--main-color);
+    color: var(--main-color);
+    background-color: var(--contrast-color);
+    padding-bottom: calc(var(--spacing-lg) * 2);
     max-width: 100%;
-    min-height: 650px;
+    min-height: auto;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-left: 30px;
-    margin-top: 40px;
+    padding-left: 30px;
 
     .choose {
-        margin-right: calc(var(--spacing-lg) * 3);
+        margin-right: calc(var(--spacing-lg) * 2);
+    }
+    .summary{
+        margin-top: var(--spacing-lg) ;
     }
 }

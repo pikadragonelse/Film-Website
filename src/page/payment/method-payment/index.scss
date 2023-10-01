@@ -1,7 +1,7 @@
 .wrapper-method{
     margin-top: var(--spacing-md);
     .title-method{
-        font-size: var(--font-s-lg);
+        font-size: var(--font-s-lg-1);
         font-weight: 600;
     }
     .container-method{
@@ -10,7 +10,7 @@
         padding:var(--spacing-sm-1) ;
         border: 1px solid var(--contrast-color);
         border-radius: var(--border-r-md);
-        width: 330px;
+        width: 530px;
         height: 200px;
         // background-color:  rgba(143,201,228, 0.6);
         background-color:  rgba(255,255,255, 0.05);

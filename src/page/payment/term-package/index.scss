@@ -1,18 +1,20 @@
 .wrapper-term{
     margin-top: var(--spacing-md);
     .title-term{
-        font-size: var(--font-s-lg);
+        font-size: var(--font-s-lg-1);
+        margin-bottom: var(--spacing-sm-2);
         font-weight: 600;
     }
     .container-term{
         .ant-space-item{
-            margin-left:var(--spacing-lg);
-            margin-top: var(--spacing-sm-2);
-            border: 1px solid var(--contrast-color);
-            border-radius: var(--border-r-sm);
-            width: 330px;
+            width: 730px;
             position: relative;
             background-color:var(--contrast-color) ;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            cursor: pointer;
 
             &:hover{
                 .ant-radio-inner{
@@ -22,6 +24,12 @@
 
             .ant-radio-wrapper{
                 padding-left: var(--spacing-sm-2);
+                border: 1px solid #ccc;
+                border-radius: var(--border-r-sm);
+                &:hover{
+                    border-color:var(--primary-color);
+                }
+
             }
             .ant-radio-checked{
                 &:where(.css-dev-only-do-not-override-1vr7spz).ant-radio-wrapper .ant-radio-checked::after{
@@ -37,15 +45,17 @@
                 }
                 
             }
+            
             .items{
                 display: flex;
-                flex-direction: row;
-                font-size: var(--font-s-md-1);
+                font-size: 1.3rem;
                 margin: var(--spacing-sm);
                 padding: var(--spacing-sm-1);
+                align-items: center;
+
                 .price-term{
                     position: absolute;
-                    right: var(--spacing-md) ;
+                    right: var(--spacing-md);
                     color: var(--primary-color);
                 }
             }

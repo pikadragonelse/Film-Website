@@ -24,10 +24,12 @@ export const Payment = () => {
                     <TermPackage setSelectedTerm={setSelectedTerm} />
                     <MethodPayment setSelectedMethod={setSelectedMethod} />
                 </div>
-                <Summary
-                    selectedMethod={selectedMethod}
-                    selectedTerm={selectedTerm}
-                />
+                <div className="summary">
+                    <Summary
+                        selectedMethod={selectedMethod}
+                        selectedTerm={selectedTerm}
+                    />
+                </div>
             </div>
         </>
     );

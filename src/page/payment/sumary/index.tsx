@@ -38,6 +38,9 @@ export const Summary: React.FC<SummaryProps> = ({
         endDate = `${endDay}/${endMonth}/${endYear}`;
     }
 
+    let x = 10000;
+    let number = x.toLocaleString('it-IT');
+
     return (
         <div className="wrapper-summary">
             <div className="title-summary">Payment Details</div>
@@ -46,7 +49,7 @@ export const Summary: React.FC<SummaryProps> = ({
                     <div className="username">Username</div>
                     <div className="value">nguyenhatha</div>
                 </div>
-                <hr className="my-4 border-neutral-500" />
+                <hr className="my-4 border-neutral-300" />
                 <div className="term-package">
                     <div className="name-package">
                         <div className="">Tên gói</div>
@@ -59,7 +62,7 @@ export const Summary: React.FC<SummaryProps> = ({
                         </div>
                     </div>
                 </div>
-                <hr className="my-4 border-neutral-500" />
+                <hr className="my-4 border-neutral-300" />
                 <div className="time">
                     <div className="time-start">
                         <div className="">Ngày bắt đầu</div>
@@ -71,26 +74,7 @@ export const Summary: React.FC<SummaryProps> = ({
                         <div className="value">{endDate}</div>
                     </div>
                 </div>
-                <hr className="my-4 border-neutral-500" />
-                <div className="price-package">
-                    <div className="VAT">
-                        <div className="">VAT</div>
-                        <div className="value">
-                            {selectedTerm
-                                ? (
-                                      parseFloat(selectedTerm.price) * 0.03
-                                  ).toLocaleString() + ' VND'
-                                : '2,070 VND'}
-                        </div>
-                    </div>
-                    <div className="price">
-                        <div className="">Giá</div>
-                        <div className="value">
-                            {selectedTerm ? selectedTerm.price : '69000 VND'}
-                        </div>
-                    </div>
-                </div>
-                <hr className="my-4 border-neutral-500" />
+                <hr className="my-4 border-neutral-300" />
                 <div className="payment">
                     <div className="name-account">
                         <div className="">Tên tk</div>
@@ -115,8 +99,41 @@ export const Summary: React.FC<SummaryProps> = ({
                         <div className="value">{selectedMethod?.cvv}</div>
                     </div>
                 </div>
+                <hr className="my-4 border-neutral-300" />
+                <div className="price-package">
+                    {/* <div className="VAT">
+                        <div className="">VAT</div>
+                        <div className="value">
+                            {selectedTerm
+                                ? (
+                                      parseFloat(selectedTerm.price) * 0.03
+                                  ).toLocaleString() + ' ₫'
+                                : '2,070 ₫'}
+                        </div>
+                    </div> */}
+                    <div className="price">
+                        <div className="">Trị giá</div>
+                        <div className="value">
+                            {selectedTerm ? selectedTerm.price : '69000 ₫'}
+                        </div>
+                    </div>
+                </div>
+                <hr className="my-4 border-neutral-300" />
+                <div className="total-price">
+                    <div className="">Thành tiền</div>
+                    <div className="value-1">
+                        {selectedTerm ? selectedTerm.price : `${number} ₫`}
+                    </div>
+                </div>
+                <div className="note">
+                    Bằng việc xác nhận, bạn xác định đã đọc và đồng ý với{' '}
+                    <a style={{ color: 'var(--primary-color)' }}>
+                        Hợp đồng và Chính sách
+                    </a>{' '}
+                    của MOVTIME.
+                </div>
             </div>
-            <Button className="btn-confirm" type="primary">
+            <Button className="btn-confirm" type="primary" disabled>
                 Xác nhận
             </Button>
         </div>
