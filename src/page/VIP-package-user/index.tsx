@@ -325,7 +325,7 @@ export const VIPPackageUser = () => {
                         shouldShowPagination
                             ? {
                                   ...paginationConfig,
-                                  current: currentPage, // Trang hiện tại
+                                  current: currentPage,
                                   onChange: handlePageChange,
                               }
                             : false
