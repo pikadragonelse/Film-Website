@@ -14,7 +14,7 @@ import { Payment } from './page/payment';
 export const App = () => {
     return (
         <Provider store={store}>
-            {/* <div className="wrapper">
+            <div className="wrapper">
                 <Header />
                 <Routes>
                     <Route path="" element={<HomePage />} />
@@ -23,10 +23,10 @@ export const App = () => {
                     <Route path="/foryou" element={<LayoutUser />} />
                 </Routes>
                 <Footer />
-            </div> */}
-            <div className="wrapper-heared">
-                <Payment />
             </div>
+            {/* <div className="wrapper-heared">
+                <Payment />
+            </div> */}
         </Provider>
     );
 };

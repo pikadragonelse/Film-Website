@@ -6,7 +6,6 @@ import { TermPackage } from './term-package';
 import { Summary } from './sumary';
 
 export const Payment = () => {
-    // State để lưu trữ thông tin đã chọn từ MethodPayment và TermPackage
     const [selectedMethod, setSelectedMethod] = useState<{
         nameTK: string;
         cardNumber: string;

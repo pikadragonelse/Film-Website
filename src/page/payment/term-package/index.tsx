@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './index.scss';
-import type { RadioChangeEvent } from 'antd';
 import { Radio, Space } from 'antd';
 
 interface TermPackage {
