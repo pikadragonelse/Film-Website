@@ -242,6 +242,10 @@ export const Register: React.FC = () => {
                             {...tailFormItemLayout}
                         >
                             <Button
+                                style={{
+                                    borderColor: 'var(--primary-color)',
+                                    color: 'var(--contrast-color)',
+                                }}
                                 type="primary"
                                 htmlType="submit"
                                 onClick={handleModalOpen}
@@ -259,7 +263,10 @@ export const Register: React.FC = () => {
                             width={800}
                             footer={[
                                 <Button
-                                    style={{ marginRight: '8px' }}
+                                    style={{
+                                        marginRight: '8px',
+                                        color: 'var(--main-color)',
+                                    }}
                                     key="cancel"
                                     onClick={handleModalClose}
                                 >
@@ -267,6 +274,9 @@ export const Register: React.FC = () => {
                                 </Button>,
                                 <Link to="/payment" key="ok">
                                     <Button
+                                        style={{
+                                            color: 'var(--contrast-color)',
+                                        }}
                                         type="primary"
                                         onClick={handleModalClose}
                                     >
