@@ -13,14 +13,15 @@
     .title-summary{
         font-size: var(--font-s-lg-2);
         font-weight: 700;
+        
     }
     .information{
         margin-top:var(--spacing-sm-2) ;
         font-size: 1.1rem;
         font-weight: 500;
         line-height: 2rem;
-        .user,.name-package,.term,.time-start,.time-end, .VAT,.price,.total-price,
-        .name-account,.number-account,.ex-day, .CVV{
+        .user,.name-package,.term,.time-start,.time-end, .method-payment,.price,.total-price
+        {
             display: flex;
             flex-direction: row;
             position: relative;
