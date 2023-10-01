@@ -72,7 +72,7 @@ export const LayoutUser = () => {
             content = <UserProfile />;
     }
     return (
-        <div className="wrapper">
+        <div className="wrapper-layout">
             <div className="header-layoutUser"></div>
             <div className="container">
                 <Layout className="siderbar-nav">

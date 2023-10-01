@@ -1,12 +1,18 @@
-.wrapper {
+.wrapper-layout {
     --min-height: 650px;
     --main-color-page: #1e1e1e;
 
     .header-layoutUser {
         height: 100px;
     }
+
+    @media (min-width: 1536px) {
+        .container {
+            max-width: 1440px;
+        }
+    }
     .container {
-        margin: 0 100px;
+        margin: 0 calc(5 * var(--spacing-md));
         .siderbar-nav {
             min-height: var(--min-height);
             .siderbar-nav-item {
@@ -40,11 +46,11 @@
                 .item {
                     color: var(--constract-color);
                     font-size: 16px;
-                    margin-top: 20px;
+                    margin-top: var(--spacing-md);
                     .ant-menu-item {
                         font-weight: 600;
-                        padding-top: 30px;
-                        padding-bottom: 30px;
+                        padding-top: var(--spacing-md-1);
+                        padding-bottom: var(--spacing-md-1);
                         display: flex;
                         align-items: center;
                         &:hover {
@@ -62,7 +68,7 @@
                 }
             }
             .content-item {
-                padding-left: 40px;
+                padding-left: var(--spacing-lg);
                 padding-top: 0px;
                 background-color: var(--main-color);
                 .content {
@@ -96,7 +102,7 @@
         color: var(--constract-color);
         font-size: 18px;
         font-weight: 600;
-        padding: 18px;
+        padding: var(--spacing-md);
 
         &:where(.css-dev-only-do-not-override-1vr7spz).ant-breadcrumb
             .ant-breadcrumb-separator {
@@ -107,7 +113,7 @@
         }
     }
     .content-main {
-        // overflow: auto;
-        // max-height: 650px;
+        overflow: auto;
+        max-height: 630px;
     }
 }

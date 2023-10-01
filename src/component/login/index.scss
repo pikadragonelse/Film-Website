@@ -9,7 +9,7 @@
 }
 
 .form-header {
-    margin-bottom: 50px;
+    margin-bottom: calc(10 * var(--spacing-sm-1));
     font-weight: 600;
 
     &__large {
@@ -29,7 +29,7 @@
     background-size: contain;
     background-position: center;
     width: 100%;
-    margin-bottom: 50px;
+    margin-bottom: calc(10 * var(--spacing-sm-1));
 
     &::before {
         content: '';
@@ -72,11 +72,4 @@
 .form-signup {
     font-size: var(--font-s-md);
     color: var(--primary-color);
-}
-
-.form-input:focus {
-    border-color: var(--primary-color);
-}
-.form-input:hover {
-    border-color: var(--primary-color);
 }
