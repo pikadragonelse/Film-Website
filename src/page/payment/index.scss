@@ -1,11 +1,14 @@
-.container{
+.container-payment {
     background-color: var(--main-color);
     max-width: 100%;
     min-height: 650px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    .choose{
-        margin-right: var(--spacing-lg);
+    margin-left: 30px;
+    margin-top: 40px;
+
+    .choose {
+        margin-right: calc(var(--spacing-lg) * 3);
     }
 }
