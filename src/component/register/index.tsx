@@ -203,11 +203,13 @@ export const Register: React.FC = () => {
                                 ]}
                             >
                                 <Select
-                                    className="register-form__item-input"
-                                    placeholder="select"
+                                    placeholder="Select gender"
                                     style={{
                                         width: '180px',
+                                        borderRadius: '7px',
+                                        height: '42.5px',
                                     }}
+                                    className="register-form__item-input"
                                 >
                                     <Option value="male">Male</Option>
                                     <Option value="female">Female</Option>
@@ -299,10 +301,6 @@ export const Register: React.FC = () => {
                                 style={{ marginTop: '15px' }}
                                 src="https://scontent.fdad3-4.fna.fbcdn.net/v/t1.15752-9/382892576_308999305108531_18785520390768619_n.png?_nc_cat=101&ccb=1-7&_nc_sid=ae9488&_nc_ohc=x-SMOf89ITMAX9tOOiB&_nc_ht=scontent.fdad3-4.fna&oh=03_AdSc29mSdVcRTN1ygnmre0QV_uMdvdm-wTW3tEgZqaY-lg&oe=653F3A39"
                             />
-                            <p className="animated-text">
-                                Nhấn vào nút OK để tiếp tục quá trình đăng ký
-                                với gói VIP
-                            </p>
                         </Modal>
                     </Form>
                 </div>

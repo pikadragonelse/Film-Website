@@ -63,15 +63,15 @@ export const Login: React.FC = () => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your eamil!',
+                                        message: 'Please input your email!',
                                     },
                                 ]}
                             >
                                 <Input
                                     className="form-input"
                                     style={{
-                                        width: '350px',
-                                        height: '38px',
+                                        width: '340px',
+                                        height: '40px',
                                     }}
                                 />
                             </Form.Item>
@@ -91,8 +91,8 @@ export const Login: React.FC = () => {
                             <Input.Password
                                 className="form-input"
                                 style={{
-                                    width: '350px',
-                                    height: '38px',
+                                    width: '340px',
+                                    height: '40px',
                                 }}
                             />
                         </Form.Item>

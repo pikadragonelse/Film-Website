@@ -22,7 +22,7 @@
 
 .form-group {
     margin-left: 8px;
-    margin-right: -14px;
+    margin-right: -18px;
 }
 .form-img {
     position: relative;
@@ -50,15 +50,16 @@
     position: absolute;
     top: 8%;
     left: 34%;
-    height: auto;
+    height: 88%;
     padding: 5rem 3.6rem;
     background-color: rgba(0, 0, 0, 0.75);
 }
 
 .form-button {
+    font-size: 1rem;
     color: var(--contrast-color);
-    width: 350px;
-    padding: 0.8rem 0;
+    width: 340px;
+    padding: 1rem 0;
 }
 .form-button span:hover {
     color: var(--contrast-color);
@@ -72,4 +73,19 @@
 .form-signup {
     font-size: var(--font-s-md);
     color: var(--primary-color);
+}
+
+.form-input {
+    border-bottom: 2px solid transparent !important;
+}
+.form-input:hover {
+    border-bottom: 2px solid var(--primary-color) !important;
+}
+
+.form-input:focus {
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.form-input {
+    border: none;
 }

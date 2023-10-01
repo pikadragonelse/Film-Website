@@ -13,9 +13,9 @@
     --spacing-lg-1: 60px;
 
     /*color*/
-    --primary-color: #ff0000;
-    --secondary-color: #ff4c4c;
-    --sub-primary-color: rgb(255, 106, 106);
+    --primary-color: #b91c1c;
+    --secondary-color: #cc0e0e;
+    --sub-primary-color: rgb(209, 19, 19);
     --contrast-color: #ffffff;
     --sub-contrast-color: #e9e9e9;
     --main-color: #111111;
@@ -171,33 +171,33 @@ ul {
 //     }
 // }
 
-.ant-picker {
-    background-color: var(--main-color) !important;
-    border: 1px solid transparent !important;
-    color: var(--contrast-color) !important;
+// .ant-picker {
+//     background-color: var(--main-color) !important;
+//     border: 1px solid transparent !important;
+//     color: var(--contrast-color) !important;
 
-    &:hover,
-    &:focus-within,
-    &:focus-visible {
-        border-color: var(--sub-primary-color) !important;
-    }
-    &:focus,
-    &:active,
-    &:target {
-        border-color: var(--primary-color) !important;
-    }
-}
+//     &:hover,
+//     &:focus-within,
+//     &:focus-visible {
+//         border-color: var(--sub-primary-color) !important;
+//     }
+//     &:focus,
+//     &:active,
+//     &:target {
+//         border-color: var(--primary-color) !important;
+//     }
+// }
 
-.ant-picker-suffix {
-    color: var(--contrast-color) !important;
-}
+// .ant-picker-suffix {
+//     color: var(--contrast-color) !important;
+// }
 
-.ant-picker-input > input {
-    color: var(--contrast-color) !important;
-    &::placeholder {
-        color: var(--sub-color) !important;
-    }
-}
+// .ant-picker-input > input {
+//     color: var(--contrast-color) !important;
+//     &::placeholder {
+//         color: var(--sub-color) !important;
+//     }
+// }
 
 .ant-table {
     background-color: var(--main-color) !important;
