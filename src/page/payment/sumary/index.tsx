@@ -3,13 +3,8 @@ import { Button } from 'antd';
 import './index.scss';
 
 interface SummaryProps {
-    selectedMethod: {
-        nameTK: string;
-        cardNumber: string;
-        expirationDate: string;
-        cvv: string;
-    } | null;
     selectedTerm: { value: string; price: string } | null;
+    selectedLabel: string;
 }
 
 const currentDate = new Date();
@@ -20,8 +15,8 @@ const year = currentDate.getFullYear();
 const startDate = `${day}/${month}/${year}`;
 
 export const Summary: React.FC<SummaryProps> = ({
-    selectedMethod,
     selectedTerm,
+    selectedLabel,
 }) => {
     let endDate = startDate;
     if (selectedTerm) {
@@ -75,46 +70,20 @@ export const Summary: React.FC<SummaryProps> = ({
                     </div>
                 </div>
                 <hr className="my-4 border-neutral-300" />
-                <div className="payment">
-                    <div className="name-account">
-                        <div className="">Tên tk</div>
-                        <div className="value">
-                            {selectedMethod ? selectedMethod.nameTK : ''}
-                        </div>
-                    </div>
-                    <div className="number-account">
-                        <div className="">STK</div>
-                        <div className="value">
-                            {selectedMethod?.cardNumber}
-                        </div>
-                    </div>
-                    <div className="ex-day">
-                        <div className="">Expiration Date</div>
-                        <div className="value">
-                            {selectedMethod?.expirationDate}
-                        </div>
-                    </div>
-                    <div className="CVV">
-                        <div className="">CVV</div>
-                        <div className="value">{selectedMethod?.cvv}</div>
-                    </div>
-                </div>
-                <hr className="my-4 border-neutral-300" />
                 <div className="price-package">
-                    {/* <div className="VAT">
-                        <div className="">VAT</div>
-                        <div className="value">
-                            {selectedTerm
-                                ? (
-                                      parseFloat(selectedTerm.price) * 0.03
-                                  ).toLocaleString() + ' ₫'
-                                : '2,070 ₫'}
-                        </div>
-                    </div> */}
                     <div className="price">
                         <div className="">Trị giá</div>
                         <div className="value">
                             {selectedTerm ? selectedTerm.price : '69000 ₫'}
+                        </div>
+                    </div>
+                </div>
+                <hr className="my-4 border-neutral-300" />
+                <div className="method">
+                    <div className="method-payment">
+                        <div className="">Phương thức thanh toán</div>
+                        <div className="value">
+                            {selectedLabel ? selectedLabel : 'Paypal'}
                         </div>
                     </div>
                 </div>

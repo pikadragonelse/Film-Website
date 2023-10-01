@@ -4,10 +4,12 @@ export const Paypal = () => {
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             width="100px"
-            height="40px"
-            viewBox="0 0 273.812 26.2617"
+            height="42px"
+            viewBox="0 0 246 60"
             version="1.1"
         >
+            <title>pp_fc_hl</title>
+            <desc>Created with Sketch.</desc>
             <defs>
                 <path
                     id="path-1"

@@ -6,27 +6,22 @@ import { TermPackage } from './term-package';
 import { Summary } from './sumary';
 
 export const Payment = () => {
-    const [selectedMethod, setSelectedMethod] = useState<{
-        nameTK: string;
-        cardNumber: string;
-        expirationDate: string;
-        cvv: string;
-    } | null>(null);
     const [selectedTerm, setSelectedTerm] = useState<{
         value: string;
         price: string;
     } | null>(null);
+    const [selectedLabel, setSelectedLabel] = useState<string>('');
     return (
         <>
             <HeaderPay />
             <div className="container-payment">
                 <div className="choose">
                     <TermPackage setSelectedTerm={setSelectedTerm} />
-                    <MethodPayment setSelectedMethod={setSelectedMethod} />
+                    <MethodPayment setSelectedLabel={setSelectedLabel} />
                 </div>
                 <div className="summary">
                     <Summary
-                        selectedMethod={selectedMethod}
+                        selectedLabel={selectedLabel}
                         selectedTerm={selectedTerm}
                     />
                 </div>

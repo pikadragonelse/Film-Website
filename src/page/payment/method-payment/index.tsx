@@ -1,112 +1,62 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import './index.scss';
 import { Paypal } from '../../../asset/icon/paypal';
-import { Input } from 'antd';
+import { MoMo } from '../../../asset/icon/momo';
+import { Radio, Space } from 'antd';
 
 interface PaymentMethod {
-    nameTK: string;
-    cardNumber: string;
-    expirationDate: string;
-    cvv: string;
+    icon: React.ReactNode;
+    label: string;
 }
 
 interface MethodPaymentProps {
-    setSelectedMethod: (method: PaymentMethod) => void;
+    setSelectedLabel: (label: string) => void;
 }
 
+const methods: PaymentMethod[] = [
+    {
+        icon: <Paypal />,
+        label: 'Paypal',
+    },
+    {
+        icon: <MoMo />,
+        label: 'Ví MoMo',
+    },
+];
+
 export const MethodPayment: React.FC<MethodPaymentProps> = ({
-    setSelectedMethod,
+    setSelectedLabel,
 }) => {
-    const [nameTK, setName] = useState('');
-    const [cardNumber, setCardNumber] = useState('');
-    const [expirationDate, setExpirationDate] = useState('');
-    const [cvv, setCvv] = useState('');
+    const [label, setLabel] = useState('Paypal');
 
-    const [method, setMethod] = useState<PaymentMethod>({
-        nameTK: '',
-        cardNumber: '',
-        expirationDate: '',
-        cvv: '',
-    });
-
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        let updatedMethod = { ...method };
-
-        if (name === 'nameTK') {
-            const uppercaseValue: string = value.toUpperCase();
-            updatedMethod.nameTK = uppercaseValue;
-            setName(uppercaseValue);
-        } else if (name === 'cardNumber') {
-            let { value } = e.target;
-            value = value.replace(/\D/g, '');
-            updatedMethod.cardNumber = value;
-            setCardNumber(value);
-        } else if (name === 'expirationDate') {
-            updatedMethod.expirationDate = value;
-            setExpirationDate(value);
-        } else if (name === 'cvv') {
-            let { value } = e.target;
-            value = value.replace(/\D/g, '');
-            updatedMethod.cvv = value;
-            setCvv(value);
-        }
-
-        setMethod(updatedMethod);
-        setSelectedMethod(updatedMethod);
+    const onChange = (e: any) => {
+        const selectedLabel = e.target.value;
+        setLabel(selectedLabel);
+        setSelectedLabel(selectedLabel);
     };
 
     return (
         <div className="wrapper-method">
             <div className="title-method">Chọn phương thức thanh toán:</div>
             <div className="container-method">
-                <>
-                    <Paypal />
-                    <div className="name">
-                        <Input
-                            name="nameTK"
-                            placeholder="NGUYEN NHAT HA"
-                            value={nameTK}
-                            onChange={handleInputChange}
-                        />
-                        <Input
-                            style={{
-                                width: '100%',
-                                fontSize: 'var(--font-s-lg)',
-                                fontWeight: 500,
-                            }}
-                            maxLength={16}
-                            name="cardNumber"
-                            placeholder="123456789098754"
-                            value={cardNumber}
-                            onChange={handleInputChange}
-                        />
-                    </div>
-                    <div className="day-cvv">
-                        <div className="expiration-day">
-                            <p>Expiration Date</p>
-                            <Input
-                                name="expirationDate"
-                                placeholder="12/23"
-                                value={expirationDate}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                        <div className="cvv">
-                            <p>CVV</p>
-                            <Input
-                                name="cvv"
-                                placeholder="112"
-                                maxLength={3}
-                                value={cvv}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    </div>
-                </>
-                <div>
-                    <img src="./" />
-                </div>
+                <Radio.Group onChange={onChange} value={label}>
+                    <Space direction="vertical">
+                        {methods.map((method, index) => (
+                            <Radio key={index} value={method.label}>
+                                <Space>
+                                    <div className="items">
+                                        <div className="icon-method">
+                                            {method.icon}
+                                        </div>
+                                        <div className="label-method">
+                                            {method.label}
+                                        </div>
+                                    </div>
+                                </Space>
+                            </Radio>
+                        ))}
+                    </Space>
+                </Radio.Group>
             </div>
         </div>
     );
