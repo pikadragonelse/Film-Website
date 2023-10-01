@@ -25,12 +25,10 @@ export const App = () => {
                     <Route path="/foryou" element={<LayoutUser />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/payment" element={<Payment />} />
                 </Routes>
                 <Footer />
             </div>
-            {/* <div className="wrapper-heared">
-                <Payment />
-            </div> */}
         </Provider>
     );
 };

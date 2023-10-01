@@ -43,6 +43,8 @@
     }
 
     &__button {
+        border: none;
+        color: var(--contrast-color);
         margin-left: -180px;
         margin-top: 60px;
 

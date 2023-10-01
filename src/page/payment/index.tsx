@@ -19,7 +19,7 @@ export const Payment = () => {
     return (
         <>
             <HeaderPay />
-            <div className="container">
+            <div className="container-payment">
                 <div className="choose">
                     <TermPackage setSelectedTerm={setSelectedTerm} />
                     <MethodPayment setSelectedMethod={setSelectedMethod} />

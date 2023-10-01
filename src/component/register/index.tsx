@@ -263,14 +263,14 @@ export const Register: React.FC = () => {
                                     key="cancel"
                                     onClick={handleModalClose}
                                 >
-                                    No
+                                    Đăng ký với gói thường
                                 </Button>,
-                                <Link to="/Vip" key="ok">
+                                <Link to="/payment" key="ok">
                                     <Button
                                         type="primary"
                                         onClick={handleModalClose}
                                     >
-                                        Yes
+                                        Đăng ký với gói VIP
                                     </Button>
                                 </Link>,
                             ]}
