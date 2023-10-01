@@ -1,0 +1,18 @@
+.content-page{
+    padding:var(--spacing-sm-1);
+    
+    .ant-row{
+    justify-content: center;
+    }
+
+    .header-list-film{
+        display: none;
+    }
+
+    .content-list-film{
+        margin-top: 0px;
+        margin-left: 6px;
+        margin-right: 6px;
+    }
+   
+} 

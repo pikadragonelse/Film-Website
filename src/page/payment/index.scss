@@ -1,0 +1,11 @@
+.container{
+    background-color: var(--main-color);
+    max-width: 100%;
+    min-height: 650px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    .choose{
+        margin-right: var(--spacing-lg);
+    }
+}

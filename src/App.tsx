@@ -11,6 +11,7 @@ import { HomePage } from './page/home/index';
 import { LayoutUser } from './component/layout-user';
 import { Register } from './component/register';
 import { Login } from './component/login';
+import { Payment } from './page/payment';
 
 export const App = () => {
     return (
@@ -27,6 +28,9 @@ export const App = () => {
                 </Routes>
                 <Footer />
             </div>
+            {/* <div className="wrapper-heared">
+                <Payment />
+            </div> */}
         </Provider>
     );
 };

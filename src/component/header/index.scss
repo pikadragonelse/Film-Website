@@ -31,8 +31,9 @@
 }
 
 .btn-vip {
-    background-color: #6a600f;
-    color: #ffe300;
+    border-color: #6a600f !important;
+    background-color: #6a600f !important;
+    color: #ffe300 !important;
     box-shadow: 0 2px 0 rgba(106, 96, 15, 0.1);
 
     &:hover {
