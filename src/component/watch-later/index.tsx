@@ -1,7 +1,7 @@
 import React from 'react';
 import './index.scss';
-import { PaginationFilm } from '../../component/pagination-film';
-import { FilmItem } from '../../component/film-item';
+import { PaginationFilm } from '../pagination-film';
+import { FilmItem } from '../film-item';
 
 const filmMap: Array<FilmItem> = [
     {

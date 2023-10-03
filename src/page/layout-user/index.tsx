@@ -9,11 +9,10 @@ import {
     SettingOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import { HomePage } from '../../page/home';
-import { UserProfile } from '../user-profile';
-import { VIPPackageUser } from '../../page/VIP-package-user';
-import { WatchLater } from '../../page/watch-later';
+import { Breadcrumb, Layout, Menu } from 'antd';
+import { UserProfile } from '../../component/user-profile';
+import { VIPPackageUser } from '../../component/VIP-package-user';
+import { WatchLater } from '../../component/watch-later';
 
 const { Header, Content, Sider } = Layout;
 
