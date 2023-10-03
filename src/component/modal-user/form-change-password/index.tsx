@@ -15,10 +15,6 @@ export const FormChangePassword = ({
 }: FormChangePassword) => {
     const [form] = useForm();
 
-    useEffect(() => {
-        form.resetFields();
-    }, [open]);
-
     return (
         <Form layout="vertical">
             <Form.Item
