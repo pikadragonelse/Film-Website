@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { Steps } from 'antd';
 import './index.scss';
 
-export const HeaderPay = () => {
+export type HeaderPay = { currentStep?: number };
+export const HeaderPay = ({ currentStep = 0 }: HeaderPay) => {
     return (
         <header className="wrapper-header-pay">
             <div className="flex justify-between items-center">
@@ -22,7 +23,7 @@ export const HeaderPay = () => {
                 className="flex justify-between w-full items-center ml-10"
             >
                 <Steps
-                    current={1}
+                    current={currentStep}
                     items={[
                         {
                             title: 'Chọn gói',
