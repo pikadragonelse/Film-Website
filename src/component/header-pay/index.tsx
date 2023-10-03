@@ -1,10 +1,14 @@
 import React from 'react';
-import { Logo } from '../../../asset/icon/logo';
+import { Logo } from '../../asset/icon/logo';
 import { Link } from 'react-router-dom';
 import { Steps } from 'antd';
 import './index.scss';
 
-export const HeaderPay = () => {
+interface HeaderPayProps {
+    number: number;
+}
+
+export const HeaderPay: React.FC<HeaderPayProps> = ({ number }) => {
     return (
         <header className="wrapper-header-pay">
             <div className="flex justify-between items-center">
@@ -19,10 +23,10 @@ export const HeaderPay = () => {
                     width: '60%',
                     marginRight: 'var(--spacing-lg)',
                 }}
-                className="flex justify-between w-full items-center ml-10"
+                className="flex justify-between w-full items-center"
             >
                 <Steps
-                    current={1}
+                    current={number}
                     items={[
                         {
                             title: 'Chọn gói',

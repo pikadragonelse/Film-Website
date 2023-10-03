@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { HeaderPay } from './header-pay';
-import { MethodPayment } from './method-payment';
-import { TermPackage } from './term-package';
-import { Summary } from './sumary';
+import { HeaderPay } from '../../component/header-pay';
+import { MethodPayment } from '../../component/method-payment';
+import { TermPackage } from '../../component/term-package';
+import { Summary } from '../../component/sumary';
 
 export const Payment = () => {
     const [selectedTerm, setSelectedTerm] = useState<{
@@ -13,7 +13,7 @@ export const Payment = () => {
     const [selectedLabel, setSelectedLabel] = useState<string>('');
     return (
         <>
-            <HeaderPay />
+            <HeaderPay number={0} />
             <div className="container-payment">
                 <div className="choose">
                     <TermPackage setSelectedTerm={setSelectedTerm} />
