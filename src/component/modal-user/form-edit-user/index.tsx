@@ -21,10 +21,6 @@ export const FormEditUser = ({ onCancel, onSubmit, open }: FormEditUser) => {
     const [previewImage, setPreviewImage] = useState<string>('');
     const [form] = useForm();
 
-    useEffect(() => {
-        form.resetFields();
-    }, [open]);
-
     const handleChange = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj as RcFile);
@@ -56,15 +52,15 @@ export const FormEditUser = ({ onCancel, onSubmit, open }: FormEditUser) => {
                 />
             </Form.Item>
             <Form.Item
-                name="name"
-                label="Username"
+                name="username"
+                label="Tên người dùng"
                 rules={[{ required: false }]}
             >
-                <Input placeholder="Username" />
+                <Input placeholder="Tên người dùng" />
             </Form.Item>
             <Form.Item
                 name="Date Of Birth"
-                label="Date of birth"
+                label="Ngày sinh"
                 // rules={[{ required: true }]}
             >
                 <DatePicker className="form-date-picker" />
@@ -76,7 +72,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open }: FormEditUser) => {
                         className="user-profile-btn"
                         onClick={onCancel}
                     >
-                        Cancel
+                        Hủy
                     </Button>
                     <Button
                         type="primary"
@@ -87,7 +83,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open }: FormEditUser) => {
                         }}
                         htmlType="submit"
                     >
-                        Edit
+                        Lưu
                     </Button>
                 </Space>
             </Form.Item>

@@ -1,12 +1,12 @@
 import { Modal, Upload } from 'antd';
-import React from 'react';
-import { FormEditUser } from './form-edit-user';
+import React, { ReactNode } from 'react';
 
-export type ModalEditUser = {
+export type ModalUser = {
     open?: boolean;
     onCancel?: (event: any) => void;
+    children?: ReactNode;
 };
-export const ModalEditUser = ({ open, onCancel }: ModalEditUser) => {
+export const ModalUser = ({ open, onCancel, children }: ModalUser) => {
     return (
         <Modal
             title="Edit User Profile"
@@ -15,7 +15,7 @@ export const ModalEditUser = ({ open, onCancel }: ModalEditUser) => {
             footer={[]}
             className="edit-modal"
         >
-            <FormEditUser onCancel={onCancel} open={open} />
+            {children}
         </Modal>
     );
 };
