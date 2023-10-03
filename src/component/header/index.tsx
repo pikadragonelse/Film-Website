@@ -8,7 +8,8 @@ import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
 import './index.scss';
 
-export const Header = () => {
+export type Header = { className?: string };
+export const Header = ({ className }: Header) => {
     const location = useLocation();
     const isLoginPage =
         location.pathname === '/login' ||
@@ -44,7 +45,9 @@ export const Header = () => {
     return (
         <header
             ref={headerRef}
-            className={`wrapper-header ${isLoginPage ? 'hidden' : ''}`}
+            className={`wrapper-header ${
+                isLoginPage ? 'hidden' : ''
+            } ${className}`}
         >
             <div
                 style={{
