@@ -11,7 +11,7 @@ import { HomePage } from './page/home/index';
 import { LayoutUser } from './page/layout-user';
 import { Register } from './component/register';
 import { Login } from './component/login';
-import { Payment } from './component/payment';
+import { Payment } from './page/payment';
 
 export const App = () => {
     return (
