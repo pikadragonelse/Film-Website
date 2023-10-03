@@ -1,9 +1,8 @@
 import React from 'react';
-import { Logo } from '../../asset/icon/logo';
 import { Link } from 'react-router-dom';
 import { Steps } from 'antd';
 import './index.scss';
-
+import { LogoDark } from '../../asset/icon/logoDark';
 interface HeaderPayProps {
     number: number;
 }
@@ -14,7 +13,7 @@ export const HeaderPay: React.FC<HeaderPayProps> = ({ number }) => {
             <div className="flex justify-between items-center">
                 <div className="logo">
                     <Link to="/">
-                        <Logo />
+                        <LogoDark />
                     </Link>
                 </div>
             </div>

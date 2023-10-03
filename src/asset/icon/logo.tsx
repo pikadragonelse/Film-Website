@@ -4,7 +4,7 @@ export const Logo = () => {
     return (
         <>
             <svg
-                width="124"
+                width="125"
                 height="50"
                 viewBox="0 0 173.812 46.2617"
                 fill="none"
