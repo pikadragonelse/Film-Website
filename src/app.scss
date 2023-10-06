@@ -2,4 +2,8 @@
     color: var(--contrast-color);
     background-color: var(--main-color);
     height: auto;
+
+    .hidden {
+        display: none;
+    }
 }

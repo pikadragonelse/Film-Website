@@ -11,7 +11,8 @@ import { setCurrentUser } from '../../redux/currentUserSlide';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-export const Header = () => {
+export type Header = { className?: string };
+export const Header = ({ className }: Header) => {
     const location = useLocation();
     const isLoginPage =
         location.pathname === '/login' ||
@@ -53,7 +54,9 @@ export const Header = () => {
     return (
         <header
             ref={headerRef}
-            className={`wrapper-header ${isLoginPage ? 'hidden' : ''}`}
+            className={`wrapper-header ${
+                isLoginPage ? 'hidden' : ''
+            } ${className}`}
         >
             <div
                 style={{
