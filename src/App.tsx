@@ -12,6 +12,7 @@ import { LayoutUser } from './page/layout-user';
 import { Register } from './component/register';
 import { Login } from './component/login';
 import { Payment } from './page/payment';
+import { Bill } from './page/bill';
 
 export const App = () => {
     return (
@@ -26,6 +27,7 @@ export const App = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/payment" element={<Payment />} />
+                    <Route path="/bill" element={<Bill />} />
                 </Routes>
                 <Footer />
             </div>
