@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import './index.scss';
-
+import { Link } from 'react-router-dom';
 interface SummaryProps {
     selectedTerm: { value: string; price: string } | null;
     selectedLabel: string;
@@ -13,6 +13,9 @@ const day = currentDate.getDate().toString().padStart(2, '0');
 const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 const year = currentDate.getFullYear();
 const startDate = `${day}/${month}/${year}`;
+const hours = currentDate.getHours().toString().padStart(2, '0');
+const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+const currentTime = `${hours}:${minutes}`;
 
 export const Summary: React.FC<SummaryProps> = ({
     selectedTerm,
@@ -57,6 +60,7 @@ export const Summary: React.FC<SummaryProps> = ({
                         </div>
                     </div>
                 </div>
+
                 <hr className="my-4 border-neutral-300" />
                 <div className="time">
                     <div className="time-start">
@@ -65,10 +69,10 @@ export const Summary: React.FC<SummaryProps> = ({
                     </div>
                     <div className="time-end">
                         <div className="">Ngày kết thúc</div>
-
                         <div className="value">{endDate}</div>
                     </div>
                 </div>
+
                 <hr className="my-4 border-neutral-300" />
                 <div className="price-package">
                     <div className="price">
@@ -102,8 +106,14 @@ export const Summary: React.FC<SummaryProps> = ({
                     của MOVTIME.
                 </div>
             </div>
-            <Button className="btn-confirm" type="primary" disabled>
-                Xác nhận
+            <Button className="btn-confirm" type="primary">
+                <Link
+                    to={`/bill?selectedTerm=${JSON.stringify(
+                        selectedTerm,
+                    )}&selectedLabel=${selectedLabel}&currentDate=${startDate}&endDate=${endDate}&currentTime=${currentTime}`}
+                >
+                    Xác nhận
+                </Link>
             </Button>
         </div>
     );
