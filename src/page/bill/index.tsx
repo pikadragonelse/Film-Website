@@ -5,7 +5,7 @@ import { MoviesPackageBill } from '../../component/movies-package-bill';
 export const Bill = () => {
     return (
         <div>
-            <HeaderPay number={2} />
+            <HeaderPay currentStep={2} />
             <div className="bill">
                 <div className="bill__info">
                     <MoviesPackageBill />
