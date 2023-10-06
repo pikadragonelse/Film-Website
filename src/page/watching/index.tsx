@@ -10,6 +10,9 @@ import { MenuProps } from 'antd';
 import { FilmItem } from '../../component/film-item';
 import { ListFilm } from '../../component/list-film';
 import { PluginComment } from '../../component/plugin-comment';
+import { Comment } from '../../component/comment';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const subInfo: Array<SubInfo> = [
     {
@@ -98,6 +101,10 @@ const filmMap: Array<FilmItem> = [
 ];
 
 export const WatchingPage = () => {
+    const currentUser = useSelector(
+        (state: RootState) => state.user.currentUser,
+    );
+    console.log(currentUser);
     const [playTime, setPlayTime] = useState(0);
 
     const handleProgress = (state: OnProgressProps) => {
@@ -165,8 +172,11 @@ export const WatchingPage = () => {
                     listFilm={[filmMap, filmMap]}
                 />
             </div>
-            <div className="box-comment" id="tabs-facebook">
+            {/* <div className="box-comment" id="tabs-facebook">
                 <PluginComment dataHref="http://localhost:3000/watching" />
+            </div> */}
+            <div className="comment-container">
+                <Comment title="Comments" currentUser={currentUser} />
             </div>
         </div>
     );

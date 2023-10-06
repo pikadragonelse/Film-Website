@@ -7,6 +7,9 @@ import items from '../header/menuItem.json';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
 import './index.scss';
+import { setCurrentUser } from '../../redux/currentUserSlide';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 export const Header = () => {
     const location = useLocation();
@@ -39,7 +42,13 @@ export const Header = () => {
         };
     }, []);
 
-    const currentUser = true;
+    const dispatch = useDispatch();
+    const currentUser = useSelector(
+        (state: RootState) => state.user.currentUser,
+    );
+    const handleLogin = () => {
+        dispatch(setCurrentUser(true));
+    };
 
     return (
         <header
