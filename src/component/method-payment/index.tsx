@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './index.scss';
-import { Paypal } from '../../../asset/icon/paypal';
-import { MoMo } from '../../../asset/icon/momo';
+import { Paypal } from '../../asset/icon/paypal';
+import { MoMo } from '../../asset/icon/momo';
 import { Radio, Space } from 'antd';
 
 interface PaymentMethod {

@@ -12,8 +12,9 @@ import { LayoutUser } from './page/layout-user';
 import { Register } from './component/register';
 import { Login } from './component/login';
 
-import { Payment } from './component/payment';
+import { Payment } from './page/payment';
 import { VIPPackage } from './page/vip-package';
+import { Bill } from './page/bill';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -38,6 +39,7 @@ export const App = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/VIPpackage" element={<VIPPackage />} />
+                    <Route path="/bill" element={<Bill />} />
                 </Routes>
                 <Footer />
             </div>

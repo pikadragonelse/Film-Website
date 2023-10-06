@@ -1,11 +1,12 @@
-.wrapper-term{
+.wrapper-method{
     margin-top: var(--spacing-md);
-    .title-term{
+    .title-method{
         font-size: var(--font-s-lg-1);
-        margin-bottom: var(--spacing-sm-2);
         font-weight: 600;
+        margin-top: calc(2 * var(--spacing-md)) ;
+        margin-bottom: var(--spacing-md);
     }
-    .container-term{
+    .container-method{
         .ant-space-item{
             width: 730px;
             position: relative;
@@ -42,8 +43,7 @@
                 }
                 &::after{
                     border: 1px solid #ff0000 ;
-                }
-                
+                }   
             }
             
             .items{
@@ -51,12 +51,11 @@
                 font-size: 1.3rem;
                 margin: var(--spacing-sm);
                 padding: var(--spacing-sm-1);
+                justify-content: center;
                 align-items: center;
 
-                .price-term{
-                    position: absolute;
-                    right: var(--spacing-md);
-                    color: var(--primary-color);
+                .label-method{
+                    margin-left: 1rem;
                 }
             }
         }

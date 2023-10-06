@@ -1,11 +1,11 @@
-.wrapper-method{
+.wrapper-term{
     margin-top: var(--spacing-md);
-    .title-method{
+    .title-term{
         font-size: var(--font-s-lg-1);
-        font-weight: 600;
         margin-bottom: var(--spacing-md);
+        font-weight: 600;
     }
-    .container-method{
+    .container-term{
         .ant-space-item{
             width: 730px;
             position: relative;
@@ -42,7 +42,8 @@
                 }
                 &::after{
                     border: 1px solid #ff0000 ;
-                }   
+                }
+                
             }
             
             .items{
@@ -50,11 +51,12 @@
                 font-size: 1.3rem;
                 margin: var(--spacing-sm);
                 padding: var(--spacing-sm-1);
-                justify-content: center;
                 align-items: center;
 
-                .label-method{
-                    margin-left: 1rem;
+                .price-term{
+                    position: absolute;
+                    right: var(--spacing-md);
+                    color: var(--primary-color);
                 }
             }
         }
