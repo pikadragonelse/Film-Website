@@ -13,7 +13,7 @@ export const Payment = () => {
     const [selectedLabel, setSelectedLabel] = useState<string>('');
     return (
         <>
-            <HeaderPay number={1} />
+            <HeaderPay number={2} />
             <div className="container-payment">
                 <div className="choose">
                     <TermPackage setSelectedTerm={setSelectedTerm} />
