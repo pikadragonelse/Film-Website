@@ -9,6 +9,9 @@ interface SummaryProps {
 
 const currentDate = new Date();
 
+
+const orderNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+
 const day = currentDate.getDate().toString().padStart(2, '0');
 const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
 const year = currentDate.getFullYear();
@@ -61,6 +64,7 @@ export const Summary: React.FC<SummaryProps> = ({
                     </div>
                 </div>
 
+
                 <hr className="my-4 border-neutral-300" />
                 <div className="time">
                     <div className="time-start">
@@ -110,7 +114,7 @@ export const Summary: React.FC<SummaryProps> = ({
                 <Link
                     to={`/bill?selectedTerm=${JSON.stringify(
                         selectedTerm,
-                    )}&selectedLabel=${selectedLabel}&currentDate=${startDate}&endDate=${endDate}&currentTime=${currentTime}`}
+                    )}&selectedLabel=${selectedLabel}&currentDate=${startDate}&endDate=${endDate}&currentTime=${currentTime}&orderNumber=${orderNumber}`}
                 >
                     Xác nhận
                 </Link>

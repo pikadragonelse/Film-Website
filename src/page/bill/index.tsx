@@ -7,11 +7,6 @@ export const Bill = () => {
         <div>
             <HeaderPay number={2} />
             <div className="bill">
-                <img
-                    className="bill__img"
-                    src="https://w7.pngwing.com/pngs/692/698/png-transparent-money-coins-dollars-bill-icon.png"
-                    alt=""
-                />
                 <div className="bill__info">
                     <MoviesPackageBill />
                 </div>
