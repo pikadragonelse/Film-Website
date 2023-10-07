@@ -6,11 +6,11 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 20%;
+        width: 58%;
+        height: 100%;
         background-image: linear-gradient(
-            to bottom,
-            rgba(8, 7, 7, 0.7),
+            to right,
+            rgba(30, 23, 23, 0.7),
             #89313100
         );
     }
@@ -26,7 +26,7 @@
     }
 
     &__image {
-        height: 750px;
+        height: 720px;
     }
 
     &__image > img {
@@ -38,7 +38,7 @@
         position: absolute;
         padding: 5rem;
         bottom: 0px;
-        height: 70%;
+        height: 100%;
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -47,20 +47,19 @@
         background-image: linear-gradient(rgba(17, 16, 16, 0), rgb(0, 0, 0, 1));
         opacity: 1;
         transition: opacity 0.3s;
-        text-shadow: 0px 0px 2px #d1d0d0;
     }
     &__image-overlay:hover {
         opacity: 1;
     }
 
     &__image-title {
+        color: var(--primary-color);
         font-weight: 800;
-        font-size: 2.5rem;
-        margin-bottom: 1.6rem;
+        margin-bottom: 2rem;
         text-align: left;
         letter-spacing: 1.1px;
-        text-transform: uppercase;
         width: 40%;
+        transition-delay: 0.3s, 0.3s;
     }
 
     &__image-runtime {
@@ -68,25 +67,27 @@
     }
 
     &__image-description {
+        color: #989898;
         margin-bottom: 8rem;
         display: flex;
         text-align: left;
-        width: 40%;
+        width: 38%;
         line-height: 1.5;
-        max-height: calc(1.5em * 3);
+        max-height: calc(1.5em * 4);
         overflow: hidden;
         position: relative;
+        transition: transform 0.5s ease, opacity 0.5s ease;
     }
 }
 
 .btn {
-    border: 4px solid transparent;
+    border: 3px solid transparent;
     background-color: var(--primary-color);
     color: var(--contrast-color);
-    border-radius: 26px;
+    border-radius: 18px;
     padding: 0.8rem 2.2rem;
     font-weight: 600;
-    box-shadow: 0px 0px 2px 4px #ff00004d;
+    box-shadow: 0px 0px 1px 2px #ff00004d;
     transition: box-shadow 0.3s ease-out;
     position: relative;
     margin-right: 20px;
@@ -100,7 +101,7 @@
         box-shadow: 0px 0px 7px 15px #ff00004d;
     }
     &-outline {
-        border: 3px solid var(--contrast-color);
+        border: 2px solid var(--contrast-color);
         background-color: transparent;
         color: var(--contrast-color);
         box-shadow: unset;
@@ -115,13 +116,8 @@
 }
 
 .poster__image-padding {
-    padding: 4px 24px;
-    background: linear-gradient(
-        45deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0) 100%
-    );
-
+    padding: 4px 16px;
     border-radius: 30px;
-    margin-right: 0.4rem;
+    margin-right: 0.5rem;
+    color: #989898;
 }

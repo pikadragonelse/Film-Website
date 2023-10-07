@@ -1,20 +1,20 @@
-import React from 'react';
-import './app.scss';
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
-import { Route, Routes, useLocation, useParams } from 'react-router-dom';
-import { Header } from './component/header';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import './app.scss';
+import { Director } from './component/director';
 import { Footer } from './component/footer';
-import { SearchPage } from './page/search';
-import { WatchingPage } from './page/watching';
+import { Header } from './component/header';
+import { Login } from './component/login';
+import { Register } from './component/register';
 import { HomePage } from './page/home/index';
 import { LayoutUser } from './page/layout-user';
-import { Register } from './component/register';
-import { Login } from './component/login';
+import { SearchPage } from './page/search';
+import { WatchingPage } from './page/watching';
+import { store } from './redux/store';
 
+import { Bill } from './page/bill';
 import { Payment } from './page/payment';
 import { VIPPackage } from './page/vip-package';
-import { Bill } from './page/bill';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -40,6 +40,10 @@ export const App = () => {
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/VIPpackage" element={<VIPPackage />} />
                     <Route path="/bill" element={<Bill />} />
+                    <Route
+                        path="/director"
+                        element={<Director color="white" />}
+                    />
                 </Routes>
                 <Footer />
             </div>
