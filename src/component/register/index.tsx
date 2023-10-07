@@ -274,7 +274,7 @@ export const Register: React.FC = () => {
                                 >
                                     Đăng ký với gói thường
                                 </Button>,
-                                <Link to="/payment" key="ok">
+                                <Link to="/VIPpackage" key="ok">
                                     <Button
                                         style={{
                                             color: 'var(--contrast-color)',

@@ -27,6 +27,7 @@ const Slide: React.FC = () => {
     return (
         <div className="poster">
             <Carousel
+                className="slide"
                 showThumbs={false}
                 autoPlay={true}
                 transitionTime={3}
@@ -36,7 +37,7 @@ const Slide: React.FC = () => {
                 {popularMovies.map((movie) => (
                     <div>
                         <Link
-                            className="poster__item"
+                            className="poster__item slide-item"
                             style={{ textDecoration: 'none', color: 'white' }}
                             to={`/movie/${movie.id}`}
                             key={movie.id}
@@ -51,18 +52,34 @@ const Slide: React.FC = () => {
                             </div>
                             <div className="poster__image-overlay">
                                 <div className="poster__image-title">
-                                    {movie ? movie.original_title : ''}
+                                    <h2 className="md:text-5xl font-black tracking-normal md:tw-multiline-ellipsis-2 tw-multiline-ellipsis-3">
+                                        {movie ? movie.original_title : ''}
+                                    </h2>
                                 </div>
-                                <div className="poster__image-runtime">
-                                    <span className="poster__image-padding">
-                                        {movie ? movie.release_date : ''}
-                                    </span>
 
-                                    <span className="poster__image-rating poster__image-padding">
+                                <div>
+                                    <p className="text-white font-semibold md:text-2xl text-base mb-1">
+                                        {movie ? movie.original_title : ''}
+                                    </p>
+                                </div>
+                                <h2
+                                    className="mb-3"
+                                    style={{ color: '#989898' }}
+                                >
+                                    First air date:{' '}
+                                    {movie ? movie.release_date : ''}
+                                </h2>
+                                <div className="poster__image-runtime mt-4">
+                                    {/* <span className="px-3 py-1 border rounded-full poster__image-rating poster__image-padding">
                                         {movie ? movie.vote_average : ''}
+                                    </span> */}
+                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
+                                        Hài hước
                                     </span>
-
-                                    <span className="poster__image-padding">
+                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
+                                        Lãng mạng
+                                    </span>
+                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
                                         Hàn Quốc
                                     </span>
                                 </div>
