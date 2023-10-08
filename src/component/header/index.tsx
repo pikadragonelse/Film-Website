@@ -66,7 +66,7 @@ export const Header = ({ className }: Header) => {
                         style={{
                             marginRight: 'var(--spacing-lg)',
                         }}
-                        className="hidden  items-center w-full lg:flex lg:w-auto lg:order-1"
+                        className="items-center w-full lg:flex lg:w-auto lg:order-1"
                         id="mobile-menu-2"
                     >
                         <Search />

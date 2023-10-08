@@ -1,0 +1,22 @@
+.container-director__header {
+    height: 66px;
+}
+.active {
+    border-bottom: 4px solid red;
+}
+.btn-share {
+    display: flex;
+    height: 45px;
+    background: rgb(35, 37, 43);
+    border-radius: 4px;
+    -webkit-box-align: center;
+    align-items: center;
+    padding-left: 22px;
+    padding-right: 22px;
+    color: white;
+    margin-top: 20px;
+
+    p {
+        margin-left: 10px;
+    }
+}
