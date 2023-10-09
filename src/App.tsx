@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+import './app.scss';
 import { Provider } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './app.scss';
@@ -16,6 +18,14 @@ import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
 
+
+
+import { Bill } from './page/bill';
+import { Payment } from './page/payment';
+import { VIPPackage } from './page/vip-package';
+import axios from 'axios';
+
+
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
     '/payment': 'hidden',
@@ -24,7 +34,30 @@ const locationMap: Record<string, string> = {
 
 export const App = () => {
     const location = useLocation();
-    console.log(location.pathname);
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:8080/api/movies/all', {
+                // headers: {
+                //     'Content-Type': 'application/json',
+                // },
+            })
+            .then((response) => console.log(response))
+            .catch((error) => console.error(error));
+
+        // fetch('http://localhost:8080/api/movies/all', {
+        //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        //     mode: 'cors', // no-cors, *cors, same-origin
+        //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        //     credentials: 'same-origin', // include, *same-origin, omit
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         // 'Content-Type': 'application/x-www-form-urlencoded',
+        //     },
+        // })
+        //     .then((response) => console.log(response))
+        //     .catch((error) => console.error(error));
+    }, []);
 
     return (
         <Provider store={store}>
