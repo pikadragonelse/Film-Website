@@ -37,7 +37,7 @@ export const MethodPayment: React.FC<MethodPaymentProps> = ({
 
     return (
         <div className="wrapper-method">
-            <div className="title-method">Chọn phương thức thanh toán:</div>
+            <div className="title-method">Chọn phương thức thanh toán</div>
             <div className="container-method">
                 <Radio.Group onChange={onChange} value={label}>
                     <Space direction="vertical">

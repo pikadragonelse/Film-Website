@@ -15,15 +15,15 @@ export const TermPackage: React.FC<TermPackageProps> = ({
 }) => {
     const terms: TermPackage[] = [
         {
-            value: '1 tháng',
+            value: '01 tháng',
             price: '69000 ₫',
         },
         {
-            value: '3 tháng',
+            value: '03 tháng',
             price: '79000 ₫',
         },
         {
-            value: '6 tháng',
+            value: '06 tháng',
             price: '99000 ₫',
         },
         {
@@ -31,7 +31,7 @@ export const TermPackage: React.FC<TermPackageProps> = ({
             price: '100000 ₫',
         },
     ];
-    const [value, setValue] = useState('1 tháng');
+    const [value, setValue] = useState('01 tháng');
 
     const onChange = (e: any) => {
         const selectedValue = e.target.value;
@@ -44,7 +44,7 @@ export const TermPackage: React.FC<TermPackageProps> = ({
 
     return (
         <div className="wrapper-term">
-            <div className="title-term">Chọn thời hạn:</div>
+            <div className="title-term">Chọn thời hạn gói</div>
             <div className="container-term">
                 <Radio.Group onChange={onChange} value={value}>
                     <Space direction="vertical">

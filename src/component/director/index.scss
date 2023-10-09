@@ -2,7 +2,7 @@
     height: 66px;
 }
 .active {
-    border-bottom: 4px solid red;
+    border-bottom: 4px solid var(--primary-color);
 }
 .btn-share {
     display: flex;
@@ -11,12 +11,32 @@
     border-radius: 4px;
     -webkit-box-align: center;
     align-items: center;
-    padding-left: 22px;
-    padding-right: 22px;
-    color: white;
-    margin-top: 20px;
+    padding: 0 var(--spacing-md);
+    color: var(--contrast-color);
+    margin-top: var(--spacing-md);
 
     p {
-        margin-left: 10px;
+        margin-left: var(--spacing-sm-2);
     }
+}
+
+.modal-item {
+    display: flex;
+    align-items: center;
+    margin-top: var(--spacing-md);
+
+    img {
+        margin-right: var(--spacing-md);
+        width: 50px;
+        height: 50px;
+    }
+}
+
+.modal-item:hover {
+    color: var(--contrast-color) !important;
+}
+.modal-img:hover {
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    cursor: pointer;
 }

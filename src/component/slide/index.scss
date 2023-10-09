@@ -6,11 +6,11 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 58%;
+        width: 64%;
         height: 100%;
         background-image: linear-gradient(
             to right,
-            rgba(30, 23, 23, 0.7),
+            rgba(16, 12, 12, 0.7),
             #89313100
         );
     }
@@ -46,7 +46,6 @@
         align-items: flex-start;
         background-image: linear-gradient(rgba(17, 16, 16, 0), rgb(0, 0, 0, 1));
         opacity: 1;
-        transition: opacity 0.3s;
     }
     &__image-overlay:hover {
         opacity: 1;
@@ -67,13 +66,13 @@
     }
 
     &__image-description {
-        color: #989898;
+        color: var(--contrast-color);
         margin-bottom: 8rem;
         display: flex;
         text-align: left;
-        width: 38%;
-        line-height: 1.5;
-        max-height: calc(1.5em * 4);
+        width: 40%;
+        line-height: 1.8;
+        max-height: calc(1.5em * 5);
         overflow: hidden;
         position: relative;
         transition: transform 0.5s ease, opacity 0.5s ease;

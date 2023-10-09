@@ -2,19 +2,19 @@ import { Provider } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './app.scss';
 import { Director } from './component/director';
+import { FilmDetail } from './component/film-detail';
 import { Footer } from './component/footer';
 import { Header } from './component/header';
 import { Login } from './component/login';
 import { Register } from './component/register';
+import { Bill } from './page/bill';
 import { HomePage } from './page/home/index';
 import { LayoutUser } from './page/layout-user';
+import { Payment } from './page/payment';
 import { SearchPage } from './page/search';
+import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
-
-import { Bill } from './page/bill';
-import { Payment } from './page/payment';
-import { VIPPackage } from './page/vip-package';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -44,6 +44,7 @@ export const App = () => {
                         path="/director"
                         element={<Director color="white" />}
                     />
+                    <Route path="/movie/:id" element={<FilmDetail />} />
                 </Routes>
                 <Footer />
             </div>

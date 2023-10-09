@@ -57,15 +57,7 @@ const Slide: React.FC = () => {
                                     </h2>
                                 </div>
 
-                                <div>
-                                    <p className="text-white font-semibold md:text-2xl text-base mb-1">
-                                        {movie ? movie.original_title : ''}
-                                    </p>
-                                </div>
-                                <h2
-                                    className="mb-3"
-                                    style={{ color: '#989898' }}
-                                >
+                                <h2 className="mb-3">
                                     First air date:{' '}
                                     {movie ? movie.release_date : ''}
                                 </h2>
