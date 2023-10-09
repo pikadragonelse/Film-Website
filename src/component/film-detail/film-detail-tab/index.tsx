@@ -3,8 +3,11 @@ import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import './index.scss';
 
-import { FilmDetailOverall } from '../film-detail-overall';
 import { FilmDetailCast } from '../film-detail-cast';
+import FilmDetailReview from '../film-detail-review';
+
+import FilmDetailOverall from './../film-detail-overall/index';
+import FilmDetailEpisodes from '../film-detail-episodes';
 
 export const FilmDetailTab: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('1');
@@ -13,15 +16,16 @@ export const FilmDetailTab: React.FC = () => {
         setActiveTab(key);
     };
 
-
     const renderTabContent = () => {
         switch (activeTab) {
             case '1':
-                return <FilmDetailCast />
+                return <FilmDetailOverall />;
             case '2':
                 return <FilmDetailCast />;
             case '3':
-                return <FilmDetailCast />;
+                return <FilmDetailEpisodes />;
+            case '4':
+                return <FilmDetailReview />;
             default:
                 return null;
         }
@@ -43,8 +47,11 @@ export const FilmDetailTab: React.FC = () => {
             label: 'Tập',
             children: '',
         },
-
-
+        {
+            key: '4',
+            label: 'Đánh giá',
+            children: '',
+        },
     ];
     return (
         <div>
