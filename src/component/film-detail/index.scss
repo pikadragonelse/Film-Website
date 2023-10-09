@@ -33,6 +33,7 @@
     &__summary {
         color: var(--contrast-color);
     }
+
     &__watch {
         background-color: var(--primary-color);
     }
@@ -45,6 +46,78 @@
     &__tab {
         position: absolute;
         left: 27.5%;
+        height: auto;
         top: 88%;
+    }
+}
+
+:where(.css-dev-only-do-not-override-pr0fja).ant-progress .ant-progress-inner:not(.ant-progress-circle-gradient) .ant-progress-circle-path {
+    stroke: var(--primary-color)
+}
+
+.ant-progress.ant-progress-circle .ant-progress-text {
+    color: var(--contrast-color);
+    font-size: 1rem;
+}
+
+.detail-tabs {
+    position: absolute;
+    flex-direction: column;
+    left: 15%;
+    top: -4%;
+}
+
+
+@media only screen and (min-width: 1024px) and (max-width: 1280px) {
+    .film-detail {
+        &__header {
+            left: 24.5%;
+            gap: 10rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1280px) and (max-width: 1320px) {
+    .film-detail {
+        &__header {
+            left: 23%;
+            gap: 10rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1320px) and (max-width: 1390px) {
+    .film-detail {
+        &__header {
+            left: 23.5%;
+            gap: 14rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1390px) and (max-width: 1480px) {
+    .film-detail {
+        &__header {
+            left: 22.5%;
+            gap: 18rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1480px) and (max-width: 1580px) {
+    .film-detail {
+        &__header {
+            left: 21.5%;
+            gap: 22rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1580px) {
+    .film-detail {
+        &__header {
+            left: 21%;
+            gap: 24rem;
+        }
     }
 }

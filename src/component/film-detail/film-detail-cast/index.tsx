@@ -41,8 +41,8 @@ const actors = [
 
 export const FilmDetailCast = () => {
     return (
-        <div className="text-base">
-            <ul className="grid grid-cols-2 gap-x-80 gap-y-6 ml-[-20px]">
+        <div className="text-base mt-10">
+            <ul className="grid grid-cols-2 gap-x-60 gap-y-6 ml-[-10px]">
                 {actors.map((actor) => (
                     <li key={actor.id} className="flex gap-3 items-center">
                         <div className="shrink-0 max-w-[60px] w-full h-[65px]">
