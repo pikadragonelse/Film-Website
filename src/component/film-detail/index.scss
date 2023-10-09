@@ -51,22 +51,23 @@
     }
 }
 
-:where(.css-dev-only-do-not-override-pr0fja).ant-progress .ant-progress-inner:not(.ant-progress-circle-gradient) .ant-progress-circle-path {
-    stroke: var(--primary-color)
+:where(.css-dev-only-do-not-override-1vr7spz).ant-progress
+    .ant-progress-inner:not(.ant-progress-circle-gradient)
+    .ant-progress-circle-path {
+    stroke: var(--primary-color);
 }
 
 .ant-progress.ant-progress-circle .ant-progress-text {
     color: var(--contrast-color);
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .detail-tabs {
     position: absolute;
     flex-direction: column;
-    left: 15%;
-    top: -4%;
+    left: 10%;
+    top: -14%;
 }
-
 
 @media only screen and (min-width: 1024px) and (max-width: 1280px) {
     .film-detail {
@@ -98,17 +99,25 @@
 @media only screen and (min-width: 1390px) and (max-width: 1480px) {
     .film-detail {
         &__header {
-            left: 22.5%;
+            left: 22%;
             gap: 18rem;
         }
     }
 }
 
-@media only screen and (min-width: 1480px) and (max-width: 1580px) {
+@media only screen and (min-width: 1480px) and (max-width: 1500px) {
+    .film-detail {
+        &__header {
+            left: 22%;
+            gap: 22rem;
+        }
+    }
+}
+@media only screen and (min-width: 1500px) and (max-width: 1580px) {
     .film-detail {
         &__header {
             left: 21.5%;
-            gap: 22rem;
+            gap: 24rem;
         }
     }
 }
@@ -117,7 +126,7 @@
     .film-detail {
         &__header {
             left: 21%;
-            gap: 24rem;
+            gap: 27rem;
         }
     }
 }

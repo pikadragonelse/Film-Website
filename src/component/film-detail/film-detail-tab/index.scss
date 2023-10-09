@@ -24,11 +24,11 @@
     background-color: var(--primary-color) !important;
 }
 
-.ant-tabs-top>.ant-tabs-nav .ant-tabs-ink-bar {
+.ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar {
     background-color: var(--primary-color) !important;
 }
 
-.ant-tabs-top>.ant-tabs-nav::before {
+.ant-tabs-top > .ant-tabs-nav::before {
     border-bottom: none;
 }
 
@@ -37,5 +37,5 @@
 }
 
 .ant-tabs-nav-wrap {
-    justify-content: center;
+    margin-left: 220px;
 }

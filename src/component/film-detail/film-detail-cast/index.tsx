@@ -16,7 +16,7 @@ const actors = [
     {
         id: 3,
         name: 'Andy Lau',
-        character: 'Sylvie / The Variant',
+        character: 'Sylvie The Variant',
         image: 'https://image.tmdb.org/t/p/w185/qZdFp18btpQJfDoknxr7DgfRpcB.jpg',
     },
     {
@@ -37,17 +37,41 @@ const actors = [
         character: 'Hunter B-15',
         image: 'https://image.tmdb.org/t/p/w185/9PaSpVV6aU3rtFXG7oOpnEu92gv.jpg',
     },
+    {
+        id: 7,
+        name: 'Lee Byung-Hun',
+        character: 'Loki Laufeyson',
+        image: '	https://image.tmdb.org/t/p/w185/laNZay6AfEzvEvY1NUH9UFiSD0a.jpg',
+    },
+    {
+        id: 8,
+        name: 'Song Kang-Ho',
+        character: 'Hunter B-15',
+        image: 'https://image.tmdb.org/t/p/w185/skvHoSnDH91y1rkfbEIVwaqmueQ.jpg',
+    },
+    {
+        id: 9,
+        name: 'Lee Byung-Hun',
+        character: 'Loki Laufeyson',
+        image: '	https://image.tmdb.org/t/p/w185/yCA3PrphTrn7WY2eqxBttwXkdCh.jpg',
+    },
+    {
+        id: 10,
+        name: 'Song Kang-Ho',
+        character: 'Hunter B-15',
+        image: 'https://image.tmdb.org/t/p/w185/pmY6QlYF6YTCPiXED0Lcv5RP68d.jpg',
+    },
 ];
 
 export const FilmDetailCast = () => {
     return (
-        <div className="text-base mt-10">
-            <ul className="grid grid-cols-2 gap-x-60 gap-y-6 ml-[-10px]">
+        <div className="text-base mt-2 ml-3">
+            <ul className="grid grid-cols-4 gap-x-32 gap-y-12 ml-[-10px] mt-6">
                 {actors.map((actor) => (
                     <li key={actor.id} className="flex gap-3 items-center">
-                        <div className="shrink-0 max-w-[60px] w-full h-[65px]">
+                        <div className="shrink-0 max-w-[60px]  h-[65px]">
                             <img
-                                className="object-cover w-[50px] h-[50px] rounded-full"
+                                className="object-cover w-[60px] h-[60px] rounded-full"
                                 src={actor.image}
                                 alt={actor.name}
                             />
