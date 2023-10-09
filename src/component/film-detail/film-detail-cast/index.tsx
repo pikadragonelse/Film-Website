@@ -80,13 +80,16 @@ export const FilmDetailCast = () => {
                             <p
                                 className="font-medium"
                                 style={{
-                                    color: 'var(--primary-color)',
+                                    color: 'var(--contrast-color)',
                                     fontSize: '1.1rem',
                                 }}
                             >
                                 {actor.name}
                             </p>
-                            <p className="text-white text-base">
+                            <p
+                                className="text-base"
+                                style={{ color: '#989898' }}
+                            >
                                 <span className="italic">as</span>{' '}
                                 {actor.character}
                             </p>

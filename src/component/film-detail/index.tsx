@@ -33,7 +33,7 @@ export const FilmDetail: React.FC = () => {
     const formatter = (value: number) => <CountUp end={value} separator="," />;
 
     return (
-        <div className="film-detail flex-grow mb-[100px]">
+        <div className="film-detail flex-grow mb-[200px]">
             <div
                 style={{
                     backgroundImage: `url(${resizeImage(
