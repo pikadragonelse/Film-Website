@@ -17,12 +17,6 @@ import { SearchPage } from './page/search';
 import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
-
-
-
-import { Bill } from './page/bill';
-import { Payment } from './page/payment';
-import { VIPPackage } from './page/vip-package';
 import axios from 'axios';
 
 
