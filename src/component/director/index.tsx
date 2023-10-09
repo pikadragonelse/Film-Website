@@ -1,27 +1,15 @@
-import React, { useState } from 'react';
-import './index.scss';
-import { PaginationFilm } from '../pagination-film';
-import { FilmItem } from '../film-item';
-import { Button } from 'antd';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
-
+import React, { useState } from 'react';
+import { TabItem } from './director-tag-item';
+import './index.scss';
+import { TabContent } from './director-tag-content/index';
+import { FilmItem } from '../film-item';
 interface TabsProps {
     color: string;
 }
+
 const filmMap: Array<FilmItem> = [
-    {
-        name: 'Film 1',
-        yearOfManufacture: 2021,
-        category: 'Hành động',
-        poster: 'https://image.tmdb.org/t/p/original/c6Splshb8lb2Q9OvUfhpqXl7uP0.jpg',
-    },
-    {
-        name: 'Film 2',
-        yearOfManufacture: 2022,
-        category: 'Hành động',
-        poster: 'https://image.tmdb.org/t/p/original/yF1eOkaYvwiORauRCPWznV9xVvi.jpg',
-    },
     {
         name: 'Film 3',
         yearOfManufacture: 2022,
@@ -119,6 +107,7 @@ const filmMap: Array<FilmItem> = [
         poster: 'https://image.tmdb.org/t/p/original/fiVW06jE7z9YnO4trhaMEdclSiC.jpg',
     },
 ];
+
 export const Director: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
     const [activeTab, setActiveTab] = useState(1);
@@ -128,18 +117,24 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
         setActiveTab(tabNumber);
     };
     const [isModalVisible, setIsModalVisible] = useState(false);
-
     const showModal = () => {
         setIsModalVisible(true);
     };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
+
+    const tabContents = [
+        { id: 'botacpham', isActive: openTab === 1 },
+        { id: 'noidungdacsac', isActive: openTab === 2 },
+        { id: 'nhanvatlienquan', isActive: openTab === 3 },
+    ];
+
+    const tabsData = [
+        { id: 1, label: 'Bộ tác phẩm', href: '#botacpham' },
+        { id: 2, label: 'Nội dung đặc sắc', href: '#noidungdacsac' },
+        { id: 3, label: 'Nhân vật liên quan', href: '#nhanvatlienquan' },
+    ];
 
     return (
         <>
@@ -183,9 +178,27 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                         visible={isModalVisible}
                         footer={null}
                         onCancel={handleCancel}
+                        width={450}
                     >
-                        <p>Facebook</p>
-                        <p>Sao chép liên kết</p>
+                        <a
+                            className="modal-item"
+                            href="https://www.facebook.com/"
+                        >
+                            <img
+                                className="modal-img"
+                                src="https://www.iqiyipic.com/common/fix/global/fb.png"
+                                alt="facebook"
+                            />
+                            Facebook
+                        </a>
+                        <a className="modal-item">
+                            <img
+                                className="modal-img"
+                                src="https://www.iqiyipic.com/common/fix/global/copylink.png"
+                                alt="addresss"
+                            />
+                            Sao chép liên kết
+                        </a>
                     </Modal>
                 </div>
             </div>
@@ -199,119 +212,31 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                         className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
                         role="tablist"
                     >
-                        <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                            <a
-                                style={{ letterSpacing: '0.2' }}
-                                className={
-                                    'text-base px-5 py-3 block leading-normal ' +
-                                    (openTab === 1
-                                        ? 'text-white' + color + '-600 active'
-                                        : 'text-' + color)
-                                }
-                                onClick={() => handleTabClick(1)}
-                                data-toggle="tab"
-                                href="#botacpham"
-                                role="tablist"
-                            >
-                                Bộ tác phẩm
-                            </a>
-                        </li>
-                        <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                            <a
-                                style={{ letterSpacing: '0.2' }}
-                                className={
-                                    'text-base px-5 py-3 block leading-normal ' +
-                                    (openTab === 2
-                                        ? 'text-white bg-' +
-                                          color +
-                                          '-600 active'
-                                        : 'text-' + color)
-                                }
-                                onClick={() => handleTabClick(2)}
-                                data-toggle="tab"
-                                href="#noidungdacsac"
-                                role="tablist"
-                            >
-                                Nội dung đặc sắc
-                            </a>
-                        </li>
-                        <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-                            <a
-                                style={{ letterSpacing: '0.2' }}
-                                className={
-                                    'text-base px-5 py-3  block leading-normal ' +
-                                    (openTab === 3
-                                        ? 'text-white bg-' +
-                                          color +
-                                          '-600 active'
-                                        : 'text-' + color)
-                                }
-                                onClick={() => handleTabClick(3)}
-                                data-toggle="tab"
-                                href="#nhanvatlienquan"
-                                role="tablist"
-                            >
-                                Nhân vật liên quan
-                            </a>
-                        </li>
+                        {tabsData.map((tab) => (
+                            <TabItem
+                                key={tab.id}
+                                isActive={openTab === tab.id}
+                                onClick={() => handleTabClick(tab.id)}
+                                href={tab.href}
+                                label={tab.label}
+                            />
+                        ))}
                     </ul>
+
                     <div className="relative flex flex-col min-w-0 break-words w-full mb-6  rounded">
                         <div className="px-4 py-5 flex-auto">
-                            <div className="tab-content tab-space">
+                            {tabContents.map((tabcontent) => (
                                 <div
-                                    className={
-                                        openTab === 1 ? 'block' : 'hidden'
-                                    }
-                                    id="botacpham"
+                                    className="tab-content tab-space"
+                                    key={tabcontent.id}
                                 >
-                                    <div
-                                        style={{ marginLeft: '30px' }}
-                                        className="content-page"
-                                    >
-                                        <PaginationFilm
-                                            listFilm={filmMap}
-                                            number={4.8}
-                                        />
-                                    </div>
+                                    <TabContent
+                                        isActive={tabcontent.isActive}
+                                        id={tabcontent.id}
+                                        filmMap={filmMap}
+                                    />
                                 </div>
-                            </div>
-                            <div className="tab-content tab-space">
-                                <div
-                                    className={
-                                        openTab === 2 ? 'block' : 'hidden'
-                                    }
-                                    id="noidungdacsac"
-                                >
-                                    <div
-                                        style={{ marginLeft: '30px' }}
-                                        className="content-page"
-                                    >
-                                        <PaginationFilm
-                                            listFilm={filmMap}
-                                            number={4.8}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="tab-content tab-space">
-                                <div
-                                    className={
-                                        openTab === 3 ? 'block' : 'hidden'
-                                    }
-                                    id="nhanvatlienquan"
-                                >
-                                    <div
-                                        className="content-page"
-                                        style={{ marginLeft: '30px' }}
-                                    >
-                                        <PaginationFilm
-                                            listFilm={filmMap}
-                                            number={4.8}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </div>

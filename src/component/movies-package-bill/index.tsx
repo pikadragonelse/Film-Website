@@ -74,13 +74,6 @@ export const MoviesPackageBill = () => {
             title: 'Ngày kết thúc dịch vụ',
             content: endDate,
         },
-
-        {
-            title: <span className='bill-list__bold'>Trị giá</span>,
-            content: <span className='bill-list__red'>{selectedTerm ? selectedTerm.price : ''}</span>,
-
-        },
-
     ];
 
     return (
@@ -90,41 +83,49 @@ export const MoviesPackageBill = () => {
                     <div className="h-8 w-8 mr-2 mb-4">
                         <LogoDark />
                     </div>
-
                 </div>
                 <div className="text-gray-700">
-                    <div className="font-bold text-xl mb-2">MOVTIME</div>
                     <div className="text-sm">Date: {currentDate}</div>
                     <div className="text-sm">MovTime ID: {orderNumber}</div>
                 </div>
             </div>
-            <div className="border-b-2 border-gray-300 pb-8 mb-8">
+            <div className="border-b-2 border-gray-100 pb-8 mb-8">
                 <h2 className="text-2xl font-bold mb-4">Bill To:</h2>
-                <div className="text-gray-700 mb-2">Yến Nhi</div>
+                <div className="text-gray-800 mb-2">Yến Nhi</div>
                 <div className="text-gray-700 mb-2">268 Âu Cơ St.</div>
                 <div className="text-gray-700 mb-2">Đà Nẵng, Việt Nam </div>
                 <div className="text-gray-700">yennhi@gmail.com</div>
             </div>
-            <ul className=" bill-list__info ">
-                <div className='bill-list__info-head'>
+            <ul className=" bill-list__info border-b-2 border-gray-100 pb-8 mb-8">
+                <div className="bill-list__info-head">
                     <p className="bill-list__info-title">Thông tin</p>
                     <p className="bill-list__info-value">Giá trị</p>
                 </div>
 
-                {
-                    billItems.map((item, index) => (
-                        <BillItem
-                            key={index}
-                            title={item.title}
-                            content={item.content}
-                        />
-                    ))
-                }
+                {billItems.map((item, index) => (
+                    <BillItem
+                        key={index}
+                        title={item.title}
+                        content={item.content}
+                    />
+                ))}
+            </ul>
+            <div
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontSize: '1.3rem',
+                    marginBottom: '10px',
+                }}
+            >
+                <span className="bill-list__bold">Tổng tiền </span>
+                {selectedTerm ? selectedTerm.price : '69000 ₫'}
+            </div>
 
-            </ul >
             <Button className="bill-list__btn" type="primary">
                 <Link to="/">Xác nhận</Link>
             </Button>
-        </div >
+        </div>
     );
 };
