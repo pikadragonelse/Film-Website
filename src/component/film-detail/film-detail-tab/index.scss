@@ -24,11 +24,11 @@
     background-color: var(--primary-color) !important;
 }
 
-.ant-tabs-top > .ant-tabs-nav .ant-tabs-ink-bar {
+.ant-tabs-top>.ant-tabs-nav .ant-tabs-ink-bar {
     background-color: var(--primary-color) !important;
 }
 
-.ant-tabs-top > .ant-tabs-nav::before {
+.ant-tabs-top>.ant-tabs-nav::before {
     border-bottom: none;
 }
 
@@ -36,14 +36,6 @@
     color: var(--primary-color);
 }
 
-.detail-tabs {
-    position: absolute;
-    flex-direction: column;
-    left: 15%;
-    top: -28%;
-}
-
 .ant-tabs-nav-wrap {
     justify-content: center;
-    margin-left: 60px;
 }

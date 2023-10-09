@@ -1,16 +1,16 @@
 // FilmDetail.tsx
+import {
+    HeartOutlined,
+    ShareAltOutlined,
+    SmallDashOutlined,
+    StepForwardOutlined,
+} from '@ant-design/icons';
+import { Progress } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { resizeImage } from '../../shared/utils';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
-import {
-    StepForwardOutlined,
-    HeartOutlined,
-    ShareAltOutlined,
-    SmallDashOutlined,
-} from '@ant-design/icons';
-import { FilmDetailCast } from './film-detail-cast';
 
 export const FilmDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -29,7 +29,7 @@ export const FilmDetail: React.FC = () => {
     }
 
     return (
-        <div className="film-detail flex-grow min-h-screen">
+        <div className="film-detail flex-grow mb-[100px]">
             <div
                 style={{
                     backgroundImage: `url(${resizeImage(
@@ -43,9 +43,8 @@ export const FilmDetail: React.FC = () => {
                         <div className="film-detail__name flex gap-10 items-center">
                             <img
                                 className="film-detail__poster"
-                                src={`https://image.tmdb.org/t/p/original${
-                                    filmDetail && filmDetail.poster_path
-                                }`}
+                                src={`https://image.tmdb.org/t/p/original${filmDetail && filmDetail.poster_path
+                                    }`}
                                 alt="poster"
                             />
                             <div className="film-detail__title">
@@ -97,17 +96,28 @@ export const FilmDetail: React.FC = () => {
                         </a>
                     </div>
                 </div>
-                <div className='class="flex z-20 relative flex-col md:flex-row mt-32 md:mt-0'>
-                    <div className="shrink-0 md:max-w-[150px] w-full flex items-center md:flex-col justify-center flex-row gap-20 mt-20 md:border-r border-dark-lighten pt-16">
-                        <div className="flex flex-col gap-6 items-center">
-                            <p className="text-white font-medium text-lg">
-                                RATING
-                            </p>
+            </div>
+            <div className='class="flex z-20 relative flex-col md:flex-row mt-32 md:mt-0'>
+                <div className="shrink-0 md:max-w-[150px] w-full flex items-center md:flex-col justify-center flex-row gap-20 mt-20 md:border-r border-gray-500 pt-16">
+                    <div className="flex flex-col gap-6 items-center">
+                        <p className="text-white font-medium text-lg">
+                            RATING
+                        </p>
+                        <div >
+                            <Progress type="circle" size={68} percent={filmDetail.vote_average * 10} />
                         </div>
                     </div>
-                    <div className=" ">
-                        <FilmDetailTab />
+                    <div className="flex flex-col gap-6 items-center">
+                        <p className="text-white font-medium text-lg">
+                            VOTE COUNT
+                        </p>
+                        <div >
+                            <p> {filmDetail.vote_count}</p>
+                        </div>
                     </div>
+                </div>
+                <div className="flex-grow min-h-[500px] md:border-r border-gray-500 px-5 mt-[-50px] detail-tabs">
+                    <FilmDetailTab />
                 </div>
             </div>
         </div>
