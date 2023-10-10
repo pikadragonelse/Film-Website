@@ -6,7 +6,6 @@ import { LogoDark } from '../../asset/icon/logoDark';
 interface HeaderPayProps {
     number: number;
 }
-
 export type HeaderPay = { currentStep?: number };
 export const HeaderPay = ({ currentStep = 0 }: HeaderPay) => {
     return (

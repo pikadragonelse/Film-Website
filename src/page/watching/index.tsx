@@ -10,6 +10,10 @@ import { MenuProps } from 'antd';
 import { FilmItem } from '../../component/film-item';
 import { ListFilm } from '../../component/list-film';
 import { PluginComment } from '../../component/plugin-comment';
+import { Comment } from '../../component/comment';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { CurrentUser } from '../../component/comment';
 
 const subInfo: Array<SubInfo> = [
     {
@@ -96,8 +100,14 @@ const filmMap: Array<FilmItem> = [
         poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
     },
 ];
-
+const currentUser: CurrentUser = {
+    username: 'user1',
+    email: 'user1@gmail.com',
+    avatar: 'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+};
 export const WatchingPage = () => {
+    const isLogin = useSelector((state: RootState) => state.user.isLogin);
+    console.log(isLogin);
     const [playTime, setPlayTime] = useState(0);
 
     const handleProgress = (state: OnProgressProps) => {
@@ -165,8 +175,16 @@ export const WatchingPage = () => {
                     listFilm={[filmMap, filmMap]}
                 />
             </div>
-            <div className="box-comment" id="tabs-facebook">
+            {/* <div className="box-comment" id="tabs-facebook">
                 <PluginComment dataHref="http://localhost:3000/watching" />
+            </div> */}
+            <div className="comment-container">
+                <Comment
+                    title="Comments"
+                    isLogin={isLogin}
+                    currentUser={currentUser}
+                    placeholder="Write a comment..."
+                />
             </div>
         </div>
     );
