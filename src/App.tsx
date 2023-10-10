@@ -19,7 +19,6 @@ import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
 import axios from 'axios';
 
-
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
     '/payment': 'hidden',
@@ -33,24 +32,12 @@ export const App = () => {
         axios
             .get('http://localhost:8080/api/movies/all', {
                 // headers: {
+                //     'Access-Control-Allow-Origin': '*',
                 //     'Content-Type': 'application/json',
                 // },
             })
-            .then((response) => console.log(response))
+            .then((response) => console.log(response.data))
             .catch((error) => console.error(error));
-
-        // fetch('http://localhost:8080/api/movies/all', {
-        //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
-        //     mode: 'cors', // no-cors, *cors, same-origin
-        //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        //     credentials: 'same-origin', // include, *same-origin, omit
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         // 'Content-Type': 'application/x-www-form-urlencoded',
-        //     },
-        // })
-        //     .then((response) => console.log(response))
-        //     .catch((error) => console.error(error));
     }, []);
 
     return (
