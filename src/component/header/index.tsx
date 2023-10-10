@@ -73,7 +73,7 @@ export const Header = ({ className }: Header) => {
                         style={{
                             marginRight: 'var(--spacing-lg)',
                         }}
-                        className="hidden  items-center w-full lg:flex lg:w-auto lg:order-1"
+                        className="items-center w-full lg:flex lg:w-auto lg:order-1"
                         id="mobile-menu-2"
                     >
                         <Search />
@@ -92,7 +92,7 @@ export const Header = ({ className }: Header) => {
                         width: '13rem',
                         marginRight: 'var(--spacing-lg)',
                     }}
-                    className="flex justify-between items-center lg:order-2"
+                    className="flex justify-between items-center lg:order-2 mt-2"
                 >
                     <Link to={'/VIPpackage'}>
                         <Button
@@ -114,7 +114,7 @@ export const Header = ({ className }: Header) => {
                                 style={{
                                     verticalAlign: 'middle',
                                 }}
-                                size="large"
+                                size="default"
                             >
                                 user
                             </Avatar>

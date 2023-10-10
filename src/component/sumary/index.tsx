@@ -9,8 +9,9 @@ interface SummaryProps {
 
 const currentDate = new Date();
 
-
-const orderNumber = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+const orderNumber = Math.floor(Math.random() * 1000000)
+    .toString()
+    .padStart(6, '0');
 
 const day = currentDate.getDate().toString().padStart(2, '0');
 const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -57,22 +58,25 @@ export const Summary: React.FC<SummaryProps> = ({
                         <div className="value">VIP 1</div>
                     </div>
                     <div className="term">
-                        <div className="">Thời hạn</div>
+                        <div className="">Thời hạn gói</div>
                         <div className="value">
-                            {selectedTerm ? selectedTerm.value : '1 tháng'}
+                            {selectedTerm ? selectedTerm.value : '01 tháng'}
                         </div>
                     </div>
                 </div>
 
-
                 <hr className="my-4 border-neutral-300" />
                 <div className="time">
                     <div className="time-start">
-                        <div className="">Ngày bắt đầu</div>
+                        <div className="">Ngày hiệu lực</div>
                         <div className="value">{startDate}</div>
                     </div>
+                    <div className="time-start">
+                        <div className="">Sử dụng đến</div>
+                        <div className="value">Khi bạn hủy</div>
+                    </div>
                     <div className="time-end">
-                        <div className="">Ngày kết thúc</div>
+                        <div className="">Kỳ thanh toán tiếp theo</div>
                         <div className="value">{endDate}</div>
                     </div>
                 </div>
@@ -104,7 +108,12 @@ export const Summary: React.FC<SummaryProps> = ({
                 </div>
                 <div className="note">
                     Bằng việc xác nhận, bạn xác định đã đọc và đồng ý với{' '}
-                    <a style={{ color: 'var(--primary-color)' }}>
+                    <a
+                        style={{
+                            color: 'var(--primary-color)',
+                            fontWeight: '500',
+                        }}
+                    >
                         Hợp đồng và Chính sách
                     </a>{' '}
                     của MOVTIME.

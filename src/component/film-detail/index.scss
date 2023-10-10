@@ -1,0 +1,132 @@
+.film-detail {
+    &__poster {
+        width: 185px;
+        border-radius: 5px;
+    }
+
+    &__name {
+        position: absolute;
+        top: 48%;
+        left: 14%;
+    }
+
+    &__title {
+        width: 68%;
+        margin-bottom: 150px;
+        font-size: 2.7rem;
+        font-weight: 700;
+        margin-left: 2px;
+        line-height: 1.4;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        width: 80%;
+        position: absolute;
+        left: 22%;
+        top: 80%;
+        gap: 22rem;
+    }
+
+    &__summary {
+        color: var(--contrast-color);
+    }
+
+    &__watch {
+        background-color: var(--primary-color);
+    }
+
+    &__icon {
+        font-size: 12px;
+        margin: 10px 0 0 9px;
+    }
+
+    &__tab {
+        position: absolute;
+        left: 27.5%;
+        height: auto;
+        top: 88%;
+    }
+}
+
+:where(.css-dev-only-do-not-override-1vr7spz).ant-progress
+    .ant-progress-inner:not(.ant-progress-circle-gradient)
+    .ant-progress-circle-path {
+    stroke: var(--primary-color);
+}
+
+.ant-progress.ant-progress-circle .ant-progress-text {
+    color: var(--contrast-color);
+    font-size: 0.9rem;
+}
+
+.detail-tabs {
+    position: absolute;
+    flex-direction: column;
+    left: 10%;
+    top: -14%;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1280px) {
+    .film-detail {
+        &__header {
+            left: 24.5%;
+            gap: 10rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1280px) and (max-width: 1320px) {
+    .film-detail {
+        &__header {
+            left: 23%;
+            gap: 10rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1320px) and (max-width: 1390px) {
+    .film-detail {
+        &__header {
+            left: 23.5%;
+            gap: 14rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1390px) and (max-width: 1480px) {
+    .film-detail {
+        &__header {
+            left: 22%;
+            gap: 18rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1480px) and (max-width: 1500px) {
+    .film-detail {
+        &__header {
+            left: 22%;
+            gap: 22rem;
+        }
+    }
+}
+@media only screen and (min-width: 1500px) and (max-width: 1580px) {
+    .film-detail {
+        &__header {
+            left: 21.5%;
+            gap: 24rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1580px) {
+    .film-detail {
+        &__header {
+            left: 21%;
+            gap: 27rem;
+        }
+    }
+}

@@ -1,5 +1,4 @@
 import React from 'react';
-import { HeaderPay } from '../../component/header-pay';
 import Title from 'antd/es/typography/Title';
 import { Button, List, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
@@ -8,6 +7,7 @@ import { ColumnsType } from 'antd/es/table';
 import { ListVipPackage } from '../../component/list-vip-package';
 import Paragraph from 'antd/es/typography/Paragraph';
 import { Link } from 'react-router-dom';
+import { HeaderPay } from '../../component/header-pay';
 
 const data = [
     {
