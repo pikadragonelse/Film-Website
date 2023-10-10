@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeaderPay } from '../payment/header-pay';
+import { HeaderPay } from '../../component/header-pay';
 import Title from 'antd/es/typography/Title';
 import { Button, List, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';

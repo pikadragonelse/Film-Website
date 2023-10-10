@@ -2,19 +2,23 @@ import React, { useState } from 'react';
 import './index.scss';
 import { Button } from 'antd';
 
-interface userInf {
-    name: string;
+interface CurrentUser {
+    username: string;
     email: string;
     avatar: string;
 }
 interface WriteCommentProps {
-    user: userInf;
-    onSubmitComment: (comment: string) => void;
+    currentUser: CurrentUser;
+    placeholder: string;
+    onSubmitComment?: (comment: string) => void;
+    onCancel?: () => void;
 }
 
 export const WriteComment: React.FC<WriteCommentProps> = ({
-    user,
+    currentUser,
+    placeholder,
     onSubmitComment,
+    onCancel,
 }) => {
     const [comment, setComment] = useState<string>('');
     const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -22,17 +26,23 @@ export const WriteComment: React.FC<WriteCommentProps> = ({
     };
     const handleCancel = () => {
         setComment('');
+        if (onCancel) {
+            onCancel();
+        }
     };
     const handleSub = () => {
-        onSubmitComment(comment);
-        setComment('');
+        if (onSubmitComment && comment.trim() !== '') {
+            onSubmitComment(comment);
+            setComment('');
+        }
     };
+
     return (
         <div className="writecmt-container">
             <img
                 className="avatar"
-                src={user.avatar}
-                alt={`avatar for ${user.name}`}
+                src={currentUser.avatar}
+                alt={`avatar for ${currentUser.username}`}
             />
             <div className="writecmt-box">
                 <div className="py-2 px-4 mb-4  rounded-lg rounded-t-lg border textarea">
@@ -44,12 +54,11 @@ export const WriteComment: React.FC<WriteCommentProps> = ({
                         style={{
                             fontSize: '1rem',
                             height: '60px',
-                            resize: 'none',
                         }}
-                        placeholder="Write a comment..."
                         required
                         spellCheck={false}
                         onChange={handleChangeComment}
+                        placeholder={placeholder}
                     ></textarea>
                 </div>
                 <div className="btn-action">

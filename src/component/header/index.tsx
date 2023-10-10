@@ -7,7 +7,7 @@ import items from '../header/menuItem.json';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
 import './index.scss';
-import { setCurrentUser } from '../../redux/currentUserSlide';
+import { setIslogin } from '../../redux/isLoginSlide';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
@@ -44,11 +44,9 @@ export const Header = ({ className }: Header) => {
     }, []);
 
     const dispatch = useDispatch();
-    const currentUser = useSelector(
-        (state: RootState) => state.user.currentUser,
-    );
+    const isLogin = useSelector((state: RootState) => state.user.isLogin);
     const handleLogin = () => {
-        dispatch(setCurrentUser(true));
+        dispatch(setIslogin(true));
     };
 
     return (
@@ -109,7 +107,7 @@ export const Header = ({ className }: Header) => {
                         <BellOutlined className="notification-btn" />
                         <p className="number-notification">12</p>
                     </div>
-                    {currentUser ? (
+                    {isLogin ? (
                         <Link to="/foryou">
                             <Avatar
                                 className="avatar"
