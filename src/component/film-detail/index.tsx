@@ -12,7 +12,7 @@ import { Link, useParams } from 'react-router-dom';
 import { resizeImage } from '../../shared/utils';
 import { FilmDetailTab } from './film-detail-tab';
 import { Statistic } from 'antd';
-import CountUp from 'react-countup';
+// import CountUp from 'react-countup';
 import './index.scss';
 
 export const FilmDetail: React.FC = () => {
@@ -30,7 +30,7 @@ export const FilmDetail: React.FC = () => {
     if (!filmDetail) {
         return <div>Loading...</div>;
     }
-    const formatter = (value: number) => <CountUp end={value} separator="," />;
+    // const formatter = (value: number) => <CountUp end={value} separator="," />;
 
     return (
         <div className="film-detail flex-grow mb-[200px]">

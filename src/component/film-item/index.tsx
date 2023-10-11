@@ -2,9 +2,10 @@ import './index.scss';
 import { CloseOutlined } from '@ant-design/icons';
 
 export type FilmItem = {
+    data?: any;
     name: string;
     yearOfManufacture: number;
-    category: string;
+    category: Array<string>;
     poster: string;
     onCancelClick?: () => void;
 };

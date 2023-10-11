@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.scss';
 import ReactPlayer from 'react-player';
 import { OnProgressProps } from 'react-player/base';
@@ -14,6 +14,8 @@ import { Comment } from '../../component/comment';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { CurrentUser } from '../../component/comment';
+import { Film } from '../../model/film';
+import { request } from '../../utils/request';
 
 const subInfo: Array<SubInfo> = [
     {
@@ -62,50 +64,33 @@ const items: MenuProps['items'] = [
     },
 ];
 
-const filmMap: Array<FilmItem> = [
-    {
-        name: 'One piece',
-        category: 'Anime',
-        yearOfManufacture: 2023,
-        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
-    },
-    {
-        name: 'One piece',
-        category: 'Anime',
-        yearOfManufacture: 2023,
-        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
-    },
-    {
-        name: 'One piece',
-        category: 'Anime',
-        yearOfManufacture: 2023,
-        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
-    },
-    {
-        name: 'One piece',
-        category: 'Anime',
-        yearOfManufacture: 2023,
-        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
-    },
-    {
-        name: 'One piece',
-        category: 'Anime',
-        yearOfManufacture: 2023,
-        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
-    },
-    {
-        name: 'One piece',
-        category: 'Anime',
-        yearOfManufacture: 2023,
-        poster: 'https://images2.thanhnien.vn/528068263637045248/2023/7/5/anime-16885290131791004759743.jpg',
-    },
-];
 const currentUser: CurrentUser = {
     username: 'user1',
     email: 'user1@gmail.com',
     avatar: 'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
 };
 export const WatchingPage = () => {
+    const [homePageData, setHomePageData] = useState<Film[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await request.get('movies?', {
+                    params: {
+                        isSeries: 'true',
+                        page: 1,
+                        pageSize: 6,
+                    },
+                });
+                const data = response.data;
+                setHomePageData(data);
+                console.log(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
     const isLogin = useSelector((state: RootState) => state.user.isLogin);
     console.log(isLogin);
     const [playTime, setPlayTime] = useState(0);
@@ -118,7 +103,7 @@ export const WatchingPage = () => {
         <div className="watching-container">
             <div className="watching-player-container">
                 <ReactPlayer
-                    url="https://www.youtube.com/watch?v=oUFJJNQGwhk"
+                    url="http://127.0.0.1:9000/movies/%5BTRAILER%5D%20C%E1%BB%ADu%20Ngh%C4%A9a%20Nh%C3%A2n%20-%20Ng%C3%B4%20Thi%E1%BA%BFn%20%26%20L%C3%BD%20Gia%20H%C3%A0ng%20-%20Phim%20C%E1%BB%95%20Trang%20Trung%20Qu%E1%BB%91c%20-%20WeTV.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=VRYVN5E5A9XN7P85YM4M%2F20231011%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231011T130048Z&X-Amz-Expires=604800&X-Amz-Security-Token=eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NLZXkiOiJWUllWTjVFNUE5WE43UDg1WU00TSIsImV4cCI6MTY5NzA3MjQzNywicGFyZW50IjoiYWRtaW4ifQ.Mx6SeRNIjx28zaIatUvlLvS7aJpFQn53nlEkoU16YV0WAeqG6Haka9Zara0CHWDDaq_tQE2cRIg2zwHYgPvjpA&X-Amz-SignedHeaders=host&versionId=null&X-Amz-Signature=bcd82189f60499a993fe543ae9db52895396bf1bc228616d92cecb8e94cb9c85"
                     controls={true}
                     onProgress={handleProgress}
                     className="watching-player"
@@ -168,12 +153,9 @@ export const WatchingPage = () => {
                     subInfo={['16/16', 'Phát sóng lúc 20h thứ 7 hàng tuần']}
                     sessions={items}
                     multiSessions
-                    listFilm={[filmMap, filmMap]}
+                    listFilm={homePageData}
                 />
-                <ListFilm
-                    title="Phim liên quan"
-                    listFilm={[filmMap, filmMap]}
-                />
+                <ListFilm title="Phim liên quan" listFilm={homePageData} />
             </div>
             {/* <div className="box-comment" id="tabs-facebook">
                 <PluginComment dataHref="http://localhost:3000/watching" />
