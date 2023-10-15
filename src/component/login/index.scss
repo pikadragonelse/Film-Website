@@ -51,7 +51,7 @@
     top: 8%;
     left: 34%;
     height: 88%;
-    padding: 5rem 3.6rem;
+    padding: 5rem 5.8rem 5rem 3.6rem;
     background-color: rgba(0, 0, 0, 0.75);
 }
 
@@ -88,4 +88,9 @@
 
 .form-input {
     border: none;
+}
+
+.form-btn-login {
+    height: 42px;
+    width: 330px;
 }

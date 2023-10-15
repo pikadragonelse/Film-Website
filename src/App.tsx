@@ -17,6 +17,8 @@ import { SearchPage } from './page/search';
 import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
+import axios from 'axios';
+
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -26,6 +28,19 @@ const locationMap: Record<string, string> = {
 
 export const App = () => {
     const location = useLocation();
+
+    // useEffect(() => {
+    //     axios
+    //         .get('http://localhost:8080/api/movies/all', {
+    //             // headers: {
+    //             //     'Access-Control-Allow-Origin': '*',
+    //             //     'Content-Type': 'application/json',
+    //             // },
+    //         })
+    //         .then((response) => console.log(response.data))
+    //         .catch((error) => console.error(error));
+    // }, []);
+
 
     return (
         <Provider store={store}>
