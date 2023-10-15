@@ -1,8 +1,10 @@
-import { Button, Checkbox, DatePicker, Form, Input, Modal, Select } from 'antd';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, Form, Input, DatePicker, Modal, Select, Checkbox } from 'antd';
 import { Logo } from '../../asset/icon/logo';
 import './index.scss';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -38,23 +40,47 @@ const config = {
         },
     ],
 };
-
 export const Register: React.FC = () => {
-    const [form] = Form.useForm();
-
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-    };
+    const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-
+    const [form] = Form.useForm();
     const handleModalOpen = () => {
         setShowModal(true);
     };
-
     const handleModalClose = () => {
         setShowModal(false);
     };
+    const sendDataToAPI = async (values: any) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/register', values, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
 
+            if (response.status === 200) {
+                alert('Người dùng đã đăng ký thành công');
+                form.resetFields();
+                navigate('/login');
+            } else {
+                console.error('Error registering user:', response.data);
+            }
+        } catch (error) {
+            console.error('Error sending data to API:', error);
+        }
+    };
+    const onFinish = (values: any) => {
+        console.log('Received values of form: ', values);
+        sendDataToAPI(values);
+    };
+    const handleRegularPackageRegister = async () => {
+        try {
+            await form.validateFields();
+            handleModalOpen();
+        } catch (errorInfo) {
+            console.log('Validation failed:', errorInfo);
+        }
+    };
     return (
         <div className="register">
             <div className="form-list">
@@ -69,12 +95,8 @@ export const Register: React.FC = () => {
                 </div>
                 <div className="register-form">
                     <div className="register-form__header">
-                        <h1 className="form-header__large">
-                            Welcome to Movies,
-                        </h1>
-                        <p className="form-header__small">
-                            Sign up to your account
-                        </p>
+                        <h1 className="form-header__large">Welcome to Movies,</h1>
+                        <p className="form-header__small">Sign up to your account</p>
                     </div>
                     <Form
                         className="register-form__group"
@@ -85,13 +107,12 @@ export const Register: React.FC = () => {
                         onFinish={onFinish}
                         style={{ maxWidth: 600 }}
                         scrollToFirstError
+                        encType="multipart/form-data"
                     >
                         <Form.Item
                             className="register-form__item"
                             name="email"
-                            label={
-                                <span style={{ color: 'white' }}>Email</span>
-                            }
+                            label={<span style={{ color: 'white' }}>Email</span>}
                             rules={[
                                 {
                                     type: 'email',
@@ -105,13 +126,10 @@ export const Register: React.FC = () => {
                         >
                             <Input className="register-form__item-input" />
                         </Form.Item>
-
                         <Form.Item
                             className="register-form__item"
                             name="username"
-                            label={
-                                <span style={{ color: 'white' }}>Username</span>
-                            }
+                            label={<span style={{ color: 'white' }}>Username</span>}
                             rules={[
                                 {
                                     required: true,
@@ -119,15 +137,13 @@ export const Register: React.FC = () => {
                                 },
                             ]}
                         >
-                            <Input className="register-form__item-input" />
+                            <Input name="username" className="register-form__item-input" />
                         </Form.Item>
 
                         <Form.Item
                             className="register-form__item"
                             name="password"
-                            label={
-                                <span style={{ color: 'white' }}>Password</span>
-                            }
+                            label={<span style={{ color: 'white' }}>Password</span>}
                             rules={[
                                 {
                                     required: true,
@@ -141,11 +157,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="confirm"
-                            label={
-                                <span style={{ color: 'white' }}>
-                                    Confirm Password
-                                </span>
-                            }
+                            label={<span style={{ color: 'white' }}>Confirm Password</span>}
                             dependencies={['password']}
                             hasFeedback
                             rules={[
@@ -155,10 +167,7 @@ export const Register: React.FC = () => {
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
-                                        if (
-                                            !value ||
-                                            getFieldValue('password') === value
-                                        ) {
+                                        if (!value || getFieldValue('password') === value) {
                                             return Promise.resolve();
                                         }
                                         return Promise.reject(
@@ -177,11 +186,7 @@ export const Register: React.FC = () => {
                                 style={{ marginRight: '20px' }}
                                 className="register-form__item"
                                 name="date-picker"
-                                label={
-                                    <span style={{ color: 'white' }}>
-                                        Date of birth
-                                    </span>
-                                }
+                                label={<span style={{ color: 'white' }}>Date of birth</span>}
                                 {...config}
                             >
                                 <DatePicker className="register-form__item-input" />
@@ -190,11 +195,7 @@ export const Register: React.FC = () => {
                             <Form.Item
                                 className="register-form__item"
                                 name="gender"
-                                label={
-                                    <span style={{ color: 'white' }}>
-                                        Gender
-                                    </span>
-                                }
+                                label={<span style={{ color: 'white' }}>Gender</span>}
                                 rules={[
                                     {
                                         required: true,
@@ -211,9 +212,9 @@ export const Register: React.FC = () => {
                                     }}
                                     className="register-form__item-input"
                                 >
-                                    <Option value="male">Male</Option>
-                                    <Option value="female">Female</Option>
-                                    <Option value="other">Other</Option>
+                                    <Option value="1">Male</Option>
+                                    <Option value="2">Female</Option>
+                                    <Option value="3">Other</Option>
                                 </Select>
                             </Form.Item>
                         </div>
@@ -226,38 +227,37 @@ export const Register: React.FC = () => {
                                     validator: (_, value) =>
                                         value
                                             ? Promise.resolve()
-                                            : Promise.reject(
-                                                  new Error(
-                                                      'Should accept agreement',
-                                                  ),
-                                              ),
+                                            : Promise.reject(new Error('Should accept agreement')),
                                 },
                             ]}
                             {...tailFormItemLayout}
                         >
-                            <Checkbox className="register-form__item-checkbox">
+                            <Checkbox name="check" className="register-form__item-checkbox">
                                 I have read the <a href="/">agreement</a>
                             </Checkbox>
                         </Form.Item>
-                        <Form.Item
-                            className="register-form__button"
-                            {...tailFormItemLayout}
-                        >
+                        <Form.Item className="register-form__button" {...tailFormItemLayout}>
                             <Button
+                                htmlType="button"
                                 style={{
                                     borderColor: 'var(--primary-color)',
                                     color: 'var(--contrast-color)',
+                                    backgroundColor: 'var(--primary-color)',
                                 }}
-                                type="primary"
-                                htmlType="submit"
-                                onClick={handleModalOpen}
+                                onClick={handleRegularPackageRegister}
                             >
                                 Đăng ký
                             </Button>
+                            <div className="text-center mt-4">
+                                You have an account ? {}{' '}
+                                <Link className="form-signup" to="/login">
+                                    Sign In
+                                </Link>
+                            </div>
                         </Form.Item>
 
                         <Modal
-                            style={{ top: '20%' }}
+                            style={{ top: '12%' }}
                             title="Trải nghiệm Tuyệt vời với Gói VIP!"
                             visible={showModal}
                             onOk={handleModalClose}
@@ -265,12 +265,21 @@ export const Register: React.FC = () => {
                             width={800}
                             footer={[
                                 <Button
-                                    style={{
-                                        marginRight: '8px',
-                                        color: 'var(--main-color)',
+                                    type="primary"
+                                    style={{ marginRight: '10px' }}
+                                    htmlType="submit"
+                                    onClick={() => {
+                                        handleModalOpen();
+                                        form.validateFields()
+                                            .then((values) => {
+                                                sendDataToAPI(values);
+                                                handleModalClose();
+                                            })
+                                            .catch((errorInfo) => {
+                                                console.log('Validation failed:', errorInfo);
+                                            });
                                     }}
                                     key="cancel"
-                                    onClick={handleModalClose}
                                 >
                                     Đăng ký với gói thường
                                 </Button>,
@@ -280,27 +289,30 @@ export const Register: React.FC = () => {
                                             color: 'var(--contrast-color)',
                                         }}
                                         type="primary"
-                                        onClick={handleModalClose}
                                     >
                                         Đăng ký với gói VIP
                                     </Button>
                                 </Link>,
                             ]}
                         >
-                            <p>
-                                "Yêu điện ảnh và muốn thưởng thức nhiều bộ phim
-                                hơn mỗi ngày? Gói VIP mang đến trải nghiệm tuyệt
-                                vời với hàng ngàn bộ phim đa dạng. Bạn sẽ được
-                                truy cập sớm vào bộ phim mới nhất và không bị
-                                gián đoạn bởi quảng cáo. Hãy trải nghiệm niềm
-                                đam mê điện ảnh một cách trọn vẹn với Gói VIP.
-                                Mua ngay và trải nghiệm sự khác biệt!"
+                            <p className="mt-4" style={{ color: 'var(--sub-color)' }}>
+                                "Yêu điện ảnh và muốn thưởng thức nhiều bộ phim hơn mỗi ngày? Gói
+                                VIP mang đến trải nghiệm tuyệt vời với hàng ngàn bộ phim đa dạng.
+                                Bạn sẽ được truy cập sớm vào bộ phim mới nhất và không bị gián đoạn
+                                bởi quảng cáo. Hãy trải nghiệm niềm đam mê điện ảnh một cách trọn
+                                vẹn với Gói VIP. Mua ngay và trải nghiệm sự khác biệt!"
                             </p>
                             <img
                                 alt=""
-                                style={{ marginTop: '15px' }}
-                                src="https://scontent.fdad3-4.fna.fbcdn.net/v/t1.15752-9/382892576_308999305108531_18785520390768619_n.png?_nc_cat=101&ccb=1-7&_nc_sid=ae9488&_nc_ohc=x-SMOf89ITMAX9tOOiB&_nc_ht=scontent.fdad3-4.fna&oh=03_AdSc29mSdVcRTN1ygnmre0QV_uMdvdm-wTW3tEgZqaY-lg&oe=653F3A39"
+                                style={{ marginTop: '20px' }}
+                                src="https://scontent.fdad3-1.fna.fbcdn.net/v/t1.15752-9/387518330_1316649055890049_4969429051850658745_n.png?_nc_cat=110&ccb=1-7&_nc_sid=8cd0a2&_nc_ohc=3AaFCmb-HL0AX9SS7yH&_nc_ht=scontent.fdad3-1.fna&_nc_e2o=s&oh=03_AdTWCInJzTt8Lux8h3GOBsS8dic_h4u43l1LyWz66jh6NQ&oe=6552132E"
                             />
+                            <p style={{ color: 'var(--sub-color)' }}>
+                                Việc bạn có thể xem ở chế độ HD (720p), Full HD (1080p), Ultra HD
+                                (4K) và HDR hay không phụ thuộc vào dịch vụ internet và khả năng của
+                                thiết bị. Không phải tất cả nội dung đều có sẵn ở mọi độ phân giải.
+                                Xem Điều khoản sử dụng của chúng tôi để biết thêm chi tiết.
+                            </p>
                         </Modal>
                     </Form>
                 </div>

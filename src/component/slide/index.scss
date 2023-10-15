@@ -8,11 +8,7 @@
         left: 0;
         width: 64%;
         height: 100%;
-        background-image: linear-gradient(
-            to right,
-            rgba(16, 12, 12, 0.7),
-            #89313100
-        );
+        background-image: linear-gradient(to right, rgba(16, 12, 12, 0.7), #89313100);
     }
 
     &__item::after {

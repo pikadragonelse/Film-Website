@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
                         <div
                             className="grid grid-cols-2"
                             style={{
-                                marginRight: 'var(--spacing-lg)',
+                                marginRight: '10px',
                             }}
                         >
                             <div>
