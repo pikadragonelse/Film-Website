@@ -10,6 +10,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { resizeImage } from '../../shared/utils';
 import { FilmDetailTab } from './film-detail-tab';
+
 import './index.scss';
 
 export const FilmDetail: React.FC = () => {

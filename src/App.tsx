@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './app.scss';
 import { Provider } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
@@ -18,6 +18,7 @@ import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
 import axios from 'axios';
+
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -39,6 +40,7 @@ export const App = () => {
     //         .then((response) => console.log(response.data))
     //         .catch((error) => console.error(error));
     // }, []);
+
 
     return (
         <Provider store={store}>

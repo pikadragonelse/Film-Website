@@ -5,12 +5,13 @@ import { FilmItem } from '../film-item';
 import Title from 'antd/es/typography/Title';
 import './index.scss';
 import { CarouselRef } from 'antd/es/carousel';
+import { Film } from '../../model/film';
 
 export type ListFilm = {
     title?: string;
     subInfo?: Array<string>;
     sessions?: MenuProps['items'];
-    listFilm: Array<Array<FilmItem>>;
+    listFilm: Array<Film>;
     multiSessions?: boolean;
 };
 export const ListFilm = ({
@@ -20,6 +21,7 @@ export const ListFilm = ({
     listFilm,
     multiSessions = false,
 }: ListFilm) => {
+    const moment = require('moment');
     const listRef = useRef<CarouselRef>(null);
     const [page, setPage] = useState<number>(0);
 
@@ -86,24 +88,25 @@ export const ListFilm = ({
                     <RightOutlined className="icon-list" />
                 </div>
                 <Carousel className="list-content" dots={false} ref={listRef}>
-                    {listFilm.map((row) => (
-                        <div>
-                            <Row justify="center">
-                                {row.map((value) => (
-                                    <Col span={4} className="list-col">
-                                        <FilmItem
-                                            name={value.name}
-                                            category={value.category}
-                                            yearOfManufacture={
-                                                value.yearOfManufacture
-                                            }
-                                            poster={value.poster}
-                                        />
-                                    </Col>
-                                ))}
-                            </Row>
-                        </div>
-                    ))}
+                    {/* {listFilm.map((row) => ( */}
+                    <div>
+                        <Row justify="center">
+                            {listFilm.map((value) => (
+                                <Col span={4} className="list-col">
+                                    <FilmItem
+                                        name={value.title}
+                                        yearOfManufacture={moment(
+                                            value.releaseDate,
+                                        ).format('YYYY-MM-DD')}
+                                        category={value.genres.map(
+                                            (genre: any) => genre.name,
+                                        )}
+                                        poster={value.posterURL}
+                                    />
+                                </Col>
+                            ))}
+                        </Row>
+                    </div>
                 </Carousel>
             </div>
         </div>
