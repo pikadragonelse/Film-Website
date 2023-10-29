@@ -2,9 +2,10 @@ import { CloseOutlined, PlayCircleTwoTone } from '@ant-design/icons';
 import './index.scss';
 
 export type FilmItem = {
+    data?: any;
     name: string;
     yearOfManufacture: number;
-    category: string;
+    category: Array<string>;
     poster: string;
     onCancelClick?: () => void;
 };

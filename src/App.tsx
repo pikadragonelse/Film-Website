@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from 'react';
+import './app.scss';
 import { Provider } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './app.scss';
@@ -15,6 +17,7 @@ import { SearchPage } from './page/search';
 import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
+
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -36,6 +39,7 @@ export const App = () => {
     //         .then((response) => console.log(response.data))
     //         .catch((error) => console.error(error));
     // }, []);
+
 
     return (
         <Provider store={store}>

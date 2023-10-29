@@ -158,8 +158,6 @@ export const ListComment: React.FC<ListCommentProps> = ({
 
         setListComment(updatedComments);
     };
-
-    console.log(listComment);
     return (
         <div>
             {listComment.map((comment) => (

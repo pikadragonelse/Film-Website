@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
 import './index.scss';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
 import { FilmDetailCast } from '../film-detail-cast';
 import FilmDetailReview from '../film-detail-review';
@@ -9,14 +11,22 @@ import FilmDetailReview from '../film-detail-review';
 import FilmDetailOverall from './../film-detail-overall/index';
 import FilmDetailEpisodes from '../film-detail-episodes';
 import { FilmDetailDirector } from '../film-detail-director';
+import { Comment } from '../../comment';
+import { CurrentUser } from '../../../component/comment';
 
+
+const currentUser: CurrentUser = {
+    username: 'user1',
+    email: 'user1@gmail.com',
+    avatar: 'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+};
 export const FilmDetailTab: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('1');
 
     const onChange = (key: string) => {
         setActiveTab(key);
     };
-
+    const isLogin = useSelector((state: RootState) => state.user.isLogin);
     const renderTabContent = () => {
         switch (activeTab) {
             case '1':
@@ -26,9 +36,21 @@ export const FilmDetailTab: React.FC = () => {
             case '3':
                 return <FilmDetailCast />;
             case '4':
+
                 return <FilmDetailEpisodes />;
             case '5':
                 return <FilmDetailReview />;
+
+                // return <FilmDetailReview />;
+                return (
+                    <Comment
+                        title="Comments"
+                        isLogin={isLogin}
+                        currentUser={currentUser}
+                        placeholder="Write a comment..."
+                    />
+                );
+
             default:
                 return null;
         }
