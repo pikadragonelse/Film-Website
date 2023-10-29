@@ -1,12 +1,12 @@
 import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
-import { FilmItem } from '../film-item';
-import Title from 'antd/es/typography/Title';
-import './index.scss';
 import { CarouselRef } from 'antd/es/carousel';
+import Title from 'antd/es/typography/Title';
+import { useRef, useState } from 'react';
 import { Film } from '../../model/film';
 import { Link } from 'react-router-dom';
+import { FilmItem } from '../film-item';
+import './index.scss';
 
 export type ListFilm = {
     title?: string;
@@ -40,7 +40,7 @@ export const ListFilm = ({
     return (
         <div className="list-container">
             <div className="list-heading">
-                <Title level={2} className="list-title">
+                <Title level={2} className="list-title ml-20">
                     {title}
                 </Title>
                 <div className="list-sub-info">
@@ -49,11 +49,7 @@ export const ListFilm = ({
                     ))}
                 </div>
             </div>
-            <div
-                className={`session-section ${
-                    multiSessions === true ? 'show' : ''
-                }`}
-            >
+            <div className={`session-section ${multiSessions === true ? 'show' : ''}`}>
                 <Dropdown
                     menu={{ items: sessions }}
                     trigger={['click']}
@@ -106,6 +102,7 @@ export const ListFilm = ({
                                             poster={value.posterURL}
                                         />
                                     </Link>
+
                                 </Col>
                             ))}
                         </Row>

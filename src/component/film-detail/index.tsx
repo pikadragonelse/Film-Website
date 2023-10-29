@@ -4,15 +4,13 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
     StepForwardOutlined,
-    LikeOutlined,
 } from '@ant-design/icons';
 import { Progress } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { resizeImage } from '../../shared/utils';
 import { FilmDetailTab } from './film-detail-tab';
-import { Statistic } from 'antd';
-// import CountUp from 'react-countup';
+
 import './index.scss';
 
 export const FilmDetail: React.FC = () => {
@@ -28,15 +26,11 @@ export const FilmDetail: React.FC = () => {
     if (!filmDetail) {
         return <div>Loading...</div>;
     }
-    // const formatter = (value: number) => <CountUp end={value} separator="," />;
-
     return (
         <div className="film-detail flex-grow mb-[200px]">
             <div
                 style={{
-                    backgroundImage: `url(${resizeImage(
-                        filmDetail.backdrop_path,
-                    )})`,
+                    backgroundImage: `url(${resizeImage(filmDetail.backdrop_path)})`,
                 }}
                 className="bg-center bg-no-repeat md:h-[400px] h-[300px] relative"
             >
@@ -50,9 +44,7 @@ export const FilmDetail: React.FC = () => {
                                 }`}
                                 alt="poster"
                             />
-                            <div className="film-detail__title">
-                                {filmDetail.title}
-                            </div>
+                            <div className="film-detail__title">{filmDetail.title}</div>
                         </div>
 
                         {/* Info */}
@@ -75,10 +67,7 @@ export const FilmDetail: React.FC = () => {
                                 className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
                             >
                                 <StepForwardOutlined />
-                                <span
-                                    className="ml-4 text-lg"
-                                    style={{ fontSize: '1rem' }}
-                                >
+                                <span className="ml-4 text-lg" style={{ fontSize: '1rem' }}>
                                     WATCH
                                 </span>
                             </Link>
@@ -113,9 +102,7 @@ export const FilmDetail: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">
-                            VOTE COUNT
-                        </p>
+                        <p className="text-white font-medium text-lg">VOTE COUNT</p>
                         <div>
                             <p> {filmDetail.vote_count}</p>
                         </div>

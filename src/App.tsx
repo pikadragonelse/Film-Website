@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import './app.scss';
 import { Provider } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './app.scss';
@@ -27,6 +25,18 @@ const locationMap: Record<string, string> = {
 export const App = () => {
     const location = useLocation();
 
+    // useEffect(() => {
+    //     axios
+    //         .get('http://localhost:8080/api/movies/all', {
+    //             // headers: {
+    //             //     'Access-Control-Allow-Origin': '*',
+    //             //     'Content-Type': 'application/json',
+    //             // },
+    //         })
+    //         .then((response) => console.log(response.data))
+    //         .catch((error) => console.error(error));
+    // }, []);
+
     return (
         <Provider store={store}>
             <div className="wrapper">
@@ -44,10 +54,7 @@ export const App = () => {
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/VIPpackage" element={<VIPPackage />} />
                     <Route path="/bill" element={<Bill />} />
-                    <Route
-                        path="/director"
-                        element={<Director color="white" />}
-                    />
+                    <Route path="/director" element={<Director color="white" />} />
                     <Route path="/movie/:id" element={<FilmDetail />} />
                 </Routes>
                 <Footer />
