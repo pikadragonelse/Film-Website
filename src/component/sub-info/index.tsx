@@ -1,7 +1,11 @@
 import React from 'react';
 import './index.scss';
 
-export type SubInfo = { title: string; content: string; className?: string };
+export type SubInfo = {
+    title: string;
+    content: Array<string>;
+    className?: string;
+};
 export const SubInfo = ({ title, content, className }: SubInfo) => {
     return (
         <div className={`sub-info-container ${className}`}>

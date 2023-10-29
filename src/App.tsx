@@ -44,7 +44,10 @@ export const App = () => {
                 <Routes>
                     <Route path="" element={<HomePage />} />
                     <Route path="/search" element={<SearchPage />} />
-                    <Route path="/watching" element={<WatchingPage />} />
+                    <Route
+                        path="/watching/:movieId"
+                        element={<WatchingPage />}
+                    />
                     <Route path="/foryou" element={<LayoutUser />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

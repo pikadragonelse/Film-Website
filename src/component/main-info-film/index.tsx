@@ -8,8 +8,8 @@ export type MainInfoFilm = {
     name: string;
     view: number;
     rate?: number;
-    hashtag: Array<string>;
-    episode?: number;
+    hashtag?: Array<string>;
+    episode?: string;
     desc: string;
     className?: string;
 };
@@ -22,6 +22,7 @@ export const MainInfoFilm = ({
     desc,
     className,
 }: MainInfoFilm) => {
+    console.log(episode);
     return (
         <div className={`main-info-container ${className}`}>
             <h1 className="name">{name}</h1>
@@ -30,13 +31,13 @@ export const MainInfoFilm = ({
                 <Rate className="rate" character={<StarOutlined />} />
             </div>
             <div className="hashtag">
-                {hashtag.map((value) => (
+                {hashtag?.map((value) => (
                     <a href="#" className="hashtag-item">
                         {value}
                     </a>
                 ))}
             </div>
-            <h1 className="episode">Tập {episode}</h1>
+            <h1 className="episode">{episode}</h1>
             <Paragraph
                 className="desc"
                 ellipsis={{ rows: 2, expandable: true, symbol: 'Xem thêm' }}
