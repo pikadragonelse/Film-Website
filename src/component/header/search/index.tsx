@@ -29,7 +29,8 @@ export const Search = () => {
         if (event.key === 'Enter' && debouncedValue.trim() !== '') {
             setSearchValue('');
             navigate('/search', {
-                state: { searchValue: encodeURIComponent(debouncedValue) },
+                state: { searchValue: debouncedValue },
+                // state: { searchValue: encodeURIComponent(debouncedValue) },
             });
         }
     };
@@ -37,7 +38,8 @@ export const Search = () => {
         if (debouncedValue.trim() !== '') {
             setSearchValue('');
             navigate('/search', {
-                state: { searchValue: encodeURIComponent(debouncedValue) },
+                // state: { searchValue: encodeURIComponent(debouncedValue) },
+                state: { searchValue: debouncedValue },
             });
             // navigate(`/search?query=${encodeURIComponent(debouncedValue)}`);
         }
@@ -57,15 +59,11 @@ export const Search = () => {
             setShowbtnLoading(true);
         }
 
-        // console.log(debouncedValue);
-
-        //
         const timeoutId = setTimeout(() => {
             setShowbtnClear(true);
             setShowbtnLoading(false);
         }, 300);
         return () => clearTimeout(timeoutId);
-        //
     }, [debouncedValue]);
 
     useEffect(() => {

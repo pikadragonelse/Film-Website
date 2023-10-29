@@ -12,14 +12,13 @@ export const HomePage = () => {
             try {
                 const response = await request.get('movies?', {
                     params: {
-                        isSeries: 'true',
+                        // isSeries: true,
                         page: 1,
-                        pageSize: 6,
+                        pageSize: 18,
                     },
                 });
                 const data = response.data;
                 setHomePageData(data);
-                console.log(data);
             } catch (error) {
                 console.error(error);
             }

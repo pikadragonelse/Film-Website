@@ -5,6 +5,7 @@ import { Button, Cascader } from 'antd';
 import { FilmItem } from '../../component/film-item';
 import './index.scss';
 import { PaginationFilm } from '../../component/pagination-film';
+import { request } from '../../utils/request';
 interface SearchResult {
     name: string;
     category: string;
@@ -122,22 +123,26 @@ const filmMap: Array<FilmItem> = [
 export const SearchPage: React.FC = () => {
     const location = useLocation();
     const { searchValue } = location.state;
-    const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+    const [searchResults, setSearchResults] = useState<FilmItem[]>([]);
 
-    useEffect(() => {
-        if (searchValue) {
-            fetch(
-                `https://tiktok.fullstack.edu.vn/api/users/search?q=${searchValue}&type=less`,
-            )
-                .then((res) => res.json())
-                .then((res) => {
-                    setSearchResults(res.data);
-                })
-                .catch((error) => {
-                    console.error('Lỗi khi gọi API tìm kiếm:', error);
-                });
+    const fetchData = async () => {
+        try {
+            const response = await request.get('movies?', {
+                params: {
+                    search: searchResults,
+                },
+            });
+            const data = response.data;
+            setSearchResults(data);
+        } catch (error) {
+            console.log(error);
         }
-    }, [searchValue]);
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
+    console.log(searchValue);
+    console.log(searchResults);
 
     //lọc
 
@@ -241,8 +246,8 @@ export const SearchPage: React.FC = () => {
                 <PaginationFilm
                     title="Kết quả tìm kiếm"
                     number={4}
-                    // listFilm={searchResults}
-                    listFilm={filmMap}
+                    listFilm={searchResults}
+                    // listFilm={filmMap}
                 />
             ) : (
                 <p>Không tìm thấy kết quả phù hợp.</p>

@@ -20,9 +20,7 @@ export const FilmDetail: React.FC = () => {
     const [filmDetail, setFilmDetail] = useState<any>(null);
 
     useEffect(() => {
-        fetch(
-            `https://api.themoviedb.org/3/movie/${id}?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US`,
-        )
+        fetch(`http://localhost:8000/api/movies/${id}`)
             .then((res) => res.json())
             .then((data) => setFilmDetail(data));
     }, [id]);
@@ -73,7 +71,7 @@ export const FilmDetail: React.FC = () => {
                                 </div>
                             </div>
                             <Link
-                                to="/watching"
+                                to={`/watching/${filmDetail.movieId}`}
                                 className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
                             >
                                 <StepForwardOutlined />

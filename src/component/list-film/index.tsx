@@ -6,6 +6,7 @@ import Title from 'antd/es/typography/Title';
 import './index.scss';
 import { CarouselRef } from 'antd/es/carousel';
 import { Film } from '../../model/film';
+import { Link } from 'react-router-dom';
 
 export type ListFilm = {
     title?: string;
@@ -93,16 +94,18 @@ export const ListFilm = ({
                         <Row justify="center">
                             {listFilm.map((value) => (
                                 <Col span={4} className="list-col">
-                                    <FilmItem
-                                        name={value.title}
-                                        yearOfManufacture={moment(
-                                            value.releaseDate,
-                                        ).format('YYYY-MM-DD')}
-                                        category={value.genres.map(
-                                            (genre: any) => genre.name,
-                                        )}
-                                        poster={value.posterURL}
-                                    />
+                                    <Link to={`/movie/${value.movieId}`}>
+                                        <FilmItem
+                                            name={value.title}
+                                            yearOfManufacture={moment(
+                                                value.releaseDate,
+                                            ).format('YYYY-MM-DD')}
+                                            category={value.genres.map(
+                                                (genre: any) => genre.name,
+                                            )}
+                                            poster={value.posterURL}
+                                        />
+                                    </Link>
                                 </Col>
                             ))}
                         </Row>
