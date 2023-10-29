@@ -66,6 +66,7 @@ export const Header = ({ className }: Header) => {
 
     const handleLogin = () => {
         const storedUsername = Cookies.get('username');
+        console.log('storedUsername', storedUsername);
         dispatch(setIslogin(true));
 
         if (storedUsername) {

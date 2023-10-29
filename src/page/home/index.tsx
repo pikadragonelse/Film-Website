@@ -31,6 +31,7 @@ export const HomePage = () => {
         <div>
             <Slide />
             <ListFilm title="Phim liên quan" listFilm={homePageData} />
+            {/* <FilmList /> */}
         </div>
     );
 };

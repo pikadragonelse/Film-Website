@@ -1,5 +1,3 @@
-import React, { useEffect, useState } from 'react';
-import './app.scss';
 import { Provider } from 'react-redux';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import './app.scss';
@@ -17,8 +15,6 @@ import { SearchPage } from './page/search';
 import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
-import axios from 'axios';
-
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -41,7 +37,6 @@ export const App = () => {
     //         .catch((error) => console.error(error));
     // }, []);
 
-
     return (
         <Provider store={store}>
             <div className="wrapper">
@@ -56,10 +51,7 @@ export const App = () => {
                     <Route path="/payment" element={<Payment />} />
                     <Route path="/VIPpackage" element={<VIPPackage />} />
                     <Route path="/bill" element={<Bill />} />
-                    <Route
-                        path="/director"
-                        element={<Director color="white" />}
-                    />
+                    <Route path="/director" element={<Director color="white" />} />
                     <Route path="/movie/:id" element={<FilmDetail />} />
                 </Routes>
                 <Footer />

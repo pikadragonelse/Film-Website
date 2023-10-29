@@ -175,11 +175,7 @@ const FilmList: React.FC<{ data: any[] }> = ({ data }) => {
                 <div key={index} className="film-list__category">
                     <div className="film-list__header">
                         <h2 className="film-list__title">{genre}</h2>
-                        <a
-                            href="#"
-                            className="film-list__view"
-                            onClick={handleViewAllClick}
-                        >
+                        <a href="#" className="film-list__view" onClick={handleViewAllClick}>
                             Xem tất cả
                         </a>
                     </div>
@@ -190,10 +186,7 @@ const FilmList: React.FC<{ data: any[] }> = ({ data }) => {
                                     showAll ||
                                     film.genres
                                         .map((genre: any) => genre.name)
-                                        .some(
-                                            (genreName: any) =>
-                                                genreName === genre,
-                                        ),
+                                        .some((genreName: any) => genreName === genre),
                             )
 
                             .map((film, index) => (
@@ -207,12 +200,10 @@ const FilmList: React.FC<{ data: any[] }> = ({ data }) => {
                                     >
                                         <FilmItem
                                             name={film.title}
-                                            yearOfManufacture={moment(
-                                                film.releaseDate,
-                                            ).format('YYYY-MM-DD')}
-                                            category={film.genres.map(
-                                                (genre: any) => genre.name,
+                                            yearOfManufacture={moment(film.releaseDate).format(
+                                                'YYYY-MM-DD',
                                             )}
+                                            category={film.genres.map((genre: any) => genre.name)}
                                             poster={film.posterURL}
                                         />
                                     </Link>
