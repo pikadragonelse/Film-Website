@@ -180,6 +180,18 @@ const FilmList: React.FC<{ data: any[] }> = ({ data }) => {
                         </a>
                     </div>
                     <Row gutter={[32, 32]}>
+
+                        {films
+                            .filter((film) => showAll || film.category === genre)
+                            .map((film, index) => (
+                                <Col span={4} key={index}>
+                                    <FilmItem
+                                        name={film.name}
+                                        yearOfManufacture={film.yearOfManufacture}
+                                        category={film.category}
+                                        poster={film.poster}
+                                    />
+
                         {data
                             .filter(
                                 (film) =>

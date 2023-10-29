@@ -9,6 +9,8 @@ import FilmDetailReview from '../film-detail-review';
 import FilmDetailEpisodes from '../film-detail-episodes';
 import FilmDetailOverall from './../film-detail-overall/index';
 
+import { FilmDetailDirector } from '../film-detail-director';
+
 export const FilmDetailTab: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('1');
 
@@ -21,10 +23,12 @@ export const FilmDetailTab: React.FC = () => {
             case '1':
                 return <FilmDetailOverall />;
             case '2':
-                return <FilmDetailCast />;
+                return <FilmDetailDirector />;
             case '3':
-                return <FilmDetailEpisodes />;
+                return <FilmDetailCast />;
             case '4':
+                return <FilmDetailEpisodes />;
+            case '5':
                 return <FilmDetailReview />;
 
             default:
@@ -40,16 +44,21 @@ export const FilmDetailTab: React.FC = () => {
         },
         {
             key: '2',
-            label: 'Diễn viên',
+            label: 'Đạo diễn',
             children: '',
         },
         {
             key: '3',
-            label: 'Tập',
+            label: 'Diễn viên',
             children: '',
         },
         {
             key: '4',
+            label: 'Tập',
+            children: '',
+        },
+        {
+            key: '5',
             label: 'Đánh giá',
             children: '',
         },
