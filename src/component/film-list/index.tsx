@@ -175,15 +175,23 @@ const FilmList: React.FC<{ data: any[] }> = ({ data }) => {
                 <div key={index} className="film-list__category">
                     <div className="film-list__header">
                         <h2 className="film-list__title">{genre}</h2>
-                        <a
-                            href="#"
-                            className="film-list__view"
-                            onClick={handleViewAllClick}
-                        >
+                        <a href="#" className="film-list__view" onClick={handleViewAllClick}>
                             Xem tất cả
                         </a>
                     </div>
                     <Row gutter={[32, 32]}>
+
+                        {films
+                            .filter((film) => showAll || film.category === genre)
+                            .map((film, index) => (
+                                <Col span={4} key={index}>
+                                    <FilmItem
+                                        name={film.name}
+                                        yearOfManufacture={film.yearOfManufacture}
+                                        category={film.category}
+                                        poster={film.poster}
+                                    />
+
                         {data
                             .filter(
                                 (film) =>

@@ -10,8 +10,10 @@ import FilmDetailReview from '../film-detail-review';
 
 import FilmDetailOverall from './../film-detail-overall/index';
 import FilmDetailEpisodes from '../film-detail-episodes';
+import { FilmDetailDirector } from '../film-detail-director';
 import { Comment } from '../../comment';
 import { CurrentUser } from '../../../component/comment';
+
 
 const currentUser: CurrentUser = {
     username: 'user1',
@@ -30,10 +32,15 @@ export const FilmDetailTab: React.FC = () => {
             case '1':
                 return <FilmDetailOverall />;
             case '2':
-                return <FilmDetailCast />;
+                return <FilmDetailDirector />;
             case '3':
-                return <FilmDetailEpisodes />;
+                return <FilmDetailCast />;
             case '4':
+
+                return <FilmDetailEpisodes />;
+            case '5':
+                return <FilmDetailReview />;
+
                 // return <FilmDetailReview />;
                 return (
                     <Comment
@@ -43,6 +50,7 @@ export const FilmDetailTab: React.FC = () => {
                         placeholder="Write a comment..."
                     />
                 );
+
             default:
                 return null;
         }
@@ -56,16 +64,21 @@ export const FilmDetailTab: React.FC = () => {
         },
         {
             key: '2',
-            label: 'Diễn viên',
+            label: 'Đạo diễn',
             children: '',
         },
         {
             key: '3',
-            label: 'Tập',
+            label: 'Diễn viên',
             children: '',
         },
         {
             key: '4',
+            label: 'Tập',
+            children: '',
+        },
+        {
+            key: '5',
             label: 'Đánh giá',
             children: '',
         },
