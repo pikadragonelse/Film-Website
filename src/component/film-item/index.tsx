@@ -1,5 +1,5 @@
+import { CloseOutlined, PlayCircleTwoTone } from '@ant-design/icons';
 import './index.scss';
-import { CloseOutlined } from '@ant-design/icons';
 
 export type FilmItem = {
     name: string;
@@ -24,6 +24,10 @@ export const FilmItem = ({
                 </p>
             </div>
             <img src={poster} alt="" className="film-item-image" />
+            <div className="btn-play">
+                <PlayCircleTwoTone twoToneColor="red" />
+            </div>
+
             {onCancelClick ? (
                 <div className="btn-close" onClick={onCancelClick}>
                     <CloseOutlined />
