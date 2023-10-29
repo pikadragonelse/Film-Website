@@ -52,7 +52,7 @@ export const Register: React.FC = () => {
     };
     const sendDataToAPI = async (values: any) => {
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register', values, {
+            const response = await axios.post('http://localhost:8000/api/auth/register', values, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

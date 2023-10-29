@@ -28,7 +28,7 @@ export const Login: React.FC = () => {
         setLoading(true);
 
         axios
-            .post('http://localhost:8080/api/auth/login', data)
+            .post('http://localhost:8000/api/auth/login', data)
             .then((response) => {
                 console.log('POST', response);
                 let accessToken = JSON.stringify(response.data.result.token);
