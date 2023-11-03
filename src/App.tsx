@@ -48,6 +48,10 @@ export const App = () => {
                         path="/watching/:movieId"
                         element={<WatchingPage />}
                     />
+                    <Route
+                        path="/watching/:movieId/:episodeId"
+                        element={<WatchingPage />}
+                    />
                     <Route path="/foryou" element={<LayoutUser />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

@@ -4,6 +4,9 @@ import { Col, Row, Pagination } from 'antd';
 import './index.scss';
 import { FilmItem } from '../film-item';
 import { Modal } from 'antd';
+import { Link } from 'react-router-dom';
+
+const moment = require('moment');
 
 export type PaginationFilmProps = {
     title?: string;
@@ -14,7 +17,7 @@ export type PaginationFilmProps = {
 
 export const PaginationFilm = ({
     title,
-    listFilm: initialListFilm,
+    listFilm: searchResults,
     number,
     onCancelClick,
 }: PaginationFilmProps) => {
@@ -32,7 +35,11 @@ export const PaginationFilm = ({
     };
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [listFilm, setListFilm] = useState(initialListFilm);
+    const [listFilm, setListFilm] = useState(searchResults);
+    useEffect(() => {
+        setListFilm(searchResults);
+    }, [searchResults]);
+
     const [displayedResults, setDisplayedResults] = useState<Array<FilmItem>>(
         [],
     );
@@ -51,14 +58,14 @@ export const PaginationFilm = ({
 
     const handleOkClick = () => {
         if (selectedFilm) {
-            handleCancelClick(selectedFilm.name || '');
+            handleCancelClick(selectedFilm.title || '');
             handleCancel();
         }
     };
 
     const handleCancelClick = (filmName: string) => {
         const updatedListFilm = listFilm.filter(
-            (film) => film.name !== filmName,
+            (film) => film.title !== filmName,
         );
 
         setListFilm(updatedListFilm);
@@ -74,19 +81,23 @@ export const PaginationFilm = ({
                 <Row gutter={[12, 24]}>
                     {displayedResults.map((result, index) => (
                         <Col span={number} key={index}>
-                            <FilmItem
-                                name={result.name || ''}
-                                category={result.category || ''}
-                                yearOfManufacture={
-                                    result.yearOfManufacture || 0
-                                }
-                                poster={result.poster || ''}
-                                onCancelClick={
-                                    onCancelClick
-                                        ? () => showModal(result)
-                                        : undefined
-                                }
-                            />
+                            <Link to={`/movie/${result.movieId}`}>
+                                <FilmItem
+                                    title={result.title || ''}
+                                    episodeNum={result.episodeNum}
+                                    releaseDate={
+                                        moment(result.releaseDate).format(
+                                            'YYYY',
+                                        ) || 0
+                                    }
+                                    posterURL={result.posterURL || ''}
+                                    onCancelClick={
+                                        onCancelClick
+                                            ? () => showModal(result)
+                                            : undefined
+                                    }
+                                />
+                            </Link>
                         </Col>
                     ))}
                 </Row>
@@ -107,7 +118,7 @@ export const PaginationFilm = ({
                 onOk={handleOkClick}
                 onCancel={handleCancel}
             >
-                <p>{`Bạn chắc chắn muốn xóa "${selectedFilm?.name}" ?`}</p>
+                <p>{`Bạn chắc chắn muốn xóa "${selectedFilm?.title}" ?`}</p>
             </Modal>
         </div>
     );

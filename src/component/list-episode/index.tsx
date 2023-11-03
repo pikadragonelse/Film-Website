@@ -1,46 +1,40 @@
 import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
-import { CarouselRef } from 'antd/es/carousel';
-
-import { Episodes, Film } from '../../model/film';
-import Title from 'antd/es/typography/Title';
-import { useRef, useState } from 'react';
-import { Film } from '../../model/film';
-
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
 import { FilmItem } from '../film-item';
+import Title from 'antd/es/typography/Title';
 import './index.scss';
+import { CarouselRef } from 'antd/es/carousel';
+import { Episodes, Film } from '../../model/film';
+import { Link } from 'react-router-dom';
+import { EpisodeItem } from './episode-item';
 
-export type ListFilm = {
+export type ListEpisodes = {
     title?: string;
+    titleFilm?: string;
     subInfo?: Array<string>;
     sessions?: MenuProps['items'];
-    listFilm: Array<Film>;
     multiSessions?: boolean;
+    listEpisodes: Array<Episodes>;
 };
-export const ListFilm = ({
+export const ListEpisodes = ({
     title,
+    titleFilm,
     subInfo,
     sessions = [],
-    listFilm,
+    listEpisodes,
     multiSessions = false,
-}: ListFilm) => {
+}: ListEpisodes) => {
     const moment = require('moment');
     const listRef = useRef<CarouselRef>(null);
     const [page, setPage] = useState<number>(0);
-    const [currentItemCount, setCurrentItemCount] = useState(0);
-    const showNext6Items = () => {
-        setCurrentItemCount((prev) => prev + 6);
-    };
-    const showPrev6Items = () => {
-        setCurrentItemCount((prev) => prev - 6);
-    };
+
     const handleLimited = (page: number) => {
-        if (listFilm) {
+        if (listEpisodes) {
             switch (page) {
                 case 0:
                     return 'left';
-                case listFilm.length - 1:
+                case listEpisodes.length - 1:
                     return 'right';
                 default:
                     return '';
@@ -49,9 +43,9 @@ export const ListFilm = ({
     };
 
     return (
-        <div className="list-container">
+        <div className="list-container-watching">
             <div className="list-heading">
-                <Title level={2} className="list-title ml-20">
+                <Title level={2} className="list-title">
                     {title}
                 </Title>
                 <div className="list-sub-info">
@@ -60,7 +54,11 @@ export const ListFilm = ({
                     ))}
                 </div>
             </div>
-            <div className={`session-section ${multiSessions === true ? 'show' : ''}`}>
+            <div
+                className={`session-section ${
+                    multiSessions === true ? 'show' : ''
+                }`}
+            >
                 <Dropdown
                     menu={{ items: sessions }}
                     trigger={['click']}
@@ -80,12 +78,11 @@ export const ListFilm = ({
                     onClick={() => {
                         listRef.current?.prev();
                         setPage((prev) => prev - 1);
-                        showPrev6Items();
                     }}
                 >
                     <LeftOutlined className="icon-list " />
                 </div>
-                {listFilm.length > 6 && (
+                {listEpisodes.length > 6 && (
                     <div
                         className={`icon-list-container right-move-container ${
                             handleLimited(page) === 'right' ? 'hide' : ''
@@ -93,35 +90,32 @@ export const ListFilm = ({
                         onClick={() => {
                             listRef.current?.next();
                             setPage((prev) => prev + 1);
-                            showNext6Items();
                         }}
                     >
                         <RightOutlined className="icon-list" />
                     </div>
                 )}
+
                 <Carousel className="list-content" dots={false} ref={listRef}>
                     <div>
                         <Row justify="center">
-                            {listFilm
-                                .slice(currentItemCount, currentItemCount + 6)
-                                .map((value) => (
-                                    <Col span={4} className="list-col">
-                                        <Link to={`/movie/${value.movieId}`}>
-                                            <FilmItem
-                                                title={value.title}
-                                                releaseDate={moment(
-                                                    value.releaseDate,
-                                                ).format('YYYY-MM-DD')}
-                                                episodeNum={value.episodeNum}
-                                                genres={value.genres.map(
-                                                    (genre: any) => genre.name,
-                                                )}
-                                                posterURL={value.posterURL}
-                                            />
-                                        </Link>
-                                    </Col>
-                                ))}
-
+                            {listEpisodes.map((value) => (
+                                <Col span={4} className="list-col">
+                                    <Link
+                                        to={`/watching/${value.movieId}/${value.episodeId}`}
+                                    >
+                                        <EpisodeItem
+                                            episodeTitle={value.episodeTitle}
+                                            releaseDate={moment(
+                                                value.releaseDate,
+                                            ).format('YYYY')}
+                                            duration={value.duration}
+                                            numView={value.numView}
+                                            posterUrl={value.posterUrl}
+                                        />
+                                    </Link>
+                                </Col>
+                            ))}
                         </Row>
                     </div>
                 </Carousel>
