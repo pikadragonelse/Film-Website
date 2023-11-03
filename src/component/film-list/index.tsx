@@ -206,14 +206,14 @@ const FilmList: React.FC<{ data: any[] }> = ({ data }) => {
                                         }}
                                     >
                                         <FilmItem
-                                            name={film.title}
-                                            yearOfManufacture={moment(
+                                            title={film.title}
+                                            releaseDate={moment(
                                                 film.releaseDate,
                                             ).format('YYYY-MM-DD')}
-                                            category={film.genres.map(
+                                            genres={film.genres.map(
                                                 (genre: any) => genre.name,
                                             )}
-                                            poster={film.posterURL}
+                                            posterURL={film.posterURL}
                                         />
                                     </Link>
                                 </Col>

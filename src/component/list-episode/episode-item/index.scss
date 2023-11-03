@@ -31,8 +31,8 @@
         z-index: var(--z-high);
         color: var(--contrast-color);
 
-        .film-item-title {
-            font-size: var(--font-s-md);
+        .film-item-title,.film-item-duration {
+            font-size: var(--font-s-lg);
             font-weight: 500;
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -40,12 +40,15 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .film-item-duration{
+            font-size: var(--font-s-md);
+        }
 
         .film-item-sub-info {
             display: flex;
             justify-content: flex-end;
             font-weight: 300;
-            font-size: var(--font-s-sm-1);
+            font-size: var(--font-s-md);
         }
     }
     .btn-close{

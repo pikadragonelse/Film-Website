@@ -10,10 +10,17 @@
 
     .view-info {
         display: flex;
-        gap: var(--spacing-md);
+        gap: var(--spacing-md-1);
 
-        .rate .rate-icon {
-            color: var(--gold-color);
+        // .rate .rate-icon {
+        //     color: var(--gold-color);
+        // }
+        .view{
+            width: 100px;
+        }
+        .rating{
+            display: flex;
+            gap: var(--spacing-sm-2);
         }
     }
 
@@ -37,4 +44,5 @@
         color: var(--contrast-color);
         font-size: var(--font-s-md);
     }
+    
 }

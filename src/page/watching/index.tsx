@@ -13,8 +13,9 @@ import { Comment } from '../../component/comment';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { CurrentUser } from '../../component/comment';
-import { Film } from '../../model/film';
+import { Film, Episodes } from '../../model/film';
 import { request } from '../../utils/request';
+import { ListEpisodes } from '../../component/list-episode';
 
 const moment = require('moment');
 
@@ -59,6 +60,18 @@ const currentUser: CurrentUser = {
     avatar: 'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
 };
 
+const defaultEpisode = {
+    episodeId: 0,
+    movieId: 0,
+    episodeTitle: '',
+    releaseDate: '',
+    posterUrl: '',
+    movieUrl: '',
+    numView: '',
+    duration: 0,
+    episodeNo: 0,
+};
+
 const defaultFilm = {
     movieId: 0,
     title: '',
@@ -77,18 +90,7 @@ const defaultFilm = {
 
 export const WatchingPage = () => {
     const [watchingData, setWatchingData] = useState<Film>(defaultFilm);
-    const { movieId } = useParams();
-    const [currentEpisode, setCurrentEpisode] = useState<number>(1);
-    // const episodes = watchingData.episodes.map((episode) => episode);
-    const [currentMovieUrl, setCurrentMovieUrl] = useState<string>('');
-    const targetEpisode = watchingData.episodes.find(
-        (episode) => episode.episode_no === currentEpisode,
-    );
-
-    if (targetEpisode) {
-        setCurrentMovieUrl(targetEpisode.movie_url);
-        setCurrentEpisode(targetEpisode.episode_no);
-    }
+    const { movieId, episodeId } = useParams();
 
     const fetchData = async () => {
         try {
@@ -99,10 +101,10 @@ export const WatchingPage = () => {
             console.error(error);
         }
     };
-
+    console.log(watchingData.episodes);
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [movieId]);
 
     const year = moment(watchingData.releaseDate).format('YYYY');
     const genres = watchingData?.genres.map((genre) => genre.name) || [];
@@ -124,6 +126,26 @@ export const WatchingPage = () => {
     const isLogin = useSelector((state: RootState) => state.user.isLogin);
     // console.log(isLogin);
     const [playTime, setPlayTime] = useState(0);
+    //api từng tập
+    const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
+    const fetchDataEpisode = async () => {
+        try {
+            const response = await request.get(`episode/${episodeId}`);
+            const data = response.data;
+            //kiểm tra
+            if (watchingData.movieId !== data.movieId) {
+                await fetchData();
+            }
+            setDataEpisode(data);
+            // console.log(dataEpisode);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataEpisode();
+    }, [episodeId]);
 
     const handleProgress = (state: OnProgressProps) => {
         setPlayTime(state.playedSeconds);
@@ -132,25 +154,50 @@ export const WatchingPage = () => {
     return (
         <div className="watching-container">
             <div className="watching-player-container">
-                <ReactPlayer
-                    url={currentMovieUrl}
-                    poster={watchingData.posterURL}
-                    controls={true}
-                    onProgress={handleProgress}
-                    className="watching-player"
-                    width="100%"
-                    height={640}
-                />
+                {episodeId ? (
+                    <ReactPlayer
+                        url={dataEpisode.movieUrl}
+                        poster={dataEpisode.posterUrl}
+                        controls={true}
+                        onProgress={handleProgress}
+                        className="watching-player"
+                        width="100%"
+                        height={640}
+                    />
+                ) : (
+                    <ReactPlayer
+                        url={watchingData.trailerURL}
+                        poster={watchingData.posterURL}
+                        controls={true}
+                        onProgress={handleProgress}
+                        className="watching-player"
+                        width="100%"
+                        height={640}
+                    />
+                )}
             </div>
             <div className="watching-info-container">
-                <MainInfoFilm
-                    className="watching-main-info-container"
-                    name={watchingData.title}
-                    hashtag={[...genres, year, 'HD']}
-                    desc={watchingData.description}
-                    view={30000000}
-                    episode={`Tập ${currentEpisode}`}
-                />
+                {episodeId ? (
+                    <MainInfoFilm
+                        className="watching-main-info-container"
+                        name={watchingData.title}
+                        rate={parseFloat(watchingData.averageRating)}
+                        hashtag={[...genres, year, 'HD']}
+                        desc={watchingData.description}
+                        view={parseFloat(dataEpisode.numView)}
+                        episode={`${dataEpisode.episodeTitle}`}
+                    />
+                ) : (
+                    <MainInfoFilm
+                        className="watching-main-info-container"
+                        name={watchingData.title}
+                        rate={parseFloat(watchingData.averageRating)}
+                        hashtag={[...genres, year, 'HD']}
+                        desc={watchingData.description}
+                        view={30000000}
+                        episode={'Trailer'}
+                    />
+                )}
 
                 <div className="watching-sub-info-container">
                     <div className="watching-feature">
@@ -179,13 +226,17 @@ export const WatchingPage = () => {
                 </div>
             </div>
             <div className="watching-list-film-container">
-                {/* <ListFilm
+                <ListEpisodes
                     title="Danh sách tập"
-                    subInfo={['16/16', 'Phát sóng lúc 20h thứ 7 hàng tuần']}
+                    subInfo={[
+                        `16/${watchingData.episodeNum}`,
+                        'Phát sóng lúc 20h thứ 7 hàng tuần',
+                    ]}
                     sessions={items}
                     multiSessions
-                    listFilm={watchingData.episodes}
-                /> */}
+                    titleFilm={watchingData.title}
+                    listEpisodes={watchingData.episodes}
+                />
                 {/* <ListFilm title="Phim liên quan" listFilm={watchingData} /> */}
             </div>
             <div className="comment-container">
