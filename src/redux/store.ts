@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import debouncedReducer from './debouncedSlide';
-import isLoginSlide from './isLoginSlide';
+import isLoginSlide from './isLoginSlice';
 
 export const store = configureStore({
     reducer: {
@@ -11,3 +11,4 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+

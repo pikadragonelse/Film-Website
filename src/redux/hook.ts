@@ -3,7 +3,7 @@ import type { TypedUseSelectorHook } from 'react-redux';
 import type { RootState, AppDispatch } from './store';
 import { useState, useEffect } from 'react';
 import { setDebouncedValue } from './debouncedSlide';
-import { setIslogin } from './isLoginSlide';
+import { setIslogin } from './isLoginSlice';
 
 
 export const useDebouced = (value:string, delay: number) =>{

@@ -38,8 +38,7 @@ const items2: DescriptionsProps['items'] = [
 export type UserProfile = {};
 export const UserProfile = () => {
     const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
-    const [isOpenChangePassword, setIsOpenChangePassword] =
-        useState<boolean>(false);
+    const [isOpenChangePassword, setIsOpenChangePassword] = useState<boolean>(false);
     const [form] = Form.useForm();
 
     return (
@@ -47,13 +46,8 @@ export const UserProfile = () => {
             <ModalUser open={isOpenEdit} onCancel={() => setIsOpenEdit(false)}>
                 <FormEditUser onCancel={() => setIsOpenEdit(false)} />
             </ModalUser>
-            <ModalUser
-                open={isOpenChangePassword}
-                onCancel={() => setIsOpenChangePassword(false)}
-            >
-                <FormChangePassword
-                    onCancel={() => setIsOpenChangePassword(false)}
-                />
+            <ModalUser open={isOpenChangePassword} onCancel={() => setIsOpenChangePassword(false)}>
+                <FormChangePassword onCancel={() => setIsOpenChangePassword(false)} />
             </ModalUser>
             <div className="user-profile-general">
                 <Avatar

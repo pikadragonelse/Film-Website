@@ -1,48 +1,36 @@
-import React, { useState } from 'react';
-import { Tabs } from 'antd';
 import type { TabsProps } from 'antd';
+import { Tabs } from 'antd';
+import React, { useState } from 'react';
 import './index.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../redux/store';
 
 import { FilmDetailCast } from '../film-detail-cast';
 import FilmDetailReview from '../film-detail-review';
 
-import FilmDetailOverall from './../film-detail-overall/index';
 import FilmDetailEpisodes from '../film-detail-episodes';
-import { Comment } from '../../comment';
-import { CurrentUser } from '../../../component/comment';
+import FilmDetailOverall from './../film-detail-overall/index';
 
-const currentUser: CurrentUser = {
-    username: 'user1',
-    email: 'user1@gmail.com',
-    avatar: 'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-};
+import { FilmDetailDirector } from '../film-detail-director';
+
 export const FilmDetailTab: React.FC = () => {
     const [activeTab, setActiveTab] = useState<string>('1');
 
     const onChange = (key: string) => {
         setActiveTab(key);
     };
-    const isLogin = useSelector((state: RootState) => state.user.isLogin);
+
     const renderTabContent = () => {
         switch (activeTab) {
             case '1':
                 return <FilmDetailOverall />;
             case '2':
-                return <FilmDetailCast />;
+                return <FilmDetailDirector />;
             case '3':
-                return <FilmDetailEpisodes />;
+                return <FilmDetailCast />;
             case '4':
-                // return <FilmDetailReview />;
-                return (
-                    <Comment
-                        title="Comments"
-                        isLogin={isLogin}
-                        currentUser={currentUser}
-                        placeholder="Write a comment..."
-                    />
-                );
+                return <FilmDetailEpisodes />;
+            case '5':
+                return <FilmDetailReview />;
+
             default:
                 return null;
         }
@@ -56,16 +44,21 @@ export const FilmDetailTab: React.FC = () => {
         },
         {
             key: '2',
-            label: 'Diễn viên',
+            label: 'Đạo diễn',
             children: '',
         },
         {
             key: '3',
-            label: 'Tập',
+            label: 'Diễn viên',
             children: '',
         },
         {
             key: '4',
+            label: 'Tập',
+            children: '',
+        },
+        {
+            key: '5',
             label: 'Đánh giá',
             children: '',
         },

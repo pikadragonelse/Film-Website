@@ -5,6 +5,7 @@
         display: flex;
         flex-direction: column;
         margin: var(--spacing-lg) calc(5 * var(--spacing-lg-1));
+        margin-top: calc(1.5 * var(--spacing-lg-1));
 
         .vip-package-title {
             color: var(--main-color);
@@ -46,10 +47,10 @@
             background-color: var(--primary-color);
             border-radius: var(--border-r-md);
             transition: all 0.1s ease-in-out;
+            margin-bottom: calc(1.5 * var(--spacing-lg-1));
 
             &:hover {
                 background-color: var(--light-primary-color);
-                
             }
         }
     }

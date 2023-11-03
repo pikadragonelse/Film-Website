@@ -1,22 +1,69 @@
-import { Checkbox, Form, Input } from 'antd';
+import { Checkbox, Form, Input, Button } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
 import './index.scss';
+import { useState } from 'react';
+import axios from 'axios';
+import { Modal } from 'antd';
+import { setUsername, setIslogin } from '../../redux/isLoginSlice';
+import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
 
 type FieldType = {
-    email?: string;
+    username?: string;
     password?: string;
     remember?: string;
 };
 
 export const Login: React.FC = () => {
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const onFinish = (data: FieldType) => {
+        setLoading(true);
+
+        axios
+            .post('http://localhost:8000/api/auth/login', data)
+            .then((response) => {
+                console.log('POST', response);
+                let accessToken = JSON.stringify(response.data.result.token);
+                console.log('accessToken :', accessToken);
+                setLoading(false);
+
+                if (response.status === 200) {
+                    alert('Chúc mừng, bạn đã đăng nhập thành công');
+
+                    dispatch(setIslogin(true));
+
+                    if (data.username) {
+                        dispatch(setUsername(data.username));
+                        Cookies.set('username', data.username, { expires: 1, secure: true });
+                    }
+
+                    Cookies.set('accessToken', accessToken, { expires: 1 });
+
+                    navigate('/');
+                } else {
+                    if (response.data.error) {
+                        setModalVisible(true);
+                    }
+                }
+            })
+            .catch(function (err) {
+                setLoading(false);
+                console.error(err);
+                setModalVisible(true);
+            });
     };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
+        setModalVisible(true);
     };
 
     return (
@@ -36,9 +83,7 @@ export const Login: React.FC = () => {
                 <div className="form-info">
                     <div className="form-header">
                         <h1 className="form-header__large"> Welcome Back, </h1>
-                        <p className="form-header__small">
-                            Sign in to your account
-                        </p>
+                        <p className="form-header__small">Sign in to your account</p>
                     </div>
                     <Form
                         className="form-group"
@@ -54,32 +99,26 @@ export const Login: React.FC = () => {
                     >
                         <div className="form-item">
                             <Form.Item<FieldType>
-                                label={
-                                    <span style={{ color: 'white' }}>
-                                        Email
-                                    </span>
-                                }
-                                name="email"
+                                label={<span style={{ color: 'white' }}>Username</span>}
+                                name="username"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your email!',
+                                        message: 'Please input your username!',
                                     },
                                 ]}
                             >
                                 <Input
                                     className="form-input"
                                     style={{
-                                        width: '340px',
-                                        height: '40px',
+                                        width: '330px',
+                                        height: '42px',
                                     }}
                                 />
                             </Form.Item>
                         </div>
                         <Form.Item<FieldType>
-                            label={
-                                <span style={{ color: 'white' }}>Password</span>
-                            }
+                            label={<span style={{ color: 'white' }}>Password</span>}
                             name="password"
                             rules={[
                                 {
@@ -91,8 +130,8 @@ export const Login: React.FC = () => {
                             <Input.Password
                                 className="form-input"
                                 style={{
-                                    width: '340px',
-                                    height: '40px',
+                                    width: '330px',
+                                    height: '42px',
                                 }}
                             />
                         </Form.Item>
@@ -102,16 +141,17 @@ export const Login: React.FC = () => {
                             wrapperCol={{ offset: 14, span: 16 }}
                             style={{ marginBottom: '60px' }}
                         >
-                            <Checkbox style={{ color: 'white' }}>
-                                Remember me
-                            </Checkbox>
+                            <Checkbox style={{ color: 'white' }}>Remember me</Checkbox>
                         </Form.Item>
                         <Form.Item>
-                            <button className="form-button focus:outline-none text-white bg-red-700 hover:bg-red-800 font-medium rounded-lg text-sm py-2.5 mr-10 mb-2">
-                                <Link to="/">
-                                    <span>Đăng nhập</span>
-                                </Link>
-                            </button>
+                            <Button
+                                className="form-btn-login"
+                                type="primary"
+                                htmlType="submit"
+                                loading={loading}
+                            >
+                                Đăng nhập
+                            </Button>
                         </Form.Item>
                         <div className="form-change">
                             Don't have an account ? {}{' '}
@@ -122,6 +162,14 @@ export const Login: React.FC = () => {
                     </Form>
                 </div>
             </div>
+            <Modal
+                title="Login Failed"
+                visible={modalVisible}
+                onCancel={() => setModalVisible(false)}
+                footer={null}
+            >
+                <p>Incorrect password. Please try again.</p>
+            </Modal>
         </div>
     );
 };
