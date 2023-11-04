@@ -34,7 +34,7 @@ export const FilmDetail: React.FC = () => {
     }
 
     return (
-        <div className="film-detail flex-grow mb-[550px]">
+        <div className="film-detail flex-grow mb-[400px]">
             <div
                 style={{
                     backgroundImage: `url(${filmDetail.backgroundURL})`,
@@ -68,7 +68,6 @@ export const FilmDetail: React.FC = () => {
                             </div>
                             <Link
                                 to={`/watching/${filmDetail.movieId}/${firstEpisodeId}`}
-
                                 className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
                             >
                                 <CaretRightOutlined />

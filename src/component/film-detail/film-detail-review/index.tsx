@@ -26,7 +26,7 @@ const FilmDetailReview: React.FC = () => (
             onChange: (page) => {
                 console.log(page);
             },
-            pageSize: 2,
+            pageSize: 3,
         }}
         dataSource={data}
         renderItem={(item) => (

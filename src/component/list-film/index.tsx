@@ -2,7 +2,6 @@ import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
 import { CarouselRef } from 'antd/es/carousel';
 
-import { Episodes, Film } from '../../model/film';
 import Title from 'antd/es/typography/Title';
 import { useRef, useState } from 'react';
 import { Film } from '../../model/film';
@@ -102,25 +101,21 @@ export const ListFilm = ({
                 <Carousel className="list-content" dots={false} ref={listRef}>
                     <div>
                         <Row justify="center">
-                            {listFilm
-                                .slice(currentItemCount, currentItemCount + 6)
-                                .map((value) => (
-                                    <Col span={4} className="list-col">
-                                        <Link to={`/movie/${value.movieId}`}>
-                                            <FilmItem
-                                                title={value.title}
-                                                releaseDate={moment(
-                                                    value.releaseDate,
-                                                ).format('YYYY-MM-DD')}
-                                                episodeNum={value.episodeNum}
-                                                genres={value.genres.map(
-                                                    (genre: any) => genre.name,
-                                                )}
-                                                posterURL={value.posterURL}
-                                            />
-                                        </Link>
-                                    </Col>
-                                ))}
+                            {listFilm.slice(currentItemCount, currentItemCount + 6).map((value) => (
+                                <Col span={4} className="list-col">
+                                    <Link to={`/movie/${value.movieId}`}>
+                                        <FilmItem
+                                            title={value.title}
+                                            releaseDate={moment(value.releaseDate).format(
+                                                'YYYY-MM-DD',
+                                            )}
+                                            episodeNum={value.episodeNum}
+                                            genres={value.genres.map((genre: any) => genre.name)}
+                                            posterURL={value.posterURL}
+                                        />
+                                    </Link>
+                                </Col>
+                            ))}
                         </Row>
                     </div>
                 </Carousel>

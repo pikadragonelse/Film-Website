@@ -21,19 +21,19 @@ export const EpisodeItem = ({
     duration,
 }: Episodes) => {
     return (
-        <div className="film-item-container">
-            <div className="film-item-info">
-                <h1 className="film-item-title">{episodeTitle}</h1>
-                <h5 className="film-item-duration">
+        <div className="episodes-item-container">
+            <div className="episodes-item-info">
+                <h1 className="episodes-item-title">{episodeTitle}</h1>
+                <h5 className="episodes-item-duration">
                     {'•'} {duration} {' phút'}
                 </h5>
-                <p className="film-item-sub-info">
+                <p className="episodes-item-sub-info">
                     {/* {releaseDate}  */}
                     {numView}
                     {' lượt xem'}
                 </p>
             </div>
-            <img src={posterUrl} alt="" className="film-item-image" />
+            <img src={posterUrl} alt="" className="episodes-item-image" />
         </div>
     );
 };
