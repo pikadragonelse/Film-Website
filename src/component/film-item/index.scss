@@ -1,7 +1,6 @@
 .film-item-container {
-    width: 200px;
-    height: 290px;
-    // background-color: var(--contrast-color);
+    width: 225px;
+    height: 305px;
     border-radius: var(--border-r-sm);
     overflow: hidden;
     position: relative;
@@ -22,6 +21,7 @@
 
     .film-item-info {
         position: absolute;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgb(0, 0, 0, 0.6));
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         width: 180px;
@@ -33,8 +33,13 @@
         color: var(--contrast-color);
 
         .film-item-title {
-            font-size: var(--font-s-md-1);
+            font-size: var(--font-s-md);
             font-weight: 500;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .film-item-sub-info {
@@ -59,33 +64,26 @@
             color: var(--primary-color);
         }
     }
-}
-
-.btn-play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3.2rem;
-    color: #cf1a1a;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.film-item-container:hover .film-item-image {
-    transform: scale(1.05);
-}
-
-.film-item-container:hover .film-item-image::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.film-item-container:hover .btn-play {
-    opacity: 1;
+    .btn-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3.8rem;
+        color: var(--primary-color);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    &:hover .film-item-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35));
+    }
+    &:hover .btn-play {
+        opacity: 1;
+    }
 }

@@ -14,7 +14,7 @@ export const HomePage = () => {
                     params: {
                         // isSeries: true,
                         page: 1,
-                        pageSize: 18,
+                        pageSize: 6,
                     },
                 });
                 const data = response.data;
@@ -29,8 +29,10 @@ export const HomePage = () => {
     return (
         <div>
             <Slide />
+            <div style={{ marginTop: '-280px' }}></div>
             <ListFilm title="Phim liên quan" listFilm={homePageData} />
-            {/* <FilmList /> */}
+            <ListFilm title="Hài hước" listFilm={homePageData} />
+            <ListFilm title="Phim mới nhất" listFilm={homePageData} />
         </div>
     );
 };

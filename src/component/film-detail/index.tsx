@@ -1,18 +1,19 @@
-// FilmDetail.tsx
 import {
+    CaretRightOutlined,
     HeartOutlined,
     ShareAltOutlined,
     SmallDashOutlined,
-    StepForwardOutlined,
 } from '@ant-design/icons';
 import { Progress } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { resizeImage } from '../../shared/utils';
 import { FilmDetailTab } from './film-detail-tab';
 
 import './index.scss';
-
+interface Genre {
+    id: number;
+    name: string;
+}
 export const FilmDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
@@ -27,10 +28,10 @@ export const FilmDetail: React.FC = () => {
         return <div>Loading...</div>;
     }
     return (
-        <div className="film-detail flex-grow mb-[200px]">
+        <div className="film-detail flex-grow mb-[550px]">
             <div
                 style={{
-                    backgroundImage: `url(${resizeImage(filmDetail.backdrop_path)})`,
+                    backgroundImage: `url(${filmDetail.backgroundURL})`,
                 }}
                 className="bg-center bg-no-repeat md:h-[400px] h-[300px] relative"
             >
@@ -39,9 +40,7 @@ export const FilmDetail: React.FC = () => {
                         <div className="film-detail__name flex gap-10 items-center">
                             <img
                                 className="film-detail__poster"
-                                src={`https://image.tmdb.org/t/p/original${
-                                    filmDetail && filmDetail.poster_path
-                                }`}
+                                src={filmDetail.posterURL}
                                 alt="poster"
                             />
                             <div className="film-detail__title">{filmDetail.title}</div>
@@ -51,22 +50,21 @@ export const FilmDetail: React.FC = () => {
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
                                 <div className="film-detal__summary">
-                                    <span className="px-4 py-2 border rounded-full mr-4 film-detal__value">
-                                        Hài hước
-                                    </span>
-                                    <span className="px-4 py-2 border rounded-full mr-4 film-detal__value">
-                                        Lãng mạng
-                                    </span>
-                                    <span className="px-4 py-2 border rounded-full film-detal__value">
-                                        Hàn Quốc
-                                    </span>
+                                    {filmDetail.genres.map((genre: Genre) => (
+                                        <span
+                                            key={genre.id}
+                                            className="px-4 py-2 border rounded-full mr-4 film-detal__value"
+                                        >
+                                            {genre.name}
+                                        </span>
+                                    ))}
                                 </div>
                             </div>
                             <Link
-                                to={`/watching/${filmDetail.movieId}`}
+                                to="/watching"
                                 className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
                             >
-                                <StepForwardOutlined />
+                                <CaretRightOutlined />
                                 <span className="ml-4 text-lg" style={{ fontSize: '1rem' }}>
                                     WATCH
                                 </span>
@@ -97,19 +95,19 @@ export const FilmDetail: React.FC = () => {
                             <Progress
                                 type="circle"
                                 size={68}
-                                percent={filmDetail.vote_average * 10}
+                                percent={filmDetail.averageRating * 10}
                             />
                         </div>
                     </div>
                     <div className="flex flex-col gap-6 items-center">
                         <p className="text-white font-medium text-lg">VOTE COUNT</p>
                         <div>
-                            <p> {filmDetail.vote_count}</p>
+                            <p> {filmDetail.numFavorite}</p>
                         </div>
                     </div>
                 </div>
                 <div className="flex-grow min-h-[500px] px-20 mt-[-50px] detail-tabs">
-                    <FilmDetailTab />
+                    <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
         </div>

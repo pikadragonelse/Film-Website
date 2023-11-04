@@ -57,6 +57,14 @@
     stroke: var(--primary-color);
 }
 
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs .ant-tabs-tab-btn:focus:not(:focus-visible),
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs
+    .ant-tabs-tab-remove:focus:not(:focus-visible),
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs .ant-tabs-tab-btn:active,
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs .ant-tabs-tab-remove:active {
+    color: var(--primary-color);
+}
+
 .ant-progress.ant-progress-circle .ant-progress-text {
     color: var(--contrast-color);
     font-size: 0.9rem;
@@ -116,7 +124,7 @@
 @media only screen and (min-width: 1500px) and (max-width: 1580px) {
     .film-detail {
         &__header {
-            left: 21.5%;
+            left: 21%;
             gap: 24rem;
         }
     }
@@ -125,7 +133,7 @@
 @media only screen and (min-width: 1580px) {
     .film-detail {
         &__header {
-            left: 21%;
+            left: 20.5%;
             gap: 27rem;
         }
     }
