@@ -58,20 +58,16 @@ const Slide: React.FC = () => {
                                 </div>
 
                                 <h2 className="mb-3">
-                                    First air date:{' '}
-                                    {movie ? movie.release_date : ''}
+                                    First air date: {movie ? movie.release_date : ''}
                                 </h2>
                                 <div className="poster__image-runtime mt-4">
-                                    {/* <span className="px-3 py-1 border rounded-full poster__image-rating poster__image-padding">
-                                        {movie ? movie.vote_average : ''}
-                                    </span> */}
-                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
+                                    <span className="px-3 py-1 border poster__image-padding">
                                         Hài hước
                                     </span>
-                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
+                                    <span className="px-3 py-1 border poster__image-padding">
                                         Lãng mạng
                                     </span>
-                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
+                                    <span className="px-3 py-1 border poster__image-padding">
                                         Hàn Quốc
                                     </span>
                                 </div>
