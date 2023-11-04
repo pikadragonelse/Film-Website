@@ -1,6 +1,7 @@
 .film-item-container {
-    width: 225px;
-    height: 305px;
+    width: 200px;
+    height: 290px;
+    // background-color: var(--contrast-color);
     border-radius: var(--border-r-sm);
     overflow: hidden;
     position: relative;
@@ -16,14 +17,12 @@
     }
 
     &:hover .film-item-image {
-        scale: 1.05;
+        scale: 1.1;
     }
 
     .film-item-info {
         position: absolute;
-        background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgb(0, 0, 0, 0.6));
         backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
         width: 180px;
         bottom: var(--spacing-md);
         padding: var(--spacing-sm-1);
@@ -32,8 +31,8 @@
         z-index: var(--z-high);
         color: var(--contrast-color);
 
-        .film-item-title {
-            font-size: var(--font-s-md);
+        .film-item-title,.film-item-duration {
+            font-size: var(--font-s-lg);
             font-weight: 500;
             display: -webkit-box;
             -webkit-line-clamp: 1;
@@ -41,51 +40,32 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        .film-item-duration{
+            font-size: var(--font-s-md);
+        }
 
         .film-item-sub-info {
             display: flex;
             justify-content: flex-end;
             font-weight: 300;
-            font-size: var(--font-s-sm-1);
+            font-size: var(--font-s-md);
         }
     }
-    .btn-close {
+    .btn-close{
         position: absolute;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: var(--font-s-md);
         border-radius: 50%;
-        top: 3px;
+        top:3px;
         right: 5px;
         width: 24px;
         height: 24px;
         background-color: rgba(0, 0, 0, 0.45);
 
-        &:hover {
+        &:hover{
             color: var(--primary-color);
         }
-    }
-    .btn-play {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 3.8rem;
-        color: var(--primary-color);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-    &:hover .film-item-container::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(0deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35));
-    }
-    &:hover .btn-play {
-        opacity: 1;
     }
 }

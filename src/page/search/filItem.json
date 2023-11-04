@@ -1,51 +1,61 @@
 [
     {
         "label": "--Sắp xếp--",
-        "value":"--Sắp xếp--",
+        "value":"newest",
         "childrens":[
             {
-                "label":"Ngày đăng phim",
-                "value":"Ngày đăng phim"
+                "label":"Phim mới nhất",
+                "value":"newest"
             },
             {
-                "label":"Năm sản xuất",
-                "value":"Năm sản xuất"
+                "label":"Đánh giá phim",
+                "value":"highRated"
             },
             {
-                "label":"Tên phim",
-                "value":"Tên phim"
+                "label":"Lượt yêu thích",
+                "value":"highFavorited"
+            }
+        ]
+    },
+    {
+        "label": "Loại phim",
+        "value":true,
+        "childrens":[
+            {
+                "label":"Phim bộ",
+                "value":true
             },
             {
-                "label":"Lượt xem",
-                "value":"Lượt xem"
+                "label":"Phim lẻ",
+                "value":false
             }
         ]
     },
     {
         "label": "--Thể loại--",
-        "value":"--Thể loại--",
+        "value":null,
         "childrens":[
             {
                 "label":"Hành Động",
-                "value":"Hành Động"
+                "value":10
             },
             {
                 "label":"Tình Cảm",
-                "value":"Tình Cảm"
+                "value":14
             },
             {
                 "label":"Hài Hước",
-                "value":"Hài Hước"
+                "value":18
             },
             {
                 "label":"Thần Thoại",
-                "value":"Thần Thoại"
+                "value":15
             }
         ]
     },
     {
         "label": "--Quốc gia--",
-        "value":"--Quốc gia--",
+        "value":null,
         "childrens":[
             {
                 "label":"Trung Quốc",
@@ -67,23 +77,23 @@
     },
     {
         "label": "--Năm--",
-        "value": "--Năm--",
+        "value": 2002,
         "childrens":[
             {
                 "label":"Năm 2023",
-                "value":"Năm 2023"
+                "value":2023
             },
             {
                 "label":"Năm 2022",
-                "value":"Năm 2022"
+                "value":2022
             },
             {
                 "label":"Năm 2021",
-                "value":"Năm 2021"
+                "value":2021
             },
             {
                 "label":"Năm 2019",
-                "value":"Năm 2019"
+                "value":2019
             }
         ]
     }

@@ -231,9 +231,83 @@
 // export default FilmList;
 
 import React from 'react';
+import { FilmItem } from '../film-item';
+import { Row, Col } from 'antd';
+import './index.scss';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const index = () => {
-    return <div>index</div>;
+// const genres = ['Võ thuật', 'Hành động', 'Thể thao', 'Viễn tây'];
+const moment = require('moment');
+const FilmList: React.FC<{ data: any[] }> = ({ data }) => {
+    const [showAll, setShowAll] = useState(false);
+
+    const handleViewAllClick = () => {
+        setShowAll(true);
+    };
+
+    const Allgenres: any = new Set();
+    data.forEach((item) => {
+        item.genres.forEach((genre: any) => {
+            Allgenres.add(genre.name);
+        });
+    });
+    const genres = [...Allgenres];
+
+    return (
+        <div className="film-list">
+            {genres.map((genre, index) => (
+                <div key={index} className="film-list__category">
+                    <div className="film-list__header">
+                        <h2 className="film-list__title">{genre}</h2>
+                        <a
+                            href="#"
+                            className="film-list__view"
+                            onClick={handleViewAllClick}
+                        >
+                            Xem tất cả
+                        </a>
+                    </div>
+                    <Row gutter={[32, 32]}>
+                        {data
+                            .filter(
+                                (film) =>
+                                    showAll ||
+                                    film.genres
+                                        .map((genre: any) => genre.name)
+                                        .some(
+                                            (genreName: any) =>
+                                                genreName === genre,
+                                        ),
+                            )
+
+                            .map((film, index) => (
+                                <Col span={4} key={index}>
+                                    <Link
+                                        to={{
+                                            pathname: '/watching',
+                                            search: ?trailer-${film.movieId}-${film.title},
+                                            // state: { data: film },
+                                        }}
+                                    >
+                                        <FilmItem
+                                            title={film.title}
+                                            releaseDate={moment(
+                                                film.releaseDate,
+                                            ).format('YYYY-MM-DD')}
+                                            genres={film.genres.map(
+                                                (genre: any) => genre.name,
+                                            )}
+                                            posterURL={film.posterURL}
+                                        />
+                                    </Link>
+                                </Col>
+                            ))}
+                    </Row>
+                </div>
+            ))}
+        </div>
+    );
 };
 
-export default index;
+export default FilmList;
