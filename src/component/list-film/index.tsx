@@ -51,7 +51,7 @@ export const ListFilm = ({
     return (
         <div className="list-container">
             <div className="list-heading">
-                <Title level={2} className="list-title ml-20">
+                <Title level={2} className="list-title ml-20 z-50">
                     {title}
                 </Title>
                 <div className="list-sub-info">
@@ -72,7 +72,7 @@ export const ListFilm = ({
                     </Button>
                 </Dropdown>
             </div>
-            <div className="list">
+            <div className="list mb-16">
                 <div
                     className={`icon-list-container left-move-container ${
                         handleLimited(page) === 'left' ? 'hide' : ''
@@ -121,7 +121,6 @@ export const ListFilm = ({
                                         </Link>
                                     </Col>
                                 ))}
-
                         </Row>
                     </div>
                 </Carousel>

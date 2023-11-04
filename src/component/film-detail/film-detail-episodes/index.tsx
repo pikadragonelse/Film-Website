@@ -1,61 +1,46 @@
+import { Badge, Card } from 'antd';
 import React from 'react';
-import { Card } from 'antd';
+import './index.scss';
 
-const { Meta } = Card;
+interface Episode {
+    episodeId: number;
+    title: string;
+    posterUrl: string;
+}
 
-const FilmDetailEpisodes: React.FC = () => (
-    <>
-        <p style={{ marginTop: '18px', fontSize: '1.2rem', color: '#989898' }}>
-            Tổng số tập : 3
-        </p>
-        <div className="grid grid-cols-4 gap-12">
-            <Card
-                hoverable
-                style={{
-                    width: 200,
-                    marginTop: '20px',
-                }}
-                cover={
-                    <img
-                        alt="example"
-                        src="https://image.tmdb.org/t/p/original/c6Splshb8lb2Q9OvUfhpqXl7uP0.jpg"
-                    />
-                }
-            >
-                <Meta title="Elemental" description="Tập 1" />
-            </Card>
-            <Card
-                hoverable
-                style={{
-                    width: 200,
-                    marginTop: '20px',
-                }}
-                cover={
-                    <img
-                        alt="example"
-                        src="https://image.tmdb.org/t/p/original/c6Splshb8lb2Q9OvUfhpqXl7uP0.jpg"
-                    />
-                }
-            >
-                <Meta title="Elemental" description="Tập 2" />
-            </Card>
-            <Card
-                hoverable
-                style={{
-                    width: 200,
-                    marginTop: '20px',
-                }}
-                cover={
-                    <img
-                        alt="example"
-                        src="https://image.tmdb.org/t/p/original/c6Splshb8lb2Q9OvUfhpqXl7uP0.jpg"
-                    />
-                }
-            >
-                <Meta title="Elemental" description="Tập 3" />
-            </Card>
-        </div>
-    </>
-);
+interface FilmDetail {
+    episodes: Episode[];
+}
+
+interface FilmDetailEpisodesProps {
+    filmDetail: FilmDetail;
+}
+
+const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) => {
+    const { episodes } = filmDetail;
+
+    return (
+        <>
+            <p className="episodes-length">Tổng số tập : {episodes.length}</p>
+
+            <div className="grid grid-cols-6 gap-10 mt-8">
+                {episodes.map((episode) => (
+                    <Badge.Ribbon text={episode.title} color="red">
+                        <img
+                            style={{ objectFit: 'cover' }}
+                            alt={episode.title}
+                            src={episode.posterUrl}
+                            key={episode.episodeId}
+                        />
+                        <p className="episodes-des">
+                            Giang Quân và Viên Soái là "thanh mai trúc mã", nhưng cô lại đem lòng
+                            yêu người khác.
+                        </p>
+                    </Badge.Ribbon>
+                ))}
+            </div>
+        </>
+    );
+};
 
 export default FilmDetailEpisodes;

@@ -1,0 +1,17 @@
+:where(.css-dev-only-do-not-override-1vr7spz).ant-card .ant-card-body {
+    padding: 24px 0;
+}
+
+.episodes-length {
+    margin-top: 18px;
+    font-size: 1.2rem;
+}
+.episodes-des {
+    margin-top: 10px;
+    color: #989898;
+    font-size: 0.9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}

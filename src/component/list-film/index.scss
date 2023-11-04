@@ -1,5 +1,5 @@
 .list-container {
-    margin: 0 var(--spacing-lg-1);
+    // margin: 0 var(--spacing-lg);
     .list-heading {
         display: flex;
         gap: var(--spacing-lg);
@@ -7,6 +7,7 @@
 
         .list-title {
             color: var(--contrast-color);
+            font-size: 1.8rem;
         }
 
         .list-sub-info {
@@ -50,6 +51,10 @@
     }
 
     .list {
+        z-index: var(--z-highest);
+        .list-content {
+            margin: 1rem 4.2rem;
+        }
         position: relative;
 
         .icon-list-container {
@@ -61,6 +66,7 @@
             width: 50px;
             display: flex;
             align-items: center;
+            margin: 0 10px;
 
             .icon-list {
                 font-size: var(--font-s-lg-2);
@@ -74,21 +80,13 @@
 
         .left-move-container {
             left: 0;
-            background: linear-gradient(
-                90deg,
-                var(--main-color),
-                rgba(255, 255, 255, 0) 100%
-            );
+            // background: linear-gradient(90deg, var(--main-color), rgba(255, 255, 255, 0) 100%);
             justify-content: flex-start;
         }
 
         .right-move-container {
             right: 0;
-            background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0),
-                var(--main-color) 100%
-            );
+            // background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--main-color) 100%);
             justify-content: flex-end;
         }
 
