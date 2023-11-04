@@ -44,10 +44,10 @@ export const App = () => {
                 <Routes>
                     <Route path="" element={<HomePage />} />
                     <Route path="/search" element={<SearchPage />} />
-                    <Route
+                    {/* <Route
                         path="/watching/:movieId"
                         element={<WatchingPage />}
-                    />
+                    /> */}
                     <Route
                         path="/watching/:movieId/:episodeId"
                         element={<WatchingPage />}

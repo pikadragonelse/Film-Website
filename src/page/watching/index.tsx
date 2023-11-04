@@ -137,7 +137,7 @@ export const WatchingPage = () => {
                 await fetchData();
             }
             setDataEpisode(data);
-            // console.log(dataEpisode);
+            console.log(dataEpisode);
         } catch (error) {
             console.error(error);
         }

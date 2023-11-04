@@ -10,13 +10,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { resizeImage } from '../../shared/utils';
 import { FilmDetailTab } from './film-detail-tab';
-
 import './index.scss';
 
 export const FilmDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
-
+    let firstEpisodeId: number | null = null;
     useEffect(() => {
         fetch(`http://localhost:8000/api/movies/${id}`)
             .then((res) => res.json())
@@ -26,6 +25,13 @@ export const FilmDetail: React.FC = () => {
     if (!filmDetail) {
         return <div>Loading...</div>;
     }
+
+    // const formatter = (value: number) => <CountUp end={value} separator="," />;
+    if (filmDetail.episodes && filmDetail.episodes.length > 0) {
+        const firstEpisode = filmDetail.episodes[0];
+        firstEpisodeId = firstEpisode.episode_id;
+    }
+
     return (
         <div className="film-detail flex-grow mb-[200px]">
             <div
@@ -63,7 +69,7 @@ export const FilmDetail: React.FC = () => {
                                 </div>
                             </div>
                             <Link
-                                to={`/watching/${filmDetail.movieId}`}
+                                to={`/watching/${filmDetail.movieId}/${firstEpisodeId}`}
                                 className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
                             >
                                 <StepForwardOutlined />

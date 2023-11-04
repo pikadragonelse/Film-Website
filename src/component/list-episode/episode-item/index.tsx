@@ -4,7 +4,7 @@ import { CloseOutlined } from '@ant-design/icons';
 interface Episodes {
     episodeId?: number;
     movieId?: number;
-    episodeTitle?: string;
+    episodeTitle: string;
     releaseDate?: string;
     posterUrl?: string;
     movieUrl?: string;
