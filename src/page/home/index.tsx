@@ -3,6 +3,7 @@ import Slide from '../../component/slide';
 import { request } from '../../utils/request';
 import { ListFilm } from '../../component/list-film';
 import { Film } from '../../model/film';
+import './index.scss';
 
 export const HomePage = () => {
     const [homePageData, setHomePageData] = useState<Film[]>([]);
@@ -29,7 +30,7 @@ export const HomePage = () => {
     return (
         <div>
             <Slide />
-            <div style={{ marginTop: '-280px' }}></div>
+            <div className="container-home"></div>
             <ListFilm title="Phim liên quan" listFilm={homePageData} />
             <ListFilm title="Hài hước" listFilm={homePageData} />
             <ListFilm title="Phim mới nhất" listFilm={homePageData} />

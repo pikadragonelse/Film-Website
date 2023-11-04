@@ -1,4 +1,4 @@
-import { Badge, Card } from 'antd';
+import { Badge } from 'antd';
 import React from 'react';
 import './index.scss';
 
