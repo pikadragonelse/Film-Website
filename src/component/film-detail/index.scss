@@ -34,7 +34,10 @@
     }
 
     &__watch {
+        position: absolute;
         background-color: var(--primary-color);
+        left: 83.5%;
+        top: 78%;
     }
 
     &__icon {
@@ -80,7 +83,6 @@
     .film-detail {
         &__header {
             left: 35%;
-            gap: 5rem;
         }
     }
 }
@@ -89,7 +91,6 @@
     .film-detail {
         &__header {
             left: 31%;
-            gap: 20rem;
         }
     }
 }
@@ -98,7 +99,6 @@
     .film-detail {
         &__header {
             left: 31%;
-            gap: 24rem;
         }
     }
 }
@@ -107,7 +107,6 @@
     .film-detail {
         &__header {
             left: 30%;
-            gap: 28rem;
         }
     }
 }
@@ -116,7 +115,6 @@
     .film-detail {
         &__header {
             left: 29%;
-            gap: 30rem;
         }
     }
 }
@@ -124,7 +122,6 @@
     .film-detail {
         &__header {
             left: 29%;
-            gap: 24rem;
         }
     }
 }
@@ -133,7 +130,6 @@
     .film-detail {
         &__header {
             left: 28%;
-            gap: 27rem;
         }
     }
 }

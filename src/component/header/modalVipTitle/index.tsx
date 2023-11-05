@@ -5,7 +5,7 @@ export const ContentModalVipTitle = () => {
     return (
         <Link
             to={'/VIPpackage'}
-            className="flex justify-between mb-7 font-normal text-[13px] text-[#a9a9ac] cursor-pointer"
+            className="flex justify-between mb-7 font-normal text-[13px] text-[#a9a9ac] cursor-pointer hover:text-[var(--primary-color)]"
         >
             <p>Quyền lợi thành viên </p>
             <RightOutlined />

@@ -85,3 +85,6 @@
     color: var(--contrast-color);
     cursor: pointer;
 }
+.item-user:hover .icon {
+    color: red; /* Đổi màu biểu tượng thành đỏ khi di chuột vào .item-user */
+}

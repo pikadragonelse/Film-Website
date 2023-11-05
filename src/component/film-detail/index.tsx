@@ -59,23 +59,24 @@ export const FilmDetail: React.FC = () => {
                                     {filmDetail.genres.map((genre: Genre) => (
                                         <span
                                             key={genre.id}
-                                            className="px-4 py-2 border rounded-full mr-4 film-detal__value"
+                                            className="px-[10px] py-[4px] border rounded-full mr-4 film-detal__value"
                                         >
                                             {genre.name}
                                         </span>
                                     ))}
                                 </div>
                             </div>
-                            <Link
-                                to={`/watching/${filmDetail.movieId}/${firstEpisodeId}`}
-                                className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
-                            >
-                                <CaretRightOutlined />
-                                <span className="ml-4 text-lg" style={{ fontSize: '1rem' }}>
-                                    WATCH
-                                </span>
-                            </Link>
                         </div>
+
+                        <Link
+                            to={`/watching/${filmDetail.movieId}/${firstEpisodeId}`}
+                            className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
+                        >
+                            <CaretRightOutlined />
+                            <span className="ml-4 text-lg" style={{ fontSize: '1rem' }}>
+                                WATCH
+                            </span>
+                        </Link>
                     </div>
 
                     <div className="flex gap-3 absolute top-[18%] right-[8%]">
