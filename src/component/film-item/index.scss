@@ -41,8 +41,11 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 3.5rem;
-        color: var(--primary-color);
+        border-radius: 100px;
+        background-color: var(--primary-color);
+        padding: 0px 8px;
+        font-size: 2rem;
+        color: var(--contrast-color-color);
         opacity: 0;
         transition: opacity 0.3s ease;
     }
