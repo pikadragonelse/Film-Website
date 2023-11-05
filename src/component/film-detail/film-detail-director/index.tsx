@@ -5,7 +5,7 @@ interface Directors {
     director_id: number;
     name: string;
     character: string;
-    image: string;
+    avatar: string;
 }
 
 interface FilmDetailDirectorProps {
@@ -18,15 +18,15 @@ export const FilmDetailDirector: React.FC<FilmDetailDirectorProps> = ({ filmDeta
     const directors = filmDetail.directors || [];
 
     return (
-        <div className="director text-base mt-2 ml-3">
-            <ul className="grid grid-cols-4 gap-x-32 gap-y-12 ml-[-10px] mt-6">
+        <div className="director text-base mt-8 ml-3">
+            <ul className="grid grid-cols-5 gap-x-36 gap-y-12 ml-[-10px] mt-6">
                 {directors.map((director) => (
-                    <Link to={`/actor/${director.director_id}`} key={director.director_id}>
+                    <Link to="/director" key={director.director_id}>
                         <li className="flex gap-3 items-center">
                             <div className="shrink-0 max-w-[60px]  h-[65px]">
                                 <img
                                     className="object-cover w-[60px] h-[60px] rounded-full"
-                                    src={director.image}
+                                    src={director.avatar}
                                     alt={director.name}
                                 />
                             </div>

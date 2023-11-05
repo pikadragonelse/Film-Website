@@ -105,12 +105,7 @@ export const LayoutUser = () => {
                     <Layout>
                         <Content className="content-item">
                             <div className="content">
-                                <Breadcrumb className="content-title">
-                                    <Breadcrumb.Item>Foryou</Breadcrumb.Item>
-                                    <Breadcrumb.Item className="content-title-select-page">
-                                        {selectedPage}
-                                    </Breadcrumb.Item>
-                                </Breadcrumb>
+                                <Breadcrumb className="content-title"></Breadcrumb>
                                 <div className="content-main"> {content}</div>
                             </div>
                         </Content>
