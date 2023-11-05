@@ -8,11 +8,7 @@ interface TabContentProps {
     filmMap: Array<FilmItem>;
 }
 
-export const TabContent: React.FC<TabContentProps> = ({
-    isActive,
-    id,
-    filmMap,
-}) => {
+export const TabContent: React.FC<TabContentProps> = ({ isActive, id, filmMap }) => {
     return (
         <div className={isActive ? 'block' : 'hidden'} id={id}>
             <div style={{ marginLeft: '30px' }} className="content-page">

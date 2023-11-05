@@ -34,7 +34,7 @@ export const FilmDetail: React.FC = () => {
     }
 
     return (
-        <div className="film-detail flex-grow mb-[400px]">
+        <div className="film-detail flex-grow mb-[450px]">
             <div
                 style={{
                     backgroundImage: `url(${filmDetail.backgroundURL})`,

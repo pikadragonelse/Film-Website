@@ -85,7 +85,6 @@ const Slide: React.FC = () => {
                 transitionTime={4}
                 infiniteLoop={true}
                 showStatus={false}
-                onChange={handleCarouselChange}
             >
                 {popularMovies.map((movie, index) => (
                     <div className="poster__item slide-item" key={movie.movieId}>

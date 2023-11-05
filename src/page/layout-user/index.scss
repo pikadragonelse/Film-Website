@@ -15,7 +15,7 @@
         margin: 0 calc(5 * var(--spacing-md));
         .siderbar-nav {
             min-height: var(--min-height);
-            .ant-layout-sider{
+            .ant-layout-sider {
                 background-color: var(--main-color-page);
             }
             .siderbar-nav-item {
@@ -107,8 +107,7 @@
         font-weight: 600;
         padding: var(--spacing-md);
 
-        &:where(.css-dev-only-do-not-override-1vr7spz).ant-breadcrumb
-            .ant-breadcrumb-separator {
+        &:where(.css-dev-only-do-not-override-1vr7spz).ant-breadcrumb .ant-breadcrumb-separator {
             color: var(--constract-color);
         }
         .content-title-select-page {
