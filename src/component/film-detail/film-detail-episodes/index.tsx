@@ -23,7 +23,7 @@ const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) =
         <>
             <p className="episodes-length">Tổng số tập : {episodes.length}</p>
 
-            <div className="grid grid-cols-6 gap-10 mt-8">
+            <div className="grid grid-cols-6 gap-10 mt-8 gap-y">
                 {episodes.map((episode) => (
                     <Badge.Ribbon text={episode.title} color="red">
                         <img
