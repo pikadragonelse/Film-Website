@@ -17,7 +17,7 @@ export const ContentModalHistory: React.FC = () => (
         <List
             dataSource={data}
             renderItem={(item, index) => (
-                <List.Item className="hover:bg-[#2c2e33] cursor-pointer py-2 ">
+                <List.Item className="hover:bg-[#2c2e33] cursor-pointer py-2">
                     <List.Item.Meta
                         avatar={
                             <img
