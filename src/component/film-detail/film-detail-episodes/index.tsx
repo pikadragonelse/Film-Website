@@ -19,6 +19,7 @@ const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) =
             <p className="episodes-length">Tổng số tập : {episodes.length}</p>
 
             <div className="grid grid-cols-6 gap-x-10 gap-y-[5.1rem] mt-8 episode-item">
+
                 {episodes.map((episode) => (
                     <Badge.Ribbon text={episode.title} color="red">
                         <Link to={`/movie/${episode.movie_id}/${episode.episode_id}`}>

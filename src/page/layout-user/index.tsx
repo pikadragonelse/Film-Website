@@ -33,11 +33,11 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Profile', 'profile', <UserOutlined />),
-    getItem('VIP package', 'vip-package', <CrownOutlined />),
-    getItem('Watch later', 'watch-later', <UnorderedListOutlined />),
-    getItem('Watched movies', 'watched-movies', <OrderedListOutlined />),
-    getItem('Delete account', 'delete-account', <DeleteOutlined />),
+    getItem('Thông tin cá nhân', 'profile', <UserOutlined />),
+    getItem('Gói VIP', 'vip-package', <CrownOutlined />),
+    getItem('Lịch sử xem', 'watch-later', <UnorderedListOutlined />),
+    getItem('Bộ sưu tập', 'watched-movies', <OrderedListOutlined />),
+    getItem('Xóa tài khoản', 'delete-account', <DeleteOutlined />),
 ];
 
 export const LayoutUser = () => {
