@@ -1,15 +1,17 @@
 import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-import { FilmItem } from '../film-item';
 import Title from 'antd/es/typography/Title';
 import './index.scss';
 import { CarouselRef } from 'antd/es/carousel';
 import { Episodes, Film } from '../../model/film';
 import { Link } from 'react-router-dom';
 import { EpisodeItem } from './episode-item';
+import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
+import { EspList } from './esp-list';
+import { EspKanban } from './esp-kanban';
 
-export type ListEpisodes = {
+export type ListEpisodesType = {
     title?: string;
     titleFilm?: string;
     subInfo?: Array<string>;
@@ -23,23 +25,12 @@ export const ListEpisodes = ({
     subInfo,
     sessions = [],
     listEpisodes,
-    multiSessions = false,
-}: ListEpisodes) => {
-    const moment = require('moment');
-    const listRef = useRef<CarouselRef>(null);
-    const [page, setPage] = useState<number>(0);
+    multiSessions = true,
+}: ListEpisodesType) => {
+    const [isListVisible, setIsListVisible] = useState(true);
 
-    const handleLimited = (page: number) => {
-        if (listEpisodes) {
-            switch (page) {
-                case 0:
-                    return 'left';
-                case listEpisodes.length - 1:
-                    return 'right';
-                default:
-                    return '';
-            }
-        }
+    const toggleView = () => {
+        setIsListVisible(!isListVisible);
     };
 
     return (
@@ -54,71 +45,35 @@ export const ListEpisodes = ({
                     ))}
                 </div>
             </div>
-            <div
-                className={`session-section ${
-                    multiSessions === true ? 'show' : ''
-                }`}
-            >
-                <Dropdown
-                    menu={{ items: sessions }}
-                    trigger={['click']}
-                    className="session-section-select"
-                >
-                    <Button className="session-btn-select">
-                        Mùa 1
-                        <DownOutlined />
-                    </Button>
-                </Dropdown>
-            </div>
-            <div className="list">
-                <div
-                    className={`icon-list-container left-move-container ${
-                        handleLimited(page) === 'left' ? 'hide' : ''
-                    }`}
-                    onClick={() => {
-                        listRef.current?.prev();
-                        setPage((prev) => prev - 1);
-                    }}
-                >
-                    <LeftOutlined className="icon-list " />
-                </div>
-                {listEpisodes.length > 6 && (
-                    <div
-                        className={`icon-list-container right-move-container ${
-                            handleLimited(page) === 'right' ? 'hide' : ''
-                        }`}
-                        onClick={() => {
-                            listRef.current?.next();
-                            setPage((prev) => prev + 1);
-                        }}
+            <div className="session-view">
+                <div className={`session-section ${multiSessions ? 'show' : ''}`}>
+                    <Dropdown
+                        menu={{ items: sessions }}
+                        trigger={['click']}
+                        className="session-section-select"
                     >
-                        <RightOutlined className="icon-list" />
+                        <Button className="session-btn-select">
+                            Mùa 1
+                            <DownOutlined />
+                        </Button>
+                    </Dropdown>
+                </div>
+                <div className="session-segment">
+                    <div className="segment-icon">
+                        {isListVisible ? (
+                            <AppstoreOutlined onClick={toggleView} />
+                        ) : (
+                            <BarsOutlined onClick={toggleView} />
+                        )}
                     </div>
-                )}
-
-                <Carousel className="list-content" dots={false} ref={listRef}>
-                    <div>
-                        <Row justify="center">
-                            {listEpisodes.map((value) => (
-                                <Col span={4} className="list-col">
-                                    <Link
-                                        to={`/watching/${value.movieId}/${value.episodeId}`}
-                                    >
-                                        <EpisodeItem
-                                            episodeTitle={value.episodeTitle}
-                                            releaseDate={moment(
-                                                value.releaseDate,
-                                            ).format('YYYY')}
-                                            duration={value.duration}
-                                            numView={value.numView}
-                                            posterUrl={value.posterUrl}
-                                        />
-                                    </Link>
-                                </Col>
-                            ))}
-                        </Row>
+                    <div className="segment-content">
+                        {isListVisible ? (
+                            <EspList listEpisodes={listEpisodes} />
+                        ) : (
+                            <EspKanban listEpisodes={listEpisodes} />
+                        )}
                     </div>
-                </Carousel>
+                </div>
             </div>
         </div>
     );

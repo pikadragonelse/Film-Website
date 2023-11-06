@@ -15,7 +15,7 @@ export const HomePage = () => {
                     params: {
                         // isSeries: true,
                         page: 1,
-                        pageSize: 6,
+                        pageSize: 100,
                     },
                 });
                 const data = response.data;
