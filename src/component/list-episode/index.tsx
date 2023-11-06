@@ -1,15 +1,11 @@
-import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
+import { AppstoreOutlined, BarsOutlined, DownOutlined } from '@ant-design/icons';
+import { Button, Dropdown, MenuProps } from 'antd';
 import Title from 'antd/es/typography/Title';
-import './index.scss';
-import { CarouselRef } from 'antd/es/carousel';
-import { Episodes, Film } from '../../model/film';
-import { Link } from 'react-router-dom';
-import { EpisodeItem } from './episode-item';
-import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
-import { EspList } from './esp-list';
+import { useState } from 'react';
+import { Episodes } from '../../model/film';
 import { EspKanban } from './esp-kanban';
+import { EspList } from './esp-list';
+import './index.scss';
 
 export type ListEpisodesType = {
     title?: string;

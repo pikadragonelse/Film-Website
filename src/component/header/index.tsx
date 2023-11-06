@@ -72,6 +72,7 @@ export const Header = ({ className }: Header) => {
 
     const isLogin = useSelector((state: RootState) => state.user.isLogin);
     const username = useSelector((state: RootState) => state.user.username);
+
     console.log('isLogin :', isLogin);
     console.log('username :', username);
 
