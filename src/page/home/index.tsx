@@ -1,11 +1,39 @@
+import { useState, useEffect } from 'react';
 import Slide from '../../component/slide';
+import { request } from '../../utils/request';
+import { ListFilm } from '../../component/list-film';
+import { Film } from '../../model/film';
+import './index.scss';
 
-import FilmList from '../../component/film-list';
 export const HomePage = () => {
+    const [homePageData, setHomePageData] = useState<Film[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await request.get('movies?', {
+                    params: {
+                        // isSeries: true,
+                        page: 1,
+                        pageSize: 100,
+                    },
+                });
+                const data = response.data;
+                setHomePageData(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <div>
             <Slide />
-            <FilmList />
+            <div className="container-home"></div>
+            <ListFilm title="Phim liên quan" listFilm={homePageData} />
+            <ListFilm title="Hài hước" listFilm={homePageData} />
+            <ListFilm title="Phim mới nhất" listFilm={homePageData} />
         </div>
     );
 };

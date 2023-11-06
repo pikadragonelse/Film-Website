@@ -1,15 +1,17 @@
+import { Tabs, TabsProps } from 'antd';
 import React, { useState } from 'react';
-import { Tabs } from 'antd';
-import type { TabsProps } from 'antd';
+import { FilmDetailCast } from '../film-detail-cast';
+import { FilmDetailDirector } from '../film-detail-director';
+import FilmDetailEpisodes from '../film-detail-episodes';
+import FilmDetailReview from '../film-detail-review';
+import { FilmDetailOverall } from './../film-detail-overall/index';
 import './index.scss';
 
-import { FilmDetailCast } from '../film-detail-cast';
-import FilmDetailReview from '../film-detail-review';
+interface FilmDetailTabProps {
+    filmDetail: any;
+}
 
-import FilmDetailOverall from './../film-detail-overall/index';
-import FilmDetailEpisodes from '../film-detail-episodes';
-
-export const FilmDetailTab: React.FC = () => {
+export const FilmDetailTab: React.FC<FilmDetailTabProps> = ({ filmDetail }) => {
     const [activeTab, setActiveTab] = useState<string>('1');
 
     const onChange = (key: string) => {
@@ -19,13 +21,19 @@ export const FilmDetailTab: React.FC = () => {
     const renderTabContent = () => {
         switch (activeTab) {
             case '1':
-                return <FilmDetailOverall />;
+                return <FilmDetailOverall filmDetail={filmDetail} />;
             case '2':
-                return <FilmDetailCast />;
+                return <FilmDetailDirector filmDetail={filmDetail} />;
+
             case '3':
-                return <FilmDetailEpisodes />;
+                return <FilmDetailCast filmDetail={filmDetail} />;
+
             case '4':
+                return <FilmDetailEpisodes filmDetail={filmDetail} />;
+
+            case '5':
                 return <FilmDetailReview />;
+
             default:
                 return null;
         }
@@ -39,16 +47,21 @@ export const FilmDetailTab: React.FC = () => {
         },
         {
             key: '2',
-            label: 'Diễn viên',
+            label: 'Đạo diễn',
             children: '',
         },
         {
             key: '3',
-            label: 'Tập',
+            label: 'Diễn viên',
             children: '',
         },
         {
             key: '4',
+            label: 'Tập',
+            children: '',
+        },
+        {
+            key: '5',
             label: 'Đánh giá',
             children: '',
         },

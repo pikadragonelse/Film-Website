@@ -26,28 +26,16 @@ const FilmDetailReview: React.FC = () => (
             onChange: (page) => {
                 console.log(page);
             },
-            pageSize: 2,
+            pageSize: 3,
         }}
         dataSource={data}
         renderItem={(item) => (
             <List.Item
                 key={item.title}
                 actions={[
-                    <IconText
-                        icon={StarOutlined}
-                        text="156"
-                        key="list-vertical-star-o"
-                    />,
-                    <IconText
-                        icon={LikeOutlined}
-                        text="156"
-                        key="list-vertical-like-o"
-                    />,
-                    <IconText
-                        icon={MessageOutlined}
-                        text="2"
-                        key="list-vertical-message"
-                    />,
+                    <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
+                    <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
+                    <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
                 ]}
             >
                 <List.Item.Meta

@@ -1,14 +1,12 @@
-import { Checkbox, Form, Input, Button } from 'antd';
-import React from 'react';
+import { Button, Checkbox, Form, Input, notification } from 'antd';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
+import { setIslogin, setUsername } from '../../redux/isLoginSlice';
 import './index.scss';
-import { useState } from 'react';
-import axios from 'axios';
-import { Modal } from 'antd';
-import { setUsername, setIslogin } from '../../redux/isLoginSlice';
-import { useDispatch } from 'react-redux';
-import Cookies from 'js-cookie';
 
 type FieldType = {
     username?: string;
@@ -17,7 +15,6 @@ type FieldType = {
 };
 
 export const Login: React.FC = () => {
-    const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -36,7 +33,10 @@ export const Login: React.FC = () => {
                 setLoading(false);
 
                 if (response.status === 200) {
-                    alert('Chúc mừng, bạn đã đăng nhập thành công');
+                    notification.success({
+                        message: 'Đăng nhập thành công',
+                        description: 'Chúc mừng, bạn đã đăng nhập thành công',
+                    });
 
                     dispatch(setIslogin(true));
 
@@ -50,20 +50,21 @@ export const Login: React.FC = () => {
                     navigate('/');
                 } else {
                     if (response.data.error) {
-                        setModalVisible(true);
+                        notification.error({
+                            message: 'Đăng nhập không thành công',
+                            description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',
+                        });
                     }
                 }
             })
             .catch(function (err) {
                 setLoading(false);
                 console.error(err);
-                setModalVisible(true);
+                notification.error({
+                    message: 'Đăng nhập không thành công',
+                    description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',
+                });
             });
-    };
-
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
-        setModalVisible(true);
     };
 
     return (
@@ -93,7 +94,6 @@ export const Login: React.FC = () => {
                         style={{ maxWidth: 600 }}
                         initialValues={{ remember: true }}
                         onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
                         autoComplete="off"
                         layout="vertical"
                     >
@@ -162,14 +162,6 @@ export const Login: React.FC = () => {
                     </Form>
                 </div>
             </div>
-            <Modal
-                title="Login Failed"
-                visible={modalVisible}
-                onCancel={() => setModalVisible(false)}
-                footer={null}
-            >
-                <p>Incorrect password. Please try again.</p>
-            </Modal>
         </div>
     );
 };

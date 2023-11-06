@@ -1,101 +1,215 @@
+import {
+    CaretRightOutlined,
+    HeartFilled,
+    HeartOutlined,
+    ShareAltOutlined,
+} from '@ant-design/icons';
+import { Button, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
-import './index.scss';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link } from 'react-router-dom';
-import { CaretRightOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Start } from '../../asset/icon/start';
+import { RootState } from '../../redux/store';
+import './index.scss';
+
 interface Movie {
-    id: number;
-    backdrop_path: string;
-    original_title: string;
-    release_date: string;
-    vote_average: number;
-    overview: string;
+    movieId: number;
+    backgroundURL: string;
+    title: string;
+    releaseDate: string;
+    averageRating: number;
+    description: string;
+    episodeNum: string;
+    genres: Array<Genres>;
+}
+interface Genres {
+    genre_id: number;
+    name: string;
 }
 
 const Slide: React.FC = () => {
     const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [isHeartFilled, setIsHeartFilled] = useState<boolean[]>([]);
+    const [isTitleVisible, setIsTitleVisible] = useState(false);
+
+    const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
 
     useEffect(() => {
-        fetch(
-            'https://api.themoviedb.org/3/movie/popular?api_key=4e44d9029b1270a757cddc766a1bcb63&language=en-US',
-        )
+        fetch('http://localhost:8000/api/movies')
             .then((res) => res.json())
-            .then((data) => setPopularMovies(data.results));
+            .then((data) => {
+                setPopularMovies(data);
+                setIsHeartFilled(new Array(data.length).fill(false));
+            });
     }, []);
 
+    const handleCarouselChange = () => {
+        setIsTitleVisible(false);
+        setTimeout(() => {
+            setIsTitleVisible(true);
+        }, 500);
+    };
+
+    function formatYear(dateString: string) {
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+        };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    const handleShareClick = () => {
+        if (isUserLoggedIn) {
+        } else {
+            setModalVisible(true);
+        }
+    };
+
+    const handleHeartClick = (index: number) => {
+        if (isUserLoggedIn) {
+            const updatedHearts = [...isHeartFilled];
+            updatedHearts[index] = !updatedHearts[index];
+            setIsHeartFilled(updatedHearts);
+        } else {
+            setModalVisible(true);
+        }
+    };
     return (
         <div className="poster">
             <Carousel
                 className="slide"
                 showThumbs={false}
                 autoPlay={true}
-                transitionTime={3}
+                transitionTime={4}
                 infiniteLoop={true}
                 showStatus={false}
             >
-                {popularMovies.map((movie) => (
-                    <div>
-                        <Link
-                            className="poster__item slide-item"
-                            style={{ textDecoration: 'none', color: 'white' }}
-                            to={`/movie/${movie.id}`}
-                            key={movie.id}
-                        >
-                            <div className="poster__image">
-                                <img
-                                    src={`https://image.tmdb.org/t/p/original${
-                                        movie && movie.backdrop_path
-                                    }`}
-                                    alt={movie.original_title}
-                                />
-                            </div>
-                            <div className="poster__image-overlay">
-                                <div className="poster__image-title">
-                                    <h2 className="md:text-5xl font-black tracking-normal md:tw-multiline-ellipsis-2 tw-multiline-ellipsis-3">
-                                        {movie ? movie.original_title : ''}
-                                    </h2>
-                                </div>
+                {popularMovies.map((movie, index) => (
+                    <div className="poster__item slide-item" key={movie.movieId}>
+                        <div className="poster__image">
+                            <img src={movie.backgroundURL} alt={movie.title} />
+                        </div>
+                        <div className="overlay"></div>
 
-                                <h2 className="mb-3">
-                                    First air date:{' '}
-                                    {movie ? movie.release_date : ''}
+                        <div className="poster__image-overlay">
+                            <div
+                                className={`poster__image-title ${isTitleVisible ? 'visible' : ''}`}
+                            >
+                                <h2 className="md:text-5xl font-black tracking-normal md:tw-multiline-ellipsis-2 tw-multiline-ellipsis-3">
+                                    {movie ? movie.title : ''}
                                 </h2>
-                                <div className="poster__image-runtime mt-4">
-                                    {/* <span className="px-3 py-1 border rounded-full poster__image-rating poster__image-padding">
-                                        {movie ? movie.vote_average : ''}
-                                    </span> */}
-                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
-                                        Hài hước
-                                    </span>
-                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
-                                        Lãng mạng
-                                    </span>
-                                    <span className="px-3 py-1 border rounded-full poster__image-padding">
-                                        Hàn Quốc
-                                    </span>
-                                </div>
+                            </div>
 
-                                <div className="poster__image-description">
-                                    {movie ? movie.overview : ''}
-                                </div>
+                            <h2
+                                className={`poster__image-listInfo ${
+                                    isTitleVisible ? 'visible' : ''
+                                }`}
+                            >
+                                <span
+                                    className="poster__movie-info"
+                                    style={{
+                                        color: '#cf1a1a',
+                                    }}
+                                >
+                                    <Start />
+                                    <p style={{ fontWeight: 600, marginLeft: '5px' }}>
+                                        {movie.averageRating}
+                                    </p>
+                                </span>
+                                <span className="poster__movie-info">
+                                    <p>{movie ? formatYear(movie.releaseDate) : ''}</p>
+                                </span>
+                                <span>
+                                    <p>Trọn bộ {movie.episodeNum} tập</p>
+                                </span>
+                            </h2>
+                            <div
+                                className={`poster__image-runtime ${
+                                    isTitleVisible ? 'visible' : ''
+                                }`}
+                            >
+                                {movie.genres.map((genre) => (
+                                    <span
+                                        key={genre.genre_id}
+                                        className="px-3 py-1  poster__image-padding"
+                                    >
+                                        {genre.name}
+                                    </span>
+                                ))}
+                            </div>
 
-                                <div>
-                                    <a href="#_" className="btn">
+                            <div
+                                className={`poster__image-description ${
+                                    isTitleVisible ? 'visible' : ''
+                                }`}
+                            >
+                                {movie ? movie.description : ''}
+                            </div>
+
+                            <div
+                                className={`poster__image-listButton ${
+                                    isTitleVisible ? 'visible' : ''
+                                }`}
+                            >
+                                <Link
+                                    className="btn"
+                                    style={{ textDecoration: 'none', color: 'white' }}
+                                    to={`/movie/${movie.movieId}`}
+                                    key={movie.movieId}
+                                >
+                                    <a href="#_">
                                         <CaretRightOutlined className="btn-icon" />
                                         Xem ngay
                                     </a>
+                                </Link>
 
-                                    <a href="#_" className="btn btn-outline">
-                                        <InfoCircleOutlined className="btn-icon" />
-                                        Xem chi tiết
-                                    </a>
-                                </div>
+                                {isHeartFilled[index] ? (
+                                    <HeartFilled
+                                        twoToneColor="#cf1a1a"
+                                        style={{ color: '#cf1a1a' }}
+                                        className="btn-heart btn-heart__click"
+                                        onClick={() => handleHeartClick(index)}
+                                    />
+                                ) : (
+                                    <HeartOutlined
+                                        className="btn-heart"
+                                        onClick={() => handleHeartClick(index)}
+                                    />
+                                )}
+                                <ShareAltOutlined
+                                    className="btn-heart ml-4"
+                                    onClick={handleShareClick}
+                                />
                             </div>
-                        </Link>
+                        </div>
                     </div>
                 ))}
             </Carousel>
+            <Modal
+                visible={modalVisible}
+                onCancel={() => setModalVisible(false)}
+                footer={
+                    <Button
+                        className="poster__image-close"
+                        type="primary"
+                        onClick={() => setModalVisible(false)}
+                    >
+                        Đóng
+                    </Button>
+                }
+                style={{ textAlign: 'center', marginTop: '100px' }}
+            >
+                <div className="poster__image-notifi">Thông báo</div>
+                <p className="poster__image-notifititle">
+                    Vui lòng{' '}
+                    <Link style={{ color: 'var(--primary-color)', fontWeight: 700 }} to="/login">
+                        Đăng nhập
+                    </Link>{' '}
+                    để tiếp tục sử dụng dịch vụ.
+                </p>
+            </Modal>
         </div>
     );
 };

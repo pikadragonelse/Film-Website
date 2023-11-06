@@ -1,7 +1,6 @@
 .film-item-container {
-    width: 200px;
-    height: 290px;
-    // background-color: var(--contrast-color);
+    width: 204px;
+    height: 274px;
     border-radius: var(--border-r-sm);
     overflow: hidden;
     position: relative;
@@ -17,45 +16,62 @@
     }
 
     &:hover .film-item-image {
-        scale: 1.1;
+        scale: 1.05;
     }
 
-    .film-item-info {
-        position: absolute;
-        backdrop-filter: blur(10px);
-        width: 180px;
-        bottom: var(--spacing-md);
-        padding: var(--spacing-sm-1);
-        border-radius: var(--border-r-sm);
-        overflow: hidden;
-        z-index: var(--z-high);
-        color: var(--contrast-color);
-
-        .film-item-title {
-            font-size: var(--font-s-md-1);
-            font-weight: 500;
-        }
-
-        .film-item-sub-info {
-            font-weight: 300;
-            font-size: var(--font-s-sm-1);
-        }
-    }
-    .btn-close{
+    .btn-close {
         position: absolute;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: var(--font-s-md);
         border-radius: 50%;
-        top:3px;
+        top: 3px;
         right: 5px;
         width: 24px;
         height: 24px;
         background-color: rgba(0, 0, 0, 0.45);
 
-        &:hover{
+        &:hover {
             color: var(--primary-color);
         }
     }
+    .btn-play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3.5rem;
+        color: var(--primary-color);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    &:hover .btn-play {
+        opacity: 1;
+    }
+}
+.film-item-title {
+    margin-top: 10px;
+}
+:where(.css-dev-only-do-not-override-1vr7spz) a {
+    font-size: 1.1rem;
+}
+:where(.css-dev-only-do-not-override-1vr7spz) a:hover {
+    color: var(--contrast-color);
+}
+
+.film-item-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    transition: background 0.3s;
+}
+
+.film-item-container:hover::after {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
 }

@@ -23,7 +23,6 @@
         display: flex;
         align-items: center;
         justify-content: space-around;
-        width: 80%;
         position: absolute;
         left: 22%;
         top: 80%;
@@ -57,6 +56,14 @@
     stroke: var(--primary-color);
 }
 
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs .ant-tabs-tab-btn:focus:not(:focus-visible),
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs
+    .ant-tabs-tab-remove:focus:not(:focus-visible),
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs .ant-tabs-tab-btn:active,
+:where(.css-dev-only-do-not-override-1vr7spz).ant-tabs .ant-tabs-tab-remove:active {
+    color: var(--primary-color);
+}
+
 .ant-progress.ant-progress-circle .ant-progress-text {
     color: var(--contrast-color);
     font-size: 0.9rem;
@@ -72,8 +79,8 @@
 @media only screen and (min-width: 1024px) and (max-width: 1280px) {
     .film-detail {
         &__header {
-            left: 24.5%;
-            gap: 10rem;
+            left: 35%;
+            gap: 5rem;
         }
     }
 }
@@ -81,8 +88,8 @@
 @media only screen and (min-width: 1280px) and (max-width: 1320px) {
     .film-detail {
         &__header {
-            left: 23%;
-            gap: 10rem;
+            left: 31%;
+            gap: 20rem;
         }
     }
 }
@@ -90,8 +97,8 @@
 @media only screen and (min-width: 1320px) and (max-width: 1390px) {
     .film-detail {
         &__header {
-            left: 23.5%;
-            gap: 14rem;
+            left: 31%;
+            gap: 24rem;
         }
     }
 }
@@ -99,8 +106,8 @@
 @media only screen and (min-width: 1390px) and (max-width: 1480px) {
     .film-detail {
         &__header {
-            left: 22%;
-            gap: 18rem;
+            left: 30%;
+            gap: 28rem;
         }
     }
 }
@@ -108,15 +115,15 @@
 @media only screen and (min-width: 1480px) and (max-width: 1500px) {
     .film-detail {
         &__header {
-            left: 22%;
-            gap: 22rem;
+            left: 29%;
+            gap: 30rem;
         }
     }
 }
 @media only screen and (min-width: 1500px) and (max-width: 1580px) {
     .film-detail {
         &__header {
-            left: 21.5%;
+            left: 29%;
             gap: 24rem;
         }
     }
@@ -125,7 +132,7 @@
 @media only screen and (min-width: 1580px) {
     .film-detail {
         &__header {
-            left: 21%;
+            left: 28%;
             gap: 27rem;
         }
     }

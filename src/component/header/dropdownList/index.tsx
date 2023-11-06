@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { Dropdown, Menu } from 'antd';
 import { Link } from 'react-router-dom';
+// import { Film } from '../../../model/film';
+// import { request } from '../../../utils/request';
 
 interface MenuItem {
     title: string;
@@ -14,6 +16,29 @@ interface DropdownMenuProps {
     data: MenuItem[];
 }
 export const DropdownList: React.FC<DropdownMenuProps> = ({ title, data }) => {
+    // const [searchData, setsearchData] = useState<Film[]>([]);
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await request.get('movies?', {
+    //                 params: {
+    //                     isSeries: 'true',
+    //                     page: 1,
+    //                     pageSize: 6,
+    //                 },
+    //             });
+    //             const data = response.data;
+    //             setsearchData(data);
+    //             console.log(data);
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, []);
+
+    // console.log(searchData);
     const renderSubMenu = (item: MenuItem): React.ReactNode => {
         if (item.childrens && item.childrens.length > 0) {
             return (
