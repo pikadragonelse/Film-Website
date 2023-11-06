@@ -1,7 +1,10 @@
 :where(.css-dev-only-do-not-override-1vr7spz).ant-card .ant-card-body {
     padding: 24px 0;
 }
-
+.episode-item > .ant-ribbon-wrapper {
+    height: 99px;
+    width: 179px;
+}
 .episodes-length {
     margin-top: 18px;
     font-size: 1.2rem;
@@ -11,7 +14,7 @@
     color: #989898;
     font-size: 0.9rem;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

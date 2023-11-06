@@ -66,6 +66,16 @@ export const FilmDetail: React.FC = () => {
                                     ))}
                                 </div>
                             </div>
+                            <Link
+                                to={`/movie/${filmDetail.movieId}/${firstEpisodeId}`}
+                                className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
+                            >
+                                <CaretRightOutlined />
+                                <span className="ml-4 text-lg" style={{ fontSize: '1rem' }}>
+                                    WATCH
+                                </span>
+                            </Link>
+
                         </div>
 
                         <Link

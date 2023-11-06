@@ -2,8 +2,9 @@
     margin: 0 -var(--spacing-lg-1) -watching;
     .list-heading {
         display: flex;
-        gap: var(--spacing-lg);
-        align-items: center;
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        justify-content: start;
 
         .list-title {
             color: var(--contrast-color);
@@ -23,31 +24,73 @@
             }
         }
     }
-    .session-section {
-        display: none;
-        gap: var(--spacing-md);
-        align-items: center;
-        margin-bottom: var(--spacing-md);
+    .session-view{
+        margin-bottom: var(--spacing-sm-2);
+        margin-top: var(--spacing-sm-2);
+        position: relative;
 
-        .session-section-select {
-            color: var(--contrast-color);
-            display: flex;
+        .session-section {
+            position: absolute;
+            top:0;
+            left: 0;
+            display: hidden;
+            gap: var(--spacing-md);
             align-items: center;
-
-            &:hover {
-                color: var(--primary-color);
-                border-color: var(--primary-color);
+            margin-bottom: var(--spacing-md);
+    
+            .session-section-select {
+                color: var(--contrast-color);
+                display: flex;
+                align-items: center;
+    
+                &:hover {
+                    color: var(--primary-color);
+                    border-color: var(--primary-color);
+                }
+            }
+    
+            .session-section-episode {
+                font-size: var(--font-s-sm);
+            }
+    
+            &.show {
+                display: flex;
             }
         }
 
-        .session-section-episode {
-            font-size: var(--font-s-sm);
-        }
-
-        &.show {
+        .session-segment {
             display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            padding-top: var(--spacing-sm-1) ;
+
+            .segment-icon{
+                font-size: 1.4rem;
+                margin-right: 9px;
+            }
+
+            .segment-content{
+                height: 440px;
+                width: 100%;
+                margin-top: var(--spacing-md);
+                overflow-y: scroll;
+            }
+            .segment-content::-webkit-scrollbar {
+                width: 0px;
+              }
+              
+              .segment-content::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, 0.1); 
+              }
+              
+              .segment-content::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.1); 
+              }
         }
+        
+         
     }
+    
 
     .list {
         position: relative;
@@ -101,3 +144,4 @@
         justify-content: flex-start !important;
     }
 }
+

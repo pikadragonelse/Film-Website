@@ -14,16 +14,15 @@ export interface Directors {
 }
 
 export interface Episodes{
-    episodeId: number;
-    movieId: number;
-    episodeTitle: string;
-    releaseDate: string;
-    posterUrl: string;
-    movieUrl: string;
-    numView: string;
-    duration: number;
-    episodeNo: number;
-    titleFilm?:string;
+    episode_id: number,
+    movie_id: number,
+    poster_url: string,
+    title: string,
+    release_date: string,
+    num_view: string,
+    duration: number,
+    episode_no: number,
+    posterUrl: string
 }
 
 export type Film = {

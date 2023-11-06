@@ -3,18 +3,29 @@
     flex-direction: column;
     gap: var(--spacing-md);
 
-    .name {
-        font-size: var(--font-s-lg);
-        font-weight: 500;
+    .name-esp{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .name, .episode {
+            font-size: var(--font-s-lg-2);
+            font-weight: 700;
+        }
+        .name{
+            margin-right: 10px;
+        }
+        .episode{
+            margin-left: 10px;
+        }
     }
+    
 
     .view-info {
         display: flex;
         gap: var(--spacing-md-1);
 
-        // .rate .rate-icon {
-        //     color: var(--gold-color);
-        // }
+        
         .view{
             width: 100px;
         }
