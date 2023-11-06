@@ -1,6 +1,8 @@
 import {
+    BookOutlined,
     CaretRightOutlined,
     HeartOutlined,
+    PlusOutlined,
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
@@ -55,40 +57,47 @@ export const FilmDetail: React.FC = () => {
                         {/* Info */}
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
-                                <div className="film-detal__summary">
+                                <div className="film-detail__summary">
                                     {filmDetail.genres.slice(0, 4).map((genre: Genre) => (
                                         <span
                                             key={genre.id}
-                                            className="px-[10px] py-[4px] border rounded-full mr-4 film-detal__value"
+                                            className="px-4 py-2 film-detail__padding"
                                         >
                                             {genre.name}
                                         </span>
                                     ))}
                                 </div>
+                                <div className="film-detail__listbutton">
+                                    <Link
+                                        to={`/movie/${filmDetail.movieId}/${firstEpisodeId}`}
+                                        className="film-detail__watch flex items-center pl-3 pr-4 py-[6px] rounded-[6px] text-whitetransition duration-300 mt-[-10px] mr-3"
+                                    >
+                                        <CaretRightOutlined />
+                                        <span className="ml-2 text-[1rem]">Xem ngay</span>
+                                    </Link>
+
+                                    <Link
+                                        to={`/movie/${filmDetail.movieId}/${firstEpisodeId}`}
+                                        className="film-detail__watch flex items-center pl-3 pr-4 py-[6px] rounded-[6px] text-whitetransition duration-300 mt-[-10px] mr-2 "
+                                    >
+                                        <BookOutlined />
+                                        <span className="ml-2 text-[1rem]">Sưu tập</span>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-
-                        <Link
-                            to={`/movie/${filmDetail.movieId}/${firstEpisodeId}`}
-                            className="film-detail__watch flex items-center pl-6 pr-10 py-3 rounded-full text-whitetransition duration-300 mt-[-10px] mr-10"
-                        >
-                            <CaretRightOutlined />
-                            <span className="ml-4 text-lg" style={{ fontSize: '1rem' }}>
-                                WATCH
-                            </span>
-                        </Link>
                     </div>
 
-                    <div className="flex gap-3 absolute top-[18%] right-[8%]">
-                        <a className="h-10 w-10 rounded-full border-[2px] border-gray-400 ">
+                    <div className="flex gap-3 absolute top-[83%] right-[8%]">
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white ">
                             <HeartOutlined className="film-detail__icon" />
                         </a>
 
-                        <a className="h-10 w-10 rounded-full border-[2px] border-gray-400 ">
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white  ">
                             <ShareAltOutlined className="film-detail__icon" />
                         </a>
 
-                        <a className="h-10 w-10 rounded-full border-[2px] border-gray-400 ">
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white">
                             <SmallDashOutlined className="film-detail__icon" />
                         </a>
                     </div>

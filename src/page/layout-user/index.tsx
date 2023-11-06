@@ -36,7 +36,8 @@ const items: MenuItem[] = [
     getItem('Thông tin cá nhân', 'profile', <UserOutlined />),
     getItem('Gói VIP', 'vip-package', <CrownOutlined />),
     getItem('Lịch sử xem', 'watch-later', <UnorderedListOutlined />),
-    getItem('Bộ sưu tập', 'watched-movies', <OrderedListOutlined />),
+    getItem('Phim xem sau', 'watched-movies', <OrderedListOutlined />),
+    getItem('Phim yêu thích', 'watched-movies', <OrderedListOutlined />),
     getItem('Xóa tài khoản', 'delete-account', <DeleteOutlined />),
 ];
 

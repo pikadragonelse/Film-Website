@@ -133,7 +133,7 @@ const Slide: React.FC = () => {
                                 {movie.genres.map((genre) => (
                                     <span
                                         key={genre.genre_id}
-                                        className="px-3 py-1  poster__image-padding"
+                                        className="px-3 py-1 poster__image-padding"
                                     >
                                         {genre.name}
                                     </span>
