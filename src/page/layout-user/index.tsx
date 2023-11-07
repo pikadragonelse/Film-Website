@@ -4,9 +4,10 @@ import {
     UserOutlined,
     CrownOutlined,
     UnorderedListOutlined,
-    OrderedListOutlined,
+    CalendarOutlined,
     DeleteOutlined,
     SettingOutlined,
+    HeartOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
@@ -36,8 +37,8 @@ const items: MenuItem[] = [
     getItem('Thông tin cá nhân', 'profile', <UserOutlined />),
     getItem('Gói VIP', 'vip-package', <CrownOutlined />),
     getItem('Lịch sử xem', 'watch-later', <UnorderedListOutlined />),
-    getItem('Phim xem sau', 'watched-movies', <OrderedListOutlined />),
-    getItem('Phim yêu thích', 'watched-movies', <OrderedListOutlined />),
+    getItem('Phim xem sau', 'watched-movies', <CalendarOutlined />),
+    getItem('Phim yêu thích', 'love-movies', <HeartOutlined />),
     getItem('Xóa tài khoản', 'delete-account', <DeleteOutlined />),
 ];
 
@@ -64,6 +65,9 @@ export const LayoutUser = () => {
             break;
         case 'watched-movies':
             content = <div>Watched movies</div>;
+            break;
+        case 'love-movies':
+            content = <div>Love movies</div>;
             break;
         case 'delete-account':
             content = <div>Delete account</div>;

@@ -1,14 +1,16 @@
 import {
-    BookOutlined,
     CaretRightOutlined,
+    CheckOutlined,
     HeartOutlined,
     PlusOutlined,
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Progress } from 'antd';
+import { Modal, Progress } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
+import { RootState } from '../../redux/store';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 interface Genre {
@@ -18,6 +20,19 @@ interface Genre {
 export const FilmDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
+    const [addedToCollection, setAddedToCollection] = useState(false);
+    const [showLoginModal, setShowLoginModal] = useState(false);
+
+    const handleOpenModal = () => {
+        setShowLoginModal(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowLoginModal(false);
+    };
+
+    const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
+
     let firstEpisodeId: number | null = null;
     useEffect(() => {
         fetch(`http://localhost:8000/api/movies/${id}`)
@@ -34,6 +49,14 @@ export const FilmDetail: React.FC = () => {
         const firstEpisode = filmDetail.episodes[0];
         firstEpisodeId = firstEpisode.episode_id;
     }
+
+    const handleAddToCollection = () => {
+        if (isUserLoggedIn) {
+            setAddedToCollection((prev) => !prev);
+        } else {
+            handleOpenModal();
+        }
+    };
 
     return (
         <div className="film-detail flex-grow mb-[450px]">
@@ -76,28 +99,37 @@ export const FilmDetail: React.FC = () => {
                                         <span className="ml-2 text-[1rem]">Xem ngay</span>
                                     </Link>
 
-                                    <Link
-                                        to={`/movie/${filmDetail.movieId}/${firstEpisodeId}`}
-                                        className="film-detail__watch flex items-center pl-3 pr-4 py-[6px] rounded-[6px] text-whitetransition duration-300 mt-[-10px] mr-2 "
+                                    <div
+                                        className="film-detail__watch flex items-center pl-3 pr-4 py-[6px] rounded-[6px] text-whitetransition duration-300 mt-[-10px] mr-2 hover:cursor-pointer"
+                                        onClick={handleAddToCollection}
                                     >
-                                        <BookOutlined />
+                                        {addedToCollection ? <CheckOutlined /> : <PlusOutlined />}
                                         <span className="ml-2 text-[1rem]">Sưu tập</span>
-                                    </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div className="flex gap-3 absolute top-[83%] right-[8%]">
-                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white ">
+                        <a
+                            href="#icon"
+                            className="h-10 w-10 rounded-full border-[1.5px] border-white "
+                        >
                             <HeartOutlined className="film-detail__icon" />
                         </a>
 
-                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white  ">
+                        <a
+                            href="#icon"
+                            className="h-10 w-10 rounded-full border-[1.5px] border-white  "
+                        >
                             <ShareAltOutlined className="film-detail__icon" />
                         </a>
 
-                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white">
+                        <a
+                            href="#icon"
+                            className="h-10 w-10 rounded-full border-[1.5px] border-white"
+                        >
                             <SmallDashOutlined className="film-detail__icon" />
                         </a>
                     </div>
@@ -126,6 +158,14 @@ export const FilmDetail: React.FC = () => {
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
+            <Modal
+                title="Thông báo"
+                visible={showLoginModal}
+                onOk={handleCloseModal}
+                onCancel={handleCloseModal}
+            >
+                <p>Vui lòng đăng nhập để thêm vào bộ sưu tập.</p>
+            </Modal>
         </div>
     );
 };
