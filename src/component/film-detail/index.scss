@@ -11,8 +11,8 @@
     }
 
     &__title {
-        width: 68%;
-        margin-bottom: 150px;
+        width: 72%;
+        margin-bottom: 160px;
         font-size: 2.7rem;
         font-weight: 700;
         margin-left: 2px;
@@ -25,8 +25,7 @@
         justify-content: space-around;
         position: absolute;
         left: 22%;
-        top: 80%;
-        gap: 22rem;
+        top: 72%;
     }
 
     &__summary {
@@ -34,15 +33,12 @@
     }
 
     &__watch {
-        position: absolute;
         background-color: var(--primary-color);
-        left: 83.5%;
-        top: 78%;
     }
 
     &__icon {
         font-size: 12px;
-        margin: 10px 0 0 9px;
+        margin: 11px 0 0 10px;
     }
 
     &__tab {
@@ -50,6 +46,20 @@
         left: 27.5%;
         height: auto;
         top: 88%;
+    }
+    &__padding {
+        font-size: 0.9rem;
+        padding: 3px 7px;
+        background: rgba(255, 255, 255, 0.09);
+        border-radius: 2px;
+        margin-right: 0.7rem;
+        font-weight: 500;
+        color: rgb(236, 236, 236);
+    }
+
+    &__listbutton {
+        display: flex;
+        margin-top: 45px;
     }
 }
 
