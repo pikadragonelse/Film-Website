@@ -14,6 +14,9 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 import { UserProfile } from '../../component/user-profile';
 import { VIPPackageUser } from '../../component/VIP-package-user';
 import { WatchLater } from '../../component/watch-later';
+import { FilmDetail } from '../../component/film-detail';
+import { FilmItem } from '../../component/film-item';
+import { useSelector } from 'react-redux';
 
 const { Header, Content, Sider } = Layout;
 
@@ -36,8 +39,8 @@ function getItem(
 const items: MenuItem[] = [
     getItem('Thông tin cá nhân', 'profile', <UserOutlined />),
     getItem('Gói VIP', 'vip-package', <CrownOutlined />),
-    getItem('Lịch sử xem', 'watch-later', <UnorderedListOutlined />),
-    getItem('Phim xem sau', 'watched-movies', <CalendarOutlined />),
+    getItem('Phim xem sau', 'watch-later', <UnorderedListOutlined />),
+    getItem('Lịch sử xem', 'watched-movies', <CalendarOutlined />),
     getItem('Phim yêu thích', 'love-movies', <HeartOutlined />),
     getItem('Xóa tài khoản', 'delete-account', <DeleteOutlined />),
 ];
@@ -45,6 +48,9 @@ const items: MenuItem[] = [
 export const LayoutUser = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [selectedPage, setSelectedPage] = useState('');
+    //bộ sưu tập
+    const dataCollect = useSelector((state: any) => state.dataCollect.dataCollect);
+
     const handleMenuClick = (item: MenuItem | null) => {
         if (item && item.key) {
             setSelectedPage(item.key.toString());
@@ -61,7 +67,7 @@ export const LayoutUser = () => {
             content = <VIPPackageUser />;
             break;
         case 'watch-later':
-            content = <WatchLater />;
+            content = <WatchLater dataCollect={dataCollect} />;
             break;
         case 'watched-movies':
             content = <div>Watched movies</div>;
@@ -75,6 +81,7 @@ export const LayoutUser = () => {
         default:
             content = <UserProfile />;
     }
+
     return (
         <div className="wrapper-layout">
             <div className="header-layoutUser"></div>
