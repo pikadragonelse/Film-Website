@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import debouncedReducer from './debouncedSlide';
 import isLoginSlide from './isLoginSlice';
+import dataCollectReducer from './dataCollectSlide';
 
 export const store = configureStore({
     reducer: {
         debounced: debouncedReducer,
         user: isLoginSlide,
+        dataCollect: dataCollectReducer,
     },
 });
 

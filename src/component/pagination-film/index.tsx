@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { VideoCameraOutlined } from '@ant-design/icons';
+import { CloseOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Col, Row, Pagination } from 'antd';
 import './index.scss';
 import { FilmItem } from '../film-item';
 import { Modal } from 'antd';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setDataCollect } from '../../redux/dataCollectSlide';
 
 const moment = require('moment');
 
@@ -40,9 +42,7 @@ export const PaginationFilm = ({
         setListFilm(searchResults);
     }, [searchResults]);
 
-    const [displayedResults, setDisplayedResults] = useState<Array<FilmItem>>(
-        [],
-    );
+    const [displayedResults, setDisplayedResults] = useState<Array<FilmItem>>([]);
     const resultsPerPage = 12;
 
     useEffect(() => {
@@ -63,12 +63,11 @@ export const PaginationFilm = ({
         }
     };
 
+    const dispatch = useDispatch();
     const handleCancelClick = (filmName: string) => {
-        const updatedListFilm = listFilm.filter(
-            (film) => film.title !== filmName,
-        );
-
+        const updatedListFilm = listFilm.filter((film) => film.title !== filmName);
         setListFilm(updatedListFilm);
+        dispatch(setDataCollect(updatedListFilm));
     };
 
     return (
@@ -85,19 +84,17 @@ export const PaginationFilm = ({
                                 <FilmItem
                                     title={result.title || ''}
                                     episodeNum={result.episodeNum}
-                                    releaseDate={
-                                        moment(result.releaseDate).format(
-                                            'YYYY',
-                                        ) || 0
-                                    }
+                                    releaseDate={moment(result.releaseDate).format('YYYY') || 0}
                                     posterURL={result.posterURL || ''}
-                                    onCancelClick={
-                                        onCancelClick
-                                            ? () => showModal(result)
-                                            : undefined
-                                    }
                                 />
                             </Link>
+                            <button onClick={() => showModal(result)}>
+                                {onCancelClick ? (
+                                    <div className="btn-close">
+                                        <CloseOutlined />
+                                    </div>
+                                ) : undefined}
+                            </button>
                         </Col>
                     ))}
                 </Row>
@@ -112,12 +109,7 @@ export const PaginationFilm = ({
                 />
             </div>
 
-            <Modal
-                title="Dọn dẹp!"
-                visible={open}
-                onOk={handleOkClick}
-                onCancel={handleCancel}
-            >
+            <Modal title="Dọn dẹp!" visible={open} onOk={handleOkClick} onCancel={handleCancel}>
                 <p>{`Bạn chắc chắn muốn xóa "${selectedFilm?.title}" ?`}</p>
             </Modal>
         </div>

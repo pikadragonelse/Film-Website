@@ -13,15 +13,26 @@ import { Link, useParams } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
+import { FilmItem } from '../film-item';
+import { setDataCollect } from '../../redux/dataCollectSlide';
+import { useDispatch } from 'react-redux';
+
 interface Genre {
     id: number;
     name: string;
 }
-export const FilmDetail: React.FC = () => {
+
+export const FilmDetail = () => {
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
-    const [addedToCollection, setAddedToCollection] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
+    //bộ sưu tập
+    const dispatch = useDispatch();
+    const dataCollect = useSelector((state: RootState) => state.dataCollect.dataCollect);
+    // const addedToCollection = useSelector(
+    //     (state: RootState) => state.dataCollect.addedToCollection,
+    // );
+    const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
 
     const handleOpenModal = () => {
         setShowLoginModal(true);
@@ -39,6 +50,16 @@ export const FilmDetail: React.FC = () => {
             .then((res) => res.json())
             .then((data) => setFilmDetail(data));
     }, [id]);
+    useEffect(() => {
+        if (isUserLoggedIn && filmDetail) {
+            const isFilmDetailInCollection = dataCollect.some(
+                (item: FilmItem) => item.movieId === filmDetail.movieId,
+            );
+            setAddedToCollection(isFilmDetailInCollection);
+        } else {
+            setAddedToCollection(false);
+        }
+    }, [isUserLoggedIn, dataCollect, filmDetail]);
 
     if (!filmDetail) {
         return <div>Loading...</div>;
@@ -51,8 +72,32 @@ export const FilmDetail: React.FC = () => {
     }
 
     const handleAddToCollection = () => {
-        if (isUserLoggedIn) {
-            setAddedToCollection((prev) => !prev);
+        if (isUserLoggedIn && filmDetail) {
+            const isItemInCollection =
+                Array.isArray(dataCollect) &&
+                dataCollect.some((item: FilmItem) => item.movieId === filmDetail.movieId);
+
+            if (!isItemInCollection) {
+                const newFilmItem = {
+                    movieId: filmDetail.movieId,
+                    title: filmDetail.title,
+                    description: filmDetail.description,
+                    releaseDate: filmDetail.releaseDate,
+                    nation: filmDetail.nation,
+                    posterURL: filmDetail.posterURL,
+                    trailerURL: filmDetail.trailerURL,
+                    averageRating: filmDetail.averageRating,
+                    episodeNum: filmDetail.episodes.length,
+                    level: filmDetail.level,
+                    genres: filmDetail.genres,
+                    actors: filmDetail.actors,
+                    episodes: filmDetail.episodes,
+                    data: filmDetail.data,
+                    onCancelClick: true,
+                };
+                setAddedToCollection(true);
+                dispatch(setDataCollect([...dataCollect, newFilmItem]));
+            }
         } else {
             handleOpenModal();
         }
