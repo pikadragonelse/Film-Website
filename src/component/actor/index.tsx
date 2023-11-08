@@ -16,117 +16,21 @@ interface ActorInfo {
     dateOfBirth: string;
     description: string;
 }
-const filmMap: Array<FilmItem> = [
-    {
-        title: 'Film 3',
-        releaseDate: '2022',
-        genres: ['Hành động'],
-        posterURL: 'https://image.tmdb.org/t/p/original/oUmmY7QWWn7OhKlcPOnirHJpP1F.jpg',
-    },
-    {
-        title: 'Film 4',
-        releaseDate: '2022',
-        genres: ['Hành động'],
-        posterURL: 'https://image.tmdb.org/t/p/original/mXLOHHc1Zeuwsl4xYKjKh2280oL.jpg',
-    },
-    {
-        title: 'Film 5',
-        releaseDate: '2022',
-        genres: ['Hành động'],
-        posterURL: 'https://image.tmdb.org/t/p/original/kdPMUMJzyYAc4roD52qavX0nLIC.jpg',
-    },
-    {
-        title: 'Film 6',
-        releaseDate: '2022',
-        genres: ['Hành động'],
-        posterURL: 'https://image.tmdb.org/t/p/original/fiVW06jE7z9YnO4trhaMEdclSiC.jpg',
-    },
-    {
-        title: 'Film 7',
-        releaseDate: '2022',
-        genres: ['Tình cảm'],
-        posterURL: 'https://image.tmdb.org/t/p/original/4m1Au3YkjqsxF8iwQy0fPYSxE0h.jpg',
-    },
-    {
-        title: 'Film 8',
-        releaseDate: '2022',
-        genres: ['Tình cảm'],
-
-        posterURL: 'https://image.tmdb.org/t/p/original/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg',
-    },
-    {
-        title: 'Film 9',
-        releaseDate: '2022',
-        genres: ['Tình cảm'],
-
-        posterURL: 'https://image.tmdb.org/t/p/original/iOJX54nVAsnPawagFiWXKv1Y6sB.jpg',
-    },
-    {
-        title: 'Film 10',
-        releaseDate: '2022',
-        genres: ['Tình cảm'],
-        posterURL: 'https://image.tmdb.org/t/p/original/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg',
-    },
-    {
-        title: 'Film 11',
-        releaseDate: '2022',
-        genres: ['Tình cảm'],
-        posterURL: 'https://image.tmdb.org/t/p/original/waBWlJlMpyFb7STkFHfFvJKgwww.jpg',
-    },
-    {
-        title: 'Film 12',
-        releaseDate: '2022',
-        genres: ['Tình cảm'],
-        posterURL: 'https://image.tmdb.org/t/p/original/4Y1WNkd88JXmGfhtWR7dmDAo1T2.jpg',
-    },
-    {
-        title: 'Film 13',
-        releaseDate: '2021',
-        genres: ['Kinh dị'],
-        posterURL: 'https://image.tmdb.org/t/p/original/c6Splshb8lb2Q9OvUfhpqXl7uP0.jpg',
-    },
-    {
-        title: 'Film 14',
-        releaseDate: '2022',
-        genres: ['Kinh dị'],
-        posterURL: 'https://image.tmdb.org/t/p/original/yF1eOkaYvwiORauRCPWznV9xVvi.jpg',
-    },
-    {
-        title: 'Film 15',
-        releaseDate: '2022',
-        genres: ['Kinh dị'],
-        posterURL: 'https://image.tmdb.org/t/p/original/oUmmY7QWWn7OhKlcPOnirHJpP1F.jpg',
-    },
-    {
-        title: 'Film 22',
-        releaseDate: '2022',
-        genres: ['Kinh dị'],
-        posterURL: 'https://image.tmdb.org/t/p/original/mXLOHHc1Zeuwsl4xYKjKh2280oL.jpg',
-    },
-    {
-        title: 'Film 32',
-        releaseDate: '2022',
-        genres: ['Kinh dị'],
-        posterURL: 'https://image.tmdb.org/t/p/original/kdPMUMJzyYAc4roD52qavX0nLIC.jpg',
-    },
-    {
-        title: 'Film 42',
-        releaseDate: '2022',
-        genres: ['Kinh dị'],
-        posterURL: 'https://image.tmdb.org/t/p/original/fiVW06jE7z9YnO4trhaMEdclSiC.jpg',
-    },
-];
 
 export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
     const [activeTab, setActiveTab] = useState(1);
     const { actorId } = useParams();
     const [actorInfo, setActorInfo] = useState<ActorInfo | null>(null);
+    const [films, setFilms] = useState<Array<FilmItem>>([]);
 
     useEffect(() => {
         fetch(`http://localhost:8000/api/individual/actor?actorId=${actorId}`)
             .then((response) => response.json())
-            .then((data) => setActorInfo(data.data))
+            .then((data) => {
+                setActorInfo(data.data);
+                setFilms(data.data.movies);
+            })
             .catch((error) => console.error('Error:', error));
     }, [actorId]);
 
@@ -149,9 +53,9 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     ];
 
     const tabsData = [
-        { id: 1, label: 'Bộ tác phẩm', href: '#botacpham' },
-        { id: 2, label: 'Nội dung đặc sắc', href: '#noidungdacsac' },
-        { id: 3, label: 'Nhân vật liên quan', href: '#nhanvatlienquan' },
+        { id: 1, label: 'Bộ tác phẩm' },
+        { id: 2, label: 'Nội dung đặc sắc' },
+        { id: 3, label: 'Nhân vật liên quan' },
     ];
 
     function formatDate(dateString: string) {
@@ -237,11 +141,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                     <div className="flex flex-wrap">
                         <div className="w-full">
                             <ul
-                                style={{
-                                    width: '40%',
-                                    marginLeft: '90px',
-                                }}
-                                className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                                className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row w-[40%] ml-[90px]"
                                 role="tablist"
                             >
                                 {tabsData.map((tab) => (
@@ -249,7 +149,6 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                         key={tab.id}
                                         isActive={openTab === tab.id}
                                         onClick={() => handleTabClick(tab.id)}
-                                        href={tab.href}
                                         label={tab.label}
                                     />
                                 ))}
@@ -265,7 +164,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                             <TabContent
                                                 isActive={tabcontent.isActive}
                                                 id={tabcontent.id}
-                                                filmMap={filmMap}
+                                                filmMap={films}
                                             />
                                         </div>
                                     ))}
