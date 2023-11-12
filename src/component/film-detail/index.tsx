@@ -98,6 +98,13 @@ export const FilmDetail = () => {
                 setAddedToCollection(true);
                 dispatch(setDataCollect([...dataCollect, newFilmItem]));
             }
+            if (isItemInCollection) {
+                const updatedCollection = dataCollect.filter(
+                    (item: FilmItem) => item.movieId !== filmDetail.movieId,
+                );
+                setAddedToCollection(false);
+                dispatch(setDataCollect(updatedCollection));
+            }
         } else {
             handleOpenModal();
         }
