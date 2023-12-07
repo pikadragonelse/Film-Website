@@ -19,7 +19,7 @@ export const HomePage = () => {
                     },
                 });
                 const data = response.data;
-                setHomePageData(data);
+                setHomePageData(data.movies);
             } catch (error) {
                 console.error(error);
             }

@@ -56,15 +56,9 @@ const listComment = [
     },
 ];
 
-export const Comment: React.FC<CommentProps> = ({
-    title,
-    isLogin,
-    currentUser,
-    placeholder,
-}) => {
+export const Comment: React.FC<CommentProps> = ({ title, isLogin, currentUser, placeholder }) => {
     const timestamp = Date.now();
-    const [listComments, setListComments] =
-        useState<Array<listCommentsProps>>(listComment);
+    const [listComments, setListComments] = useState<Array<listCommentsProps>>(listComment);
     const handleCommentSubmit = (comment: string) => {
         const newCommentList = [
             ...listComments,
@@ -84,9 +78,7 @@ export const Comment: React.FC<CommentProps> = ({
         <div className="comment-content">
             <hr className="my-6 border-neutral-800" />
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-3xl lg:text-2xl font-bold dark:text-white">
-                    {title}
-                </h2>
+                <h2 className="text-3xl lg:text-2xl font-bold dark:text-white">{title}</h2>
             </div>
             {isLogin ? (
                 <WriteComment
