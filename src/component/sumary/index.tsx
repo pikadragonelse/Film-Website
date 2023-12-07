@@ -41,11 +41,11 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
     let x = 10000;
     let number = x.toLocaleString('it-IT');
     const postOrder = async (data: any) => {
-        return await request
+        return await axios
             .post(
-                '/payments/paypal',
+                'http://localhost:8000/api/payments/paypal',
                 { price: 1 },
-                { headers: { 'Content-Type': 'application/json' } },
+                { headers: { 'Content-Type': 'application/json' }, baseURL: '' },
             )
             .then((res) => {
                 console.log(res.data);
@@ -58,7 +58,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
     async function onApprove(data: any) {
         return await request
             .post(
-                '/payments/paypal/success',
+                'http://localhost:8000/api/payments/paypal/success',
                 {
                     orderID: data.orderID,
                 },

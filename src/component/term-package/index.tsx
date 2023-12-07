@@ -17,10 +17,6 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
             price: 69000,
         },
         {
-            value: 3,
-            price: 79000,
-        },
-        {
             value: 6,
             price: 99000,
         },

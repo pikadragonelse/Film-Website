@@ -8,7 +8,7 @@ import { useAppSelector } from '../../redux/hook';
 
 export const Payment = () => {
     const [selectedTerm, setSelectedTerm] = useState<TermPackage | null>(null);
-    const [selectedLabel, setSelectedLabel] = useState<string>('');
+    const [selectedLabel, setSelectedLabel] = useState<string>('Paypal');
     const idVIPPackage = useAppSelector((state) => state.VIPPayment.subscriptionTypeId);
 
     return (
