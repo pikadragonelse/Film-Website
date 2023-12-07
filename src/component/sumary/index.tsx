@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
 import './index.scss';
 import { Link } from 'react-router-dom';
+import { TermPackage } from '../term-package';
+import { request } from '../../utils/request';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import axios from 'axios';
 interface SummaryProps {
-    selectedTerm: { value: string; price: string } | null;
+    selectedTerm: TermPackage | null;
     selectedLabel: string;
 }
 
@@ -21,27 +25,77 @@ const hours = currentDate.getHours().toString().padStart(2, '0');
 const minutes = currentDate.getMinutes().toString().padStart(2, '0');
 const currentTime = `${hours}:${minutes}`;
 
-export const Summary: React.FC<SummaryProps> = ({
-    selectedTerm,
-    selectedLabel,
-}) => {
+export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel }) => {
     let endDate = startDate;
     if (selectedTerm) {
-        const additionalValue = parseFloat(selectedTerm.value);
+        const additionalValue = selectedTerm.value;
         const endDateTimestamp =
-            currentDate.getTime() +
-            additionalValue * 30.5 * 24 * 60 * 60 * 1000;
+            currentDate.getTime() + additionalValue * 30.5 * 24 * 60 * 60 * 1000;
         const endDateObject = new Date(endDateTimestamp);
         const endDay = endDateObject.getDate().toString().padStart(2, '0');
-        const endMonth = (endDateObject.getMonth() + 1)
-            .toString()
-            .padStart(2, '0');
+        const endMonth = (endDateObject.getMonth() + 1).toString().padStart(2, '0');
         const endYear = endDateObject.getFullYear();
         endDate = `${endDay}/${endMonth}/${endYear}`;
     }
 
     let x = 10000;
     let number = x.toLocaleString('it-IT');
+    const postOrder = async (data: any) => {
+        return await axios
+            .post(
+                'http://localhost:8000/api/payments/paypal',
+                { price: 1 },
+                { headers: { 'Content-Type': 'application/json' }, baseURL: '' },
+            )
+            .then((res) => {
+                console.log(res.data);
+                return res.data.id;
+            })
+            .catch((error) => console.log(error));
+    };
+    useEffect(() => {}, []);
+    const [linkRedirect, setLinkRedirect] = useState('');
+    async function onApprove(data: any) {
+        return await request
+            .post(
+                'http://localhost:8000/api/payments/paypal/success',
+                {
+                    orderID: data.orderID,
+                },
+                { headers: { 'Content-Type': 'application/json' } },
+            )
+            .then((orderData) => {
+                console.log(orderData);
+            })
+            .catch((error) => console.log(error));
+    }
+
+    const paymentVNPay = async () => {
+        await axios
+            .post(
+                'http://localhost:8000/api/payments/vn-pay',
+                {
+                    price: 20000,
+                    ipAddress: '127.0.0.1',
+                },
+                { headers: { 'Content-Type': 'application/json' } },
+            )
+            .then((response) => {
+                console.log(response);
+                setLinkRedirect(response.data);
+            })
+            .catch((err) => console.log(err));
+        // await axios
+        //     .get('http://localhost:8000/api/payments/vn-pay/verify', {
+        //         headers: { 'Content-Type': 'application/json' },
+        //     })
+        //     .then((response) => {
+        //         console.log(response);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
+    };
 
     return (
         <div className="wrapper-summary">
@@ -86,7 +140,7 @@ export const Summary: React.FC<SummaryProps> = ({
                     <div className="price">
                         <div className="">Trị giá</div>
                         <div className="value">
-                            {selectedTerm ? selectedTerm.price : '69000 ₫'}
+                            {selectedTerm ? selectedTerm.price.toLocaleString('it-IT') : '--- ₫'}
                         </div>
                     </div>
                 </div>
@@ -94,9 +148,7 @@ export const Summary: React.FC<SummaryProps> = ({
                 <div className="method">
                     <div className="method-payment">
                         <div className="">Phương thức thanh toán</div>
-                        <div className="value">
-                            {selectedLabel ? selectedLabel : 'Paypal'}
-                        </div>
+                        <div className="value">{selectedLabel ? selectedLabel : 'Paypal'}</div>
                     </div>
                 </div>
                 <hr className="my-4 border-neutral-300" />
@@ -114,20 +166,33 @@ export const Summary: React.FC<SummaryProps> = ({
                             fontWeight: '500',
                         }}
                     >
-                        Hợp đồng và Chính sách
-                    </a>{' '}
+                        Hợp đồng và Chính sách{' '}
+                    </a>
                     của MOVTIME.
                 </div>
             </div>
-            <Button className="btn-confirm" type="primary">
-                <Link
+            {selectedLabel === 'Paypal' ? (
+                <PayPalScriptProvider
+                    options={{
+                        clientId:
+                            'ARs2ZSePnRG8bMCE8RBu6bTJo6HmLsv2u7IdPQXCw4yEEejKYtPz7BAv1jw5DfeC2Apwdddv2RPGi4Hs',
+                        currency: 'USD',
+                        intent: 'capture',
+                    }}
+                >
+                    <PayPalButtons onApprove={onApprove} createOrder={postOrder} />
+                </PayPalScriptProvider>
+            ) : (
+                <Button className="btn-confirm" type="primary" onClick={paymentVNPay}>
+                    {/* <Link
                     to={`/bill?selectedTerm=${JSON.stringify(
                         selectedTerm,
                     )}&selectedLabel=${selectedLabel}&currentDate=${startDate}&endDate=${endDate}&currentTime=${currentTime}&orderNumber=${orderNumber}`}
-                >
+                > */}
                     Xác nhận
-                </Link>
-            </Button>
+                    {/* </Link> */}
+                </Button>
+            )}
         </div>
     );
 };

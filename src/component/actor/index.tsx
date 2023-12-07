@@ -1,15 +1,15 @@
 import { ShareAltOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { TabItem } from './director-tag-item';
 import './index.scss';
-import { TabContent } from './director-tag-content/index';
 import { FilmItem } from '../film-item';
 import { useParams } from 'react-router';
+import { TabItem } from './actor-tag-item';
+import { TabContent } from './actor-tag-content';
 interface TabsProps {
     color: string;
 }
-interface DirectorInfo {
+interface ActorInfo {
     name: string;
     gender: string;
     avatar: string;
@@ -17,22 +17,22 @@ interface DirectorInfo {
     description: string;
 }
 
-export const Director: React.FC<TabsProps> = ({ color }) => {
+export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
     const [activeTab, setActiveTab] = useState(1);
-    const { directorId } = useParams();
-    const [directorInfo, setDirectorInfo] = useState<DirectorInfo | null>(null);
+    const { actorId } = useParams();
+    const [actorInfo, setActorInfo] = useState<ActorInfo | null>(null);
     const [films, setFilms] = useState<Array<FilmItem>>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/individual/director?directorId=${directorId}`)
+        fetch(`http://localhost:8000/api/individual/actor?actorId=${actorId}`)
             .then((response) => response.json())
             .then((data) => {
-                setDirectorInfo(data.data);
+                setActorInfo(data.data);
                 setFilms(data.data.movies);
             })
             .catch((error) => console.error('Error:', error));
-    }, [directorId]);
+    }, [actorId]);
 
     const handleTabClick = (tabNumber: number) => {
         setOpenTab(tabNumber);
@@ -53,9 +53,9 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     ];
 
     const tabsData = [
-        { id: 1, label: 'Bộ tác phẩm', href: '#botacpham' },
-        { id: 2, label: 'Nội dung đặc sắc', href: '#noidungdacsac' },
-        { id: 3, label: 'Nhân vật liên quan', href: '#nhanvatlienquan' },
+        { id: 1, label: 'Bộ tác phẩm' },
+        { id: 2, label: 'Nội dung đặc sắc' },
+        { id: 3, label: 'Nhân vật liên quan' },
     ];
 
     function formatDate(dateString: string) {
@@ -69,30 +69,28 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
 
     return (
         <>
-            {directorInfo && (
+            {actorInfo && (
                 <div>
-                    <div className="container-director__header"></div>
+                    <div className="container-actor__header"></div>
                     <div className="flex rounded-lg p-10 ml-14">
                         <div className="">
                             <img
                                 className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4"
-                                src={directorInfo.avatar}
+                                src={actorInfo.avatar}
                                 alt=""
                             />
                         </div>
                         <div className="my-3 ml-12">
                             <p className="font-semibold" style={{ fontSize: '2.4rem' }}>
-                                {directorInfo.name}
+                                {actorInfo.name}
                             </p>
-                            <div className="text-base  text-[#989898] flex mt-4">
-                                {directorInfo.description}
+                            <div className="text-base text-[#989898] flex mt-4">
+                                {actorInfo.description}
                             </div>
 
                             <div className="flex mt-6 text-base">
                                 <div>
-                                    <span className="text-[#989898] mr-4">
-                                        {directorInfo.gender}
-                                    </span>
+                                    <span className="text-[#989898] mr-4">{actorInfo.gender}</span>
                                     {'|'}
                                 </div>
                                 <div className="mx-4">
@@ -105,7 +103,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                                 </div>
                                 <div className="mx-4">
                                     <span className="text-[#989898] ">
-                                        {formatDate(directorInfo.dateOfBirth)}
+                                        {formatDate(actorInfo.dateOfBirth)}
                                     </span>
                                 </div>
                             </div>
@@ -143,11 +141,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                     <div className="flex flex-wrap">
                         <div className="w-full">
                             <ul
-                                style={{
-                                    width: '40%',
-                                    marginLeft: '90px',
-                                }}
-                                className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                                className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row w-[40%] ml-[90px]"
                                 role="tablist"
                             >
                                 {tabsData.map((tab) => (
@@ -155,7 +149,6 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                                         key={tab.id}
                                         isActive={openTab === tab.id}
                                         onClick={() => handleTabClick(tab.id)}
-                                        href={tab.href}
                                         label={tab.label}
                                     />
                                 ))}
