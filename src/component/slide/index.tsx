@@ -41,9 +41,10 @@ const Slide: React.FC = () => {
         fetch('http://localhost:8000/api/movies')
             .then((res) => res.json())
             .then((data) => {
-                setPopularMovies(data);
+                setPopularMovies(data.movies);
                 setIsHeartFilled(new Array(data.length).fill(false));
-            });
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     const handleCarouselChange = () => {
