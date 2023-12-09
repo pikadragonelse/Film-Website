@@ -87,10 +87,6 @@ export const PaginationFilm = ({
                                     episodeNum={result.episodeNum}
                                     releaseDate={moment(result.releaseDate).format('YYYY') || 0}
                                     posterURL={result.posterURL || ''}
-                                    onCancelClick={
-                                        onCancelClick ? () => showModal(result) : undefined
-                                    }
-
                                 />
                             </Link>
                             <button onClick={() => showModal(result)}>
