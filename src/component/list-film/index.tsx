@@ -21,7 +21,7 @@ export const ListFilm = ({
     title,
     subInfo,
     sessions = [],
-    listFilm,
+    listFilm = [],
     multiSessions = false,
 }: ListFilm) => {
     const moment = require('moment');
@@ -39,14 +39,13 @@ export const ListFilm = ({
             switch (page) {
                 case 0:
                     return 'left';
-                case listFilm.length - 1:
+                case 1:
                     return 'right';
                 default:
                     return '';
             }
         }
     };
-
     return (
         <div className="list-container">
             <div className="list-heading">
@@ -110,7 +109,7 @@ export const ListFilm = ({
                                                 'YYYY-MM-DD',
                                             )}
                                             episodeNum={value.episodeNum}
-                                            genres={value.genres.map((genre: any) => genre.name)}
+                                            // genres={value.genres.map((genre: any) => genre.name)}
                                             posterURL={value.posterURL}
                                         />
                                     </Link>

@@ -6,34 +6,32 @@ import { Film } from '../../model/film';
 import './index.scss';
 
 export const HomePage = () => {
-    const [homePageData, setHomePageData] = useState<Film[]>([]);
+    const [trendingData, setTrendingData] = useState<Film[]>([]);
+    const fetchTrending = async () => {
+        try {
+            const response = await request.get('movies/home/trending?', {
+                params: {
+                    page: 1,
+                    pageSize: 1,
+                },
+            });
+            const data = response.data;
+            setTrendingData(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await request.get('movies?', {
-                    params: {
-                        // isSeries: true,
-                        page: 1,
-                        pageSize: 100,
-                    },
-                });
-                const data = response.data;
-                setHomePageData(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchData();
+        fetchTrending();
     }, []);
-
     return (
         <div>
             <Slide />
             <div className="container-home"></div>
-            <ListFilm title="Phim liên quan" listFilm={homePageData} />
-            <ListFilm title="Hài hước" listFilm={homePageData} />
-            <ListFilm title="Phim mới nhất" listFilm={homePageData} />
+            <ListFilm title="Phim thịnh hành" listFilm={trendingData} />
+            {/* <ListFilm title="Hài hước" listFilm={homePageData} />
+            <ListFilm title="Phim mới nhất" listFilm={homePageData} /> */}
         </div>
     );
 };

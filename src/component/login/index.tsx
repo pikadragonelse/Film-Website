@@ -44,7 +44,6 @@ export const Login: React.FC = () => {
                         dispatch(setUsername(data.username));
                         Cookies.set('username', data.username, { expires: 1, secure: true });
                     }
-
                     Cookies.set('accessToken', accessToken, { expires: 1 });
 
                     navigate('/');

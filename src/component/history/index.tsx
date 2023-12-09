@@ -3,23 +3,22 @@ import './index.scss';
 import { PaginationFilm } from '../pagination-film';
 import { FilmItem } from '../film-item';
 
-interface WatchLaterProps {
-    dataCollect: FilmItem[];
+interface HistoryMoviesProps {
+    dataHistorymovies: FilmItem[];
 }
 
-export const WatchLater = ({ dataCollect }: WatchLaterProps) => {
+export const HistoryMovies = ({ dataHistorymovies }: HistoryMoviesProps) => {
     return (
-        <div className="content-page-watch-later">
-            {dataCollect.length !== 0 ? (
+        <div className="content-page-love-movies">
+            {dataHistorymovies.length !== 0 ? (
                 <PaginationFilm
                     title="Bộ sưu tập phim"
-                    listFilm={dataCollect}
+                    listFilm={dataHistorymovies}
                     number={4.8}
                     onCancelClick={true}
-                    context="watchList"
                 />
             ) : (
-                <p>Chưa xem phim nào</p>
+                <p>Lịch sử phim còn trống</p>
             )}
         </div>
     );

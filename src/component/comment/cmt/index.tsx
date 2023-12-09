@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
-import {
-    DeleteIcon,
-    LoveIcon,
-    ReplyIcon,
-} from '../../../asset/icon/comment-icon';
+import { DeleteIcon, LoveIcon, ReplyIcon } from '../../../asset/icon/comment-icon';
 import { listComment } from '../list-cmt';
 import { WriteComment } from '../write-cmt';
 import { CurrentUser } from '..';
 import { Modal } from 'antd';
 
 import './index.scss';
+import Cookies from 'js-cookie';
+import { request } from '../../../utils/request';
 
 interface CmtProps {
     comment: listComment;
@@ -18,14 +16,9 @@ interface CmtProps {
     replyCommentId?: number | null;
     setReplyCommentId?: (commentId: number | null) => void;
     deleteCommentById?: (commentId: number, replyId?: number) => void;
-    increaseLike: (like: number) => void;
-    decreaseLike: (like: number) => void;
+    increaseLike: (numLike: number) => void;
+    decreaseLike: (numLike: number) => void;
 }
-const currentUser: CurrentUser = {
-    username: 'user1',
-    email: 'user1@gmail.com',
-    avatar: 'https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-};
 
 export const Cmt: React.FC<CmtProps> = ({
     comment,
@@ -36,16 +29,34 @@ export const Cmt: React.FC<CmtProps> = ({
     increaseLike,
     decreaseLike,
 }) => {
-    const isCurrentUserComment = comment.username === currentUser.username;
-    const [isCurrentUserLike, setisCurrentUserLike] = useState<Boolean>(false);
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const [currentUser, setCurrentUser] = useState<CurrentUser>({
+        username: '',
+        email: '',
+        avatarURL: '',
+    });
+    const fetchDataCurrentUser = async () => {
+        try {
+            const response = await request.get('user/get-self-information', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data;
+            setCurrentUser(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchDataCurrentUser();
+    }, []);
 
     const getTimeDifference = (commentDateTime: string) => {
         const commentDate = new Date(commentDateTime);
         const currentDate = new Date();
 
-        const timeDifference = Math.abs(
-            commentDate.getTime() - currentDate.getTime(),
-        );
+        const timeDifference = Math.abs(commentDate.getTime() - currentDate.getTime());
 
         const seconds = Math.floor(timeDifference / 1000);
         const minutes = Math.floor(seconds / 60);
@@ -55,17 +66,17 @@ export const Cmt: React.FC<CmtProps> = ({
         const years = Math.floor(days / 365);
 
         if (years > 0) {
-            return `${years} years ago`;
+            return `${years} năm trước`;
         } else if (months > 0) {
-            return `${months} months ago`;
+            return `${months} tháng trước`;
         } else if (days > 0) {
-            return `${days} days ago`;
+            return `${days} ngày trước`;
         } else if (hours > 0) {
-            return `${hours} hours ago`;
+            return `${hours} giờ trước`;
         } else if (minutes > 0) {
-            return `${minutes} minutes ago`;
+            return `${minutes} phút trước`;
         } else {
-            return `${seconds} seconds ago`;
+            return `${seconds} giây trước`;
         }
     };
     const [isReplying, setIsReplying] = useState<boolean>(true);
@@ -82,9 +93,7 @@ export const Cmt: React.FC<CmtProps> = ({
     const handleReply = () => {
         setIsReplying(true);
         if (setReplyCommentId) {
-            setReplyCommentId(
-                replyCommentId === comment.id ? null : comment.id,
-            );
+            setReplyCommentId(replyCommentId === comment.id ? null : comment.id);
         }
     };
 
@@ -97,74 +106,74 @@ export const Cmt: React.FC<CmtProps> = ({
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
+    const token = Cookies.get('accessToken');
+    let isCurrentUserComment = false;
+    if (token) {
+        isCurrentUserComment =
+            comment.user?.user_id === JSON.parse(atob(token.split('.')[1])).userId;
+    }
+    const [isCurrentUserLike, setisCurrentUserLike] = useState<Boolean>(false);
     const handleLike = () => {
-        increaseLike(comment.like);
+        increaseLike(comment.numLike);
         setisCurrentUserLike(!isCurrentUserLike);
     };
     const handleUndoLike = () => {
-        decreaseLike(comment.like);
+        decreaseLike(comment.numLike);
         setisCurrentUserLike(!isCurrentUserLike);
     };
     return (
-        <article
-            key={comment.id}
-            className="pt-4 pb-4 text-base rounded-lg flex  "
-        >
+        <article key={comment.id} className="pt-4 pb-4 text-base rounded-lg flex  ">
             <img
                 className=" w-12 h-12 rounded-full"
-                src={comment.avatar}
-                alt={comment.username}
+                src={comment.user?.avatar_url}
+                alt={comment.user?.email}
             />
             <div className="comment-detail">
                 <div className="inf-user">
-                    <p className="inline-flex items-center mr-1 username ">
-                        {comment.username}
-                    </p>
+                    <p className="inline-flex items-center mr-1 username ">{comment.user?.email}</p>
                     {'·'}
                     <p className="text-sm ml-1">
-                        <time>{getTimeDifference(comment.dateTime)}</time>
+                        <time>{getTimeDifference(comment.createdAt)}</time>
                     </p>
                 </div>
-                {comment.comment}
+                {comment.content}
                 <div className="flex items-center mt-6 mb-6">
                     {isCurrentUserLike ? (
-                        <div
-                            className="love-icon-like"
-                            onClick={handleUndoLike}
-                        >
-                            {comment.like == 0 ? (
+                        <div className="love-icon-like" onClick={handleUndoLike}>
+                            {comment.numLike == 0 ? (
                                 <>
                                     <LoveIcon /> <p className="ml-1">Like</p>
                                 </>
                             ) : (
                                 <>
                                     <LoveIcon />
-                                    <p className="ml-1">{comment.like} </p>
+                                    <p className="ml-1">{comment.numLike} </p>
                                 </>
                             )}
                         </div>
                     ) : (
                         <div className="love-icon" onClick={handleLike}>
-                            {comment.like == 0 ? (
+                            {comment.numLike == 0 ? (
                                 <>
                                     <LoveIcon /> <p className="ml-1">Like</p>
                                 </>
                             ) : (
                                 <>
                                     <LoveIcon />
-                                    <p className="ml-1">{comment.like} </p>
+                                    <p className="ml-1">{comment.numLike} </p>
                                 </>
                             )}
                         </div>
                     )}
 
-                    <div className="reply-icon" onClick={handleReply}>
-                        <div className="icon">
-                            <ReplyIcon />
-                            <p className="ml-1"> Reply</p>
+                    {comment.subcomments && (
+                        <div className="reply-icon" onClick={handleReply}>
+                            <div className="icon">
+                                <ReplyIcon />
+                                <p className="ml-1"> Reply</p>
+                            </div>
                         </div>
-                    </div>
+                    )}
                     {isCurrentUserComment && (
                         <div className="delete-icon" onClick={showModal}>
                             <DeleteIcon />
@@ -181,7 +190,7 @@ export const Cmt: React.FC<CmtProps> = ({
                                 setIsReplying(false);
                             }
                         }}
-                        placeholder={`Reply to ${comment.username}`}
+                        placeholder={`Reply to ${comment.user?.email}`}
                         onCancel={handleCancelReply}
                     />
                 )}

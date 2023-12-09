@@ -1,6 +1,7 @@
 import {
     CaretRightOutlined,
     CheckOutlined,
+    HeartFilled,
     HeartOutlined,
     PlusOutlined,
     ShareAltOutlined,
@@ -15,7 +16,10 @@ import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 import { FilmItem } from '../film-item';
 import { setDataCollect } from '../../redux/dataCollectSlide';
+import { setDataLove } from '../../redux/dataLoveSlide';
 import { useDispatch } from 'react-redux';
+import { request } from '../../utils/request';
+import Cookies from 'js-cookie';
 
 interface Genre {
     id: number;
@@ -23,16 +27,15 @@ interface Genre {
 }
 
 export const FilmDetail = () => {
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
     const [showLoginModal, setShowLoginModal] = useState(false);
     //bộ sưu tập
-    const dispatch = useDispatch();
-    const dataCollect = useSelector((state: RootState) => state.dataCollect.dataCollect);
-    // const addedToCollection = useSelector(
-    //     (state: RootState) => state.dataCollect.addedToCollection,
-    // );
     const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
+    //yêu thích
+    const [addedToLove, setAddedToLove] = useState<boolean>(false);
+    const [dataLove, setDataLove] = useState<FilmItem[]>([]);
 
     const handleOpenModal = () => {
         setShowLoginModal(true);
@@ -45,68 +48,175 @@ export const FilmDetail = () => {
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
 
     let firstEpisodeId: number | null = null;
-    useEffect(() => {
-        fetch(`http://localhost:8000/api/movies/${id}`)
-            .then((res) => res.json())
-            .then((data) => setFilmDetail(data));
-    }, [id]);
-    useEffect(() => {
-        if (isUserLoggedIn && filmDetail) {
-            const isFilmDetailInCollection = dataCollect.some(
-                (item: FilmItem) => item.movieId === filmDetail.movieId,
-            );
-            setAddedToCollection(isFilmDetailInCollection);
-        } else {
-            setAddedToCollection(false);
+    //check watch later
+    const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
+
+    const fetchWatchLaterList = async () => {
+        try {
+            const response = await request.get('user/get-watch-movie-list?page=1&pageSize=100', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data.data.ListMovie;
+            setDataCollect(data);
+        } catch (error) {
+            console.error(error);
         }
-    }, [isUserLoggedIn, dataCollect, filmDetail]);
+    };
+
+    const checkFilmDetailsInCollections = (data: FilmItem, dataCollect: FilmItem[]) => {
+        if (data && data.movieId) {
+            const isFilmDetailInWatchLater = dataCollect.some(
+                (item: FilmItem) => item.id === data.movieId,
+            );
+            setAddedToCollection(isFilmDetailInWatchLater);
+        }
+    };
+
+    const fetchData = async () => {
+        try {
+            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
+                res.json(),
+            );
+            setFilmDetail(movieData);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const fetchDataAndWatchLaterList = async () => {
+        checkFilmDetailsInCollections(filmDetail, dataCollect);
+    };
+    //check lovemovie
+    const fetchLoveList = async () => {
+        try {
+            const response = await request.get('user/get-favorite-movie-list?page=1&pageSize=100', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data.data.ListMovie;
+            setDataLove(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const checkFilmDetailsInLove = (data: FilmItem, dataLove: FilmItem[]) => {
+        if (data && data.movieId) {
+            const isFilmDetailInLove = dataLove.some((item: FilmItem) => item.id === data.movieId);
+            setAddedToLove(isFilmDetailInLove);
+        }
+    };
+
+    const fetchDataAndLoveList = async () => {
+        checkFilmDetailsInLove(filmDetail, dataLove);
+    };
+    useEffect(() => {
+        fetchData();
+        fetchWatchLaterList();
+        fetchLoveList();
+    }, [id, addedToCollection, addedToLove]);
+
+    useEffect(() => {
+        fetchDataAndWatchLaterList();
+        fetchDataAndLoveList();
+    }, [isUserLoggedIn, id, filmDetail, dataCollect, dataLove]);
 
     if (!filmDetail) {
         return <div>Loading...</div>;
     }
 
-    // const formatter = (value: number) => <CountUp end={value} separator="," />;
     if (filmDetail.episodes && filmDetail.episodes.length > 0) {
         const firstEpisode = filmDetail.episodes[0];
         firstEpisodeId = firstEpisode.episode_id;
     }
 
-    const handleAddToCollection = () => {
-        if (isUserLoggedIn && filmDetail) {
-            const isItemInCollection =
-                Array.isArray(dataCollect) &&
-                dataCollect.some((item: FilmItem) => item.movieId === filmDetail.movieId);
+    if (!filmDetail) {
+        return <div>Loading...</div>;
+    }
 
-            if (!isItemInCollection) {
-                const newFilmItem = {
-                    movieId: filmDetail.movieId,
-                    title: filmDetail.title,
-                    description: filmDetail.description,
-                    releaseDate: filmDetail.releaseDate,
-                    nation: filmDetail.nation,
-                    posterURL: filmDetail.posterURL,
-                    trailerURL: filmDetail.trailerURL,
-                    averageRating: filmDetail.averageRating,
-                    episodeNum: filmDetail.episodes.length,
-                    level: filmDetail.level,
-                    genres: filmDetail.genres,
-                    actors: filmDetail.actors,
-                    episodes: filmDetail.episodes,
-                    data: filmDetail.data,
-                    onCancelClick: true,
-                };
-                setAddedToCollection(true);
-                dispatch(setDataCollect([...dataCollect, newFilmItem]));
+    if (filmDetail.episodes && filmDetail.episodes.length > 0) {
+        const firstEpisode = filmDetail.episodes[0];
+        firstEpisodeId = firstEpisode.episode_id;
+    }
+
+    //api add bộ sưu tập
+    const handleAddToCollection = async () => {
+        if (filmDetail && filmDetail.movieId) {
+            const isFilmDetailInWatchLater = dataCollect.some(
+                (item: FilmItem) => item.id === filmDetail.movieId,
+            );
+            if (!isFilmDetailInWatchLater) {
+                try {
+                    const response = await request.get(`user/add-watch-list?movieId=${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    if (response.data.status === 'Ok!') {
+                        const isFilmDetailInCollection = true;
+                        setAddedToCollection(isFilmDetailInCollection);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
             }
-            if (isItemInCollection) {
-                const updatedCollection = dataCollect.filter(
-                    (item: FilmItem) => item.movieId !== filmDetail.movieId,
-                );
+            if (isFilmDetailInWatchLater) {
+                try {
+                    const response = await request.get(`user/delete-watch-list?movieId=${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    if (response.data.status === 'Ok!') {
+                        const isFilmDetailInCollection = true;
+                        setAddedToCollection(isFilmDetailInCollection);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
                 setAddedToCollection(false);
-                dispatch(setDataCollect(updatedCollection));
             }
-        } else {
-            handleOpenModal();
+        }
+    };
+    //api love movie
+    const handleAddToLove = async () => {
+        if (filmDetail && filmDetail.movieId) {
+            const isFilmDetailInLove = dataLove.some(
+                (item: FilmItem) => item.id === filmDetail.movieId,
+            );
+            if (!isFilmDetailInLove) {
+                try {
+                    const response = await request.get(`user/add-favorite-movie?movieId=${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    if (response.data.status === 'Ok!') {
+                        const addedToLove = true;
+                        setAddedToLove(addedToLove);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            if (isFilmDetailInLove) {
+                try {
+                    const response = await request.get(`user/delete-favorite-movie?movieId=${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    if (response.data.status === 'Ok!') {
+                        const addedToLove = true;
+                        setAddedToLove(addedToLove);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+                setAddedToLove(false);
+            }
         }
     };
 
@@ -156,7 +266,7 @@ export const FilmDetail = () => {
                                         onClick={handleAddToCollection}
                                     >
                                         {addedToCollection ? <CheckOutlined /> : <PlusOutlined />}
-                                        <span className="ml-2 text-[1rem]">Sưu tập</span>
+                                        <span className="ml-2 text-[1rem]">Xem sau</span>
                                     </div>
                                 </div>
                             </div>
@@ -167,8 +277,16 @@ export const FilmDetail = () => {
                         <a
                             href="#icon"
                             className="h-10 w-10 rounded-full border-[1.5px] border-white "
+                            onClick={handleAddToLove}
                         >
-                            <HeartOutlined className="film-detail__icon" />
+                            {addedToLove ? (
+                                <HeartFilled
+                                    style={{ color: '#cf1a1a' }}
+                                    className="film-detail__icon"
+                                />
+                            ) : (
+                                <HeartOutlined className="film-detail__icon" />
+                            )}
                         </a>
 
                         <a

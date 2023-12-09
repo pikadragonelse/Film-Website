@@ -17,21 +17,26 @@ export const SearchPage: React.FC = () => {
     const location = useLocation();
     const { searchValue } = location.state;
     const [searchResults, setSearchResults] = useState<FilmItem[]>([]);
-
+    const fetchedData = location.state?.fetchedData || [];
     const fetchData = async () => {
         try {
             const response = await request.get(
                 `movies?search=${searchValue}&page=${1}&pageSize=${10000}`,
             );
-            const data = response.data;
+            const data = response.data.movies;
             setSearchResults(data);
         } catch (error) {
             console.log(error);
         }
     };
+
     useEffect(() => {
-        fetchData();
-    }, [searchValue]);
+        if (fetchedData.length > 0) {
+            setSearchResults(fetchedData);
+        } else {
+            fetchData();
+        }
+    }, [searchValue, fetchedData]);
 
     //lọc
 
@@ -92,12 +97,9 @@ export const SearchPage: React.FC = () => {
         }
 
         try {
-            const response = await request.get(
-                `movies?pageSize=${100}&sortBy=DESC`,
-                {
-                    params: filterParams,
-                },
-            );
+            const response = await request.get(`movies?pageSize=${100}&sortBy=DESC`, {
+                params: filterParams,
+            });
             const data = response.data;
             setSearchResults(data);
         } catch (error) {
@@ -125,31 +127,19 @@ export const SearchPage: React.FC = () => {
                                 options={options}
                                 placeholder={item.label}
                                 onChange={(value, selectedOptions) =>
-                                    onChange(
-                                        value,
-                                        selectedOptions,
-                                        cascaderName,
-                                    )
+                                    onChange(value, selectedOptions, cascaderName)
                                 }
                             />
                         </div>
                     );
                 })}
-                <Button
-                    className="btn-filter"
-                    type="primary"
-                    onClick={handleFilterClick}
-                >
+                <Button className="btn-filter" type="primary" onClick={handleFilterClick}>
                     Lọc phim
                 </Button>
             </div>
             <hr className="my-6 border-neutral-800" />
             {searchResults.length !== 0 ? (
-                <PaginationFilm
-                    title="Kết quả tìm kiếm"
-                    number={4}
-                    listFilm={searchResults}
-                />
+                <PaginationFilm title="Kết quả tìm kiếm" number={4} listFilm={searchResults} />
             ) : (
                 <p>Không tìm thấy kết quả phù hợp.</p>
             )}

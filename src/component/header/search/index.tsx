@@ -2,11 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDebouced } from '../../../redux/hook';
 
-import {
-    LoadingOutlined,
-    CloseOutlined,
-    SearchOutlined,
-} from '@ant-design/icons';
+import { LoadingOutlined, CloseOutlined, SearchOutlined } from '@ant-design/icons';
 import './index.scss';
 
 export const Search = () => {
@@ -16,7 +12,7 @@ export const Search = () => {
     const navigate = useNavigate();
     const valueRef = useRef<HTMLInputElement | null>(null);
 
-    const debouncedValue: string = useDebouced(searchValue, 500);
+    const debouncedValue: string = useDebouced(searchValue, 50);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
@@ -68,10 +64,7 @@ export const Search = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (
-                valueRef.current &&
-                !valueRef.current.contains(event.target as Node)
-            ) {
+            if (valueRef.current && !valueRef.current.contains(event.target as Node)) {
                 setSearchValue('');
             }
         };
