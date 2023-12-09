@@ -1,12 +1,14 @@
-.content-page{
+.content-page-watch-later{
     padding:var(--spacing-sm-1);
     
     .ant-row{
-    padding-left: 60px;
+        padding-left: 60px;
     }
 
     .header-list-film{
-        display: none;
+        // display: none;
+        margin-left: 30px;
+        margin-bottom: 20px;
     }
 
     .content-list-film{

@@ -8,7 +8,6 @@ import { MainInfoFilm } from '../../component/main-info-film';
 import { IconWithText } from '../../component/icon-with-text';
 import { SubInfo } from '../../component/sub-info';
 import { MenuProps } from 'antd';
-import { ListFilm } from '../../component/list-film';
 import { Comment } from '../../component/comment';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';

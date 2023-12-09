@@ -43,7 +43,8 @@ const Slide: React.FC = () => {
             .then((data) => {
                 setPopularMovies(data.movies);
                 setIsHeartFilled(new Array(data.length).fill(false));
-            });
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     const handleCarouselChange = () => {
@@ -133,7 +134,7 @@ const Slide: React.FC = () => {
                                 {movie.genres.map((genre) => (
                                     <span
                                         key={genre.genre_id}
-                                        className="px-3 py-1  poster__image-padding"
+                                        className="px-3 py-1 poster__image-padding"
                                     >
                                         {genre.name}
                                     </span>

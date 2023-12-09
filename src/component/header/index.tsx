@@ -1,11 +1,11 @@
 import {
     BellOutlined,
+    ClockCircleOutlined,
     CrownOutlined,
     LoginOutlined,
     LogoutOutlined,
-    RightOutlined,
 } from '@ant-design/icons';
-import { Alert, Avatar, Button, Col, Popover, Row } from 'antd';
+import { Avatar, Button, Popover } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,7 +17,11 @@ import items from '../header/menuItem.json';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
 import './index.scss';
-import Marquee from 'react-fast-marquee';
+import { ContentModalHistory } from './modalHistory';
+import { ContentModalHistoryTitle } from './modalHistoryTitle';
+import { ContentModalVip } from './modalVip';
+import { ContentModalVipTitle } from './modalVipTitle';
+import { ContentModalUser } from './modalUser';
 export type Header = { className?: string };
 
 export const Header = ({ className }: Header) => {
@@ -32,64 +36,6 @@ export const Header = ({ className }: Header) => {
     const scrollThreshold = 50;
 
     const headerRef = useRef<HTMLElement>(null);
-    const content = (
-        <div>
-            <div className="mb-5">
-                <Row gutter={32}>
-                    <Col span={12} className="flex ">
-                        <img
-                            src="https://pic3.iqiyipic.com/common/lego/20201026/37b926ea899b478b8bf9e23259c92c2a.png"
-                            alt=""
-                            className="w-8 h-8"
-                        />
-                        <p className="ml-2 text-[13px]"> Nội dung độc quyền</p>
-                    </Col>
-                    <Col span={12} className="flex">
-                        <img
-                            src="https://pic3.iqiyipic.com/common/lego/20201026/40feaa83a74e45ada3240b716f628d77.png"
-                            alt=""
-                            className="w-8 h-8"
-                        />
-                        <p className="ml-2 text-[13px]"> Không quảng cáo</p>
-                    </Col>
-                </Row>
-                <Row gutter={32} className="mt-6">
-                    <Col span={12} className="flex ">
-                        <img
-                            src="https://pic3.iqiyipic.com/common/lego/20201026/37b926ea899b478b8bf9e23259c92c2a.png"
-                            alt=""
-                            className="w-8 h-8"
-                        />
-                        <p className="ml-2 text-[13px]"> Nội dung độc quyền</p>
-                    </Col>
-                    <Col span={12} className="flex">
-                        <img
-                            src="https://pic3.iqiyipic.com/common/lego/20201026/40feaa83a74e45ada3240b716f628d77.png"
-                            alt=""
-                            className="w-8 h-8"
-                        />
-                        <p className="ml-2 text-[13px]"> Không quảng cáo</p>
-                    </Col>
-                </Row>
-            </div>
-            <Alert
-                style={{ backgroundColor: '#f2bf83', borderColor: '#f2bf83' }}
-                className="text-[13px]"
-                message={
-                    <Marquee gradient={false}> Đăng ký VIP. Tận hưởng nội dung độc quyền </Marquee>
-                }
-            />
-        </div>
-    );
-    const titleModal = (
-        <Link
-            to={'/VIPpackage'}
-            className="flex justify-between mb-7 font-normal text-[13px] text-[#a9a9ac]"
-        >
-            <p>Quyền lợi thành viên </p>
-            <RightOutlined />
-        </Link>
-    );
 
     useEffect(() => {
         const header = document.querySelector('.wrapper-header') as HTMLElement;
@@ -126,8 +72,8 @@ export const Header = ({ className }: Header) => {
 
     const isLogin = useSelector((state: RootState) => state.user.isLogin);
     const username = useSelector((state: RootState) => state.user.username);
-    // console.log('isLogin :', isLogin);
-    // console.log('username :', username);
+    console.log('isLogin :', isLogin);
+    console.log('username :', username);
 
     const handleLogin = () => {
         const storedUsername = Cookies.get('username');
@@ -181,15 +127,24 @@ export const Header = ({ className }: Header) => {
                 </div>
                 <div
                     style={{
-                        width: isLogin ? '15rem' : '13rem',
+                        width: isLogin ? '21rem' : '16rem',
                         marginRight: 'var(--spacing-lg)',
                     }}
                     className="flex justify-between items-center lg:order-2 mt-2"
                 >
                     <Popover
-                        title={titleModal}
+                        title={<ContentModalHistoryTitle />}
+                        overlayStyle={{ maxWidth: '40%' }}
+                        content={<ContentModalHistory />}
+                    >
+                        <div className="icon-history">
+                            <ClockCircleOutlined />
+                        </div>
+                    </Popover>
+                    <Popover
+                        title={<ContentModalVipTitle />}
                         overlayStyle={{ maxWidth: '20%' }}
-                        content={content}
+                        content={<ContentModalVip />}
                     >
                         <Link to={'/VIPpackage'}>
                             <Button className="btn-vip" type="primary" icon={<CrownOutlined />}>
@@ -204,17 +159,30 @@ export const Header = ({ className }: Header) => {
                     </div>
                     {isLogin ? (
                         <>
-                            <Link to="/foryou">
-                                <Avatar
-                                    className="avatar"
-                                    style={{
-                                        verticalAlign: 'middle',
-                                    }}
-                                    size="default"
-                                >
-                                    {username}
-                                </Avatar>
-                            </Link>
+                            <Popover
+                                title={
+                                    <div className="p-2 flex font-normal items-center justify-center border-b-[1px] border-[#989898]">
+                                        <Avatar
+                                            className="mr-4 mb-2"
+                                            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+                                        />
+                                        {username}
+                                    </div>
+                                }
+                                overlayStyle={{ maxWidth: '30%' }}
+                                content={<ContentModalUser />}
+                            >
+                                <Link to="/foryou">
+                                    <Avatar
+                                        className="avatar"
+                                        src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+                                        style={{
+                                            verticalAlign: 'middle',
+                                        }}
+                                        size="default"
+                                    ></Avatar>
+                                </Link>
+                            </Popover>
                             <div className="icon-login">
                                 <LogoutOutlined onClick={handleLogout} />
                             </div>

@@ -1,8 +1,7 @@
 import { Carousel, Row } from 'antd';
-import React, { useRef, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { EpisodeItem } from '../episode-item';
 import { CarouselRef } from 'antd/es/carousel';
+import { useRef } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import { ListEpisodesType } from '../index';
 import './index.scss';
 
@@ -11,16 +10,16 @@ export const EspList = ({ listEpisodes }: ListEpisodesType) => {
     const moment = require('moment');
     const listRef = useRef<CarouselRef>(null);
     return (
-        <div className="list">
+        <div className="list-esp">
             <Carousel className="list-content" dots={false} ref={listRef}>
                 <div>
                     {listEpisodes.map((value) => (
                         <Row justify="center">
                             <Link to={`/movie/${value.movie_id}/${value.episode_id}`}>
-                                <div className="item">
+                                <div className="items-esplist">
                                     <img src={value.posterUrl} alt="" className="poster-item" />
                                     <div
-                                        className={`item ${
+                                        className={`item-esplist ${
                                             episodeId !== undefined &&
                                             value.episode_id !== undefined &&
                                             value.episode_id === parseInt(episodeId)

@@ -18,17 +18,9 @@ export type FilmItem = {
     actors?: Array<Actors>;
     episodes?: Array<Episodes>;
     data?: any;
-    onCancelClick?: () => void;
 };
 
-export const FilmItem = ({
-    title,
-    releaseDate,
-    genres,
-    posterURL,
-    episodeNum,
-    onCancelClick,
-}: FilmItem) => {
+export const FilmItem = ({ title, releaseDate, genres, posterURL, episodeNum }: FilmItem) => {
     return (
         <Badge.Ribbon text="Hot" color="red">
             <div className="film-item-container">
@@ -36,12 +28,6 @@ export const FilmItem = ({
                 <div className="btn-play">
                     <CaretRightOutlined />
                 </div>
-
-                {onCancelClick ? (
-                    <div className="btn-close" onClick={onCancelClick}>
-                        <CloseOutlined />
-                    </div>
-                ) : undefined}
             </div>
             <h1 className="film-item-title ">{title}</h1>
         </Badge.Ribbon>
