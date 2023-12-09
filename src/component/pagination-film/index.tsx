@@ -48,6 +48,7 @@ export const PaginationFilm = ({
     useEffect(() => {
         const startIndex = (currentPage - 1) * resultsPerPage;
         const endIndex = startIndex + resultsPerPage;
+        console.log(listFilm);
         const updatedDisplayedResults = listFilm.slice(startIndex, endIndex);
         setDisplayedResults(updatedDisplayedResults);
     }, [listFilm, currentPage]);
@@ -86,6 +87,10 @@ export const PaginationFilm = ({
                                     episodeNum={result.episodeNum}
                                     releaseDate={moment(result.releaseDate).format('YYYY') || 0}
                                     posterURL={result.posterURL || ''}
+                                    onCancelClick={
+                                        onCancelClick ? () => showModal(result) : undefined
+                                    }
+
                                 />
                             </Link>
                             <button onClick={() => showModal(result)}>

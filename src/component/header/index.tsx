@@ -72,13 +72,12 @@ export const Header = ({ className }: Header) => {
 
     const isLogin = useSelector((state: RootState) => state.user.isLogin);
     const username = useSelector((state: RootState) => state.user.username);
-
     console.log('isLogin :', isLogin);
     console.log('username :', username);
 
     const handleLogin = () => {
         const storedUsername = Cookies.get('username');
-        console.log('storedUsername', storedUsername);
+        // console.log('storedUsername', storedUsername);
         dispatch(setIslogin(true));
 
         if (storedUsername) {

@@ -139,6 +139,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
                 <div className="price-package">
                     <div className="price">
                         <div className="">Trị giá</div>
+
                         <div className="value">
                             {selectedTerm ? selectedTerm.price.toLocaleString('it-IT') : '--- ₫'}
                         </div>
