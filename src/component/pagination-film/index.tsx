@@ -40,14 +40,13 @@ export const PaginationFilm = ({
         setListFilm(searchResults);
     }, [searchResults]);
 
-    const [displayedResults, setDisplayedResults] = useState<Array<FilmItem>>(
-        [],
-    );
+    const [displayedResults, setDisplayedResults] = useState<Array<FilmItem>>([]);
     const resultsPerPage = 12;
 
     useEffect(() => {
         const startIndex = (currentPage - 1) * resultsPerPage;
         const endIndex = startIndex + resultsPerPage;
+        console.log(listFilm);
         const updatedDisplayedResults = listFilm.slice(startIndex, endIndex);
         setDisplayedResults(updatedDisplayedResults);
     }, [listFilm, currentPage]);
@@ -64,9 +63,7 @@ export const PaginationFilm = ({
     };
 
     const handleCancelClick = (filmName: string) => {
-        const updatedListFilm = listFilm.filter(
-            (film) => film.title !== filmName,
-        );
+        const updatedListFilm = listFilm.filter((film) => film.title !== filmName);
 
         setListFilm(updatedListFilm);
     };
@@ -85,16 +82,10 @@ export const PaginationFilm = ({
                                 <FilmItem
                                     title={result.title || ''}
                                     episodeNum={result.episodeNum}
-                                    releaseDate={
-                                        moment(result.releaseDate).format(
-                                            'YYYY',
-                                        ) || 0
-                                    }
+                                    releaseDate={moment(result.releaseDate).format('YYYY') || 0}
                                     posterURL={result.posterURL || ''}
                                     onCancelClick={
-                                        onCancelClick
-                                            ? () => showModal(result)
-                                            : undefined
+                                        onCancelClick ? () => showModal(result) : undefined
                                     }
                                 />
                             </Link>
@@ -112,12 +103,7 @@ export const PaginationFilm = ({
                 />
             </div>
 
-            <Modal
-                title="Dọn dẹp!"
-                visible={open}
-                onOk={handleOkClick}
-                onCancel={handleCancel}
-            >
+            <Modal title="Dọn dẹp!" visible={open} onOk={handleOkClick} onCancel={handleCancel}>
                 <p>{`Bạn chắc chắn muốn xóa "${selectedFilm?.title}" ?`}</p>
             </Modal>
         </div>

@@ -18,7 +18,7 @@ export const HomePage = () => {
                         pageSize: 100,
                     },
                 });
-                const data = response.data;
+                const data = response.data.movies;
                 setHomePageData(data);
             } catch (error) {
                 console.error(error);

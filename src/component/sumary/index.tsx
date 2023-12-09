@@ -21,21 +21,15 @@ const hours = currentDate.getHours().toString().padStart(2, '0');
 const minutes = currentDate.getMinutes().toString().padStart(2, '0');
 const currentTime = `${hours}:${minutes}`;
 
-export const Summary: React.FC<SummaryProps> = ({
-    selectedTerm,
-    selectedLabel,
-}) => {
+export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel }) => {
     let endDate = startDate;
     if (selectedTerm) {
         const additionalValue = parseFloat(selectedTerm.value);
         const endDateTimestamp =
-            currentDate.getTime() +
-            additionalValue * 30.5 * 24 * 60 * 60 * 1000;
+            currentDate.getTime() + additionalValue * 30.5 * 24 * 60 * 60 * 1000;
         const endDateObject = new Date(endDateTimestamp);
         const endDay = endDateObject.getDate().toString().padStart(2, '0');
-        const endMonth = (endDateObject.getMonth() + 1)
-            .toString()
-            .padStart(2, '0');
+        const endMonth = (endDateObject.getMonth() + 1).toString().padStart(2, '0');
         const endYear = endDateObject.getFullYear();
         endDate = `${endDay}/${endMonth}/${endYear}`;
     }
@@ -85,18 +79,14 @@ export const Summary: React.FC<SummaryProps> = ({
                 <div className="price-package">
                     <div className="price">
                         <div className="">Trị giá</div>
-                        <div className="value">
-                            {selectedTerm ? selectedTerm.price : '69000 ₫'}
-                        </div>
+                        <div className="value">{selectedTerm ? selectedTerm.price : '69000 ₫'}</div>
                     </div>
                 </div>
                 <hr className="my-4 border-neutral-300" />
                 <div className="method">
                     <div className="method-payment">
                         <div className="">Phương thức thanh toán</div>
-                        <div className="value">
-                            {selectedLabel ? selectedLabel : 'Paypal'}
-                        </div>
+                        <div className="value">{selectedLabel ? selectedLabel : 'Paypal'}</div>
                     </div>
                 </div>
                 <hr className="my-4 border-neutral-300" />

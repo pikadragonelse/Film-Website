@@ -92,13 +92,12 @@ export const SearchPage: React.FC = () => {
         }
 
         try {
-            const response = await request.get(
-                `movies?pageSize=${100}&sortBy=DESC`,
-                {
-                    params: filterParams,
-                },
-            );
+            const response = await request.get(`movies?pageSize=${100}&sortBy=DESC`, {
+                params: filterParams,
+            });
             const data = response.data;
+            console.log(data);
+
             setSearchResults(data);
         } catch (error) {
             console.log(error);
@@ -125,31 +124,19 @@ export const SearchPage: React.FC = () => {
                                 options={options}
                                 placeholder={item.label}
                                 onChange={(value, selectedOptions) =>
-                                    onChange(
-                                        value,
-                                        selectedOptions,
-                                        cascaderName,
-                                    )
+                                    onChange(value, selectedOptions, cascaderName)
                                 }
                             />
                         </div>
                     );
                 })}
-                <Button
-                    className="btn-filter"
-                    type="primary"
-                    onClick={handleFilterClick}
-                >
+                <Button className="btn-filter" type="primary" onClick={handleFilterClick}>
                     Lọc phim
                 </Button>
             </div>
             <hr className="my-6 border-neutral-800" />
             {searchResults.length !== 0 ? (
-                <PaginationFilm
-                    title="Kết quả tìm kiếm"
-                    number={4}
-                    listFilm={searchResults}
-                />
+                <PaginationFilm title="Kết quả tìm kiếm" number={4} listFilm={searchResults} />
             ) : (
                 <p>Không tìm thấy kết quả phù hợp.</p>
             )}
