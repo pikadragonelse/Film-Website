@@ -112,11 +112,18 @@ export const FilmDetail = () => {
     const fetchDataAndLoveList = async () => {
         checkFilmDetailsInLove(filmDetail, dataLove);
     };
+
     useEffect(() => {
         fetchData();
+    }, []);
+
+    useEffect(() => {
         fetchWatchLaterList();
+    }, [addedToCollection]);
+
+    useEffect(() => {
         fetchLoveList();
-    }, [id, addedToCollection, addedToLove]);
+    }, [addedToLove]);
 
     useEffect(() => {
         fetchDataAndWatchLaterList();
@@ -155,8 +162,7 @@ export const FilmDetail = () => {
                         },
                     });
                     if (response.data.status === 'Ok!') {
-                        const isFilmDetailInCollection = true;
-                        setAddedToCollection(isFilmDetailInCollection);
+                        setAddedToCollection(true);
                     }
                 } catch (error) {
                     console.error(error);
@@ -164,7 +170,7 @@ export const FilmDetail = () => {
             }
             if (isFilmDetailInWatchLater) {
                 try {
-                    const response = await request.get(`user/delete-watch-list?movieId=${id}`, {
+                    const response = await request.delete(`user/delete-watch-list?movieId=${id}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`,
                         },
@@ -203,11 +209,14 @@ export const FilmDetail = () => {
             }
             if (isFilmDetailInLove) {
                 try {
-                    const response = await request.get(`user/delete-favorite-movie?movieId=${id}`, {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
+                    const response = await request.delete(
+                        `user/delete-favorite-movie?movieId=${id}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
                         },
-                    });
+                    );
                     if (response.data.status === 'Ok!') {
                         const addedToLove = true;
                         setAddedToLove(addedToLove);

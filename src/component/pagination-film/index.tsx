@@ -80,7 +80,7 @@ export const PaginationFilm = ({
                 apiEndpoint = 'user/delete-favorite-movie';
             }
 
-            const response = await request.get(`${apiEndpoint}?movieId=${filmId}`, {
+            const response = await request.delete(`${apiEndpoint}?movieId=${filmId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
