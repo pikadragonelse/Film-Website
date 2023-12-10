@@ -18,7 +18,6 @@ import { ListEpisodes } from '../../component/list-episode';
 
 import Cookies from 'js-cookie';
 import { log } from 'console';
-import { defaultEpisode, defaultFilm } from './default-value';
 import { selectionItems } from './items-selection';
 import { ControlPlayer } from '../../component/control-player';
 import { useAppDispatch } from '../../redux/hook';
@@ -39,7 +38,6 @@ interface Episodes {
 }
 
 const moment = require('moment');
-
 
 const defaultEpisode = {
     episodeId: 0,
@@ -123,7 +121,6 @@ export const WatchingPage = () => {
         },
     ];
 
-
     const isLogin = useSelector((state: RootState) => state?.user.isLogin);
     // console.log(isLogin);
 
@@ -152,9 +149,7 @@ export const WatchingPage = () => {
         <div className="watching-container">
             <div className="watching">
                 <div className="watching-player-container">
-
                     <VideoPlayerCustom />
-
                 </div>
                 <div className="watching-list-film-container">
                     <ListEpisodes
@@ -163,8 +158,7 @@ export const WatchingPage = () => {
                             `16/${watchingData.episodeNum}`,
                             'Phát sóng lúc 20h thứ 7 hàng tuần',
                         ]}
-
-                        sessions={items}
+                        sessions={selectionItems}
                         multiSessions={false}
                         titleFilm={watchingData.title}
                         listEpisodes={watchingData.episodes}
