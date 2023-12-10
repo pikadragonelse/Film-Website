@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { VideoCameraOutlined } from '@ant-design/icons';
+import { CloseOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Col, Row, Pagination } from 'antd';
 import './index.scss';
 import { FilmItem } from '../film-item';
 import { Modal } from 'antd';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setDataCollect } from '../../redux/dataCollectSlide';
 
 const moment = require('moment');
 
@@ -62,10 +64,11 @@ export const PaginationFilm = ({
         }
     };
 
+    const dispatch = useDispatch();
     const handleCancelClick = (filmName: string) => {
         const updatedListFilm = listFilm.filter((film) => film.title !== filmName);
-
         setListFilm(updatedListFilm);
+        dispatch(setDataCollect(updatedListFilm));
     };
 
     return (
@@ -87,8 +90,16 @@ export const PaginationFilm = ({
                                     onCancelClick={
                                         onCancelClick ? () => showModal(result) : undefined
                                     }
+
                                 />
                             </Link>
+                            <button onClick={() => showModal(result)}>
+                                {onCancelClick ? (
+                                    <div className="btn-close">
+                                        <CloseOutlined />
+                                    </div>
+                                ) : undefined}
+                            </button>
                         </Col>
                     ))}
                 </Row>

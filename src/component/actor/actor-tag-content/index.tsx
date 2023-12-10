@@ -11,7 +11,7 @@ interface TabContentProps {
 export const TabContent: React.FC<TabContentProps> = ({ isActive, id, filmMap }) => {
     return (
         <div className={isActive ? 'block' : 'hidden'} id={id}>
-            <div className="content-page ml-[100px]">
+            <div className="content-page ml-32">
                 <PaginationFilm listFilm={filmMap} number={4.8} />
             </div>
         </div>

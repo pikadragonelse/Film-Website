@@ -2,36 +2,30 @@ import React, { useState } from 'react';
 import './index.scss';
 import { Radio, Space } from 'antd';
 
-interface TermPackage {
-    value: string;
-    price: string;
+export interface TermPackage {
+    value: number;
+    price: number;
 }
 interface TermPackageProps {
-    setSelectedTerm: (term: { value: string; price: string }) => void;
+    setSelectedTerm: (term: TermPackage) => void;
 }
 
-export const TermPackage: React.FC<TermPackageProps> = ({
-    setSelectedTerm,
-}) => {
+export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => {
     const terms: TermPackage[] = [
         {
-            value: '01 tháng',
-            price: '69000 ₫',
+            value: 1,
+            price: 69000,
         },
         {
-            value: '03 tháng',
-            price: '79000 ₫',
+            value: 6,
+            price: 99000,
         },
         {
-            value: '06 tháng',
-            price: '99000 ₫',
-        },
-        {
-            value: '12 tháng',
-            price: '100000 ₫',
+            value: 12,
+            price: 100000,
         },
     ];
-    const [value, setValue] = useState('01 tháng');
+    const [value, setValue] = useState(0);
 
     const onChange = (e: any) => {
         const selectedValue = e.target.value;
@@ -52,11 +46,9 @@ export const TermPackage: React.FC<TermPackageProps> = ({
                             <Radio key={index} value={term.value}>
                                 <Space>
                                     <div className="items">
-                                        <div className="value-term">
-                                            {term.value}
-                                        </div>
+                                        <div className="value-term">0{term.value}&nbsp;tháng</div>
                                         <div className="price-term">
-                                            {term.price}
+                                            {term.price.toLocaleString('it-IT')}&nbsp;₫
                                         </div>
                                     </div>
                                 </Space>
