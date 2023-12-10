@@ -21,7 +21,7 @@ export const ListEpisodes = ({
     subInfo,
     sessions = [],
     listEpisodes,
-    multiSessions = true,
+    multiSessions,
 }: ListEpisodesType) => {
     const [isListVisible, setIsListVisible] = useState(true);
 
@@ -42,7 +42,8 @@ export const ListEpisodes = ({
                 </div>
             </div>
             <div className="session-view">
-                <div className={`session-section ${multiSessions ? 'show' : ''}`}>
+                <div className={`session-section ${multiSessions === true ? 'show' : ''}`}>
+                    {/* <div className={`session-section show`}> */}
                     <Dropdown
                         menu={{ items: sessions }}
                         trigger={['click']}

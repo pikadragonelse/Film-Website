@@ -7,13 +7,13 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Button, Popover } from 'antd';
 import Cookies from 'js-cookie';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
 import { setIslogin, setUsername } from '../../redux/isLoginSlice';
 import { RootState } from '../../redux/store';
-import items from '../header/menuItem.json';
+// import items from '../header/menuItem.json';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
 import './index.scss';
@@ -22,8 +22,14 @@ import { ContentModalHistoryTitle } from './modalHistoryTitle';
 import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
 import { ContentModalUser } from './modalUser';
+import { request } from '../../utils/request';
+import { log } from 'console';
 export type Header = { className?: string };
 
+export type Genre = {
+    genre_id: number;
+    name: string;
+};
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -39,7 +45,6 @@ export const Header = ({ className }: Header) => {
 
     useEffect(() => {
         const header = document.querySelector('.wrapper-header') as HTMLElement;
-
         const handleScroll = () => {
             if (header) {
                 if (window.scrollY > scrollThreshold) {
@@ -49,9 +54,7 @@ export const Header = ({ className }: Header) => {
                 }
             }
         };
-
         window.addEventListener('scroll', handleScroll);
-
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
@@ -91,7 +94,30 @@ export const Header = ({ className }: Header) => {
         dispatch(setIslogin(false));
         dispatch(setUsername(null));
     };
+    //api search theo mục
 
+    const [items, setItems] = useState<any[]>([]);
+
+    const fetchItems = async () => {
+        try {
+            const response = await request.get('home/headers');
+            const data = response.data.data;
+            const nations = data.nations;
+            const releasedYears = data.releasedYears;
+            const genres = data.genres;
+            const itemsHeader = [
+                { title: 'Thể loại', childrens: genres.map((genre: Genre) => genre.name) },
+                { title: 'Quốc gia', childrens: nations },
+                { title: 'Năm sản xuất', childrens: releasedYears },
+            ];
+            setItems(itemsHeader);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchItems();
+    }, []);
     return (
         <header
             ref={headerRef}
@@ -120,7 +146,7 @@ export const Header = ({ className }: Header) => {
                         <Search />
                         {items.map((item, index) => (
                             <ul className="menu-items" key={index}>
-                                <DropdownList title={item.title} data={item.childrens || []} />
+                                <DropdownList title={item.title} data={item.childrens} />
                             </ul>
                         ))}
                     </div>

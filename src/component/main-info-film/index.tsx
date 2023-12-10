@@ -7,7 +7,7 @@ import Paragraph from 'antd/es/typography/Paragraph';
 export type MainInfoFilm = {
     name: string;
     view: string;
-    rate: number;
+    rate: string;
     hashtag?: Array<string>;
     episode?: string;
     desc: string;
@@ -33,8 +33,8 @@ export const MainInfoFilm = ({
                 <div className="view">{view.toLocaleString()} lượt xem</div>
 
                 <div className="rating">
-                    <p>{rate / 2}</p>
-                    <Rate disabled allowHalf value={rate / 2} />
+                    <p>{parseFloat(rate) / 2}</p>
+                    <Rate disabled allowHalf value={parseFloat(rate) / 2} />
                 </div>
             </div>
             <div className="hashtag">

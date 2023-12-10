@@ -5,7 +5,7 @@ import { Button } from 'antd';
 interface CurrentUser {
     username: string;
     email: string;
-    avatar: string;
+    avatarURL: string;
 }
 interface WriteCommentProps {
     currentUser: CurrentUser;
@@ -41,7 +41,7 @@ export const WriteComment: React.FC<WriteCommentProps> = ({
         <div className="writecmt-container">
             <img
                 className="avatar"
-                src={currentUser.avatar}
+                src={currentUser.avatarURL}
                 alt={`avatar for ${currentUser.username}`}
             />
             <div className="writecmt-box">

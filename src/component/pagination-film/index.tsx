@@ -7,6 +7,8 @@ import { Modal } from 'antd';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setDataCollect } from '../../redux/dataCollectSlide';
+import Cookies from 'js-cookie';
+import { request } from '../../utils/request';
 
 const moment = require('moment');
 
@@ -15,6 +17,7 @@ export type PaginationFilmProps = {
     listFilm: Array<FilmItem>;
     number: number;
     onCancelClick?: ((filmName: string) => void) | boolean;
+    context?: string;
 };
 
 export const PaginationFilm = ({
@@ -22,6 +25,7 @@ export const PaginationFilm = ({
     listFilm: searchResults,
     number,
     onCancelClick,
+    context,
 }: PaginationFilmProps) => {
     const [open, setOpen] = useState(false);
     const [selectedFilm, setSelectedFilm] = useState<FilmItem | null>(null);
@@ -59,16 +63,38 @@ export const PaginationFilm = ({
 
     const handleOkClick = () => {
         if (selectedFilm) {
-            handleCancelClick(selectedFilm.title || '');
+            handleCancelClick(selectedFilm.id || 0, context || '');
             handleCancel();
         }
     };
 
     const dispatch = useDispatch();
-    const handleCancelClick = (filmName: string) => {
-        const updatedListFilm = listFilm.filter((film) => film.title !== filmName);
-        setListFilm(updatedListFilm);
-        dispatch(setDataCollect(updatedListFilm));
+
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+
+    const handleCancelClick = async (filmId: number, context: string) => {
+        try {
+            let apiEndpoint = '';
+            if (context === 'watchList') {
+                apiEndpoint = 'user/delete-watch-list';
+            } else if (context === 'favoriteList') {
+                apiEndpoint = 'user/delete-favorite-movie';
+            }
+
+            const response = await request.delete(`${apiEndpoint}?movieId=${filmId}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response.data.status === 'Ok!') {
+                const updatedListFilm = listFilm.filter((film) => film.id !== filmId);
+                setListFilm(updatedListFilm);
+                dispatch(setDataCollect(updatedListFilm));
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -81,7 +107,7 @@ export const PaginationFilm = ({
                 <Row gutter={[12, 24]}>
                     {displayedResults.map((result, index) => (
                         <Col span={number} key={index}>
-                            <Link to={`/movie/${result.movieId}`}>
+                            <Link to={`/movie/${result.id || result.movieId}`}>
                                 <FilmItem
                                     title={result.title || ''}
                                     episodeNum={result.episodeNum}

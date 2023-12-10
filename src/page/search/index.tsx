@@ -17,21 +17,26 @@ export const SearchPage: React.FC = () => {
     const location = useLocation();
     const { searchValue } = location.state;
     const [searchResults, setSearchResults] = useState<FilmItem[]>([]);
-
+    const fetchedData = location.state?.fetchedData || [];
     const fetchData = async () => {
         try {
             const response = await request.get(
                 `movies?search=${searchValue}&page=${1}&pageSize=${10000}`,
             );
-            const data = response.data;
+            const data = response.data.movies;
             setSearchResults(data);
         } catch (error) {
             console.log(error);
         }
     };
+
     useEffect(() => {
-        fetchData();
-    }, [searchValue]);
+        if (fetchedData.length > 0) {
+            setSearchResults(fetchedData);
+        } else {
+            fetchData();
+        }
+    }, [searchValue, fetchedData]);
 
     //lọc
 

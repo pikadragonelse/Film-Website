@@ -29,7 +29,7 @@ const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) =
                             <img
                                 className="object-cover h-[100%] w-[100%] rounded-[3px] episodes-image"
                                 alt={episode.title}
-                                src={episode.posterUrl}
+                                src={episode.posterURL}
                                 key={episode.episode_id}
                             />
                             <div className="episodes-btnplay">

@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { Cmt } from '../cmt';
-import { CurrentUser } from '..';
+import { CurrentUser, UserProps } from '..';
+import Cookies from 'js-cookie';
+import { request } from '../../../utils/request';
+import { useParams } from 'react-router-dom';
 
 export interface listComment {
     id: number;
     avatar: string;
     username: string;
-    dateTime: string;
-    comment: string;
-    replies?: Array<listComment>;
-    like: number;
+    createdAt: string;
+    updatedAt?: string;
+    content: string;
+    numLike: number;
+    user?: UserProps;
+    subcomments?: Array<listComment>;
 }
 interface ListCommentProps {
     listComment: Array<listComment>;
@@ -25,69 +30,77 @@ export const ListComment: React.FC<ListCommentProps> = ({
 }) => {
     const timestamp = Date.now();
     const [replyCommentId, setReplyCommentId] = useState<number | null>(null);
-    const handleReplySubmit = (commentId: number, replyText: string) => {
-        const newReply = {
-            id: timestamp,
-            avatar: currentUser.avatar,
-            username: currentUser.username,
-            dateTime: new Date().toString(),
-            like: 0,
-            comment: replyText,
-        };
-
-        const updatedComments = listComment.map((comment) => {
-            if (comment.id === commentId) {
-                return {
-                    ...comment,
-                    replies: [...(comment.replies || []), newReply],
-                };
-            }
-            return comment;
-        });
-        setListComment(updatedComments);
+    //api subcomment
+    const { episodeId } = useParams();
+    const fetchUpdatedComments = async () => {
+        try {
+            const response = await request.get(`episode/${episodeId}/comments`);
+            return response.data.comments;
+        } catch (error) {
+            console.error(error);
+            return listComment;
+        }
+    };
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const handleReplySubmit = async (parentId: number, content: string) => {
+        try {
+            await request.post(
+                'comments/sub-comments/create',
+                {
+                    parentId: `${parentId}`,
+                    content: content,
+                },
+                {
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
+            const updatedComments = await fetchUpdatedComments();
+            setListComment(updatedComments);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
-    const [replyChildCmtId, setReplyChildCmtId] = useState<number | null>(null);
-    //thêm reply cho reply
-    const handleReplyChildSubmit = () => {};
-
-    const deleteCommentById = (idToDelete: number) => {
-        const updatedComments = listComment.filter((comment) => {
-            return comment.id !== idToDelete;
-        });
-        setListComment(updatedComments);
+    //api xóa cmt
+    const deleteCommentById = async (idToDelete: number) => {
+        try {
+            await request.delete(`comments/delete/${idToDelete}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const updatedComments = await fetchUpdatedComments();
+            setListComment(updatedComments);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const deleteChildCmtById = (
-        commentIdToDelete: number,
-        replyIdToDelete: number,
-    ) => {
-        const updatedComments = listComment.map((comment) => {
-            if (comment.id === commentIdToDelete) {
-                if (comment.replies && comment.replies.length > 0) {
-                    const updatedReplies = comment.replies.filter((reply) => {
-                        return reply.id !== replyIdToDelete;
-                    });
-
-                    return {
-                        ...comment,
-                        replies: updatedReplies,
-                    };
-                }
-            }
-            return comment;
-        });
-
-        setListComment(updatedComments);
+    const deleteChildCmtById = async (replyIdToDelete: number) => {
+        try {
+            await request.delete(`comments/sub-comments/delete/${replyIdToDelete}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const updatedComments = await fetchUpdatedComments();
+            setListComment(updatedComments);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const increaseLike = (commentId: number) => {
         const updatedComments = listComment.map((comment) => {
             if (comment.id === commentId) {
-                const updatedLikes = comment.like + 1;
+                const updatedLikes = comment.numLike + 1;
                 return {
                     ...comment,
-                    like: updatedLikes,
+                    numLike: updatedLikes,
                 };
             }
             return comment;
@@ -98,12 +111,12 @@ export const ListComment: React.FC<ListCommentProps> = ({
 
     const increaseLikeChilde = (commentId: number, replyId: number) => {
         const updatedComments = listComment.map((comment) => {
-            if (comment.id === commentId && comment.replies) {
-                const updatedReplies = comment.replies.map((reply) => {
+            if (comment.id === commentId && comment.subcomments) {
+                const updatedReplies = comment.subcomments.map((reply) => {
                     if (reply.id === replyId) {
                         return {
                             ...reply,
-                            like: reply.like + 1,
+                            numLike: reply.numLike + 1,
                         };
                     }
                     return reply;
@@ -111,7 +124,7 @@ export const ListComment: React.FC<ListCommentProps> = ({
 
                 return {
                     ...comment,
-                    replies: updatedReplies,
+                    subcomments: updatedReplies,
                 };
             }
             return comment;
@@ -123,10 +136,10 @@ export const ListComment: React.FC<ListCommentProps> = ({
     const decreaseLike = (commentId: number) => {
         const updatedComments = listComment.map((comment) => {
             if (comment.id === commentId) {
-                const updatedLikes = comment.like - 1;
+                const updatedLikes = comment.numLike - 1;
                 return {
                     ...comment,
-                    like: updatedLikes,
+                    numLike: updatedLikes,
                 };
             }
             return comment;
@@ -137,12 +150,12 @@ export const ListComment: React.FC<ListCommentProps> = ({
 
     const decreaseLikeChilde = (commentId: number, replyId: number) => {
         const updatedComments = listComment.map((comment) => {
-            if (comment.id === commentId && comment.replies) {
-                const updatedReplies = comment.replies.map((reply) => {
+            if (comment.id === commentId && comment.subcomments) {
+                const updatedReplies = comment.subcomments.map((reply) => {
                     if (reply.id === replyId) {
                         return {
                             ...reply,
-                            like: reply.like - 1,
+                            numLike: reply.numLike - 1,
                         };
                     }
                     return reply;
@@ -150,7 +163,7 @@ export const ListComment: React.FC<ListCommentProps> = ({
 
                 return {
                     ...comment,
-                    replies: updatedReplies,
+                    subcomments: updatedReplies,
                 };
             }
             return comment;
@@ -172,33 +185,22 @@ export const ListComment: React.FC<ListCommentProps> = ({
                         increaseLike={() => increaseLike(comment.id)}
                         decreaseLike={() => decreaseLike(comment.id)}
                     />
-                    {comment.replies && comment.replies.length > 0 && (
+                    {comment.subcomments && comment.subcomments.length > 0 && (
                         <div className="ml-16 pl-2">
-                            {comment.replies.map((reply) => {
+                            {comment.subcomments.map((reply) => {
                                 return (
                                     <Cmt
                                         key={reply.id}
                                         comment={reply}
-                                        onReplySubmit={handleReplyChildSubmit}
-                                        replyCommentId={replyChildCmtId}
-                                        setReplyCommentId={setReplyChildCmtId}
-                                        deleteCommentById={() =>
-                                            deleteChildCmtById(
-                                                comment.id,
-                                                reply.id,
-                                            )
-                                        }
+                                        // onReplySubmit={handleReplySubmit}
+                                        // replyCommentId={replyCommentId}
+                                        // setReplyCommentId={setReplyCommentId}
+                                        deleteCommentById={() => deleteChildCmtById(reply.id)}
                                         increaseLike={() =>
-                                            increaseLikeChilde(
-                                                comment.id,
-                                                reply.id,
-                                            )
+                                            increaseLikeChilde(comment.id, reply.id)
                                         }
                                         decreaseLike={() =>
-                                            decreaseLikeChilde(
-                                                comment.id,
-                                                reply.id,
-                                            )
+                                            decreaseLikeChilde(comment.id, reply.id)
                                         }
                                     />
                                 );

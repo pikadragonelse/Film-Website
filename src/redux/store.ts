@@ -3,7 +3,9 @@ import debouncedReducer from './debouncedSlide';
 import isLoginSlide from './isLoginSlice';
 import videoSlice from './videoSlice';
 import dataCollectReducer from './dataCollectSlide';
+import dataLoveSlide from './dataLoveSlide';
 import VIPPaymentReducer from './VIPPaymentSlice'
+
 
 export const store = configureStore({
     reducer: {
@@ -11,6 +13,7 @@ export const store = configureStore({
         user: isLoginSlide,
         videoWatching: videoSlice,
         dataCollect: dataCollectReducer,
+        dataLove: dataLoveSlide,
         VIPPayment: VIPPaymentReducer,
     },
 });

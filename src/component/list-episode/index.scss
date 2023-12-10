@@ -30,16 +30,16 @@
         position: relative;
 
         .session-section {
+            display: none;
             position: absolute;
             top:0;
             left: 0;
-            display: hidden;
             gap: var(--spacing-md);
             align-items: center;
             margin-bottom: var(--spacing-md);
     
             .session-section-select {
-                color: var(--contrast-color);
+                // color: var(--contrast-color);
                 display: flex;
                 align-items: center;
     

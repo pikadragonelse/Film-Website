@@ -300,7 +300,6 @@ export const VIPPackageUser = () => {
             setHaveVIP(true);
         }
     }, []);
-    console.log(paginationConfig.total);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentPageData, setCurrentPageData] = useState(
         data.slice(0, paginationConfig.defaultPageSize),

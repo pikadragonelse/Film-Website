@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { WriteComment } from './write-cmt';
 import { ListComment } from './list-cmt';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button } from 'antd';
+import { request } from '../../utils/request';
+import Cookies from 'js-cookie';
 
 export interface CurrentUser {
     username: string;
     email: string;
-    avatar: string;
+    avatarURL: string;
 }
 interface CommentProps {
     title: string;
@@ -16,62 +18,78 @@ interface CommentProps {
     currentUser: CurrentUser;
     placeholder: string;
 }
+export interface UserProps {
+    user_id: number;
+    gender: string;
+    avatar_url: string;
+    email: string;
+}
 interface listCommentsProps {
     id: number;
     avatar: string;
     username: string;
-    dateTime: string;
-    comment: string;
-    like: number;
+    createdAt: string;
+    updatedAt?: string;
+    content: string;
+    numLike: number;
+    user?: UserProps;
 }
 
 const listComment = [
     {
-        id: 1,
-        avatar: 'https://flowbite.com/docs/images/people/profile-picture-2.jpg',
-        username: 'Michael Gough',
-        dateTime: '2022-02-08',
-        comment:
-            'Very straight-to-point article. Really worth time reading.Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are asimportant as the creation of the design strategy.',
-        like: 2,
-        replies: [
-            {
-                id: 11,
-                avatar: 'https://flowbite.com/docs/images/people/profile-picture-2.jpg',
-                username: 'User2',
-                dateTime: '2023-03-05 07:22:13',
-                comment: 'Reply 1 to Comment 1',
-                like: 12,
-            },
-        ],
-    },
-    {
-        id: 2,
-        avatar: 'https://flowbite.com/docs/images/people/profile-picture-2.jpg',
-        username: 'Michael Gough1',
-        dateTime: '2022-02-08 ',
-        comment:
-            'Very straight-to-point article. Really worth time reading.Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are asimportant as the creation of the design strategy.',
-        like: 0,
+        id: 0,
+        avatar: '',
+        username: '',
+        createdAt: '',
+        content: '',
+        numLike: 0,
+        subcomments: [],
     },
 ];
 
 export const Comment: React.FC<CommentProps> = ({ title, isLogin, currentUser, placeholder }) => {
     const timestamp = Date.now();
+    const [refreshData, setRefreshData] = useState(false);
     const [listComments, setListComments] = useState<Array<listCommentsProps>>(listComment);
-    const handleCommentSubmit = (comment: string) => {
-        const newCommentList = [
-            ...listComments,
-            {
-                id: timestamp,
-                comment,
-                avatar: currentUser.avatar,
-                username: currentUser.username,
-                dateTime: new Date().toLocaleString(),
-                like: 0,
-            },
-        ];
-        setListComments(newCommentList);
+    const { episodeId } = useParams();
+    const fetchData = async () => {
+        try {
+            const response = await request.get(`episode/${episodeId}/comments`);
+            const data = response.data.comments;
+            setListComments(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchData();
+        setRefreshData(false);
+    }, [episodeId, refreshData]);
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const postData = async (content: string) => {
+        try {
+            await request.post(
+                'comments/create',
+                {
+                    episodeId: `${episodeId}`,
+                    content: content,
+                },
+                {
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                },
+            );
+            setRefreshData(true);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const handleCommentSubmit = async (content: string) => {
+        await postData(content);
     };
 
     return (

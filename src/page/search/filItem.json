@@ -37,26 +37,56 @@
         "childrens":[
             {
                 "label":"Hành Động",
+                "value":1
+            },
+            {
+                "label":"Hài kịch",
+                "value":2
+            },
+            {
+                "label":"Khoa học viễn tưởng",
+                "value":3
+            },
+            {
+                "label":"Tình cảm",
+                "value":4
+            },
+            {
+                "label":"Kinh dị",
+                "value":5
+            },
+            {
+                "label":"Phiêu lưu",
+                "value":6
+            },
+            {
+                "label":"Hoạt hình",
+                "value":7
+            },
+            {
+                "label": "Tiên hiệp",
+                "value":8
+            },
+            {
+                "label": "Tội phạm",
+                "value":9
+            },
+            {
+                "label":"Lãng mạn",
                 "value":10
-            },
-            {
-                "label":"Tình Cảm",
-                "value":14
-            },
-            {
-                "label":"Hài Hước",
-                "value":18
-            },
-            {
-                "label":"Thần Thoại",
-                "value":15
             }
+
         ]
+          
     },
     {
         "label": "--Quốc gia--",
         "value":null,
         "childrens":[
+            {
+                "label":"America",
+                "value":"America"
+            },
             {
                 "label":"Trung Quốc",
                 "value":"Trung Quốc"

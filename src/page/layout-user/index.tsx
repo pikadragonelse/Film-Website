@@ -1,5 +1,5 @@
 import './index.scss';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     UserOutlined,
     CrownOutlined,
@@ -14,9 +14,13 @@ import { Breadcrumb, Layout, Menu } from 'antd';
 import { UserProfile } from '../../component/user-profile';
 import { VIPPackageUser } from '../../component/VIP-package-user';
 import { WatchLater } from '../../component/watch-later';
-import { FilmDetail } from '../../component/film-detail';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoveMovies } from '../../component/love-movie';
 import { FilmItem } from '../../component/film-item';
-import { useSelector } from 'react-redux';
+import { request } from '../../utils/request';
+import Cookies from 'js-cookie';
+import { HistoryMovies } from '../../component/history';
+import { setDataCollect } from '../../redux/dataCollectSlide';
 
 const { Header, Content, Sider } = Layout;
 
@@ -48,8 +52,6 @@ const items: MenuItem[] = [
 export const LayoutUser = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [selectedPage, setSelectedPage] = useState('');
-    //bộ sưu tập
-    const dataCollect = useSelector((state: any) => state.dataCollect.dataCollect);
 
     const handleMenuClick = (item: MenuItem | null) => {
         if (item && item.key) {
@@ -58,7 +60,64 @@ export const LayoutUser = () => {
     };
 
     let content = null;
+    //api lovemovie
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const [dataLovemovies, setDataLovemovies] = useState<FilmItem[]>([]);
+    const fetchDataLove = async () => {
+        try {
+            const response = await request.get('user/get-favorite-movie-list?page=1&pageSize=10', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data.data.ListMovie;
+            setDataLovemovies(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
+    useEffect(() => {
+        fetchDataLove();
+    }, []);
+    //api watch late
+    const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
+    const fetchDataCollect = async () => {
+        try {
+            const response = await request.get('user/get-watch-movie-list?page=1&pageSize=100', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data.data.ListMovie;
+            setDataCollect(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataCollect();
+    }, []);
+    //api history
+    const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
+    const fetchDataHistorymovies = async () => {
+        try {
+            const response = await request.get('user/get-movie-history-list?page=1&pageSize=1', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data.data.ListMovie;
+            setDataHistorymovies(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataHistorymovies();
+    }, []);
     switch (selectedPage) {
         case 'profile':
             content = <UserProfile />;
@@ -70,10 +129,10 @@ export const LayoutUser = () => {
             content = <WatchLater dataCollect={dataCollect} />;
             break;
         case 'watched-movies':
-            content = <div>Watched movies</div>;
+            content = <HistoryMovies dataHistorymovies={dataHistorymovies} />;
             break;
         case 'love-movies':
-            content = <div>Love movies</div>;
+            content = <LoveMovies dataLovemovies={dataLovemovies} />;
             break;
         case 'delete-account':
             content = <div>Delete account</div>;
@@ -99,10 +158,11 @@ export const LayoutUser = () => {
                                     <SettingOutlined />
                                 </div>
                             ) : (
-                                <div className="title-header">For you</div>
+                                <div className="title-header">Của bạn</div>
                             )}
                         </Header>
                         <hr className=" border-neutral-400" />
+
                         <Menu
                             style={{
                                 backgroundColor: '#1E1E1E',

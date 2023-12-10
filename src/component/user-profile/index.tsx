@@ -6,6 +6,8 @@ import { Button, Descriptions, DescriptionsProps, Form } from 'antd';
 import { ModalUser } from '../modal-user';
 import { FormEditUser } from '../modal-user/form-edit-user';
 import { FormChangePassword } from '../modal-user/form-change-password';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const items2: DescriptionsProps['items'] = [
     {
@@ -37,6 +39,7 @@ const items2: DescriptionsProps['items'] = [
 
 export type UserProfile = {};
 export const UserProfile = () => {
+    const username = useSelector((state: RootState) => state.user.username);
     const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
     const [isOpenChangePassword, setIsOpenChangePassword] = useState<boolean>(false);
     const [form] = Form.useForm();
@@ -56,7 +59,7 @@ export const UserProfile = () => {
                     className="user-profile-avt"
                 />
                 <Title className="user-profile-username" level={3}>
-                    Dragon Pi
+                    {username}
                 </Title>
             </div>
             <div className="user-profile-detail">

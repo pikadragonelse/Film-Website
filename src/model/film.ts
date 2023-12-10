@@ -22,7 +22,7 @@ export interface Episodes{
     num_view: string,
     duration: number,
     episode_no: number,
-    posterUrl: string
+    posterURL: string
 }
 
 export type Film = {

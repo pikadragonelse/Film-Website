@@ -7,7 +7,6 @@ import './index.scss';
 
 export const EspList = ({ listEpisodes }: ListEpisodesType) => {
     const { episodeId } = useParams();
-    const moment = require('moment');
     const listRef = useRef<CarouselRef>(null);
     return (
         <div className="list-esp">
@@ -17,7 +16,7 @@ export const EspList = ({ listEpisodes }: ListEpisodesType) => {
                         <Row justify="center">
                             <Link to={`/movie/${value.movie_id}/${value.episode_id}`}>
                                 <div className="items-esplist">
-                                    <img src={value.posterUrl} alt="" className="poster-item" />
+                                    <img src={value.posterURL} alt="" className="poster-item" />
                                     <div
                                         className={`item-esplist ${
                                             episodeId !== undefined &&
