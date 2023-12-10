@@ -24,24 +24,6 @@ export const HomePage = () => {
 
     useEffect(() => {
         fetchTrending();
-        const fetchData = async () => {
-            try {
-                const response = await request.get('movies?', {
-                    params: {
-                        // isSeries: true,
-                        page: 1,
-                        pageSize: 100,
-                    },
-                });
-
-                const data = response.data.movies;
-                setHomePageData(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchData();
-
     }, []);
     return (
         <div>
