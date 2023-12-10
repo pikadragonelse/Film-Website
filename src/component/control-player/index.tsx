@@ -55,15 +55,12 @@ export const ControlPlayer = ({
     isFullscreen,
     handleVolumeChange = () => {},
     valueVolume = 0.5,
+    hidden,
 }: ControlPlayerType) => {
     const duration: number = videoRef?.current?.getDuration() || 0;
     const [selectedSetting, setSelectedSetting] = useState('');
     const [stateSetting, setStateSetting] = useState<SettingState>({ speed: 1, quality: 720 });
     const [isSelectedSettingIcon, setIsSelectedSettingIcon] = useState(false);
-
-    const handleShowHide = (condition: boolean) => {
-        return condition ? 'show' : 'hide';
-    };
 
     const handleSettingSelection = (value: number) => {
         const settingMap: Record<string, any> = {
@@ -87,7 +84,7 @@ export const ControlPlayer = ({
     const { played, playedSeconds, loadedSeconds } = useAppSelector((state) => state.videoWatching);
 
     return (
-        <div className="control-player">
+        <div className="control-player" hidden={hidden}>
             <ProgressBar
                 percent={played}
                 className="control-player-progress"

@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { ControlPlayer } from '../control-player';
 import './index.scss';
 import { useAppDispatch } from '../../redux/hook';
 import { VideoWatching, setDataVideoWatching } from '../../redux/videoSlice';
 import screenfull from 'screenfull';
+import { CaretRightOutlined } from '@ant-design/icons';
 
 export interface VideoState {
     playing: boolean;
@@ -22,6 +23,7 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
     const playerRef = useRef<ReactPlayer | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [isShowControl, setIsShowControl] = useState(false);
 
     const [videoState, setVideoState] = useState<VideoState>({
         playing: true,
@@ -64,11 +66,42 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
         setVideoState({ ...videoState, volume: value });
     };
 
+    const handleMouseOverPlayer = () => {
+        if (isShowControl !== true) {
+            setIsShowControl(true);
+        }
+    };
+
+    const handleMouseMove = () => {
+        setIsShowControl(true);
+        const timeout = setTimeout(() => {
+            if (isShowControl) {
+                setIsShowControl(false);
+                // Your logic for when the mouse stops moving
+            }
+        }, 250); // Adjust the timeout duration as needed
+        return () => clearTimeout(timeout);
+    };
+
+    const handleMouseOutPlayer = () => {
+        const timer = setTimeout(() => {
+            setIsShowControl(false);
+        }, 3000);
+        return () => clearTimeout(timer);
+    };
+
     const dispatch = useAppDispatch();
 
     return (
-        <div ref={containerRef}>
-            <div className="player">
+        <div
+            ref={containerRef}
+            onMouseLeave={handleMouseOutPlayer}
+            onMouseOver={handleMouseOverPlayer}
+        >
+            <div
+                className="player relative flex items-center justify-center"
+                onClick={() => playPauseHandler()}
+            >
                 <ReactPlayer
                     ref={playerRef}
                     url={
@@ -90,6 +123,11 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
                     onEnded={playPauseHandler}
                     volume={volume}
                 />
+                <CaretRightOutlined
+                    className="text-5xl absolute m-auto cursor-pointer bg-black/[.5] rounded-full p-3"
+                    hidden={playing}
+                />
+                <div className="absolute bottom-0 h-3 w-full bottom-box-shadow"></div>
             </div>
             <ControlPlayer
                 onPlayPause={playPauseHandler}
@@ -107,6 +145,7 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
                 isFullscreen={isFullscreen}
                 handleVolumeChange={handleVolumeChange}
                 valueVolume={volume}
+                hidden={!isShowControl}
             />
         </div>
     );
