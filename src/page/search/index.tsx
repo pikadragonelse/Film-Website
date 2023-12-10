@@ -101,6 +101,8 @@ export const SearchPage: React.FC = () => {
                 params: filterParams,
             });
             const data = response.data;
+            console.log(data);
+
             setSearchResults(data);
         } catch (error) {
             console.log(error);

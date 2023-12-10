@@ -8,7 +8,6 @@ import { MainInfoFilm } from '../../component/main-info-film';
 import { IconWithText } from '../../component/icon-with-text';
 import { SubInfo } from '../../component/sub-info';
 import { MenuProps } from 'antd';
-import { ListFilm } from '../../component/list-film';
 import { Comment } from '../../component/comment';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -16,8 +15,15 @@ import { CurrentUser } from '../../component/comment';
 import { Film } from '../../model/film';
 import { request } from '../../utils/request';
 import { ListEpisodes } from '../../component/list-episode';
+
 import Cookies from 'js-cookie';
 import { log } from 'console';
+import { defaultEpisode, defaultFilm } from './default-value';
+import { selectionItems } from './items-selection';
+import { ControlPlayer } from '../../component/control-player';
+import { useAppDispatch } from '../../redux/hook';
+import { VideoWatching, setDataVideoWatching } from '../../redux/videoSlice';
+import { VideoPlayerCustom } from '../../component/video-player-custom';
 
 interface Episodes {
     episodeId?: number;
@@ -31,34 +37,9 @@ interface Episodes {
     episodeNo?: number;
     titleFilm?: string;
 }
+
 const moment = require('moment');
 
-const items: MenuProps['items'] = [
-    {
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-                1st menu item
-            </a>
-        ),
-        key: '0',
-    },
-    {
-        label: (
-            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-                2nd menu item
-            </a>
-        ),
-        key: '1',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        label: '3rd menu item（disabled）',
-        key: '3',
-        disabled: true,
-    },
-];
 
 const defaultEpisode = {
     episodeId: 0,
@@ -142,64 +123,38 @@ export const WatchingPage = () => {
         },
     ];
 
-    const isLogin = useSelector((state: RootState) => state.user.isLogin);
+
+    const isLogin = useSelector((state: RootState) => state?.user.isLogin);
+    // console.log(isLogin);
+
     const [playTime, setPlayTime] = useState(0);
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
     const fetchDataEpisode = async () => {
-        try {
-            const response = await request.get(`episode/${episodeId}`);
-            const data = response.data;
-            //kiểm tra
-            if (watchingData.movieId !== data.movieId) {
-                await fetchData();
-            }
-            setDataEpisode(data);
-        } catch (error) {
-            console.error(error);
+        const response = await request.get(`episode/${episodeId}`).catch((err) => {
+            console.log(err);
+        });
+        const data = response?.data;
+        console.log(data);
+
+        //kiểm tra
+        if (watchingData.movieId !== data.movieId) {
+            await fetchData();
         }
+        setDataEpisode(data);
     };
     useEffect(() => {
         fetchDataEpisode();
         window.scrollTo(0, 0);
     }, [episodeId]);
 
-    const handleProgress = (state: OnProgressProps) => {
-        setPlayTime(state.playedSeconds);
-    };
-    const playerRef = useRef<ReactPlayer | null>(null);
-
-    const handleFastForward = () => {
-        if (playerRef.current) {
-            playerRef.current.seekTo(playerRef.current.getCurrentTime() + 10);
-        }
-    };
-
-    const handleRewind = () => {
-        if (playerRef.current) {
-            playerRef.current.seekTo(playerRef.current.getCurrentTime() - 10);
-        }
-    };
-
     return (
         <div className="watching-container">
             <div className="watching">
                 <div className="watching-player-container">
-                    <ReactPlayer
-                        ref={playerRef}
-                        url={dataEpisode.movieURL}
-                        poster={dataEpisode.posterURL}
-                        controls={true}
-                        playing={true}
-                        onProgress={handleProgress}
-                        className="watching-player"
-                        width="100%"
-                        height={580}
-                    />
-                    {/* <div>
-                        <button onClick={handleRewind}>Lùi10s</button>
-                        <button onClick={handleFastForward}>Tới10s</button>
-                    </div> */}
+
+                    <VideoPlayerCustom />
+
                 </div>
                 <div className="watching-list-film-container">
                     <ListEpisodes
@@ -208,6 +163,7 @@ export const WatchingPage = () => {
                             `16/${watchingData.episodeNum}`,
                             'Phát sóng lúc 20h thứ 7 hàng tuần',
                         ]}
+
                         sessions={items}
                         multiSessions={false}
                         titleFilm={watchingData.title}

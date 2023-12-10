@@ -52,6 +52,7 @@ export const PaginationFilm = ({
     useEffect(() => {
         const startIndex = (currentPage - 1) * resultsPerPage;
         const endIndex = startIndex + resultsPerPage;
+        console.log(listFilm);
         const updatedDisplayedResults = listFilm.slice(startIndex, endIndex);
         setDisplayedResults(updatedDisplayedResults);
     }, [listFilm, currentPage]);

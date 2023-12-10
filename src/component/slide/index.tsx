@@ -43,7 +43,8 @@ const Slide: React.FC = () => {
             .then((data) => {
                 setPopularMovies(data.movies);
                 setIsHeartFilled(new Array(data.length).fill(false));
-            });
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     const handleCarouselChange = () => {

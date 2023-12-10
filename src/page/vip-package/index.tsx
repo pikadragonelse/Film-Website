@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Title from 'antd/es/typography/Title';
 import { Button, List, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
@@ -8,6 +8,8 @@ import { ListVipPackage } from '../../component/list-vip-package';
 import Paragraph from 'antd/es/typography/Paragraph';
 import { Link } from 'react-router-dom';
 import { HeaderPay } from '../../component/header-pay';
+import axios from 'axios';
+import { request } from '../../utils/request';
 
 const data = [
     {
@@ -132,9 +134,7 @@ export const VIPPackage = () => {
                     renderItem={(item) => (
                         <List.Item>
                             <List.Item.Meta
-                                avatar={
-                                    <CheckOutlined className="vip-package-list-icon" />
-                                }
+                                avatar={<CheckOutlined className="vip-package-list-icon" />}
                                 title={item.title}
                                 className="vip-package-list-item"
                             />
@@ -143,12 +143,10 @@ export const VIPPackage = () => {
                 />
                 <ListVipPackage className="list-vip-package" />
                 <Paragraph className="list-vip-package-policy">
-                    Việc bạn có thể xem ở chế độ HD (720p), Full HD (1080p),
-                    Ultra HD (4K) và HDR hay không phụ thuộc vào dịch vụ
-                    internet và khả năng của thiết bị. Không phải tất cả nội
-                    dung đều có sẵn ở mọi độ phân giải. Xem{' '}
-                    <a href="#">Điều khoản sử dụng</a> của chúng tôi để biết
-                    thêm chi tiết.
+                    Việc bạn có thể xem ở chế độ HD (720p), Full HD (1080p), Ultra HD (4K) và HDR
+                    hay không phụ thuộc vào dịch vụ internet và khả năng của thiết bị. Không phải
+                    tất cả nội dung đều có sẵn ở mọi độ phân giải. Xem{' '}
+                    <a href="#">Điều khoản sử dụng</a> của chúng tôi để biết thêm chi tiết.
                 </Paragraph>
                 <Link to={'/payment'} className="list-vip-package-btn">
                     Tiếp theo
