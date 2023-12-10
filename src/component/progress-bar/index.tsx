@@ -31,7 +31,6 @@ export const ProgressBar = ({
                 handleClick({ event: e, ref: containerRef });
             }}
         >
-            {' '}
             <div
                 className="progress-bar-line progress-bar-line-loaded"
                 style={{ width: `${(loadedSeconds * 100) / duration}%` }}

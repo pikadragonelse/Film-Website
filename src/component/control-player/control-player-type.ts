@@ -13,4 +13,5 @@ export type ControlPlayerType = {
     isFullscreen?: boolean;
     handleVolumeChange?: (props?: any) => void;
     valueVolume?: number;
+    hidden?: boolean;
 };
