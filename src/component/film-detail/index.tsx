@@ -176,13 +176,11 @@ export const FilmDetail = () => {
                         },
                     });
                     if (response.data.status === 'Ok!') {
-                        const isFilmDetailInCollection = true;
-                        setAddedToCollection(isFilmDetailInCollection);
+                        setAddedToCollection(false);
                     }
                 } catch (error) {
                     console.error(error);
                 }
-                setAddedToCollection(false);
             }
         }
     };
@@ -200,8 +198,7 @@ export const FilmDetail = () => {
                         },
                     });
                     if (response.data.status === 'Ok!') {
-                        const addedToLove = true;
-                        setAddedToLove(addedToLove);
+                        setAddedToLove(true);
                     }
                 } catch (error) {
                     console.error(error);
@@ -218,13 +215,11 @@ export const FilmDetail = () => {
                         },
                     );
                     if (response.data.status === 'Ok!') {
-                        const addedToLove = true;
-                        setAddedToLove(addedToLove);
+                        setAddedToLove(false);
                     }
                 } catch (error) {
                     console.error(error);
                 }
-                setAddedToLove(false);
             }
         }
     };

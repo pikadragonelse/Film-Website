@@ -41,6 +41,7 @@ const config = {
     ],
 };
 export const Register: React.FC = () => {
+    const moment = require('moment');
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [form] = Form.useForm();
@@ -52,6 +53,8 @@ export const Register: React.FC = () => {
     };
     const sendDataToAPI = async (values: any) => {
         try {
+            values.dateOfBirth = moment(values.datePicker).format('YYYY-MM-DD HH:mm:ss.SSSZ');
+
             const response = await axios.post('http://localhost:8000/api/auth/register', values, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,6 +65,7 @@ export const Register: React.FC = () => {
                 alert('Người dùng đã đăng ký thành công');
                 form.resetFields();
                 navigate('/login');
+                // console.log(updatedValues);
             } else {
                 console.error('Error registering user:', response.data);
             }
@@ -69,6 +73,7 @@ export const Register: React.FC = () => {
             console.error('Error sending data to API:', error);
         }
     };
+
     const onFinish = (values: any) => {
         console.log('Received values of form: ', values);
         sendDataToAPI(values);
@@ -185,7 +190,7 @@ export const Register: React.FC = () => {
                             <Form.Item
                                 style={{ marginRight: '20px' }}
                                 className="register-form__item"
-                                name="date-picker"
+                                name="datePicker"
                                 label={<span style={{ color: 'white' }}>Date of birth</span>}
                                 {...config}
                             >
@@ -212,9 +217,9 @@ export const Register: React.FC = () => {
                                     }}
                                     className="register-form__item-input"
                                 >
-                                    <Option value="1">Male</Option>
-                                    <Option value="2">Female</Option>
-                                    <Option value="3">Other</Option>
+                                    <Option value="Male">Male</Option>
+                                    <Option value="Female">Female</Option>
+                                    <Option value="Other">Other</Option>
                                 </Select>
                             </Form.Item>
                         </div>

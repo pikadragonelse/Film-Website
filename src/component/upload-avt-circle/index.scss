@@ -6,6 +6,29 @@
     display: flex;
     justify-content: center;
 
+    .mask-img-container {
+        .mask-image-custom {
+            opacity: 0;
+            transition: opacity 0.1s ease;
+        }
+    
+        &:hover .mask-image-custom{
+            opacity: 1;
+        }
+
+        .ant-image {
+            width: 100%;
+        }
+
+        .ant-image .ant-image-img {
+            height: 100%;
+        }
+    }
+
+    .ant-image-mask {
+        border-radius: var(--border-r-mch);
+    }
+
     .upload-container {
         position: relative;
         width: 150px;

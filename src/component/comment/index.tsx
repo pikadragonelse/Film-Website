@@ -8,6 +8,8 @@ import { request } from '../../utils/request';
 import Cookies from 'js-cookie';
 
 export interface CurrentUser {
+    dateOfBirth?: string;
+    gender?: string;
     username: string;
     email: string;
     avatarURL: string;

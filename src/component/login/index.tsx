@@ -28,8 +28,8 @@ export const Login: React.FC = () => {
             .post('http://localhost:8000/api/auth/login', data)
             .then((response) => {
                 console.log('POST', response);
-                let accessToken = JSON.stringify(response.data.result.token);
-                console.log('accessToken :', accessToken);
+                let accessToken = JSON.stringify(response.data.result.token.accessToken);
+                let refreshToken = JSON.stringify(response.data.result.token.refreshToken);
                 setLoading(false);
 
                 if (response.status === 200) {
@@ -45,6 +45,7 @@ export const Login: React.FC = () => {
                         Cookies.set('username', data.username, { expires: 1, secure: true });
                     }
                     Cookies.set('accessToken', accessToken, { expires: 1 });
+                    Cookies.set('refreshToken', refreshToken, { expires: 1 });
 
                     navigate('/');
                 } else {
