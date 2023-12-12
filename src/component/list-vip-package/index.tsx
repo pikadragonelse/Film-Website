@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './index.scss';
 import axios from 'axios';
 import { VIPPackageRaw } from '../../model/VIP-package';
-import { setIdSelectedInfoPackage } from '../../redux/VIPPaymentSlice';
+import { setIdSelectedInfoPackage, setNamePackage } from '../../redux/VIPPaymentSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
+import { SubscriptionType } from '../../page/vip-package';
 
 export interface DataTable {
     title: string;
     package1: string;
     package2: string;
+    id: string;
 }
 
 export interface DataVIPLabel {
@@ -16,50 +18,31 @@ export interface DataVIPLabel {
     value: string;
 }
 
+export type subInfo = {
+    qualityVideo: string;
+    resolution: string;
+};
+
+const infoMap: Record<number, subInfo> = {
+    2: {
+        qualityVideo: 'Tốt',
+        resolution: '1080p',
+    },
+    3: {
+        qualityVideo: 'Tốt nhất',
+        resolution: '4k (HDR)',
+    },
+};
+
 export type ListVipPackage = {
     className?: string;
     dataMap?: DataTable[];
     dataLabel?: DataVIPLabel[];
+    dataVIPPackage?: SubscriptionType[];
 };
-export const ListVipPackage = ({ className }: ListVipPackage) => {
-    const [selectedPackage, setSelectedPackage] = useState(2);
-    const [dataVIPPackage, setDataVIPPackage] = useState<VIPPackageRaw[]>([]);
-    const [dataMap, setDataMap] = useState<DataTable[]>([]);
+export const ListVipPackage = ({ className, dataVIPPackage = [] }: ListVipPackage) => {
+    const [selectedPackage, setSelectedPackage] = useState(1);
     const dispatch = useAppDispatch();
-
-    const getVipPackage = () => {
-        axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-type', {
-                headers: { 'Content-Type': 'application/json' },
-            })
-            .then((response) => {
-                setDataVIPPackage([response.data.data[1], response.data.data[2]]);
-                setDataMap([
-                    {
-                        title: 'Giá hàng tháng',
-                        package1: `${response.data.data[1].price} ₫`,
-                        package2: `${response.data.data[2].price} ₫`,
-                    },
-                    {
-                        title: 'Chất lượng video',
-                        package1: 'Tốt',
-                        package2: 'Tốt nhất',
-                    },
-                    {
-                        title: 'Độ phân giải',
-                        package1: '1080p',
-                        package2: '4K+HDR',
-                    },
-                ]);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
-    useEffect(() => {
-        getVipPackage();
-    }, []);
 
     return (
         <table className={`list-vip-package-table ${className}`}>
@@ -75,6 +58,7 @@ export const ListVipPackage = ({ className }: ListVipPackage) => {
                             onClick={() => {
                                 setSelectedPackage(value.subscriptionTypeId);
                                 dispatch(setIdSelectedInfoPackage(value.subscriptionTypeId));
+                                dispatch(setNamePackage(value.name));
                             }}
                         >
                             {value.name}
@@ -89,22 +73,26 @@ export const ListVipPackage = ({ className }: ListVipPackage) => {
                     </td>
                 ))}
             </tr>
-            {dataMap.map((value) => (
+            {dataVIPPackage.map((value) => (
                 <tr className="list-vip-package-row">
-                    <td className="list-vip-package-cell list-vip-package-title ">{value.title}</td>
+                    <td className="list-vip-package-cell list-vip-package-title ">{value.name}</td>
                     <td
                         className={`list-vip-package-cell ${
                             selectedPackage === 2 ? 'highlight' : ''
                         }`}
                     >
-                        {value.package1}
+                        {infoMap[value.subscriptionTypeId] != null
+                            ? infoMap[value.subscriptionTypeId].qualityVideo
+                            : ''}
                     </td>
                     <td
                         className={`list-vip-package-cell ${
                             selectedPackage === 3 ? 'highlight' : ''
                         }`}
                     >
-                        {value.package2}
+                        {infoMap[value.subscriptionTypeId] != null
+                            ? infoMap[value.subscriptionTypeId].resolution
+                            : ''}
                     </td>
                 </tr>
             ))}

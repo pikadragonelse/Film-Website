@@ -5,6 +5,8 @@ import videoSlice from './videoSlice';
 import dataCollectReducer from './dataCollectSlide';
 import dataLoveSlide from './dataLoveSlide';
 import VIPPaymentReducer from './VIPPaymentSlice'
+import DurationVip from './durationSlice'
+
 
 
 export const store = configureStore({
@@ -15,6 +17,7 @@ export const store = configureStore({
         dataCollect: dataCollectReducer,
         dataLove: dataLoveSlide,
         VIPPayment: VIPPaymentReducer,
+        durationData: DurationVip
     },
 });
 

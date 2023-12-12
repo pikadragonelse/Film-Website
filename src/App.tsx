@@ -53,7 +53,7 @@ export const App = () => {
                     <Route path="/foryou" element={<LayoutUser />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/payment" element={<Payment />} />
+                    <Route path="/payment/:idPackage/*" element={<Payment />} />
                     <Route path="/VIPpackage" element={<VIPPackage />} />
                     <Route path="/bill" element={<Bill />} />
                     <Route path="/director/:directorId" element={<Director color="white" />} />
