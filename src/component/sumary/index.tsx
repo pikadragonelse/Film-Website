@@ -6,59 +6,62 @@ import { TermPackage } from '../term-package';
 import { request } from '../../utils/request';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useAppSelector } from '../../redux/hook';
+import { getCurrentDateString } from '../../utils/getCurrentDate';
+import { getNextDateByMonth } from '../../utils/getNextDateByMonth';
 interface SummaryProps {
     selectedTerm: TermPackage | null;
-    selectedLabel: string;
+    selectedMethod: number;
 }
 
-const currentDate = new Date();
+const methodShowMap: Record<number, string> = {
+    1: 'Paypal',
+    2: 'VNPay',
+};
 
-const orderNumber = Math.floor(Math.random() * 1000000)
-    .toString()
-    .padStart(6, '0');
+const startDate = getCurrentDateString();
+export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }) => {
+    const [linkRedirect, setLinkRedirect] = useState('');
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const namePackage = useAppSelector((state) => state.VIPPayment.namePackage);
+    const timeDuration = useAppSelector((state) => state.VIPPayment.durationValue);
+    const totalPrice = useAppSelector((state) => state.VIPPayment.totalPrice);
 
-const day = currentDate.getDate().toString().padStart(2, '0');
-const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-const year = currentDate.getFullYear();
-const startDate = `${day}/${month}/${year}`;
-const hours = currentDate.getHours().toString().padStart(2, '0');
-const minutes = currentDate.getMinutes().toString().padStart(2, '0');
-const currentTime = `${hours}:${minutes}`;
+    const [endDate, setEndDate] = useState(getNextDateByMonth(timeDuration));
 
-export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel }) => {
-    let endDate = startDate;
-    if (selectedTerm) {
-        const additionalValue = selectedTerm.value;
-        const endDateTimestamp =
-            currentDate.getTime() + additionalValue * 30.5 * 24 * 60 * 60 * 1000;
-        const endDateObject = new Date(endDateTimestamp);
-        const endDay = endDateObject.getDate().toString().padStart(2, '0');
-        const endMonth = (endDateObject.getMonth() + 1).toString().padStart(2, '0');
-        const endYear = endDateObject.getFullYear();
-        endDate = `${endDay}/${endMonth}/${endYear}`;
-    }
+    useEffect(() => {
+        const newDate = getNextDateByMonth(timeDuration);
 
-    let x = 10000;
-    let number = x.toLocaleString('it-IT');
-    const postOrder = async (data: any) => {
+        setEndDate(newDate);
+    }, [timeDuration]);
+
+    const handleRecoverDate = () => {
+        const newDate = new Date(endDate);
+        newDate.setDate(newDate.getDate() + 1);
+
+        return getCurrentDateString(newDate);
+    };
+
+    const postOrder = async () => {
         return await axios
-            .post(
-                'http://localhost:8000/api/payments/paypal',
-                { price: 1 },
-                { headers: { 'Content-Type': 'application/json' }, baseURL: '' },
-            )
+            .post('http://localhost:8000/api/payments/paypal', { subscriptionInfoId: 9 })
             .then((res) => {
-                console.log(res.data);
+                console.log(res);
                 return res.data.id;
             })
             .catch((error) => console.log(error));
     };
-    useEffect(() => {}, []);
-    const [linkRedirect, setLinkRedirect] = useState('');
+    useEffect(() => {
+        if (selectedMethod === 2) {
+            paymentVNPay();
+        }
+    }, [selectedMethod]);
+
     async function onApprove(data: any) {
         return await request
             .post(
-                'http://localhost:8000/api/payments/paypal/success',
+                'http://localhost:8000/api/payments/paypal/capture',
                 {
                     orderID: data.orderID,
                 },
@@ -67,7 +70,10 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
             .then((orderData) => {
                 console.log(orderData);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(data);
+                console.log('Catch', error);
+            });
     }
 
     const paymentVNPay = async () => {
@@ -75,46 +81,43 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
             .post(
                 'http://localhost:8000/api/payments/vn-pay',
                 {
-                    price: 20000,
+                    price: 100000,
                     ipAddress: '127.0.0.1',
+                    subscriptionInfoId: 2,
                 },
-                { headers: { 'Content-Type': 'application/json' } },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                },
             )
             .then((response) => {
-                console.log(response);
-                setLinkRedirect(response.data);
+                console.log(response.data);
+                setLinkRedirect(response.data.data.url);
             })
             .catch((err) => console.log(err));
-        // await axios
-        //     .get('http://localhost:8000/api/payments/vn-pay/verify', {
-        //         headers: { 'Content-Type': 'application/json' },
-        //     })
-        //     .then((response) => {
-        //         console.log(response);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
     };
 
     return (
         <div className="wrapper-summary">
-            <div className="title-summary">Payment Details</div>
+            <div className="title-summary">Chi tiết thanh toán</div>
             <div className="information">
                 <div className="user">
-                    <div className="username">Username</div>
+                    <div className="username">Người dùng</div>
                     <div className="value">nguyenhatha</div>
                 </div>
                 <hr className="my-4 border-neutral-300" />
                 <div className="term-package">
                     <div className="name-package">
                         <div className="">Tên gói</div>
-                        <div className="value">VIP 1</div>
+                        <div className="value">{namePackage}</div>
                     </div>
                     <div className="term">
                         <div className="">Thời hạn gói</div>
                         <div className="value">
-                            {selectedTerm ? selectedTerm.value : '01 tháng'}
+                            {timeDuration >= 10 ? '' : 0}
+                            {timeDuration || 1} tháng
                         </div>
                     </div>
                 </div>
@@ -127,11 +130,11 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
                     </div>
                     <div className="time-start">
                         <div className="">Sử dụng đến</div>
-                        <div className="value">Khi bạn hủy</div>
+                        <div className="value">{getCurrentDateString(endDate)}</div>
                     </div>
                     <div className="time-end">
                         <div className="">Kỳ thanh toán tiếp theo</div>
-                        <div className="value">{endDate}</div>
+                        <div className="value">{handleRecoverDate()}</div>
                     </div>
                 </div>
 
@@ -141,7 +144,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
                         <div className="">Trị giá</div>
 
                         <div className="value">
-                            {selectedTerm ? selectedTerm.price.toLocaleString('it-IT') : '--- ₫'}
+                            {totalPrice.toLocaleString('it-IT') || '---'}&nbsp;₫
                         </div>
                     </div>
                 </div>
@@ -149,19 +152,20 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
                 <div className="method">
                     <div className="method-payment">
                         <div className="">Phương thức thanh toán</div>
-                        <div className="value">{selectedLabel ? selectedLabel : 'Paypal'}</div>
+                        <div className="value">{methodShowMap[selectedMethod]}</div>
                     </div>
                 </div>
                 <hr className="my-4 border-neutral-300" />
                 <div className="total-price">
                     <div className="">Thành tiền</div>
                     <div className="value-1">
-                        {selectedTerm ? selectedTerm.price : `${number} ₫`}
+                        {totalPrice.toLocaleString('it-IT') || '---'}&nbsp;₫
                     </div>
                 </div>
                 <div className="note">
                     Bằng việc xác nhận, bạn xác định đã đọc và đồng ý với{' '}
                     <a
+                        href="#"
                         style={{
                             color: 'var(--primary-color)',
                             fontWeight: '500',
@@ -172,28 +176,27 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedLabel })
                     của MOVTIME.
                 </div>
             </div>
-            {selectedLabel === 'Paypal' ? (
+            <div
+                hidden={selectedMethod === 1 ? false : true}
+                className="max-h-14 overflow-hidden mt-5 mb-[5.5px]"
+            >
                 <PayPalScriptProvider
                     options={{
                         clientId:
                             'ARs2ZSePnRG8bMCE8RBu6bTJo6HmLsv2u7IdPQXCw4yEEejKYtPz7BAv1jw5DfeC2Apwdddv2RPGi4Hs',
                         currency: 'USD',
-                        intent: 'capture',
                     }}
                 >
                     <PayPalButtons onApprove={onApprove} createOrder={postOrder} />
                 </PayPalScriptProvider>
-            ) : (
-                <Button className="btn-confirm" type="primary" onClick={paymentVNPay}>
-                    {/* <Link
-                    to={`/bill?selectedTerm=${JSON.stringify(
-                        selectedTerm,
-                    )}&selectedLabel=${selectedLabel}&currentDate=${startDate}&endDate=${endDate}&currentTime=${currentTime}&orderNumber=${orderNumber}`}
-                > */}
-                    Xác nhận
-                    {/* </Link> */}
-                </Button>
-            )}
+            </div>
+            <Button
+                className={`btn-confirm ${selectedMethod === 2 ? 'flex' : 'hidden'}`}
+                type="primary"
+                href={linkRedirect}
+            >
+                Xác nhận
+            </Button>
         </div>
     );
 };
