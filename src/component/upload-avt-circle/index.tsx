@@ -1,8 +1,9 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Upload } from 'antd';
+import { PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { Image, Upload } from 'antd';
 import { RcFile, UploadChangeParam, UploadFile } from 'antd/es/upload';
 import React, { useState } from 'react';
 import './index.scss';
+import { DefaultImg } from '../../asset/image/defaultImg';
 
 export type UploadAvtCircle = {
     onChange?: ((info: UploadChangeParam<UploadFile<any>>) => void) | undefined;
@@ -14,6 +15,8 @@ export const UploadAvtCircle = ({
     customRequest = () => {},
     previewImage,
 }: UploadAvtCircle) => {
+    console.log(previewImage);
+
     return (
         <Upload
             className="upload-avt"
@@ -21,11 +24,25 @@ export const UploadAvtCircle = ({
             onChange={onChange}
             customRequest={customRequest}
         >
-            <div className="upload-container">
-                <img src={previewImage} alt="" className="avt-img" />
-                <PlusOutlined className="upload-icon" />
-                <div className="upload-text">Avatar</div>
-            </div>
+            {previewImage != null ? (
+                <div className="flex relative mask-img-container h-[150px] w-[150px] overflow-hidden rounded-full">
+                    <div className="flex mask-image-custom absolute rounded-full bg-black/[0.5] z-10 h-full w-full items-center justify-center ">
+                        <UploadOutlined className="mask-image-custom-icon text-white text-3xl" />
+                    </div>
+                    <Image
+                        src={previewImage}
+                        alt=""
+                        className="avt-img rounded-full object-cover "
+                        fallback={DefaultImg}
+                        preview={false}
+                    />
+                </div>
+            ) : (
+                <div className="upload-container">
+                    <PlusOutlined className="upload-icon" />
+                    <div className="upload-text">Avatar</div>
+                </div>
+            )}
         </Upload>
     );
 };

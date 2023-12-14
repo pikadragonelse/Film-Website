@@ -12,7 +12,7 @@ export const LoveMovies = ({ dataLovemovies }: LoveMoviesProps) => {
         <div className="content-page-love-movies">
             {dataLovemovies.length !== 0 ? (
                 <PaginationFilm
-                    title="Bộ sưu tập phim"
+                    title="Phim yêu thích"
                     listFilm={dataLovemovies}
                     number={4.8}
                     onCancelClick={true}

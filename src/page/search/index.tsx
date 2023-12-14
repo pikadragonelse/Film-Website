@@ -37,6 +37,7 @@ export const SearchPage: React.FC = () => {
         handleSearchParamsFromURL();
     }, [search]);
 
+
     const [selectedOptionsMap, setSelectedOptionsMap] = useState<{
         [key: string]: Option[];
     }>({});

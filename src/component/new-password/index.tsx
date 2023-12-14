@@ -40,7 +40,7 @@ const config = {
         },
     ],
 };
-export const Register: React.FC = () => {
+export const NewPassword: React.FC = () => {
     const moment = require('moment');
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
@@ -134,7 +134,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="username"
-                            label={<span style={{ color: 'white' }}>Tên đăng ký</span>}
+                            label={<span style={{ color: 'white' }}>Username</span>}
                             rules={[
                                 {
                                     required: true,
@@ -148,7 +148,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="password"
-                            label={<span style={{ color: 'white' }}>Mật khẩu</span>}
+                            label={<span style={{ color: 'white' }}>Password</span>}
                             rules={[
                                 {
                                     required: true,
@@ -162,7 +162,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="confirm"
-                            label={<span style={{ color: 'white' }}>Xác nhận mật khẩu </span>}
+                            label={<span style={{ color: 'white' }}>Confirm Password</span>}
                             dependencies={['password']}
                             hasFeedback
                             rules={[
@@ -186,43 +186,7 @@ export const Register: React.FC = () => {
                         >
                             <Input.Password className="register-form__item-input" />
                         </Form.Item>
-                        <div className="register-form__confirm">
-                            <Form.Item
-                                style={{ marginRight: '20px' }}
-                                className="register-form__item"
-                                name="date-picker"
-                                label={<span style={{ color: 'white' }}>Ngày sinh</span>}
-                                {...config}
-                            >
-                                <DatePicker className="register-form__item-input" />
-                            </Form.Item>
 
-                            <Form.Item
-                                className="register-form__item"
-                                name="gender"
-                                label={<span style={{ color: 'white' }}>Giới tính</span>}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please select gender!',
-                                    },
-                                ]}
-                            >
-                                <Select
-                                    placeholder="Select gender"
-                                    style={{
-                                        width: '180px',
-                                        borderRadius: '7px',
-                                        height: '42.5px',
-                                    }}
-                                    className="register-form__item-input"
-                                >
-                                    <Option value="Male">Male</Option>
-                                    <Option value="Female">Female</Option>
-                                    <Option value="Other">Other</Option>
-                                </Select>
-                            </Form.Item>
-                        </div>
                         <Form.Item
                             style={{ marginLeft: '-180px' }}
                             name="agreement"
@@ -238,7 +202,7 @@ export const Register: React.FC = () => {
                             {...tailFormItemLayout}
                         >
                             <Checkbox name="check" className="register-form__item-checkbox">
-                                Tôi đã đọc <a href="/">thỏa thuận</a>
+                                I have read the <a href="/">agreement</a>
                             </Checkbox>
                         </Form.Item>
                         <Form.Item className="register-form__button" {...tailFormItemLayout}>
@@ -254,9 +218,9 @@ export const Register: React.FC = () => {
                                 Đăng ký
                             </Button>
                             <div className="text-center mt-4">
-                                Bạn đã có tài khoản ? {}{' '}
+                                You have an account ? {}{' '}
                                 <Link className="form-signup" to="/login">
-                                    Đăng nhập
+                                    Sign In
                                 </Link>
                             </div>
                         </Form.Item>

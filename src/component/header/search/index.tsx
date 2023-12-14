@@ -10,7 +10,9 @@ export const Search = () => {
     const navigate = useNavigate();
     const valueRef = useRef<HTMLInputElement | null>(null);
 
+
     const debouncedValue: string = useDebounced(searchValue, 50);
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
