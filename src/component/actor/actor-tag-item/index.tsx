@@ -3,7 +3,6 @@ import React from 'react';
 interface TabItemProps {
     isActive: boolean;
     onClick: () => void;
-
     label: string;
 }
 

@@ -5,47 +5,33 @@ import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 import './index.scss';
 import { LogoDark } from '../../asset/icon/logoDark';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { VNPayReturnDataRaw, VNPayReturnDataRawDefault } from '../../model/VNPay';
 
 export const MoviesPackageBill = () => {
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const [dataBillReturn, setDataBillReturn] =
+        useState<VNPayReturnDataRaw>(VNPayReturnDataRawDefault);
 
-    const [selectedTerm, setSelectedTerm] = useState<{
-        value: string;
-        price: string;
-    } | null>(null);
-
-    const [selectedLabel, setSelectedLabel] = useState<string>('');
-    const [currentDate, setCurrentDate] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const [currentTime, setCurrentTime] = useState('');
-    const [orderNumber, setOrderNumber] = useState('');
+    const verifyBill = () => {
+        axios
+            .get('http://localhost:8000/api/payments/vn-pay/verify' + location.search, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + accessToken,
+                },
+            })
+            .then((res) => setDataBillReturn(res.data.results))
+            .catch((err) => console.log(err));
+    };
 
     useEffect(() => {
-        const termString = searchParams.get('selectedTerm');
-        const label = searchParams.get('selectedLabel');
+        verifyBill();
+    }, []);
 
-        if (termString) {
-            const term = JSON.parse(termString);
-            setSelectedTerm(term);
-        }
-
-        if (label) {
-            setSelectedLabel(label);
-        }
-
-        const currentDateString = searchParams.get('currentDate');
-        setCurrentDate(currentDateString || '');
-
-        const endDateString = searchParams.get('endDate');
-        setEndDate(endDateString || '');
-
-        const currentTimeString = searchParams.get('currentTime');
-        setCurrentTime(currentTimeString || '');
-
-        const orderNumberString = searchParams.get('orderNumber');
-        setOrderNumber(orderNumberString || '');
-    }, [location.search]);
+    const currentDate = new Date();
 
     const billItems = [
         {
@@ -54,25 +40,25 @@ export const MoviesPackageBill = () => {
         },
         {
             title: 'Thời hạn',
-            content: selectedTerm ? selectedTerm.value : '',
+            content: dataBillReturn.vnp_OrderInfo,
         },
 
         {
             title: 'Phương thức thanh toán',
-            content: selectedLabel,
+            content: 'VNPay ' + dataBillReturn.vnp_BankCode + ' ' + dataBillReturn.vnp_CardType,
         },
 
         {
             title: 'Thời gian tạo đơn',
-            content: `${currentTime} - ${currentDate}`,
+            content: `${new Date('20231212144602').toString()}`,
         },
         {
             title: 'Ngày bắt đầu dịch vụ',
-            content: currentDate,
+            content: currentDate.toDateString(),
         },
         {
             title: 'Ngày kết thúc dịch vụ',
-            content: endDate,
+            content: currentDate.toDateString(),
         },
     ];
 
@@ -85,8 +71,8 @@ export const MoviesPackageBill = () => {
                     </div>
                 </div>
                 <div className="text-gray-700">
-                    <div className="text-sm">Date: {currentDate}</div>
-                    <div className="text-sm">MovTime ID: {orderNumber}</div>
+                    <div className="text-sm">Date: {currentDate.toDateString()}</div>
+                    <div className="text-sm">MovTime ID: {dataBillReturn.vnp_ResponseCode}</div>
                 </div>
             </div>
             <div className="border-b-2 border-gray-100 pb-8 mb-8">
@@ -103,11 +89,7 @@ export const MoviesPackageBill = () => {
                 </div>
 
                 {billItems.map((item, index) => (
-                    <BillItem
-                        key={index}
-                        title={item.title}
-                        content={item.content}
-                    />
+                    <BillItem key={index} title={item.title} content={item.content} />
                 ))}
             </ul>
             <div
@@ -120,7 +102,7 @@ export const MoviesPackageBill = () => {
                 }}
             >
                 <span className="bill-list__bold">Tổng tiền </span>
-                {selectedTerm ? selectedTerm.price : '69000 ₫'}
+                {dataBillReturn.vnp_Amount.toLocaleString('it-IT')}
             </div>
 
             <Button className="bill-list__btn" type="primary">

@@ -38,6 +38,8 @@ export const SearchPage: React.FC = () => {
         }
     }, [searchValue, fetchedData]);
 
+    console.log('searchValue', searchValue);
+
     //lọc
 
     const [selectedOptionsMap, setSelectedOptionsMap] = useState<{

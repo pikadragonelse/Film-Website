@@ -8,11 +8,12 @@ interface HistoryMoviesProps {
 }
 
 export const HistoryMovies = ({ dataHistorymovies }: HistoryMoviesProps) => {
+    console.log(dataHistorymovies);
     return (
         <div className="content-page-love-movies">
             {dataHistorymovies.length !== 0 ? (
                 <PaginationFilm
-                    title="Bộ sưu tập phim"
+                    title="Lịch sử xem phim"
                     listFilm={dataHistorymovies}
                     number={4.8}
                     onCancelClick={true}

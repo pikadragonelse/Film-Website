@@ -37,6 +37,7 @@ export const Header = ({ className }: Header) => {
     const isLoginPage =
         location.pathname === '/login' ||
         location.pathname === '/register' ||
+        location.pathname === '/forget' ||
         location.pathname === '/payment';
 
     const scrollThreshold = 50;

@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from 'react';
 import Title from 'antd/es/typography/Title';
 import { Button, List, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import './index.scss';
-import { ColumnsType } from 'antd/es/table';
-import { ListVipPackage } from '../../component/list-vip-package';
+import { DataTable, ListVipPackage } from '../../component/list-vip-package';
 import Paragraph from 'antd/es/typography/Paragraph';
 import { Link } from 'react-router-dom';
 import { HeaderPay } from '../../component/header-pay';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { request } from '../../utils/request';
+import { VIPPackageRaw } from '../../model/VIP-package';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
+import { setDurationData } from '../../redux/durationSlice';
+import { DurationVIP } from '../../model/duration-VIP';
+import { setIdSelectedInfoPackage } from '../../redux/VIPPaymentSlice';
 
 const data = [
     {
@@ -23,104 +26,46 @@ const data = [
     },
 ];
 
-interface DataType {
-    key: string;
+export type SubscriptionType = {
+    subscriptionTypeId: number;
     name: string;
-    borrow: number;
-    repayment: number;
-}
+    price: number;
+    createdAt?: '2023-12-10T05:14:41.448Z';
+    updatedAt?: '2023-12-10T05:14:41.448Z';
+    deletedAt?: null;
+};
 
-const columns: ColumnsType<DataType> = [
-    {
-        title: '',
-        dataIndex: 'name',
-    },
-    {
-        title: '',
-        dataIndex: 'borrow',
-    },
-    {
-        title: '',
-        dataIndex: 'repayment',
-    },
-];
-
-const dataTable: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        borrow: 10,
-        repayment: 33,
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        borrow: 100,
-        repayment: 0,
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        borrow: 10,
-        repayment: 10,
-    },
-    {
-        key: '4',
-        name: 'Jim Red',
-        borrow: 75,
-        repayment: 45,
-    },
-    {
-        key: '5',
-        name: 'John Brown',
-        borrow: 10,
-        repayment: 33,
-    },
-    {
-        key: '6',
-        name: 'Jim Green',
-        borrow: 100,
-        repayment: 0,
-    },
-    {
-        key: '7',
-        name: 'Joe Black',
-        borrow: 10,
-        repayment: 10,
-    },
-    {
-        key: '8',
-        name: 'Jim Red',
-        borrow: 75,
-        repayment: 45,
-    },
-    {
-        key: '9',
-        name: 'John Brown',
-        borrow: 10,
-        repayment: 33,
-    },
-    {
-        key: '10',
-        name: 'Jim Green',
-        borrow: 100,
-        repayment: 0,
-    },
-    {
-        key: '11',
-        name: 'Joe Black',
-        borrow: 10,
-        repayment: 10,
-    },
-    {
-        key: '12',
-        name: 'Jim Red',
-        borrow: 75,
-        repayment: 45,
-    },
-];
+export type dataVIPPackageRaw = {
+    subscriptionInfoId: number;
+    discount: number;
+    subscriptionType: SubscriptionType;
+    duration: DurationVIP;
+};
 
 export const VIPPackage = () => {
+    const [dataInfoPackage, setDataInfoPackage] = useState<DataTable[]>();
+    const [dataVIPPackage, setDataVIPPackage] = useState<VIPPackageRaw[]>();
+    const idPackage = useAppSelector((state) => state.VIPPayment.subscriptionTypeId);
+    const dispatch = useAppDispatch();
+
+    const getVipPackage = () => {
+        axios
+            .get('http://localhost:8000/api/subscription/get-all-subscription-type', {
+                headers: { 'Content-Type': 'application/json' },
+            })
+            .then((response) => {
+                setDataVIPPackage(response.data.data);
+                // dispatch(setIdSelectedInfoPackage(response.data.subscriptionTypeId));
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    useEffect(() => {
+        getVipPackage();
+    }, []);
+
     return (
         <div className="wrapper-vip-package">
             <HeaderPay />
@@ -141,14 +86,22 @@ export const VIPPackage = () => {
                         </List.Item>
                     )}
                 />
-                <ListVipPackage className="list-vip-package" />
+                <ListVipPackage
+                    className="list-vip-package"
+                    dataMap={dataInfoPackage}
+                    dataVIPPackage={dataVIPPackage}
+                />
                 <Paragraph className="list-vip-package-policy">
                     Việc bạn có thể xem ở chế độ HD (720p), Full HD (1080p), Ultra HD (4K) và HDR
                     hay không phụ thuộc vào dịch vụ internet và khả năng của thiết bị. Không phải
                     tất cả nội dung đều có sẵn ở mọi độ phân giải. Xem{' '}
                     <a href="#">Điều khoản sử dụng</a> của chúng tôi để biết thêm chi tiết.
                 </Paragraph>
-                <Link to={'/payment'} className="list-vip-package-btn">
+                <Link
+                    to={`/payment/${idPackage}/1`}
+                    state={{ idPackage: idPackage }}
+                    className="list-vip-package-btn"
+                >
                     Tiếp theo
                 </Link>
             </div>
