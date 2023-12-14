@@ -129,7 +129,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="username"
-                            label={<span style={{ color: 'white' }}>Username</span>}
+                            label={<span style={{ color: 'white' }}>Tên đăng ký</span>}
                             rules={[
                                 {
                                     required: true,
@@ -143,7 +143,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="password"
-                            label={<span style={{ color: 'white' }}>Password</span>}
+                            label={<span style={{ color: 'white' }}>Mật khẩu</span>}
                             rules={[
                                 {
                                     required: true,
@@ -157,7 +157,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="confirm"
-                            label={<span style={{ color: 'white' }}>Confirm Password</span>}
+                            label={<span style={{ color: 'white' }}>Xác nhận mật khẩu </span>}
                             dependencies={['password']}
                             hasFeedback
                             rules={[
@@ -186,7 +186,7 @@ export const Register: React.FC = () => {
                                 style={{ marginRight: '20px' }}
                                 className="register-form__item"
                                 name="date-picker"
-                                label={<span style={{ color: 'white' }}>Date of birth</span>}
+                                label={<span style={{ color: 'white' }}>Ngày sinh</span>}
                                 {...config}
                             >
                                 <DatePicker className="register-form__item-input" />
@@ -195,7 +195,7 @@ export const Register: React.FC = () => {
                             <Form.Item
                                 className="register-form__item"
                                 name="gender"
-                                label={<span style={{ color: 'white' }}>Gender</span>}
+                                label={<span style={{ color: 'white' }}>Giới tính</span>}
                                 rules={[
                                     {
                                         required: true,
@@ -233,7 +233,7 @@ export const Register: React.FC = () => {
                             {...tailFormItemLayout}
                         >
                             <Checkbox name="check" className="register-form__item-checkbox">
-                                I have read the <a href="/">agreement</a>
+                                Tôi đã đọc <a href="/">thỏa thuận</a>
                             </Checkbox>
                         </Form.Item>
                         <Form.Item className="register-form__button" {...tailFormItemLayout}>
@@ -249,9 +249,9 @@ export const Register: React.FC = () => {
                                 Đăng ký
                             </Button>
                             <div className="text-center mt-4">
-                                You have an account ? {}{' '}
+                                Bạn đã có tài khoản ? {}{' '}
                                 <Link className="form-signup" to="/login">
-                                    Sign In
+                                    Đăng nhập
                                 </Link>
                             </div>
                         </Form.Item>

@@ -88,7 +88,7 @@ export const Login: React.FC = () => {
                     <Form
                         className="form-group"
                         name="basic"
-                        labelCol={{ span: 8, color: 'white' }}
+                        labelCol={{ span: 16, color: 'white' }}
                         wrapperCol={{ span: 16 }}
                         style={{ maxWidth: 600 }}
                         initialValues={{ remember: true }}
@@ -98,7 +98,7 @@ export const Login: React.FC = () => {
                     >
                         <div className="form-item">
                             <Form.Item<FieldType>
-                                label={<span style={{ color: 'white' }}>Username</span>}
+                                label={<span style={{ color: 'white' }}>Tên đăng nhập</span>}
                                 name="username"
                                 rules={[
                                     {
@@ -117,7 +117,7 @@ export const Login: React.FC = () => {
                             </Form.Item>
                         </div>
                         <Form.Item<FieldType>
-                            label={<span style={{ color: 'white' }}>Password</span>}
+                            label={<span style={{ color: 'white' }}>Mật khẩu</span>}
                             name="password"
                             rules={[
                                 {
@@ -134,17 +134,29 @@ export const Login: React.FC = () => {
                                 }}
                             />
                         </Form.Item>
-                        <Form.Item<FieldType>
-                            name="remember"
-                            valuePropName="checked"
-                            wrapperCol={{ offset: 14, span: 16 }}
-                            style={{ marginBottom: '60px' }}
-                        >
-                            <Checkbox style={{ color: 'white' }}>Remember me</Checkbox>
-                        </Form.Item>
+
+                        <div className="flex justify-between">
+                            <Form.Item<FieldType>
+                                name="remember"
+                                valuePropName="checked"
+                                wrapperCol={{ span: 32 }}
+                                className="flex justify-between"
+                            >
+                                <Checkbox style={{ color: 'white' }}>Lưu mật khẩu</Checkbox>
+                            </Form.Item>
+                            <Form.Item wrapperCol={{ span: 32 }}>
+                                <a
+                                    className="login-form-forgot !text-[14px]"
+                                    style={{ color: 'var(--primary-color)' }}
+                                    href="forget"
+                                >
+                                    Quên mật khẩu
+                                </a>
+                            </Form.Item>
+                        </div>
                         <Form.Item>
                             <Button
-                                className="form-btn-login"
+                                className="form-btn-login mt-2"
                                 type="primary"
                                 htmlType="submit"
                                 loading={loading}
@@ -153,9 +165,9 @@ export const Login: React.FC = () => {
                             </Button>
                         </Form.Item>
                         <div className="form-change">
-                            Don't have an account ? {}{' '}
+                            Bạn mới sử dụng MovTime ? {}{' '}
                             <Link className="form-signup" to="/register">
-                                Sign Up
+                                Đăng ký ngay
                             </Link>
                         </div>
                     </Form>
