@@ -8,18 +8,15 @@ import {
     SmallDashOutlined,
 } from '@ant-design/icons';
 import { Modal, Progress } from 'antd';
-import React, { useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { RootState } from '../../redux/store';
+import { request } from '../../utils/request';
+import { FilmItem } from '../film-item';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
-import { FilmItem } from '../film-item';
-import { setDataCollect } from '../../redux/dataCollectSlide';
-import { setDataLove } from '../../redux/dataLoveSlide';
-import { useDispatch } from 'react-redux';
-import { request } from '../../utils/request';
-import Cookies from 'js-cookie';
 
 interface Genre {
     id: number;
@@ -76,14 +73,17 @@ export const FilmDetail = () => {
 
     const fetchData = async () => {
         try {
-            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
-                res.json(),
-            );
+            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            }).then((res) => res.json());
             setFilmDetail(movieData);
         } catch (error) {
             console.error(error);
         }
     };
+
     const fetchDataAndWatchLaterList = async () => {
         checkFilmDetailsInCollections(filmDetail, dataCollect);
     };
