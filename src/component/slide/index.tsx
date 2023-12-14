@@ -5,7 +5,7 @@ import {
     ShareAltOutlined,
 } from '@ant-design/icons';
 import { Button, Modal } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 import { Start } from '../../asset/icon/start';
 import { RootState } from '../../redux/store';
 import './index.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 interface Movie {
     movieId: number;
@@ -77,6 +79,8 @@ const Slide: React.FC = () => {
             setModalVisible(true);
         }
     };
+
+    const carouselRef = useRef<Carousel>(null);
     return (
         <div className="poster">
             <Carousel
@@ -86,6 +90,8 @@ const Slide: React.FC = () => {
                 transitionTime={4}
                 infiniteLoop={true}
                 showStatus={false}
+                ref={carouselRef}
+                showIndicators={false}
             >
                 {popularMovies.map((movie, index) => (
                     <div className="poster__item slide-item" key={movie.movieId}>
@@ -160,10 +166,8 @@ const Slide: React.FC = () => {
                                     to={`/movie/${movie.movieId}`}
                                     key={movie.movieId}
                                 >
-                                    <a href="#_">
-                                        <CaretRightOutlined className="btn-icon" />
-                                        Xem ngay
-                                    </a>
+                                    <CaretRightOutlined className="btn-icon" />
+                                    Xem ngay
                                 </Link>
 
                                 {isHeartFilled[index] ? (

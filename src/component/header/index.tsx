@@ -24,6 +24,7 @@ import { ContentModalVipTitle } from './modalVipTitle';
 import { ContentModalUser } from './modalUser';
 import { request } from '../../utils/request';
 import { log } from 'console';
+import axios from 'axios';
 export type Header = { className?: string };
 
 export type Genre = {
@@ -159,18 +160,10 @@ export const Header = ({ className }: Header) => {
                     className="flex justify-between items-center lg:order-2 mt-2"
                 >
                     <Popover
-                        title={<ContentModalHistoryTitle />}
-                        overlayStyle={{ maxWidth: '40%' }}
-                        content={<ContentModalHistory />}
-                    >
-                        <div className="icon-history">
-                            <ClockCircleOutlined />
-                        </div>
-                    </Popover>
-                    <Popover
                         title={<ContentModalVipTitle />}
                         overlayStyle={{ maxWidth: '20%' }}
                         content={<ContentModalVip />}
+                        arrow={false}
                     >
                         <Link to={'/VIPpackage'}>
                             <Button className="btn-vip" type="primary" icon={<CrownOutlined />}>
