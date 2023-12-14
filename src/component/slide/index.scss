@@ -1,6 +1,23 @@
 .poster {
     z-index: var(--z-highest);
 
+    .carousel.carousel-slider .control-arrow {
+        height: 80%;
+        padding-right: var(--spacing-md);
+        padding-left: var(--spacing-md);
+
+        &::before {
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent
+        }
+    }
+    .control-next.control-arrow:before {
+        border-left: 15px solid #fff;
+    }
+    .control-prev.control-arrow:before {
+        border-right: 15px solid #fff;
+    }
+
     &__item::before {
         content: '';
         position: absolute;

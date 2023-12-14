@@ -30,7 +30,7 @@ export const FilmItem = ({ title, releaseDate, genres, posterURL, episodeNum }: 
                     <CaretRightOutlined />
                 </div>
             </div>
-            <h1 className="film-item-title ">{title}</h1>
+            <h1 className="film-item-title max-w-[204px]">{title}</h1>
         </Badge.Ribbon>
     );
 };

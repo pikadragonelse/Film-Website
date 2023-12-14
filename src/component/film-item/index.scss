@@ -40,6 +40,11 @@
 }
 .film-item-title {
     margin-top: 10px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    height: 3rem;
 }
 :where(.css-dev-only-do-not-override-1vr7spz) a {
     font-size: 1.1rem;

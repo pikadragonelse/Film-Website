@@ -12,45 +12,37 @@ interface Option {
     label: React.ReactNode;
     children?: Option[];
 }
-
 export const SearchPage: React.FC = () => {
-    const location = useLocation();
-    const { searchValue } = location.state;
+    const { search } = useLocation();
     const [searchResults, setSearchResults] = useState<FilmItem[]>([]);
-    const fetchedData = location.state?.fetchedData || [];
-    const fetchData = async () => {
-        try {
-            const response = await request.get(
-                `movies?search=${searchValue}&page=${1}&pageSize=${10000}`,
-            );
-            const data = response.data.movies;
-            setSearchResults(data);
-        } catch (error) {
-            console.log(error);
-        }
+    const [amountMovies, setAmountMovies] = useState(0);
+    const [currPage, setCurrPage] = useState(1);
+    const [filterParamsInitial, setFilterParamsInitial] = useState<Record<string, string>>({});
+
+    const handleSearchParamsFromURL = () => {
+        let searchValue = search.split('?')[1];
+        searchValue = searchValue.split('#')[0];
+        let objParams = {};
+        let arr = searchValue.split('&');
+        arr.forEach((item) => {
+            const obj: Record<string, string> = {};
+            obj[item.split('=')[0]] = item.split('=')[1];
+            objParams = { ...obj };
+        });
+        setFilterParamsInitial(objParams);
     };
 
     useEffect(() => {
-        if (fetchedData.length > 0) {
-            setSearchResults(fetchedData);
-        } else {
-            fetchData();
-        }
-    }, [searchValue, fetchedData]);
+        handleFilterClick();
+        handleSearchParamsFromURL();
+    }, [search]);
 
-    console.log('searchValue', searchValue);
-
-    //lọc
 
     const [selectedOptionsMap, setSelectedOptionsMap] = useState<{
         [key: string]: Option[];
     }>({});
 
-    const onChange = (
-        value: (string | number | boolean | null)[],
-        selectedOptions: Option[],
-        cascaderName: string,
-    ) => {
+    const onChange = (selectedOptions: Option[], cascaderName: string) => {
         const uniqueSelectedOptions = Array.from(new Set(selectedOptions));
 
         if (uniqueSelectedOptions.length === 0) {
@@ -70,7 +62,7 @@ export const SearchPage: React.FC = () => {
     };
 
     const handleFilterClick = async () => {
-        const filterParams: { [key: string]: any } = {};
+        const filterParams: { [key: string]: any } = { ...filterParamsInitial };
 
         for (const cascaderName in selectedOptionsMap) {
             if (selectedOptionsMap.hasOwnProperty(cascaderName)) {
@@ -99,17 +91,18 @@ export const SearchPage: React.FC = () => {
         }
 
         try {
-            const response = await request.get(`movies?pageSize=${100}&sortBy=DESC`, {
+            const response = await request.get(`movies?page=1&pageSize=12&sortBy=DESC`, {
                 params: filterParams,
             });
-            const data = response.data;
-            console.log(data);
 
+            console.log(response.request.responseURL);
+
+            const data = response.data.movies;
             setSearchResults(data);
+            setAmountMovies(response.data.totalCount);
         } catch (error) {
             console.log(error);
         }
-        console.log(filterParams);
     };
     const params = ['sort', 'isSeries', 'genre', 'nation', 'year'];
 
@@ -130,8 +123,8 @@ export const SearchPage: React.FC = () => {
                                 key={index}
                                 options={options}
                                 placeholder={item.label}
-                                onChange={(value, selectedOptions) =>
-                                    onChange(value, selectedOptions, cascaderName)
+                                onChange={(_, selectedOptions) =>
+                                    onChange(selectedOptions, cascaderName)
                                 }
                             />
                         </div>
@@ -143,7 +136,14 @@ export const SearchPage: React.FC = () => {
             </div>
             <hr className="my-6 border-neutral-800" />
             {searchResults.length !== 0 ? (
-                <PaginationFilm title="Kết quả tìm kiếm" number={4} listFilm={searchResults} />
+                <PaginationFilm
+                    title={`Kết quả tìm kiếm`}
+                    number={4}
+                    listFilm={searchResults}
+                    amountMovies={amountMovies}
+                    currPage={currPage}
+                    setCurrPage={setCurrPage}
+                />
             ) : (
                 <p>Không tìm thấy kết quả phù hợp.</p>
             )}
