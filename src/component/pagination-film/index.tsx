@@ -54,7 +54,6 @@ export const PaginationFilm = ({
     };
 
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-
     const handleCancelClick = async (filmId: number, context: string) => {
         try {
             let apiEndpoint = '';
@@ -62,9 +61,16 @@ export const PaginationFilm = ({
                 apiEndpoint = 'user/delete-watch-list';
             } else if (context === 'favoriteList') {
                 apiEndpoint = 'user/delete-favorite-movie';
+            } else if (context === 'historyList') {
+                apiEndpoint = 'user/delete-movie-history';
             }
 
-            const response = await request.delete(`${apiEndpoint}?movieId=${filmId}`, {
+            const endpointWithParams =
+                context === 'historyList'
+                    ? `${apiEndpoint}?episodeId=${filmId}`
+                    : `${apiEndpoint}?movieId=${filmId}`;
+
+            const response = await request.delete(endpointWithParams, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
@@ -84,14 +90,25 @@ export const PaginationFilm = ({
                 <Row gutter={[12, 24]}>
                     {searchResults.map((result, index) => (
                         <Col span={number} key={index}>
-                            <Link to={`/movie/${result.id || result.movieId}`}>
-                                <FilmItem
-                                    title={result.title || ''}
-                                    episodeNum={result.episodeNum}
-                                    releaseDate={moment(result.releaseDate).format('YYYY') || 0}
-                                    posterURL={result.posterURL || ''}
-                                />
-                            </Link>
+                            {result.id && result.movieId ? (
+                                <Link to={`/movie/${result.movieId}/${result.id}`}>
+                                    <FilmItem
+                                        title={result.title || ''}
+                                        episodeNum={result.episodeNum}
+                                        releaseDate={moment(result.releaseDate).format('YYYY') || 0}
+                                        posterURL={result.posterURL || ''}
+                                    />
+                                </Link>
+                            ) : (
+                                <Link to={`/movie/${result.id || result.movieId}`}>
+                                    <FilmItem
+                                        title={result.title || ''}
+                                        episodeNum={result.episodeNum}
+                                        releaseDate={moment(result.releaseDate).format('YYYY') || 0}
+                                        posterURL={result.posterURL || ''}
+                                    />
+                                </Link>
+                            )}
                             <button onClick={() => showModal(result)}>
                                 {onCancelClick ? (
                                     <div className="btn-close">

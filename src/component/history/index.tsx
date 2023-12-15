@@ -17,6 +17,7 @@ export const HistoryMovies = ({ dataHistorymovies }: HistoryMoviesProps) => {
                     listFilm={dataHistorymovies}
                     number={4.8}
                     onCancelClick={true}
+                    context="historyList"
                 />
             ) : (
                 <p>Lịch sử phim còn trống</p>
