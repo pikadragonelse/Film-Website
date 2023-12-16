@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Spin } from 'antd'; // Import Spin from Ant Design
-import Slide from '../../component/slide';
-import { request } from '../../utils/request';
-import { ListFilm } from '../../component/list-film';
-import { Film } from '../../model/film';
-import './index.scss';
+import { Spin } from 'antd';
 import axios from 'axios';
-import { ActorFamous, ActorFamousInfo } from '../../component/list-actor-famous';
-import { HistoryMoviesHome } from '../../component/history-home';
-import { FilmItem } from '../../component/film-item';
 import Cookies from 'js-cookie';
+import { useEffect, useState } from 'react';
+import { FilmItem } from '../../component/film-item';
+import { HistoryMoviesHome } from '../../component/history-home';
+import { ActorFamous, ActorFamousInfo } from '../../component/list-actor-famous';
+import { ListFilm } from '../../component/list-film';
+import Slide from '../../component/slide';
+import { Film } from '../../model/film';
+import { request } from '../../utils/request';
+import './index.scss';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -23,12 +23,12 @@ export const HomePage = () => {
     const [dataFilmVip, setDataFimlVip] = useState<Film[]>([]);
     const [dataMovieByGenre, setDataMovieByGenre] = useState<DataMovieByGenre[]>([]);
     const [dataActorFamous, setDataActorFamous] = useState<ActorFamousInfo[]>([]);
+    const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
 
     const fetchTrending = async () => {
         try {
             const response = await request.get('movies/home/trending');
-            const data = response.data;
-            setTrendingData(data);
+            setTrendingData(response.data);
         } catch (error) {
             console.error(error);
         } finally {
@@ -36,39 +36,39 @@ export const HomePage = () => {
         }
     };
 
-    const getMovieByGenre = () => {
-        axios
-            .get('http://localhost:8000/api/home/genres?page=1&pageSize=20', {
-                headers: { 'Content-Type': 'application/json' },
-            })
-            .then((response) => {
-                setDataMovieByGenre(response.data);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
+    const getMovieByGenre = async () => {
+        try {
+            const response = await axios.get(
+                'http://localhost:8000/api/home/genres?page=1&pageSize=20',
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                },
+            );
+            setDataMovieByGenre(response.data);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    console.log('dataMovieByGenre', dataMovieByGenre);
-
-    const getActorFamous = () => {
-        axios
-            .get('http://localhost:8000/api/individuals/actors?page=1&pageSize=20')
-            .then((response) => {
-                setDataActorFamous(response.data.data.actors);
-            })
-            .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false);
-            });
+    const getActorFamous = async () => {
+        try {
+            const response = await axios.get(
+                'http://localhost:8000/api/individuals/actors?page=1&pageSize=20',
+            );
+            setDataActorFamous(response.data.data.actors);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const fetchVip = async () => {
         try {
             const response = await request.get('movies/home/vip');
-            const data = response.data;
-            setDataFimlVip(data);
+            setDataFimlVip(response.data);
         } catch (error) {
             console.error(error);
         } finally {
@@ -77,7 +77,7 @@ export const HomePage = () => {
     };
 
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
+
     const fetchDataHistorymovies = async () => {
         try {
             const response = await request.get('user/get-movie-history-list?page=1&pageSize=1', {
@@ -85,8 +85,7 @@ export const HomePage = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            const data = response.data.data.ListMovie;
-            setDataHistorymovies(data);
+            setDataHistorymovies(response.data.data.ListMovie);
         } catch (error) {
             console.error(error);
         }
@@ -98,7 +97,19 @@ export const HomePage = () => {
         getActorFamous();
         fetchVip();
         fetchDataHistorymovies();
+        window.scrollTo(0, 0);
     }, []);
+
+    const renderListFilmsByGenre = () => {
+        return dataMovieByGenre.map((listMovie) => (
+            <ListFilm
+                key={listMovie.genreId}
+                title={listMovie.name}
+                listFilm={listMovie.movies}
+                genreId={listMovie.genreId}
+            />
+        ));
+    };
 
     return (
         <div>
@@ -109,19 +120,19 @@ export const HomePage = () => {
                 <ListFilm title="Dành cho VIP" listFilm={dataFilmVip} />
                 <HistoryMoviesHome dataHistorymovies={dataHistorymovies} />
                 <img
-                    className="ml-20 w-[92%] rounded-md h-[86px]"
+                    className="ml-20 w-[91%] rounded-md h-[88px]"
                     src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
                     alt=""
                 />
-                {dataActorFamous.length > 0 && <ActorFamous actors={dataActorFamous} />}
-                {dataMovieByGenre.map((listMovie) => (
-                    <ListFilm
-                        key={listMovie.genreId}
-                        title={listMovie.name}
-                        listFilm={listMovie.movies}
-                        genreId={listMovie.genreId}
+                {dataActorFamous.length > 0 && (
+                    <ActorFamous
+                        title="Người nổi tiếng"
+                        actors={dataActorFamous}
+                        size={146}
+                        isShow={false}
                     />
-                ))}
+                )}
+                {renderListFilmsByGenre()}
             </Spin>
         </div>
     );

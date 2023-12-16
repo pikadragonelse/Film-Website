@@ -32,7 +32,7 @@ export const ContentModalUser: React.FC = () => {
     return (
         <div>
             {contentItems.map((item, index) => (
-                <div className="flex justify-between mt-2 hover:bg-[#2c2e33] pt-3 px-3 cursor-pointer">
+                <div className="flex justify-between mt-2 hover:bg-[#e9e9e9] pt-3 px-3 cursor-pointer">
                     <ContentItem key={index} icon={item.icon} title={item.title} />
                     <RightOutlined className="ml-20 text-sm icon" />
                 </div>

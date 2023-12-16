@@ -1,28 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import './index.scss';
-import ReactPlayer from 'react-player';
-import { OnProgressProps } from 'react-player/base';
 import { CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { MainInfoFilm } from '../../component/main-info-film';
-import { IconWithText } from '../../component/icon-with-text';
-import { SubInfo } from '../../component/sub-info';
-import { MenuProps } from 'antd';
-import { Comment } from '../../component/comment';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
-import { CurrentUser } from '../../component/comment';
-import { Film } from '../../model/film';
-import { request } from '../../utils/request';
+import { useParams } from 'react-router-dom';
+import { Comment, CurrentUser } from '../../component/comment';
+import { IconWithText } from '../../component/icon-with-text';
 import { ListEpisodes } from '../../component/list-episode';
+import { MainInfoFilm } from '../../component/main-info-film';
+import { SubInfo } from '../../component/sub-info';
+import { Film } from '../../model/film';
+import { RootState } from '../../redux/store';
+import { request } from '../../utils/request';
+import './index.scss';
 
 import Cookies from 'js-cookie';
-import { log } from 'console';
-import { selectionItems } from './items-selection';
-import { ControlPlayer } from '../../component/control-player';
-import { useAppDispatch } from '../../redux/hook';
-import { VideoWatching, setDataVideoWatching } from '../../redux/videoSlice';
+import { ActorFamous } from '../../component/list-actor-famous';
 import { VideoPlayerCustom } from '../../component/video-player-custom';
+import { selectionItems } from './items-selection';
 
 interface Episodes {
     episodeId?: number;
@@ -65,6 +58,7 @@ const defaultFilm = {
     genres: [],
     actors: [],
     episodes: [],
+    directors: [],
 };
 
 export const WatchingPage = () => {
@@ -105,6 +99,8 @@ export const WatchingPage = () => {
     useEffect(() => {
         fetchData();
     }, [movieId]);
+
+    const combinedActorsAndDirectors = [...watchingData.actors, ...watchingData.directors];
 
     const year = moment(watchingData.releaseDate).format('YYYY');
     const genres = watchingData?.genres.map((genre) => genre.name) || [];
@@ -197,7 +193,7 @@ export const WatchingPage = () => {
                     {/* <ListFilm title="Phim liên quan" listFilm={watchingData} /> */}
                 </div>
             </div>
-            <div className="watching-info-container">
+            <div className="watching-info-container !mb-[-60px]">
                 <MainInfoFilm
                     className="watching-main-info-container"
                     name={watchingData.title}
@@ -231,6 +227,8 @@ export const WatchingPage = () => {
                     </div>
                 </div>
             </div>
+
+            <ActorFamous actors={combinedActorsAndDirectors} size={120} isShow={true} />
 
             <div className="comment-container">
                 <Comment
