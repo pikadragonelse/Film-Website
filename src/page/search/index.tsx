@@ -1,151 +1,132 @@
-import items from './filItem.json';
+import { QueryFilter, items } from './filItem';
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Button, Cascader } from 'antd';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Button, ConfigProvider, Select, Spin } from 'antd';
 import { FilmItem } from '../../component/film-item';
 import './index.scss';
 import { PaginationFilm } from '../../component/pagination-film';
-import { request } from '../../utils/request';
+import axios from 'axios';
+import { FilterParams } from '../../model/filter-params';
+import { handleSearchParams } from '../../utils/handle-search-params';
+import { convertParams } from '../../utils/convert-prams';
+import { LoadingOutlined } from '@ant-design/icons';
 
-interface Option {
-    value?: string | number | null | boolean;
-    label: React.ReactNode;
-    children?: Option[];
-}
 export const SearchPage: React.FC = () => {
     const { search } = useLocation();
     const [searchResults, setSearchResults] = useState<FilmItem[]>([]);
     const [amountMovies, setAmountMovies] = useState(0);
     const [currPage, setCurrPage] = useState(1);
-    const [filterParamsInitial, setFilterParamsInitial] = useState<Record<string, string>>({});
+    const [filterParamsState, setFilterParamsState] = useState<FilterParams>({});
+    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
-    const handleSearchParamsFromURL = () => {
-        let searchValue = search.split('?')[1];
-        searchValue = searchValue.split('#')[0];
-        let objParams = {};
-        let arr = searchValue.split('&');
-        arr.forEach((item) => {
-            const obj: Record<string, string> = {};
-            obj[item.split('=')[0]] = item.split('=')[1];
-            objParams = { ...obj };
-        });
-        setFilterParamsInitial(objParams);
+    const getDataBySearchParams = (searchParams: string) => {
+        axios
+            .get(`http://localhost:8000/api/movies${searchParams}&page=${currPage}&pageSize=12`)
+            .then((res) => {
+                setSearchResults(res.data.movies);
+                setAmountMovies(res.data.totalCount);
+                setIsLoading(false);
+            })
+            .catch((err) => console.log(err));
     };
 
     useEffect(() => {
-        handleFilterClick();
-        handleSearchParamsFromURL();
-    }, [search]);
+        setIsLoading(true);
+        getDataBySearchParams(window.location.search);
+        const paramsObj = handleSearchParams(window.location.search);
+        delete paramsObj['search'];
+        setFilterParamsState(convertParams(paramsObj));
+    }, [search, currPage]);
 
-    const [selectedOptionsMap, setSelectedOptionsMap] = useState<{
-        [key: string]: Option[];
-    }>({});
-
-    const onChange = (selectedOptions: Option[], cascaderName: string) => {
-        const uniqueSelectedOptions = Array.from(new Set(selectedOptions));
-
-        if (uniqueSelectedOptions.length === 0) {
-            setSelectedOptionsMap((prevMap) => {
-                const updatedMap = { ...prevMap };
-                delete updatedMap[cascaderName];
-                return updatedMap;
-            });
-        } else {
-            setSelectedOptionsMap((prevMap) => ({
-                ...prevMap,
-                [cascaderName]: Array.isArray(prevMap[cascaderName])
-                    ? [...prevMap[cascaderName], ...uniqueSelectedOptions]
-                    : [...uniqueSelectedOptions],
-            }));
-        }
-    };
-
-    const handleFilterClick = async () => {
-        const filterParams: { [key: string]: any } = { ...filterParamsInitial };
-
-        for (const cascaderName in selectedOptionsMap) {
-            if (selectedOptionsMap.hasOwnProperty(cascaderName)) {
-                const latestOptions = selectedOptionsMap[cascaderName];
-                const latestOption = latestOptions[latestOptions.length - 1];
-                if (latestOption) {
-                    switch (cascaderName) {
-                        case 'sort':
-                            filterParams['sort'] = latestOption.value;
-                            break;
-                        case 'isSeries':
-                            filterParams['isSeries'] = latestOption.value;
-                            break;
-                        case 'genre':
-                            filterParams['genre'] = latestOption.value;
-                            break;
-                        case 'nation':
-                            filterParams['nation'] = latestOption.value;
-                            break;
-                        case 'year':
-                            filterParams['year'] = latestOption.value;
-                            break;
-                    }
+    const handleSetFilterParams = async () => {
+        let str = '?';
+        const arrValueFilterParams = Object.values(filterParamsState);
+        let count = 0;
+        for (let key in filterParamsState) {
+            if (arrValueFilterParams[count] != null) {
+                if (count != 0) {
+                    str += '&';
                 }
+                str += key + '=' + encodeURIComponent(arrValueFilterParams[count]);
+                count++;
             }
         }
+        setIsLoading(true);
+        getDataBySearchParams(str);
 
-        try {
-            const response = await request.get(`movies?page=1&pageSize=12&sortBy=DESC`, {
-                params: filterParams,
-            });
+        navigate({
+            pathname: '/search',
+            search: ``,
+        });
 
-            console.log(response.request.responseURL);
-
-            const data = response.data.movies;
-            setSearchResults(data);
-            setAmountMovies(response.data.totalCount);
-        } catch (error) {
-            console.log(error);
-        }
+        const url = window.location.href?.split('?')[0];
+        window.history.replaceState('', '', url + str);
     };
-    const params = ['sort', 'isSeries', 'genre', 'nation', 'year'];
 
     return (
         <div className="wrapper-searchPage">
             <div className="searchPage-header"></div>
             <div className="header-filter">
-                {items.map((item, index) => {
-                    const options = item.childrens.map((child) => ({
-                        value: child.value,
-                        label: child.label,
-                    }));
-                    const cascaderName = params[`${index}`];
-                    return (
-                        <div className="menu-label">
-                            <Cascader
-                                className="cascader-menu"
-                                key={index}
-                                options={options}
-                                placeholder={item.label}
-                                onChange={(_, selectedOptions) =>
-                                    onChange(selectedOptions, cascaderName)
+                {items.map((item, index) => (
+                    <div className="menu-label">
+                        <Select
+                            className="select-menu w-full"
+                            key={index}
+                            value={filterParamsState[item.query as QueryFilter]}
+                            options={item.options}
+                            placeholder={item.placeholder}
+                            onChange={(value) => {
+                                const tempObj: any = { ...filterParamsState };
+                                if (item.query != null) {
+                                    tempObj[item.query] = value;
+                                    setFilterParamsState(tempObj);
                                 }
-                            />
-                        </div>
-                    );
-                })}
-                <Button className="btn-filter" type="primary" onClick={handleFilterClick}>
+                            }}
+                            allowClear
+                        />
+                    </div>
+                ))}
+                <Button className="btn-filter" type="primary" onClick={handleSetFilterParams}>
                     Lọc phim
                 </Button>
             </div>
             <hr className="my-6 border-neutral-800" />
-            {searchResults.length !== 0 ? (
-                <PaginationFilm
-                    title={`Kết quả tìm kiếm`}
-                    number={4}
-                    listFilm={searchResults}
-                    amountMovies={amountMovies}
-                    currPage={currPage}
-                    setCurrPage={setCurrPage}
-                />
-            ) : (
-                <p>Không tìm thấy kết quả phù hợp.</p>
-            )}
+            <div className="relative min-h-[30vh]">
+                <ConfigProvider
+                    theme={{
+                        token: {
+                            colorBgContainer: '#111111',
+                            colorLinkHover: 'rgb(209, 19, 19)',
+                        },
+                    }}
+                >
+                    <Spin
+                        indicator={
+                            <LoadingOutlined
+                                style={{ fontSize: 36 }}
+                                spin
+                                className="text-red-600"
+                            />
+                        }
+                        spinning={isLoading}
+                    >
+                        <PaginationFilm
+                            title={`Kết quả tìm kiếm`}
+                            number={4}
+                            listFilm={searchResults}
+                            amountMovies={amountMovies}
+                            currPage={currPage}
+                            setCurrPage={setCurrPage}
+                            hidden={searchResults.length === 0}
+                        />
+                    </Spin>
+                </ConfigProvider>
+
+                <p className="absolute top-0" hidden={searchResults.length !== 0}>
+                    Không tìm thấy kết quả phù hợp.
+                </p>
+            </div>
         </div>
     );
 };

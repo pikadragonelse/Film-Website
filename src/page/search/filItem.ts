@@ -1,26 +1,38 @@
-[
+export type Option = {
+    label: string,
+    value: any,
+}
+
+export type QueryFilter = 'sort' | 'nation' | 'year' | 'genre' | 'isSeries';
+
+export type FilterItem = {
+    placeholder?: string,
+    query?: QueryFilter,
+    options: Option[],
+}
+
+
+export const items: FilterItem[] = [
     {
-        "label": "--Sắp xếp--",
-        "value":"newest",
-        "childrens":[
-            {
-                "label":"Phim mới nhất",
-                "value":"newest"
-            },
-            {
-                "label":"Đánh giá phim",
-                "value":"highRated"
-            },
-            {
-                "label":"Lượt yêu thích",
-                "value":"highFavorited"
-            }
-        ]
+        placeholder: 'Tiêu chí',
+        query: 'sort',
+        options:[{
+            "label":"Phim mới nhất",
+            "value":"newest",
+        },
+        {
+            "label":"Đánh giá phim",
+            "value":"highRated"
+        },
+        {
+            "label":"Lượt yêu thích",
+            "value":"highFavorited"
+        }]
     },
     {
-        "label": "Loại phim",
-        "value":true,
-        "childrens":[
+        placeholder: 'Loại phim',
+        query: 'isSeries',
+        options:[
             {
                 "label":"Phim bộ",
                 "value":true
@@ -32,9 +44,9 @@
         ]
     },
     {
-        "label": "--Thể loại--",
-        "value":null,
-        "childrens":[
+        placeholder: 'Thể loại',
+        query: 'genre',
+        options:[
             {
                 "label":"Hành Động",
                 "value":1
@@ -80,9 +92,9 @@
           
     },
     {
-        "label": "--Quốc gia--",
-        "value":null,
-        "childrens":[
+        placeholder: 'Quốc gia',
+        query: 'nation',
+        options:[
             {
                 "label":"America",
                 "value":"America"
@@ -106,9 +118,9 @@
         ]
     },
     {
-        "label": "--Năm--",
-        "value": 2002,
-        "childrens":[
+        placeholder: 'Năm sản xuất',
+        query: 'year',
+        options:[
             {
                 "label":"Năm 2023",
                 "value":2023

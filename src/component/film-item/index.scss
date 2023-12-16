@@ -8,6 +8,18 @@
     justify-content: center;
     cursor: pointer;
 
+    .ant-skeleton.ant-skeleton-element {
+        width: 100% !important;
+        height: 100% !important;
+        background-color: var(--sub-color) !important;
+
+        .ant-skeleton-image {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+
+
     .film-item-image {
         object-fit: cover;
         width: 100%;
@@ -29,7 +41,6 @@
         background-color: var(--primary-color);
         padding: 0px 8px;
         font-size: 2rem;
-        color: var(--contrast-color-color);
         opacity: 0;
         transition: opacity 0.3s ease;
     }
@@ -45,6 +56,7 @@
     -webkit-line-clamp: 2;
     overflow: hidden;
     height: 3rem;
+    color: var(--contrast-color) !important;
 }
 :where(.css-dev-only-do-not-override-1vr7spz) a {
     font-size: 1.1rem;
