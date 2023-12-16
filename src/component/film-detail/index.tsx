@@ -7,7 +7,7 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Modal, Progress, notification } from 'antd';
+import { Modal, Progress, Spin, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -33,6 +33,7 @@ export const FilmDetail = () => {
     //yêu thích
     const [addedToLove, setAddedToLove] = useState<boolean>(false);
     const [dataLove, setDataLove] = useState<FilmItem[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
 
@@ -64,6 +65,8 @@ export const FilmDetail = () => {
             setDataCollect(data);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -84,6 +87,8 @@ export const FilmDetail = () => {
             setFilmDetail(movieData);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -102,6 +107,8 @@ export const FilmDetail = () => {
             setDataLove(data);
         } catch (error) {
             console.error(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -118,32 +125,14 @@ export const FilmDetail = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
-
-    useEffect(() => {
         fetchWatchLaterList();
-    }, [addedToCollection]);
-
-    useEffect(() => {
         fetchLoveList();
-    }, [addedToLove]);
-
-    useEffect(() => {
         fetchDataAndWatchLaterList();
         fetchDataAndLoveList();
     }, [isUserLoggedIn, id, filmDetail, dataCollect, dataLove]);
 
     if (!filmDetail) {
-        return <div>Loading...</div>;
-    }
-
-    if (filmDetail.episodes && filmDetail.episodes.length > 0) {
-        const firstEpisode = filmDetail.episodes[0];
-        firstEpisodeId = firstEpisode.episode_id;
-    }
-
-    if (!filmDetail) {
-        return <div>Loading...</div>;
+        return <Spin spinning={loading} size="large" className="mt-96" />;
     }
 
     if (filmDetail.episodes && filmDetail.episodes.length > 0) {

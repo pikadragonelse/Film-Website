@@ -217,9 +217,9 @@ export const Register: React.FC = () => {
                                     }}
                                     className="register-form__item-input"
                                 >
-                                    <Option value="Male">Male</Option>
-                                    <Option value="Female">Female</Option>
-                                    <Option value="Other">Other</Option>
+                                    <Option value="Male">Nam</Option>
+                                    <Option value="Female">Nữ</Option>
+                                    <Option value="Other">Khác</Option>
                                 </Select>
                             </Form.Item>
                         </div>

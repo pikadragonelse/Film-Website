@@ -61,7 +61,7 @@ export const ActorFamous = ({ actors }: ActorFamousProps) => {
                                     className="flex flex-col flex-wrap content-start gap-2 "
                                 >
                                     <Avatar
-                                        className="hover:border-4 hover:border-red-800"
+                                        className="hover:border-[6px] hover:border-red-800 object-cover"
                                         src={actor.avatar}
                                         size={150}
                                     />

@@ -1,8 +1,9 @@
-import { StarOutlined } from '@ant-design/icons';
-import { Rate } from 'antd';
+import { StarFilled, StarOutlined, StarTwoTone } from '@ant-design/icons';
+import { Rate, Popover } from 'antd';
 import React from 'react';
 import './index.scss';
 import Paragraph from 'antd/es/typography/Paragraph';
+import { ModalRating } from '../../page/watching/modalRating';
 
 export type MainInfoFilm = {
     name: string;
@@ -12,6 +13,7 @@ export type MainInfoFilm = {
     episode?: string;
     desc: string;
     className?: string;
+    movieId: number;
 };
 export const MainInfoFilm = ({
     name,
@@ -21,6 +23,7 @@ export const MainInfoFilm = ({
     episode,
     desc,
     className,
+    movieId,
 }: MainInfoFilm) => {
     return (
         <div className={`main-info-container ${className}`}>
@@ -33,9 +36,15 @@ export const MainInfoFilm = ({
                 <div className="view">{view.toLocaleString()} lượt xem</div>
 
                 <div className="rating">
-                    <p>{parseFloat(rate) / 2}</p>
-                    <Rate disabled allowHalf value={parseFloat(rate) / 2} />
+                    <StarFilled style={{ color: '#fadb14', fontSize: 20 }} />
+                    <p>{rate}</p>
                 </div>
+                <Popover
+                    overlayStyle={{ maxWidth: '100%' }}
+                    content={<ModalRating movieId={movieId} />}
+                >
+                    <div style={{ cursor: 'pointer' }}>Đánh giá ngay</div>
+                </Popover>
             </div>
             <div className="hashtag">
                 {hashtag?.map((value) => (

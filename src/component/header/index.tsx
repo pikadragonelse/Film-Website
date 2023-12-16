@@ -7,14 +7,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
 import { setIslogin, setUsername } from '../../redux/isLoginSlice';
 import { RootState } from '../../redux/store';
-// import items from '../header/menuItem.json';
+import { request } from '../../utils/request';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
 import './index.scss';
+import { ContentModalUser } from './modalUser';
 import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
-import { ContentModalUser } from './modalUser';
-import { request } from '../../utils/request';
 export type Header = { className?: string };
 
 const queryParamMap: Record<string, string> = {

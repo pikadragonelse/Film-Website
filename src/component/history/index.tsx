@@ -4,7 +4,7 @@ import { PaginationFilm } from '../pagination-film';
 import { FilmItem } from '../film-item';
 import { Empty } from 'antd';
 
-interface HistoryMoviesProps {
+export interface HistoryMoviesProps {
     dataHistorymovies: FilmItem[];
 }
 

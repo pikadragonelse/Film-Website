@@ -75,7 +75,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                     <div className="flex rounded-lg p-10 ml-14">
                         <div className="">
                             <img
-                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4"
+                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4 object-cover"
                                 src={actorInfo.avatar}
                                 alt=""
                             />
@@ -94,7 +94,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                     {'|'}
                                 </div>
                                 <div className="mx-4">
-                                    <span className="text-[#989898] mr-4">Đạo diễn</span>
+                                    <span className="text-[#989898] mr-4">Diễn viên</span>
                                     {'|'}
                                 </div>
                                 <div>

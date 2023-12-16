@@ -20,6 +20,7 @@ export type FilmItem = {
     episodes?: Array<Episodes>;
     data?: any;
     id?: number;
+    backgroundURL?: string;
 };
 
 export const FilmItem = ({ title, releaseDate, genres, posterURL, episodeNum }: FilmItem) => {

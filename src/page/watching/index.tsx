@@ -206,6 +206,7 @@ export const WatchingPage = () => {
                     desc={watchingData.description}
                     view={dataEpisode.numView}
                     episode={`${dataEpisode.title}`}
+                    movieId={parseInt(movieId ?? '0')}
                 />
 
                 <div className="watching-sub-info-container">

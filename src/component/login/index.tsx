@@ -46,6 +46,7 @@ export const Login: React.FC = () => {
                     }
                     Cookies.set('accessToken', accessToken, { expires: 1 });
                     Cookies.set('refreshToken', refreshToken, { expires: 1 });
+                    console.log(accessToken);
                     navigate('/');
                 } else {
                     if (response.data.error) {

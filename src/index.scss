@@ -169,9 +169,10 @@ ul {
 }
 .ant-popover .ant-popover-arrow::before {
     background-color: var(--sub-color-1) !important;
+    
 }
 .ant-popover .ant-popover-arrow::after {
-    background-color: var(--sub-color-1) !important;
+    background-color: var(--contrast-color) !important;
 }
 
 // .ant-input {

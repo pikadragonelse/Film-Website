@@ -102,9 +102,9 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                     }}
                     className="form-date-picker"
                 >
-                    <Option value="Male">Name</Option>
-                    <Option value="Female">Female</Option>
-                    <Option value="Other">Other</Option>
+                    <Option value="Male">Nam</Option>
+                    <Option value="Female">Nữ</Option>
+                    <Option value="Other">Khác</Option>
                 </Select>
             </Form.Item>
             <Form.Item className="btn-form-container">

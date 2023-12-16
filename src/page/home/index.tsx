@@ -7,6 +7,9 @@ import { Film } from '../../model/film';
 import './index.scss';
 import axios from 'axios';
 import { ActorFamous, ActorFamousInfo } from '../../component/list-actor-famous';
+import { HistoryMoviesHome } from '../../component/history-home';
+import { FilmItem } from '../../component/film-item';
+import Cookies from 'js-cookie';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -35,7 +38,7 @@ export const HomePage = () => {
 
     const getMovieByGenre = () => {
         axios
-            .get('http://localhost:8000/api/home/genres', {
+            .get('http://localhost:8000/api/home/genres?page=1&pageSize=20', {
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => {
@@ -51,7 +54,7 @@ export const HomePage = () => {
 
     const getActorFamous = () => {
         axios
-            .get('http://localhost:8000/api/individuals/actors')
+            .get('http://localhost:8000/api/individuals/actors?page=1&pageSize=20')
             .then((response) => {
                 setDataActorFamous(response.data.data.actors);
             })
@@ -73,11 +76,28 @@ export const HomePage = () => {
         }
     };
 
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
+    const fetchDataHistorymovies = async () => {
+        try {
+            const response = await request.get('user/get-movie-history-list?page=1&pageSize=1', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data.data.ListMovie;
+            setDataHistorymovies(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         fetchTrending();
         getMovieByGenre();
         getActorFamous();
         fetchVip();
+        fetchDataHistorymovies();
     }, []);
 
     return (
@@ -87,14 +107,13 @@ export const HomePage = () => {
             <Spin spinning={loading} size="large" className="mt-96">
                 <ListFilm title="Phim thịnh hành" listFilm={trendingData} />
                 <ListFilm title="Dành cho VIP" listFilm={dataFilmVip} />
+                <HistoryMoviesHome dataHistorymovies={dataHistorymovies} />
                 <img
                     className="ml-20 w-[92%] rounded-md h-[86px]"
                     src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
                     alt=""
                 />
-
                 {dataActorFamous.length > 0 && <ActorFamous actors={dataActorFamous} />}
-
                 {dataMovieByGenre.map((listMovie) => (
                     <ListFilm
                         key={listMovie.genreId}

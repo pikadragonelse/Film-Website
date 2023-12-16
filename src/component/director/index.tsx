@@ -77,7 +77,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                     <div className="flex rounded-lg p-10 ml-14">
                         <div className="">
                             <img
-                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4"
+                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4 object-cover"
                                 src={directorInfo.avatar}
                                 alt=""
                             />
