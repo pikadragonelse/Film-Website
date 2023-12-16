@@ -9,13 +9,6 @@ export const Search = () => {
     const navigate = useNavigate();
     const valueRef = useRef<HTMLInputElement | null>(null);
 
-<<<<<<< HEAD
-=======
-
-    const debouncedValue: string = useDebounced(searchValue, 50);
-
-
->>>>>>> bdfd244fee9788dc7e4c5790c0d2463792aa43ac
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
         if (!searchValue.startsWith(' ')) {
