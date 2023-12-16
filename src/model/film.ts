@@ -6,11 +6,13 @@ export interface Genres {
 export interface Actors {
     actor_id:number,
     name:string,
+    avatar: string,
 }
 
 export interface Directors {
     director_id:number,
     name:string,
+    avatar: string,
 }
 
 export interface Episodes{
@@ -40,4 +42,5 @@ export type Film = {
     genres: Array<Genres>,
     actors: Array<Actors>,
     episodes:Array<Episodes>
+    directors: Array<Directors>
 }

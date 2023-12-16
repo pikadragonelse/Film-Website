@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
 import { Avatar, Button, List, Skeleton } from 'antd';
 import Title from 'antd/es/typography/Title';
+import { useEffect, useState } from 'react';
 import './index.scss';
 
 interface DataType {
@@ -94,19 +94,10 @@ export const CommentSection = () => {
                             <a key="list-loadmore-more">more</a>,
                         ]}
                     >
-                        <Skeleton
-                            avatar
-                            title={false}
-                            loading={item.loading}
-                            active
-                        >
+                        <Skeleton avatar title={false} loading={item.loading} active>
                             <List.Item.Meta
                                 avatar={<Avatar src={item.picture.large} />}
-                                title={
-                                    <a href="https://ant.design">
-                                        {item.name?.last}
-                                    </a>
-                                }
+                                title={<a href="https://ant.design">{item.name?.last}</a>}
                                 description="Ant Design, a design language for background applications, is refined by Ant UED Team"
                             />
                             <div>content</div>

@@ -1,4 +1,10 @@
-import { BellOutlined, CrownOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import {
+    BellOutlined,
+    CrownOutlined,
+    HistoryOutlined,
+    LoginOutlined,
+    LogoutOutlined,
+} from '@ant-design/icons';
 import { Avatar, Button, Popover } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
@@ -14,6 +20,8 @@ import './index.scss';
 import { ContentModalUser } from './modalUser';
 import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
+import { ContentModalHistory } from './modalHistory';
+import { ContentModalHistoryTitle } from './modalHistoryTitle';
 export type Header = { className?: string };
 
 const queryParamMap: Record<string, string> = {
@@ -188,6 +196,20 @@ export const Header = ({ className }: Header) => {
                     }}
                     className="flex justify-between items-center lg:order-2 mt-2"
                 >
+                    {isLogin ? (
+                        <>
+                            <Popover
+                                title={ContentModalHistoryTitle}
+                                overlayStyle={{ maxWidth: '30%' }}
+                                content={<ContentModalHistory />}
+                                zIndex={9999}
+                            >
+                                <Link to="/foryou">
+                                    <HistoryOutlined className="icon-login" />
+                                </Link>
+                            </Popover>
+                        </>
+                    ) : null}
                     <Popover
                         title={<ContentModalVipTitle />}
                         overlayStyle={{ maxWidth: '20%' }}

@@ -24,7 +24,7 @@
             }
         }
     }
-    .session-view{
+    .session-view {
         margin-bottom: var(--spacing-sm-2);
         margin-top: var(--spacing-sm-2);
         position: relative;
@@ -32,27 +32,27 @@
         .session-section {
             display: none;
             position: absolute;
-            top:0;
+            top: 0;
             left: 0;
             gap: var(--spacing-md);
             align-items: center;
             margin-bottom: var(--spacing-md);
-    
+
             .session-section-select {
                 // color: var(--contrast-color);
                 display: flex;
                 align-items: center;
-    
+
                 &:hover {
                     color: var(--primary-color);
                     border-color: var(--primary-color);
                 }
             }
-    
+
             .session-section-episode {
                 font-size: var(--font-s-sm);
             }
-    
+
             &.show {
                 display: flex;
             }
@@ -60,37 +60,33 @@
 
         .session-segment {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            padding-top: var(--spacing-sm-1) ;
+            flex-direction: row-reverse;
+            align-items: flex-start;
+            padding-top: var(--spacing-sm-2);
 
-            .segment-icon{
+            .segment-icon {
                 font-size: 1.4rem;
                 margin-right: 9px;
             }
 
-            .segment-content{
-                height: 440px;
+            .segment-content {
+                height: 470px;
                 width: 100%;
-                margin-top: var(--spacing-md);
                 overflow-y: scroll;
             }
             .segment-content::-webkit-scrollbar {
                 width: 0px;
-              }
-              
-              .segment-content::-webkit-scrollbar-thumb {
-                background: rgba(0, 0, 0, 0.1); 
-              }
-              
-              .segment-content::-webkit-scrollbar-track {
-                background: rgba(0, 0, 0, 0.1); 
-              }
+            }
+
+            .segment-content::-webkit-scrollbar-thumb {
+                background: rgba(0, 0, 0, 0.1);
+            }
+
+            .segment-content::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.1);
+            }
         }
-        
-         
     }
-    
 
     .list {
         position: relative;
@@ -117,21 +113,13 @@
 
         .left-move-container {
             left: 0;
-            background: linear-gradient(
-                90deg,
-                var(--main-color),
-                rgba(255, 255, 255, 0) 100%
-            );
+            background: linear-gradient(90deg, var(--main-color), rgba(255, 255, 255, 0) 100%);
             justify-content: flex-start;
         }
 
         .right-move-container {
             right: 0;
-            background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0),
-                var(--main-color) 100%
-            );
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0), var(--main-color) 100%);
             justify-content: flex-end;
         }
 
@@ -140,8 +128,7 @@
             justify-content: center;
         }
     }
-    .ant-row-center{
+    .ant-row-center {
         justify-content: flex-start !important;
     }
 }
-

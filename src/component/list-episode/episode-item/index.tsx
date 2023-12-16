@@ -1,5 +1,4 @@
 import './index.scss';
-import { CloseOutlined } from '@ant-design/icons';
 
 interface Episodes {
     episodeId?: number;
