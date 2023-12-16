@@ -46,7 +46,7 @@ export const App = () => {
             <div className="wrapper">
                 <Header className={`${locationMap[location.pathname]}`} />
 
-                <div className="wrapper-app-container min-h-[200vh]">
+                <div className="wrapper-app-container min-h-[150vh]">
                     <Routes>
                         <Route path="" element={<HomePage />} />
                         <Route path="/search/*" element={<SearchPage />} />
