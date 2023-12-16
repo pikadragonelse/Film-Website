@@ -18,6 +18,10 @@ export type PaginationFilmProps = {
     number: number;
     onCancelClick?: ((filmName: string) => void) | boolean;
     context?: string;
+    amountMovies?: number;
+    currPage?: number;
+    setCurrPage?: (props?: any) => void;
+    hidden?: boolean;
 };
 
 export const PaginationFilm = ({
@@ -26,6 +30,10 @@ export const PaginationFilm = ({
     number,
     onCancelClick,
     context,
+    amountMovies,
+    currPage,
+    setCurrPage = () => {},
+    hidden,
 }: PaginationFilmProps) => {
     const [open, setOpen] = useState(false);
     const [selectedFilm, setSelectedFilm] = useState<FilmItem | null>(null);
@@ -40,35 +48,12 @@ export const PaginationFilm = ({
         setOpen(false);
     };
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [listFilm, setListFilm] = useState(searchResults);
-    useEffect(() => {
-        setListFilm(searchResults);
-    }, [searchResults]);
-
-    const [displayedResults, setDisplayedResults] = useState<Array<FilmItem>>([]);
-    const resultsPerPage = 12;
-
-    useEffect(() => {
-        const startIndex = (currentPage - 1) * resultsPerPage;
-        const endIndex = startIndex + resultsPerPage;
-        console.log(listFilm);
-        const updatedDisplayedResults = listFilm.slice(startIndex, endIndex);
-        setDisplayedResults(updatedDisplayedResults);
-    }, [listFilm, currentPage]);
-
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
-
     const handleOkClick = () => {
         if (selectedFilm) {
             handleCancelClick(selectedFilm.id || 0, context || '');
             handleCancel();
         }
     };
-
-    const dispatch = useDispatch();
 
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
 
@@ -86,26 +71,20 @@ export const PaginationFilm = ({
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-
-            if (response.data.status === 'Ok!') {
-                const updatedListFilm = listFilm.filter((film) => film.id !== filmId);
-                setListFilm(updatedListFilm);
-                dispatch(setDataCollect(updatedListFilm));
-            }
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
-        <div className="list-film">
+        <div className="list-film min-h-[60vh]" hidden={hidden}>
             <div className="header-list-film">
                 <VideoCameraOutlined className="header-list-film-icon" />
                 <p className="header-list-film-title">{title}</p>
             </div>
             <div className="content-list-film">
                 <Row gutter={[12, 24]}>
-                    {displayedResults.map((result, index) => (
+                    {searchResults.map((result, index) => (
                         <Col span={number} key={index}>
                             <Link to={`/movie/${result.id || result.movieId}`}>
                                 <FilmItem
@@ -129,10 +108,10 @@ export const PaginationFilm = ({
 
             <div className="footer-list-film">
                 <Pagination
-                    current={currentPage}
-                    defaultPageSize={resultsPerPage}
-                    total={listFilm.length}
-                    onChange={handlePageChange}
+                    current={currPage}
+                    defaultPageSize={12}
+                    total={amountMovies}
+                    onChange={(event) => setCurrPage(event)}
                 />
             </div>
 

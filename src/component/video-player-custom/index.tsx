@@ -104,9 +104,7 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
             >
                 <ReactPlayer
                     ref={playerRef}
-                    url={
-                        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-                    }
+                    url={sourceUrl}
                     poster={posterUrl}
                     playing={playing}
                     onProgress={(props) => {

@@ -6,6 +6,8 @@ import dataCollectReducer from './dataCollectSlide';
 import dataLoveSlide from './dataLoveSlide';
 import VIPPaymentReducer from './VIPPaymentSlice'
 import DurationVip from './durationSlice'
+import SearchInvoke from './searchSlice'
+
 
 
 
@@ -17,7 +19,8 @@ export const store = configureStore({
         dataCollect: dataCollectReducer,
         dataLove: dataLoveSlide,
         VIPPayment: VIPPaymentReducer,
-        durationData: DurationVip
+        durationData: DurationVip,
+        searchSlice: SearchInvoke
     },
 });
 
