@@ -1,7 +1,11 @@
+.login {
+    position: relative;
+}
 .header-logo {
     position: absolute;
-    top: 2%;
-    left: 2%;
+    top: 20%;
+    left: 20%;
+    z-index: var(--z-highest);
 }
 
 .form-list {

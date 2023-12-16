@@ -25,7 +25,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [films, setFilms] = useState<Array<FilmItem>>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/individual/actor?actorId=${actorId}`)
+        fetch(`http://localhost:8000/api/individuals/actors/${actorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setActorInfo(data.data);
@@ -75,7 +75,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                     <div className="flex rounded-lg p-10 ml-14">
                         <div className="">
                             <img
-                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4"
+                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4 object-cover"
                                 src={actorInfo.avatar}
                                 alt=""
                             />
@@ -94,7 +94,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                     {'|'}
                                 </div>
                                 <div className="mx-4">
-                                    <span className="text-[#989898] mr-4">Đạo diễn</span>
+                                    <span className="text-[#989898] mr-4">Diễn viên</span>
                                     {'|'}
                                 </div>
                                 <div>

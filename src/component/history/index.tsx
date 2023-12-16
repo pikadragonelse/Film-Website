@@ -2,8 +2,9 @@ import React from 'react';
 import './index.scss';
 import { PaginationFilm } from '../pagination-film';
 import { FilmItem } from '../film-item';
+import { Empty } from 'antd';
 
-interface HistoryMoviesProps {
+export interface HistoryMoviesProps {
     dataHistorymovies: FilmItem[];
 }
 
@@ -20,7 +21,11 @@ export const HistoryMovies = ({ dataHistorymovies }: HistoryMoviesProps) => {
                     context="historyList"
                 />
             ) : (
-                <p>Lịch sử phim còn trống</p>
+                <Empty
+                    className="mt-40"
+                    image={Empty.PRESENTED_IMAGE_DEFAULT}
+                    description={<p className="text-gray-100">Danh sách yêu thích trống</p>}
+                />
             )}
         </div>
     );

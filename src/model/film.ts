@@ -35,6 +35,7 @@ export type Film = {
     trailerURL:string,
     averageRating:string,
     episodeNum:number,
+    backgroundURL?:string,
     level:number,
     genres: Array<Genres>,
     actors: Array<Actors>,

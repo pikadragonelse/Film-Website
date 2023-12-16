@@ -82,7 +82,11 @@ export const UserProfile = () => {
                 <FormChangePassword onCancel={() => setIsOpenChangePassword(false)} />
             </ModalUser>
             <div className="user-profile-general">
-                <Avatar src={currentUser.avatarURL} size={160} className="user-profile-avt" />
+                <Avatar
+                    src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+                    size={160}
+                    className="user-profile-avt"
+                />
                 <Title className="user-profile-username" level={3}>
                     {currentUser.username}
                 </Title>

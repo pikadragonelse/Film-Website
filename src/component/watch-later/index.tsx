@@ -2,6 +2,7 @@ import React from 'react';
 import './index.scss';
 import { PaginationFilm } from '../pagination-film';
 import { FilmItem } from '../film-item';
+import { Empty } from 'antd';
 
 interface WatchLaterProps {
     dataCollect: FilmItem[];
@@ -19,7 +20,11 @@ export const WatchLater = ({ dataCollect }: WatchLaterProps) => {
                     context="watchList"
                 />
             ) : (
-                <p>Chưa xem phim nào</p>
+                <Empty
+                    className="mt-40"
+                    image={Empty.PRESENTED_IMAGE_DEFAULT}
+                    description={<p className="text-gray-100">Danh sách phim trống</p>}
+                />
             )}
         </div>
     );
