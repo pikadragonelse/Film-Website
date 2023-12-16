@@ -7,7 +7,7 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Modal, Progress } from 'antd';
+import { Modal, Progress, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -34,19 +34,24 @@ export const FilmDetail = () => {
     const [addedToLove, setAddedToLove] = useState<boolean>(false);
     const [dataLove, setDataLove] = useState<FilmItem[]>([]);
 
-    const handleOpenModal = () => {
-        setShowLoginModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowLoginModal(false);
-    };
-
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
 
     let firstEpisodeId: number | null = null;
     //check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
+    const handleUnauthorizedAction = () => {
+        notification.warning({
+            message: 'Thông báo',
+            description: 'Vui lòng đăng nhập để thực hiện hành động này.',
+        });
+        setShowLoginModal(true);
+    };
+    const handleShare = () => {
+        if (isUserLoggedIn) {
+        } else {
+            handleUnauthorizedAction();
+        }
+    };
 
     const fetchWatchLaterList = async () => {
         try {
@@ -73,11 +78,9 @@ export const FilmDetail = () => {
 
     const fetchData = async () => {
         try {
-            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            }).then((res) => res.json());
+            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
+                res.json(),
+            );
             setFilmDetail(movieData);
         } catch (error) {
             console.error(error);
@@ -297,7 +300,7 @@ export const FilmDetail = () => {
                             href="#icon"
                             className="h-10 w-10 rounded-full border-[1.5px] border-white  "
                         >
-                            <ShareAltOutlined className="film-detail__icon" />
+                            <ShareAltOutlined className="film-detail__icon" onClick={handleShare} />
                         </a>
 
                         <a
@@ -332,14 +335,6 @@ export const FilmDetail = () => {
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
-            <Modal
-                title="Thông báo"
-                visible={showLoginModal}
-                onOk={handleCloseModal}
-                onCancel={handleCloseModal}
-            >
-                <p>Vui lòng đăng nhập để thêm vào bộ sưu tập.</p>
-            </Modal>
         </div>
     );
 };

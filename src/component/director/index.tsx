@@ -25,7 +25,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     const [films, setFilms] = useState<Array<FilmItem>>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/individual/director?directorId=${directorId}`)
+        fetch(`http://localhost:8000/api/individuals/directors/${directorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setDirectorInfo(data.data);
@@ -33,6 +33,8 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
             })
             .catch((error) => console.error('Error:', error));
     }, [directorId]);
+
+    console.log('directorInfo', directorInfo);
 
     const handleTabClick = (tabNumber: number) => {
         setOpenTab(tabNumber);

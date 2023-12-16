@@ -102,7 +102,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                     }}
                     className="form-date-picker"
                 >
-                    <Option value="Male">Male</Option>
+                    <Option value="Male">Name</Option>
                     <Option value="Female">Female</Option>
                     <Option value="Other">Other</Option>
                 </Select>

@@ -2,8 +2,8 @@ import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
 import { CarouselRef } from 'antd/es/carousel';
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Film } from '../../model/film';
-import { Link, createSearchParams } from 'react-router-dom';
 import { FilmItem } from '../film-item';
 import './index.scss';
 
@@ -55,17 +55,21 @@ export const ListFilm = ({
 
     return (
         <div className="list-container">
-            <div className="list-heading flex items-center">
-                <h2 className="list-title ml-20 z-50">{title}</h2>
-                <Link
-                    to={{
-                        pathname: '/search',
-                        search: `genre=${genreId}`,
-                    }}
-                    className="mt-1 text-red-500 hover:text-red-600"
-                >
-                    Xem tất cả
-                </Link>
+            <div className="list-heading">
+                <div className="flex items-center justify-between">
+                    <h2 className="list-title ml-20 mb-1 font-medium">{title}</h2>
+                    <Link
+                        to={{
+                            pathname: '/search',
+                            search: `genre=${genreId}`,
+                        }}
+                        className={`mt-1 text-red-500 hover:text-red-600 mr-20 ${
+                            listFilm.length < 6 ? 'hidden' : ''
+                        }`}
+                    >
+                        Xem tất cả
+                    </Link>
+                </div>
                 <div className="list-sub-info">
                     {subInfo?.map((item) => (
                         <p className="list-sub-info-item">{item}</p>

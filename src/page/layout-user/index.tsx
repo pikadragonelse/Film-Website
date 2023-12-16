@@ -1,26 +1,24 @@
-import './index.scss';
-import React, { useEffect, useState } from 'react';
 import {
-    UserOutlined,
-    CrownOutlined,
-    UnorderedListOutlined,
     CalendarOutlined,
+    CrownOutlined,
     DeleteOutlined,
-    SettingOutlined,
     HeartOutlined,
+    SettingOutlined,
+    UnorderedListOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from 'antd';
-import { UserProfile } from '../../component/user-profile';
-import { VIPPackageUser } from '../../component/VIP-package-user';
-import { WatchLater } from '../../component/watch-later';
-import { useDispatch, useSelector } from 'react-redux';
-import { LoveMovies } from '../../component/love-movie';
-import { FilmItem } from '../../component/film-item';
-import { request } from '../../utils/request';
 import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
+import { VIPPackageUser } from '../../component/VIP-package-user';
+import { FilmItem } from '../../component/film-item';
 import { HistoryMovies } from '../../component/history';
-import { setDataCollect } from '../../redux/dataCollectSlide';
+import { LoveMovies } from '../../component/love-movie';
+import { UserProfile } from '../../component/user-profile';
+import { WatchLater } from '../../component/watch-later';
+import { request } from '../../utils/request';
+import './index.scss';
 
 const { Header, Content, Sider } = Layout;
 
@@ -161,7 +159,7 @@ export const LayoutUser = () => {
                                 <div className="title-header">Của bạn</div>
                             )}
                         </Header>
-                        <hr className=" border-neutral-400" />
+                        <hr className="mt-2 border-neutral-600" />
 
                         <Menu
                             style={{
