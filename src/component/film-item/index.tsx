@@ -1,4 +1,4 @@
-import { CaretRightOutlined, CloseOutlined } from '@ant-design/icons';
+import { CaretRightOutlined } from '@ant-design/icons';
 import { Badge } from 'antd';
 import { Actors, Episodes } from '../../model/film';
 import './index.scss';

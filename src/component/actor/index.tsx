@@ -25,7 +25,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [films, setFilms] = useState<Array<FilmItem>>([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/individual/actor?actorId=${actorId}`)
+        fetch(`http://localhost:8000/api/individuals/actors/${actorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setActorInfo(data.data);

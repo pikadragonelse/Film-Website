@@ -1,13 +1,14 @@
 .list-container {
     // margin: 0 var(--spacing-lg);
-    .list-heading {
-        display: flex;
-        gap: var(--spacing-md);
-        align-items: center;
 
+    .list-heading {
         .list-title {
             color: var(--contrast-color);
-            font-size: 1.8rem;
+            font-size: 22px;
+        }
+
+        .hidden {
+            display: none;
         }
 
         .list-sub-info {
