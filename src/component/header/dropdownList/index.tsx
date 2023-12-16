@@ -4,45 +4,33 @@ import './index.scss';
 import { request } from '../../../utils/request';
 import { FilmItem } from '../../film-item';
 import { useNavigate } from 'react-router-dom';
+import { ChildrenCategoriesHeader } from '..';
 
 interface DropdownMenuProps {
     title: string;
-    data: string[];
+    data: ChildrenCategoriesHeader[];
+    queryParam?: string;
 }
 
-export const DropdownList: React.FC<DropdownMenuProps> = ({ title, data }) => {
+export const DropdownList: React.FC<DropdownMenuProps> = ({ title, data, queryParam }) => {
     const columns = 3;
     const itemsPerColumn = Math.ceil(data.length / columns);
     const navigate = useNavigate();
 
-    const [fetchedData, setFetchedData] = useState<FilmItem[]>([]);
-    const handleItemClick = async (title: string, value: number, item: string) => {
-        try {
-            let response;
-            if (title === 'Thể loại') {
-                response = await request.get(
-                    `movies?genre=${value + 1}&page=${1}&pageSize=${10000}`,
-                );
-            } else if (title === 'Quốc gia') {
-                response = await request.get(`movies?nation=${item}&page=${1}&pageSize=${10000}`);
-            } else if (title === 'Năm sản xuất') {
-                response = await request.get(`movies?year=2023&page=${1}&pageSize=${10000}`);
-            }
-
-            setFetchedData(response?.data?.movies || []);
-            navigate('/search', { state: { fetchedData: fetchedData } });
-        } catch (error) {
-            console.log(error);
-        }
+    const handleItemClick = (title: string, value: number, idItem: string) => {
+        navigate({
+            pathname: '/search',
+            search: `${queryParam}=${encodeURIComponent(idItem)}`,
+        });
     };
 
     const renderMenuItems = (start: number, end: number): React.ReactNode => {
         return data.slice(start, end).map((item, index) => (
             <Menu.Item
                 key={`item-${start + index}`}
-                onClick={() => handleItemClick(title, start + index, item)}
+                onClick={() => handleItemClick(title, start + index, item.id)}
             >
-                {item && <React.Fragment>{item}</React.Fragment>}
+                {item && <React.Fragment>{item.value}</React.Fragment>}
             </Menu.Item>
         ));
     };
@@ -64,7 +52,7 @@ export const DropdownList: React.FC<DropdownMenuProps> = ({ title, data }) => {
     );
 
     return (
-        <Dropdown overlay={menu}>
+        <Dropdown overlay={menu} overlayStyle={{ zIndex: 9999 }}>
             <div className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
                 <div className="dropdownlist">{title}</div>
             </div>

@@ -1,10 +1,4 @@
-import {
-    BellOutlined,
-    ClockCircleOutlined,
-    CrownOutlined,
-    LoginOutlined,
-    LogoutOutlined,
-} from '@ant-design/icons';
+import { BellOutlined, CrownOutlined, LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Avatar, Button, Popover } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
@@ -17,19 +11,34 @@ import { RootState } from '../../redux/store';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
 import './index.scss';
-import { ContentModalHistory } from './modalHistory';
-import { ContentModalHistoryTitle } from './modalHistoryTitle';
 import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
 import { ContentModalUser } from './modalUser';
 import { request } from '../../utils/request';
-import { log } from 'console';
 export type Header = { className?: string };
+
+const queryParamMap: Record<string, string> = {
+    nations: 'nation',
+    releasedYears: 'year',
+    genres: 'genre',
+};
 
 export type Genre = {
     genre_id: number;
     name: string;
 };
+
+export interface ChildrenCategoriesHeader {
+    id: string;
+    value: string;
+}
+
+export interface CategoriesHeader {
+    title?: string;
+    children?: ChildrenCategoriesHeader[];
+    queryParam?: string;
+}
+
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -103,13 +112,30 @@ export const Header = ({ className }: Header) => {
         try {
             const response = await request.get('home/headers');
             const data = response.data.data;
-            const nations = data.nations;
-            const releasedYears = data.releasedYears;
-            const genres = data.genres;
-            const itemsHeader = [
-                { title: 'Thể loại', childrens: genres.map((genre: Genre) => genre.name) },
-                { title: 'Quốc gia', childrens: nations },
-                { title: 'Năm sản xuất', childrens: releasedYears },
+            const listKey = Object.keys(data);
+            const nations: ChildrenCategoriesHeader[] = data.nations.map((nation: string) => {
+                return { id: nation, value: nation };
+            });
+            const releasedYears: ChildrenCategoriesHeader[] = data.releasedYears.map(
+                (year: string) => {
+                    return { id: year, value: year };
+                },
+            );
+            const genres: ChildrenCategoriesHeader[] = data.genres.map((genre: Genre) => {
+                return { id: genre.genre_id, value: genre.name };
+            });
+            const itemsHeader: CategoriesHeader[] = [
+                {
+                    title: 'Thể loại',
+                    children: genres,
+                    queryParam: queryParamMap[listKey[2]],
+                },
+                { title: 'Quốc gia', children: nations, queryParam: queryParamMap[listKey[0]] },
+                {
+                    title: 'Năm sản xuất',
+                    children: releasedYears,
+                    queryParam: queryParamMap[listKey[1]],
+                },
             ];
             setItems(itemsHeader);
         } catch (error) {
@@ -146,8 +172,12 @@ export const Header = ({ className }: Header) => {
                     >
                         <Search />
                         {items.map((item, index) => (
-                            <ul className="menu-items" key={index}>
-                                <DropdownList title={item.title} data={item.childrens} />
+                            <ul className="menu-items " key={index}>
+                                <DropdownList
+                                    title={item.title}
+                                    data={item.children}
+                                    queryParam={item.queryParam}
+                                />
                             </ul>
                         ))}
                     </div>
@@ -160,18 +190,11 @@ export const Header = ({ className }: Header) => {
                     className="flex justify-between items-center lg:order-2 mt-2"
                 >
                     <Popover
-                        title={<ContentModalHistoryTitle />}
-                        overlayStyle={{ maxWidth: '40%' }}
-                        content={<ContentModalHistory />}
-                    >
-                        <div className="icon-history">
-                            <ClockCircleOutlined />
-                        </div>
-                    </Popover>
-                    <Popover
                         title={<ContentModalVipTitle />}
                         overlayStyle={{ maxWidth: '20%' }}
                         content={<ContentModalVip />}
+                        arrow={false}
+                        zIndex={9999}
                     >
                         <Link to={'/VIPpackage'}>
                             <Button className="btn-vip" type="primary" icon={<CrownOutlined />}>
@@ -198,6 +221,7 @@ export const Header = ({ className }: Header) => {
                                 }
                                 overlayStyle={{ maxWidth: '30%' }}
                                 content={<ContentModalUser />}
+                                zIndex={9999}
                             >
                                 <Link to="/foryou">
                                     <Avatar
