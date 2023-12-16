@@ -84,7 +84,7 @@ export const FilmDetail = () => {
             const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
                 res.json(),
             );
-            setFilmDetail(movieData);
+            setFilmDetail(movieData.movie);
         } catch (error) {
             console.error(error);
         } finally {

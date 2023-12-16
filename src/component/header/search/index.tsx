@@ -39,7 +39,7 @@ export const Search = () => {
                 ref={valueRef}
                 value={searchValue}
                 spellCheck={false}
-                placeholder="Search"
+                placeholder="Tìm kiếm"
                 onChange={handleChange}
                 onKeyDown={(event) => (event.key === 'Enter' ? handleSearch() : undefined)}
             />

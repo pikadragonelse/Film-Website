@@ -5,9 +5,10 @@ import Cookies from 'js-cookie';
 import { request } from '../../utils/request';
 interface ratingProp {
     movieId: number;
+    rating: number;
 }
 const desc = ['Rất tệ', 'Tệ', 'Bình thường', 'Hay', 'Rất hay'];
-export const ModalRating = ({ movieId }: ratingProp) => {
+export const ModalRating = ({ movieId, rating }: ratingProp) => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const handleRating = async (newValue: number) => {
         try {
@@ -33,7 +34,7 @@ export const ModalRating = ({ movieId }: ratingProp) => {
 
     return (
         <Space>
-            <Rate tooltips={desc} onChange={(e) => handleRating(e)} value={1} />
+            <Rate tooltips={desc} onChange={(e) => handleRating(e)} value={rating} />
         </Space>
     );
 };
