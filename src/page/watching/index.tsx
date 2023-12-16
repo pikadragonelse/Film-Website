@@ -124,7 +124,6 @@ export const WatchingPage = () => {
     const isLogin = useSelector((state: RootState) => state?.user.isLogin);
     // console.log(isLogin);
 
-    const [playTime, setPlayTime] = useState(0);
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
     const fetchDataEpisode = async () => {
@@ -139,17 +138,49 @@ export const WatchingPage = () => {
             await fetchData();
         }
         setDataEpisode(data);
+        //
+        if (startTime) {
+            const elapsedMinutes = calculateElapsedTime();
+            saveWatchingHistory(data.episodeId, elapsedMinutes);
+        }
+        setStartTime(Date.now());
     };
     useEffect(() => {
         fetchDataEpisode();
         window.scrollTo(0, 0);
     }, [episodeId]);
+    //api history
+    const saveWatchingHistory = async (episodeId: number, duration: number) => {
+        try {
+            const response = await request.get(
+                `user/add-movie-history?episodeId=${episodeId}&duration=${duration}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                },
+            );
+
+            console.log('API Response:', response.data);
+        } catch (error) {
+            console.error('API Error:', error);
+        }
+    };
+    const [startTime, setStartTime] = useState<number | null>(null);
+    const calculateElapsedTime = () => {
+        if (startTime) {
+            const endTime = Date.now();
+            const elapsedMinutes = Math.floor((endTime - startTime) / (1000 * 60));
+            return elapsedMinutes;
+        }
+        return 0;
+    };
 
     return (
         <div className="watching-container">
             <div className="watching">
                 <div className="watching-player-container">
-                    <VideoPlayerCustom />
+                    <VideoPlayerCustom sourceUrl={dataEpisode.movieURL} />
                 </div>
                 <div className="watching-list-film-container">
                     <ListEpisodes

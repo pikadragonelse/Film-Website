@@ -16,6 +16,7 @@ import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
 import { store } from './redux/store';
 import { Actor } from './component/actor';
+import { LoginForget } from './component/forget-password';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -46,10 +47,6 @@ export const App = () => {
                     <Routes>
                         <Route path="" element={<HomePage />} />
                         <Route path="/search/*" element={<SearchPage />} />
-                        {/* <Route
-                        path="/watching/:movieId"
-                        element={<WatchingPage />}
-                    /> */}
                         <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
                         <Route path="/foryou" element={<LayoutUser />} />
                         <Route path="/login" element={<Login />} />
