@@ -1,7 +1,8 @@
-import { CaretRightOutlined } from '@ant-design/icons';
-import { Badge } from 'antd';
+import { CaretRightOutlined, CloseOutlined } from '@ant-design/icons';
+import { Badge, Skeleton } from 'antd';
 import { Actors, Episodes } from '../../model/film';
 import './index.scss';
+import { useState } from 'react';
 
 export type FilmItem = {
     movieId?: number;
@@ -22,12 +23,25 @@ export type FilmItem = {
 };
 
 export const FilmItem = ({ title, releaseDate, genres, posterURL, episodeNum }: FilmItem) => {
+    const [isLoadingImg, setIsLoadingImg] = useState(true);
+
     return (
-        <Badge.Ribbon text="Hot" color="red">
-            <div className="film-item-container">
-                <img src={posterURL} alt="" className="film-item-image" />
-                <div className="btn-play">
-                    <CaretRightOutlined />
+        <Badge.Ribbon text="Hot" color="red" className={`${isLoadingImg === true ? 'hidden' : ''}`}>
+            <div className="film-item-container relative">
+                <Skeleton.Image
+                    active
+                    className={`absolute z-10 h-full w-full ${
+                        isLoadingImg === false ? 'hidden' : ''
+                    }`}
+                />
+                <img
+                    src={posterURL}
+                    alt=""
+                    className="film-item-image"
+                    onLoad={() => setIsLoadingImg(false)}
+                />
+                <div className="btn-play z-10">
+                    <CaretRightOutlined className="text-white" />
                 </div>
             </div>
             <h1 className="film-item-title max-w-[204px]">{title}</h1>

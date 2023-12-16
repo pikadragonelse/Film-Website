@@ -1,18 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { CloseOutlined, SearchOutlined } from '@ant-design/icons';
 import './index.scss';
-import { useDebounced } from '../../../hooks/debounce';
 
 export const Search = () => {
     const [searchValue, setSearchValue] = useState<string>('');
     const navigate = useNavigate();
     const valueRef = useRef<HTMLInputElement | null>(null);
-
-
-    const debouncedValue: string = useDebounced(searchValue, 50);
-
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const searchValue = e.target.value;
@@ -25,7 +20,7 @@ export const Search = () => {
         if (searchValue.trim() !== '') {
             navigate({
                 pathname: '/search',
-                search: `search=${searchValue}`,
+                search: `search=${encodeURIComponent(searchValue)}`,
             });
         }
     };

@@ -21,6 +21,7 @@ export type PaginationFilmProps = {
     amountMovies?: number;
     currPage?: number;
     setCurrPage?: (props?: any) => void;
+    hidden?: boolean;
 };
 
 export const PaginationFilm = ({
@@ -32,6 +33,7 @@ export const PaginationFilm = ({
     amountMovies,
     currPage,
     setCurrPage = () => {},
+    hidden,
 }: PaginationFilmProps) => {
     const [open, setOpen] = useState(false);
     const [selectedFilm, setSelectedFilm] = useState<FilmItem | null>(null);
@@ -81,7 +83,7 @@ export const PaginationFilm = ({
     };
 
     return (
-        <div className="list-film">
+        <div className="list-film min-h-[60vh]" hidden={hidden}>
             <div className="header-list-film">
                 <VideoCameraOutlined className="header-list-film-icon" />
                 <p className="header-list-film-title">{title}</p>
