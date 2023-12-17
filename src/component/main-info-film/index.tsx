@@ -13,6 +13,7 @@ export type MainInfoFilm = {
     desc: string;
     className?: string;
     movieId: number;
+    rating: number;
 };
 export const MainInfoFilm = ({
     name,
@@ -23,6 +24,7 @@ export const MainInfoFilm = ({
     desc,
     className,
     movieId,
+    rating,
 }: MainInfoFilm) => {
     return (
         <div className={`main-info-container ${className}`}>
@@ -40,7 +42,7 @@ export const MainInfoFilm = ({
                 </div>
                 <Popover
                     overlayStyle={{ maxWidth: '100%' }}
-                    content={<ModalRating movieId={movieId} />}
+                    content={<ModalRating movieId={movieId} rating={rating} />}
                 >
                     <div style={{ cursor: 'pointer' }}>Đánh giá ngay</div>
                 </Popover>

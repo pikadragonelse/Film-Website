@@ -85,20 +85,35 @@ export const WatchingPage = () => {
         fetchDataCurrentUser();
     }, []);
     const [watchingData, setWatchingData] = useState<Film>(defaultFilm);
+    const [rating, setRating] = useState(0);
     const { movieId, episodeId } = useParams();
+    const isLogin = useSelector((state: RootState) => state.user.isLogin);
 
     const fetchData = async () => {
         try {
-            const response = await request.get(`movies/${movieId}`);
-            const data = response.data;
-            setWatchingData(data);
+            if (accessToken) {
+                const response = await request.get(`movies/${movieId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                const data = response.data;
+                setWatchingData(data.movie);
+                setRating(data.rating);
+            } else {
+                const response = await request.get(`movies/${movieId}`);
+                const data = response.data;
+                setWatchingData(data.movie);
+                setRating(data.rating);
+            }
         } catch (error) {
             console.error(error);
         }
     };
+
     useEffect(() => {
         fetchData();
-    }, [movieId]);
+    }, [movieId, isLogin]);
 
     const combinedActorsAndDirectors = [...watchingData.actors, ...watchingData.directors];
 
@@ -116,9 +131,6 @@ export const WatchingPage = () => {
             content: watchingData?.genres.map((actor) => actor.name.concat(', ')) || [''],
         },
     ];
-
-    const isLogin = useSelector((state: RootState) => state?.user.isLogin);
-    // console.log(isLogin);
 
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
@@ -156,8 +168,6 @@ export const WatchingPage = () => {
                     },
                 },
             );
-
-            console.log('API Response:', response.data);
         } catch (error) {
             console.error('API Error:', error);
         }
@@ -203,6 +213,7 @@ export const WatchingPage = () => {
                     view={dataEpisode.numView}
                     episode={`${dataEpisode.title}`}
                     movieId={parseInt(movieId ?? '0')}
+                    rating={rating}
                 />
 
                 <div className="watching-sub-info-container">

@@ -41,6 +41,8 @@ export type Film = {
     level:number,
     genres: Array<Genres>,
     actors: Array<Actors>,
-    episodes:Array<Episodes>
+    episodes:Array<Episodes>,
+    rating?:number
     directors: Array<Directors>
+
 }
