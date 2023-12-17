@@ -1,9 +1,9 @@
-import { Avatar, Col, Row, Typography, Carousel } from 'antd';
-import './index.scss';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { useEffect, useRef, useState } from 'react';
+import { Avatar, Carousel, Row, Typography } from 'antd';
 import { CarouselRef } from 'antd/es/carousel';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './index.scss';
 
 const { Text } = Typography;
 
@@ -11,13 +11,17 @@ export type ActorFamousInfo = {
     actorId?: number;
     name: string;
     avatar: string;
+    actor_id?: number;
 };
 
 interface ActorFamousProps {
     actors: ActorFamousInfo[];
+    title?: string;
+    size?: number;
+    isShow?: boolean;
 }
 
-export const ActorFamous = ({ actors }: ActorFamousProps) => {
+export const ActorFamous = ({ actors, title, size, isShow }: ActorFamousProps) => {
     const actorRef = useRef<CarouselRef>(null);
     const [actorPage, setActorPage] = useState<number>(1);
     const [actorMaxPage, setActorMaxPage] = useState<number>(1);
@@ -49,11 +53,11 @@ export const ActorFamous = ({ actors }: ActorFamousProps) => {
 
     return (
         <div className="mt-14 mb-14 actor-famous list">
-            <Text className="text-white text-[22px] font-medium ml-20 mt-4">Người nổi tiếng</Text>
-            <Carousel className="ml-[68px] mb-10 mr-14 mt-4" ref={actorRef} dots={false}>
+            <Text className="text-white text-[22px] font-medium ml-20 mt-4">{title}</Text>
+            <Carousel className="ml-[68px] mb-10 mr-10 mt-4" ref={actorRef} dots={false}>
                 {multipleActorRows.map((actorRows, index) => (
                     <div key={index}>
-                        <Row gutter={[0, 16]} className="flex gap-5">
+                        <Row gutter={[0, 16]} className="flex gap-7">
                             {actorRows.map((actor) => (
                                 <Link
                                     to={`/actor/${actor.actorId}`}
@@ -63,10 +67,17 @@ export const ActorFamous = ({ actors }: ActorFamousProps) => {
                                     <Avatar
                                         className="hover:border-[6px] hover:border-red-800 object-cover"
                                         src={actor.avatar}
-                                        size={150}
+                                        size={size}
                                     />
                                     <Text className="actor-famous__name text-center mt-4 hover:text-red-800">
                                         {actor.name}
+                                    </Text>
+                                    <Text className="!text-gray-500 opacity-100 text-[12px] text-center">
+                                        {isShow && actor.actor_id
+                                            ? 'Diễn viên'
+                                            : isShow
+                                            ? 'Đạo diễn'
+                                            : null}
                                     </Text>
                                 </Link>
                             ))}

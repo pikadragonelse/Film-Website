@@ -29,24 +29,12 @@ const locationMap: Record<string, string> = {
 export const App = () => {
     const location = useLocation();
 
-    // useEffect(() => {
-    //     axios
-    //         .get('http://localhost:8080/api/movies/all', {
-    //             // headers: {
-    //             //     'Access-Control-Allow-Origin': '*',
-    //             //     'Content-Type': 'application/json',
-    //             // },
-    //         })
-    //         .then((response) => console.log(response.data))
-    //         .catch((error) => console.error(error));
-    // }, []);
-
     return (
         <Provider store={store}>
             <div className="wrapper">
                 <Header className={`${locationMap[location.pathname]}`} />
 
-                <div className="wrapper-app-container min-h-[150vh]">
+                <div className="wrapper-app-container">
                     <Routes>
                         <Route path="" element={<HomePage />} />
                         <Route path="/search/*" element={<SearchPage />} />

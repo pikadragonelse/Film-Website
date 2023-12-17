@@ -1,9 +1,8 @@
-import { StarFilled, StarOutlined, StarTwoTone } from '@ant-design/icons';
-import { Rate, Popover } from 'antd';
-import React from 'react';
-import './index.scss';
+import { StarFilled } from '@ant-design/icons';
+import { Popover } from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
 import { ModalRating } from '../../page/watching/modalRating';
+import './index.scss';
 
 export type MainInfoFilm = {
     name: string;
@@ -34,12 +33,12 @@ export const MainInfoFilm = ({
                 {'-'}
                 <h1 className="episode">{episode}</h1>
             </div>
-            <div className="view-info">
+            <div className="view-info flex items-center">
                 <div className="view">{view.toLocaleString()} lượt xem</div>
 
                 <div className="rating">
-                    <StarFilled style={{ color: '#fadb14', fontSize: 20 }} />
-                    <p>{rate}</p>
+                    <StarFilled style={{ color: '#fadb14', fontSize: 18 }} />
+                    <p className="text-[16px] ml-1">{rate}</p>
                 </div>
                 <Popover
                     overlayStyle={{ maxWidth: '100%' }}
@@ -48,17 +47,17 @@ export const MainInfoFilm = ({
                     <div style={{ cursor: 'pointer' }}>Đánh giá ngay</div>
                 </Popover>
             </div>
-            <div className="hashtag">
+            <div className="hashtag mb-2">
                 {hashtag?.map((value) => (
-                    <a href="#" className="hashtag-item">
+                    <a href="#" className="!px-4 !py-2 poster__image-padding">
                         {value}
                     </a>
                 ))}
             </div>
 
             <Paragraph
-                className="desc"
-                ellipsis={{ rows: 2, expandable: true, symbol: 'Xem thêm' }}
+                className="desc "
+                ellipsis={{ rows: 3, expandable: true, symbol: 'Xem thêm' }}
             >
                 {desc}
             </Paragraph>
