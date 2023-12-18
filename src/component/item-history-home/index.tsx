@@ -4,7 +4,7 @@ import { useState } from 'react';
 import './index.scss';
 import { FilmItem } from '../film-item';
 
-export const ItemHistoryHome = ({ title, backgroundURL }: FilmItem) => {
+export const ItemHistoryHome = ({ title, backgroundMovieURL }: FilmItem) => {
     const [isLoadingImg, setIsLoadingImg] = useState(true);
 
     return (
@@ -18,7 +18,7 @@ export const ItemHistoryHome = ({ title, backgroundURL }: FilmItem) => {
                         }`}
                     />
                     <img
-                        src={backgroundURL}
+                        src={backgroundMovieURL}
                         alt=""
                         className="film-item-image"
                         onLoad={() => setIsLoadingImg(false)}

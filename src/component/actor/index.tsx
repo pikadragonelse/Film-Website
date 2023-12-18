@@ -1,14 +1,16 @@
 import { ShareAltOutlined } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { FilmItem } from '../film-item';
 import { useParams } from 'react-router';
 import { TabItem } from './actor-tag-item';
 import { TabContent } from './actor-tag-content';
+
 interface TabsProps {
     color: string;
 }
+
 interface ActorInfo {
     name: string;
     gender: string;
@@ -23,6 +25,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const { actorId } = useParams();
     const [actorInfo, setActorInfo] = useState<ActorInfo | null>(null);
     const [films, setFilms] = useState<Array<FilmItem>>([]);
+    const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
     useEffect(() => {
         fetch(`http://localhost:8000/api/individuals/actors/${actorId}`)
@@ -38,12 +41,23 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
         setOpenTab(tabNumber);
         setActiveTab(tabNumber);
     };
+
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
+        const actorLink = `${window.location.origin}/actor/${actorId}`;
+        setCopiedLink(actorLink);
         setIsModalVisible(true);
     };
+
     const handleCancel = () => {
         setIsModalVisible(false);
+    };
+
+    const handleCopyLink = () => {
+        if (copiedLink) {
+            navigator.clipboard.writeText(copiedLink);
+            message.success('Sao chép thành công');
+        }
     };
 
     const tabContents = [
@@ -108,34 +122,36 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                 </div>
                             </div>
 
-                            <button className="btn-share" onClick={showModal}>
-                                <ShareAltOutlined />
-                                <p>Chia sẻ</p>
-                            </button>
-                            <Modal
-                                title="Chia sẻ"
-                                visible={isModalVisible}
-                                footer={null}
-                                onCancel={handleCancel}
-                                width={450}
-                            >
-                                <a className="modal-item" href="https://www.facebook.com/">
-                                    <img
-                                        className="modal-img"
-                                        src="https://www.iqiyipic.com/common/fix/global/fb.png"
-                                        alt="facebook"
-                                    />
-                                    Facebook
-                                </a>
-                                <a className="modal-item">
-                                    <img
-                                        className="modal-img"
-                                        src="https://www.iqiyipic.com/common/fix/global/copylink.png"
-                                        alt="addresss"
-                                    />
-                                    Sao chép liên kết
-                                </a>
-                            </Modal>
+                            <div>
+                                <button className="btn-share" onClick={showModal}>
+                                    <ShareAltOutlined />
+                                    <p>Chia sẻ</p>
+                                </button>
+                                <Modal
+                                    title="Chia sẻ"
+                                    visible={isModalVisible}
+                                    footer={null}
+                                    onCancel={handleCancel}
+                                    width={450}
+                                >
+                                    <a className="modal-item" href="https://www.facebook.com/">
+                                        <img
+                                            className="modal-img"
+                                            src="https://www.iqiyipic.com/common/fix/global/fb.png"
+                                            alt="facebook"
+                                        />
+                                        Facebook
+                                    </a>
+                                    <a className="modal-item" onClick={handleCopyLink}>
+                                        <img
+                                            className="modal-img"
+                                            src="https://www.iqiyipic.com/common/fix/global/copylink.png"
+                                            alt="addresss"
+                                        />
+                                        Sao chép liên kết
+                                    </a>
+                                </Modal>
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-wrap">

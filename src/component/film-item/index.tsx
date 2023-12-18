@@ -1,8 +1,8 @@
-import { CaretRightOutlined, CloseOutlined } from '@ant-design/icons';
+import { CaretRightOutlined } from '@ant-design/icons';
 import { Badge, Skeleton } from 'antd';
+import { useState } from 'react';
 import { Actors, Episodes } from '../../model/film';
 import './index.scss';
-import { useState } from 'react';
 
 export type FilmItem = {
     movieId?: number;
@@ -21,6 +21,7 @@ export type FilmItem = {
     data?: any;
     id?: number;
     backgroundURL?: string;
+    backgroundMovieURL?: string;
 };
 
 export const FilmItem = ({ title, releaseDate, genres, posterURL, episodeNum }: FilmItem) => {
