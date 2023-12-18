@@ -86,6 +86,7 @@ export const HomePage = () => {
                 },
             });
             setDataHistorymovies(response.data.data.ListMovie);
+            console.log('response.data.data.ListMovie', response.data.data.ListMovie);
         } catch (error) {
             console.error(error);
         }

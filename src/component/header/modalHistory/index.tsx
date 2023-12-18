@@ -38,14 +38,14 @@ export const ContentModalHistory = () => {
                     {result.id && result.movieId ? (
                         <Link to={`/movie/${result.movieId}/${result.id}`}>
                             <div className="flex gap-12 justify-center items-center mb-2">
-                                <img src={result.backgroundURL} alt="" className="w-36 h-16" />
+                                <img src={result.backgroundMovieURL} alt="" className="w-36 h-16" />
                                 <h1 className="text-black">{result.title}</h1>
                             </div>
                         </Link>
                     ) : (
                         <Link to={`/movie/${result.id || result.movieId}`}>
                             <div className="flex gap-5 justify-center items-center mb-2">
-                                <img src={result.backgroundURL} alt="" className="w-10 h-8" />
+                                <img src={result.backgroundMovieURL} alt="" className="w-10 h-8" />
                                 <h1 className="text-black">{result.title}</h1>
                             </div>
                         </Link>
