@@ -41,9 +41,8 @@
         margin-top: 10px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: 1;
         overflow: hidden;
-        height: 3rem;
         color: var(--contrast-color) !important;
     }
     :where(.css-dev-only-do-not-override-1vr7spz) a {

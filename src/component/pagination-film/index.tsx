@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
 import { CloseOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Col, Row, Pagination } from 'antd';
-import './index.scss';
-import { FilmItem } from '../film-item';
-import { Modal } from 'antd';
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setDataCollect } from '../../redux/dataCollectSlide';
+import { Col, Modal, Pagination, Row } from 'antd';
 import Cookies from 'js-cookie';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { request } from '../../utils/request';
+import { FilmItem } from '../film-item';
+import { FilmItemHistory } from '../film-item-history';
+import './index.scss';
 
 const moment = require('moment');
 
@@ -94,21 +92,51 @@ export const PaginationFilm = ({
                         <Col span={number} key={index}>
                             {result.id && result.movieId ? (
                                 <Link to={`/movie/${result.movieId}/${result.id}`}>
-                                    <FilmItem
-                                        title={result.title || ''}
-                                        episodeNum={result.episodeNum}
-                                        releaseDate={moment(result.releaseDate).format('YYYY') || 0}
-                                        posterURL={result.posterURL || ''}
-                                    />
+                                    {result.posterMovieURL ? (
+                                        <FilmItemHistory
+                                            title={result.title || ''}
+                                            episodeNum={result.episodeNum}
+                                            releaseDate={
+                                                moment(result.releaseDate).format('YYYY') || 0
+                                            }
+                                            posterURL={result.posterURL || ''}
+                                            posterMovieURL={result.posterMovieURL || ''}
+                                        />
+                                    ) : (
+                                        <FilmItem
+                                            title={result.title || ''}
+                                            episodeNum={result.episodeNum}
+                                            releaseDate={
+                                                moment(result.releaseDate).format('YYYY') || 0
+                                            }
+                                            posterURL={result.posterURL || ''}
+                                            posterMovieURL={result.posterMovieURL || ''}
+                                        />
+                                    )}
                                 </Link>
                             ) : (
                                 <Link to={`/movie/${result.id || result.movieId}`}>
-                                    <FilmItem
-                                        title={result.title || ''}
-                                        episodeNum={result.episodeNum}
-                                        releaseDate={moment(result.releaseDate).format('YYYY') || 0}
-                                        posterURL={result.posterURL || ''}
-                                    />
+                                    {result.posterMovieURL ? (
+                                        <FilmItemHistory
+                                            title={result.title || ''}
+                                            episodeNum={result.episodeNum}
+                                            releaseDate={
+                                                moment(result.releaseDate).format('YYYY') || 0
+                                            }
+                                            posterURL={result.posterURL || ''}
+                                            posterMovieURL={result.posterMovieURL || ''}
+                                        />
+                                    ) : (
+                                        <FilmItem
+                                            title={result.title || ''}
+                                            episodeNum={result.episodeNum}
+                                            releaseDate={
+                                                moment(result.releaseDate).format('YYYY') || 0
+                                            }
+                                            posterURL={result.posterURL || ''}
+                                            posterMovieURL={result.posterMovieURL || ''}
+                                        />
+                                    )}
                                 </Link>
                             )}
                             <button onClick={() => showModal(result)}>

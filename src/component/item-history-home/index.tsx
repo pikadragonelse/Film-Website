@@ -4,7 +4,7 @@ import { useState } from 'react';
 import './index.scss';
 import { FilmItem } from '../film-item';
 
-export const ItemHistoryHome = ({ title, backgroundMovieURL }: FilmItem) => {
+export const ItemHistoryHome = ({ title, backgroundMovieURL, movieTitle }: FilmItem) => {
     const [isLoadingImg, setIsLoadingImg] = useState(true);
 
     return (
@@ -27,7 +27,9 @@ export const ItemHistoryHome = ({ title, backgroundMovieURL }: FilmItem) => {
                         <CaretRightOutlined className="text-white" />
                     </div>
                 </div>
-                <h1 className="film-item-title max-w-[204px]">{title}</h1>
+                <p className="film-item-title !text-[13px]">
+                    {movieTitle} - {title}
+                </p>
             </div>
             <Button className="film-button-proccess text-center" icon={<CaretRightOutlined />}>
                 Xem tiếp !

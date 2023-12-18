@@ -22,31 +22,62 @@ export type FilmItem = {
     id?: number;
     backgroundURL?: string;
     backgroundMovieURL?: string;
+    posterMovieURL?: string;
+    movieTitle?: string;
 };
 
-export const FilmItem = ({ title, releaseDate, genres, posterURL, episodeNum }: FilmItem) => {
+export const FilmItem = ({ title, posterURL, posterMovieURL, movieTitle, level }: FilmItem) => {
     const [isLoadingImg, setIsLoadingImg] = useState(true);
 
     return (
-        <Badge.Ribbon text="Hot" color="red" className={`${isLoadingImg === true ? 'hidden' : ''}`}>
-            <div className="film-item-container relative">
-                <Skeleton.Image
-                    active
-                    className={`absolute z-10 h-full w-full ${
-                        isLoadingImg === false ? 'hidden' : ''
-                    }`}
-                />
-                <img
-                    src={posterURL}
-                    alt=""
-                    className="film-item-image"
-                    onLoad={() => setIsLoadingImg(false)}
-                />
-                <div className="btn-play z-10">
-                    <CaretRightOutlined className="text-white" />
+        <>
+            {level === 1 ? (
+                <Badge.Ribbon
+                    text="VIP"
+                    color="red"
+                    className={`${isLoadingImg === true ? 'hidden' : ''}`}
+                >
+                    <div className="film-item-container relative">
+                        <Skeleton.Image
+                            active
+                            className={`absolute z-10 h-full w-full ${
+                                isLoadingImg === false ? 'hidden' : ''
+                            }`}
+                        />
+                        <img
+                            src={posterURL}
+                            alt=""
+                            className="film-item-image"
+                            onLoad={() => setIsLoadingImg(false)}
+                        />
+                        <div className="btn-play z-10">
+                            <CaretRightOutlined className="text-white" />
+                        </div>
+                    </div>
+                    <h1 className="film-item-title max-w-[204px]">{title}</h1>
+                </Badge.Ribbon>
+            ) : (
+                <div className={`${isLoadingImg === true ? 'hidden' : ''}`}>
+                    <div className="film-item-container relative">
+                        <Skeleton.Image
+                            active
+                            className={`absolute z-10 h-full w-full ${
+                                isLoadingImg === false ? 'hidden' : ''
+                            }`}
+                        />
+                        <img
+                            src={posterURL}
+                            alt=""
+                            className="film-item-image"
+                            onLoad={() => setIsLoadingImg(false)}
+                        />
+                        <div className="btn-play z-10">
+                            <CaretRightOutlined className="text-white" />
+                        </div>
+                    </div>
+                    <h1 className="film-item-title max-w-[204px]">{title}</h1>
                 </div>
-            </div>
-            <h1 className="film-item-title max-w-[204px]">{title}</h1>
-        </Badge.Ribbon>
+            )}
+        </>
     );
 };

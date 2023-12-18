@@ -26,6 +26,7 @@ export const ListHistoryHome = ({ listFilm: searchResults }: PaginationFilmProps
                                         episodeNum={result.episodeNum}
                                         releaseDate={moment(result.releaseDate).format('YYYY') || 0}
                                         backgroundMovieURL={result.backgroundMovieURL || ''}
+                                        movieTitle={result.movieTitle}
                                     />
                                 </Link>
                             ) : (
@@ -35,6 +36,7 @@ export const ListHistoryHome = ({ listFilm: searchResults }: PaginationFilmProps
                                         episodeNum={result.episodeNum}
                                         releaseDate={moment(result.releaseDate).format('YYYY') || 0}
                                         backgroundURL={result.backgroundMovieURL || ''}
+                                        movieTitle={result.movieTitle}
                                     />
                                 </Link>
                             )}

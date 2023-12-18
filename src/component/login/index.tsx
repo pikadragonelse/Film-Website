@@ -82,7 +82,7 @@ export const Login: React.FC = () => {
                     />
                 </div>
                 <div className="form-info">
-                    <div className="form-header">
+                    <div className="form-header !ml-3">
                         <h1 className="form-header__large"> Chào mừng bạn, </h1>
                         <p className="form-header__small">
                             đăng nhập tài khoản để sử dụng MovTime.
@@ -114,7 +114,7 @@ export const Login: React.FC = () => {
                                     className="form-input"
                                     style={{
                                         width: '330px',
-                                        height: '42px',
+                                        height: '44px',
                                     }}
                                 />
                             </Form.Item>
@@ -133,7 +133,7 @@ export const Login: React.FC = () => {
                                 className="form-input"
                                 style={{
                                     width: '330px',
-                                    height: '42px',
+                                    height: '44px',
                                 }}
                             />
                         </Form.Item>
@@ -149,7 +149,7 @@ export const Login: React.FC = () => {
                             </Form.Item>
                             <Form.Item wrapperCol={{ span: 32 }}>
                                 <a
-                                    className="login-form-forgot !text-[14px]"
+                                    className="login-form-forgot !text-[14px] mr-5 "
                                     style={{ color: 'var(--primary-color)' }}
                                     href="forget"
                                 >
@@ -159,7 +159,7 @@ export const Login: React.FC = () => {
                         </div>
                         <Form.Item>
                             <Button
-                                className="form-btn-login mt-2"
+                                className="form-btn-login !h-[44px]"
                                 type="primary"
                                 htmlType="submit"
                                 loading={loading}
@@ -167,7 +167,7 @@ export const Login: React.FC = () => {
                                 Đăng nhập
                             </Button>
                         </Form.Item>
-                        <div className="form-change">
+                        <div className="form-change !mt-[2px] !mr-10">
                             Bạn mới sử dụng MovTime ? {}{' '}
                             <Link className="form-signup" to="/register">
                                 Đăng ký ngay

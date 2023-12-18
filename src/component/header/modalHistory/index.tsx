@@ -1,14 +1,12 @@
-import { CaretRightOutlined, RightOutlined } from '@ant-design/icons';
-import { Col, Row, Skeleton } from 'antd';
+import { RightOutlined } from '@ant-design/icons';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { request } from '../../../utils/request';
 import { FilmItem } from '../../film-item';
-import { ItemHistoryHome } from '../../item-history-home';
+import { Col, Row } from 'antd';
 
 const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-const moment = require('moment');
 
 export const ContentModalHistory = () => {
     const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
@@ -34,13 +32,28 @@ export const ContentModalHistory = () => {
     return (
         <div>
             {dataHistorymovies.map((result, index) => (
-                <div key={index} className="mr-5">
+                <div key={index}>
                     {result.id && result.movieId ? (
                         <Link to={`/movie/${result.movieId}/${result.id}`}>
-                            <div className="flex gap-12 justify-center items-center mb-2">
-                                <img src={result.backgroundMovieURL} alt="" className="w-36 h-16" />
-                                <h1 className="text-black">{result.title}</h1>
-                            </div>
+                            <Row className=" hover:bg-[#e9e9e9] py-2 ">
+                                <Col span={8}>
+                                    <img
+                                        src={result.backgroundMovieURL}
+                                        alt=""
+                                        className="w-36 h-16"
+                                    />
+                                </Col>
+                                <Col span={13}>
+                                    <h1 className="text-black !text-sm ml-1 hover:text-[#cc0e0e]">
+                                        {result.movieTitle}
+                                    </h1>
+                                </Col>
+                                <Col span={3}>
+                                    <p className="text-black !text-sm hover:text-[#cc0e0e]">
+                                        - {result.title}
+                                    </p>
+                                </Col>
+                            </Row>
                         </Link>
                     ) : (
                         <Link to={`/movie/${result.id || result.movieId}`}>

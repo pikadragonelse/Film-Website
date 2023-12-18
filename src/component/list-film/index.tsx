@@ -126,6 +126,7 @@ export const ListFilm = ({
                                                 episodeNum={value.episodeNum}
                                                 // genres={value.genres.map((genre: any) => genre.name)}
                                                 posterURL={value.posterURL}
+                                                level={value.level}
                                             />
                                         </Link>
                                     </Col>
