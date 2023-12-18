@@ -32,8 +32,8 @@ export const LoginForget: React.FC = () => {
                     />
                 </div>
                 <div className="form-info-forgot">
-                    <div className="form-header">
-                        <h1 className="form-header__large"> Chào mừng bạn, </h1>
+                    <div className="form-header !ml-2">
+                        <h1 className="form-header__large "> Chào mừng bạn, </h1>
                         <p className="form-header__small">nhập email để lấy lại tài khoản.</p>
                     </div>
                     <Form
@@ -63,7 +63,7 @@ export const LoginForget: React.FC = () => {
                                     className="form-input"
                                     style={{
                                         width: '330px',
-                                        height: '42px',
+                                        height: '44px',
                                     }}
                                 />
                             </Form.Item>
@@ -71,7 +71,7 @@ export const LoginForget: React.FC = () => {
 
                         <Form.Item>
                             <Button
-                                className="form-btn-login"
+                                className="form-btn-login !h-[46px]"
                                 type="primary"
                                 htmlType="submit"
                                 loading={loading}
@@ -79,7 +79,7 @@ export const LoginForget: React.FC = () => {
                                 Xác nhận
                             </Button>
                         </Form.Item>
-                        <div className="form-change">
+                        <div className="form-change !mt-2">
                             Bạn mới sử dụng MovTime ? {}{' '}
                             <Link className="form-signup" to="/register">
                                 Đăng ký ngay

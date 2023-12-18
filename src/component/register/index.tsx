@@ -134,7 +134,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="username"
-                            label={<span style={{ color: 'white' }}>Tên đăng ký</span>}
+                            label={<span style={{ color: 'white' }}>Tên đăng nhập</span>}
                             rules={[
                                 {
                                     required: true,
@@ -162,7 +162,7 @@ export const Register: React.FC = () => {
                         <Form.Item
                             className="register-form__item"
                             name="confirm"
-                            label={<span style={{ color: 'white' }}>Xác nhận mật khẩu </span>}
+                            label={<span style={{ color: 'white' }}>Xác nhận lại mật khẩu </span>}
                             dependencies={['password']}
                             hasFeedback
                             rules={[
@@ -209,7 +209,7 @@ export const Register: React.FC = () => {
                                 ]}
                             >
                                 <Select
-                                    placeholder="Select gender"
+                                    placeholder="Chọn giới tính"
                                     style={{
                                         width: '180px',
                                         borderRadius: '7px',
