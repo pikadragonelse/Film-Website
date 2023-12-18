@@ -1,5 +1,5 @@
 import { ShareAltOutlined } from '@ant-design/icons';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { TabItem } from './director-tag-item';
 import './index.scss';
@@ -23,6 +23,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     const { directorId } = useParams();
     const [directorInfo, setDirectorInfo] = useState<DirectorInfo | null>(null);
     const [films, setFilms] = useState<Array<FilmItem>>([]);
+    const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
     useEffect(() => {
         fetch(`http://localhost:8000/api/individuals/directors/${directorId}`)
@@ -42,10 +43,18 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     };
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
+        const actorLink = `${window.location.origin}/directors/${directorId}`;
+        setCopiedLink(actorLink);
         setIsModalVisible(true);
     };
     const handleCancel = () => {
         setIsModalVisible(false);
+    };
+    const handleCopyLink = () => {
+        if (copiedLink) {
+            navigator.clipboard.writeText(copiedLink);
+            message.success('Sao chép thành công');
+        }
     };
 
     const tabContents = [
@@ -131,7 +140,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                                     />
                                     Facebook
                                 </a>
-                                <a className="modal-item">
+                                <a className="modal-item" onClick={handleCopyLink}>
                                     <img
                                         className="modal-img"
                                         src="https://www.iqiyipic.com/common/fix/global/copylink.png"

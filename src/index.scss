@@ -144,6 +144,9 @@ ul {
     color: var(--contrast-color) !important;
 }
 
+.ant-message {
+    z-index: 999099999999999999 !important;
+}
 .ant-modal-title,
 .ant-modal-close {
     color: var(--contrast-color) !important;
