@@ -100,8 +100,8 @@ export const Register: React.FC = () => {
                 </div>
                 <div className="register-form">
                     <div className="register-form__header">
-                        <h1 className="form-header__large">Welcome to Movies,</h1>
-                        <p className="form-header__small">Sign up to your account</p>
+                        <h1 className="form-header__large">Chào mừng bạn,</h1>
+                        <p className="form-header__small">đăng kí tài khoản để sử dụng MovTime.</p>
                     </div>
                     <Form
                         className="register-form__group"

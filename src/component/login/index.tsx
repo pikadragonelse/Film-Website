@@ -83,8 +83,10 @@ export const Login: React.FC = () => {
                 </div>
                 <div className="form-info">
                     <div className="form-header">
-                        <h1 className="form-header__large"> Welcome Back, </h1>
-                        <p className="form-header__small">Sign in to your account</p>
+                        <h1 className="form-header__large"> Chào mừng bạn, </h1>
+                        <p className="form-header__small">
+                            đăng nhập tài khoản để sử dụng MovTime.
+                        </p>
                     </div>
                     <Form
                         className="form-group"
