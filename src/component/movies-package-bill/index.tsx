@@ -8,12 +8,15 @@ import { LogoDark } from '../../asset/icon/logoDark';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { VNPayReturnDataRaw, VNPayReturnDataRawDefault } from '../../model/VNPay';
+import moment from 'moment';
+import { getNextDateByMonth } from '../../utils/getNextDateByMonth';
 
 export const MoviesPackageBill = () => {
     const location = useLocation();
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [dataBillReturn, setDataBillReturn] =
         useState<VNPayReturnDataRaw>(VNPayReturnDataRawDefault);
+    const [dataUser, setDataUser] = useState<{ username?: string; email?: string }>({});
 
     const verifyBill = () => {
         axios
@@ -27,38 +30,64 @@ export const MoviesPackageBill = () => {
             .catch((err) => console.log(err));
     };
 
+    const getUserInfo = () => {
+        axios
+            .get('http://localhost:8000/api/user/get-user', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + accessToken,
+                },
+                params: { userId: dataBillReturn.vnp_OrderInfo.split(' ')[0].split('_')[1] },
+            })
+            .then((res) => {
+                setDataUser(res.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     useEffect(() => {
         verifyBill();
+        getUserInfo();
     }, []);
 
     const currentDate = new Date();
 
+    const arrCutInfo = dataBillReturn.vnp_OrderInfo.split(' ');
+
     const billItems = [
         {
             title: 'Tên gói',
-            content: 'Vip 1',
+            content: arrCutInfo[arrCutInfo.length - 4] + ' ' + arrCutInfo[arrCutInfo.length - 3],
         },
         {
             title: 'Thời hạn',
-            content: dataBillReturn.vnp_OrderInfo,
+            content: arrCutInfo[arrCutInfo.length - 2] + ' ' + arrCutInfo[arrCutInfo.length - 1],
         },
 
         {
             title: 'Phương thức thanh toán',
-            content: 'VNPay ' + dataBillReturn.vnp_BankCode + ' ' + dataBillReturn.vnp_CardType,
+            content:
+                'VNPay, Bank: ' +
+                dataBillReturn.vnp_BankCode +
+                ', Card: ' +
+                dataBillReturn.vnp_CardType,
         },
 
         {
             title: 'Thời gian tạo đơn',
-            content: `${new Date('20231212144602').toString()}`,
+            content: moment(currentDate).format('DD/MM/YYYY'),
         },
         {
             title: 'Ngày bắt đầu dịch vụ',
-            content: currentDate.toDateString(),
+            content: moment(currentDate).format('DD/MM/YYYY'),
         },
         {
             title: 'Ngày kết thúc dịch vụ',
-            content: currentDate.toDateString(),
+            content: moment(getNextDateByMonth(Number(arrCutInfo[arrCutInfo.length - 2]))).format(
+                'DD/MM/YYYY',
+            ),
         },
     ];
 
@@ -71,16 +100,20 @@ export const MoviesPackageBill = () => {
                     </div>
                 </div>
                 <div className="text-gray-700">
-                    <div className="text-sm">Date: {currentDate.toDateString()}</div>
+                    <div className="text-sm">
+                        Thời gian: {moment(currentDate).format('DD/MM/YYYY')}
+                    </div>
                     <div className="text-sm">MovTime ID: {dataBillReturn.vnp_ResponseCode}</div>
                 </div>
             </div>
             <div className="border-b-2 border-gray-100 pb-8 mb-8">
-                <h2 className="text-2xl font-bold mb-4">Bill To:</h2>
-                <div className="text-gray-800 mb-2">Yến Nhi</div>
-                <div className="text-gray-700 mb-2">268 Âu Cơ St.</div>
-                <div className="text-gray-700 mb-2">Đà Nẵng, Việt Nam </div>
-                <div className="text-gray-700">yennhi@gmail.com</div>
+                <h2 className="text-2xl font-bold mb-4">Người Thanh toán</h2>
+                <p className="text-zinc-800 text-lg">
+                    <span className="font-semibold">Username:</span> {dataUser.username}
+                </p>
+                <p className="text-zinc-800 text-lg">
+                    <span className="font-semibold">Email:</span> {dataUser.email}
+                </p>
             </div>
             <ul className=" bill-list__info border-b-2 border-gray-100 pb-8 mb-8">
                 <div className="bill-list__info-head">
