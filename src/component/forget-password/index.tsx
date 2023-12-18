@@ -33,8 +33,8 @@ export const LoginForget: React.FC = () => {
                 </div>
                 <div className="form-info-forgot">
                     <div className="form-header">
-                        <h1 className="form-header__large"> Welcome Back, </h1>
-                        <p className="form-header__small">Sign in to your account</p>
+                        <h1 className="form-header__large"> Chào mừng bạn, </h1>
+                        <p className="form-header__small">nhập email để lấy lại tài khoản.</p>
                     </div>
                     <Form
                         className="form-group mt-20"

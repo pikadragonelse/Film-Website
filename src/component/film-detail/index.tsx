@@ -27,7 +27,6 @@ export const FilmDetail = () => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
-    const [showLoginModal, setShowLoginModal] = useState(false);
     //bộ sưu tập
     const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
     //yêu thích
@@ -45,11 +44,9 @@ export const FilmDetail = () => {
             message: 'Thông báo',
             description: 'Vui lòng đăng nhập để thực hiện hành động này.',
         });
-        setShowLoginModal(true);
     };
     const handleShare = () => {
-        if (isUserLoggedIn) {
-        } else {
+        if (!isUserLoggedIn) {
             handleUnauthorizedAction();
         }
     };
@@ -125,12 +122,20 @@ export const FilmDetail = () => {
 
     useEffect(() => {
         fetchData();
+    }, []);
+
+    useEffect(() => {
         fetchWatchLaterList();
+    }, [addedToCollection]);
+
+    useEffect(() => {
         fetchLoveList();
+    }, [addedToLove]);
+
+    useEffect(() => {
         fetchDataAndWatchLaterList();
         fetchDataAndLoveList();
     }, [isUserLoggedIn, id, filmDetail, dataCollect, dataLove]);
-
     if (!filmDetail) {
         return <Spin spinning={loading} size="large" className="mt-96" />;
     }
@@ -142,6 +147,9 @@ export const FilmDetail = () => {
 
     //api add bộ sưu tập
     const handleAddToCollection = async () => {
+        if (!isUserLoggedIn) {
+            handleShare();
+        }
         if (filmDetail && filmDetail.movieId) {
             const isFilmDetailInWatchLater = dataCollect.some(
                 (item: FilmItem) => item.id === filmDetail.movieId,
@@ -178,6 +186,9 @@ export const FilmDetail = () => {
     };
     //api love movie
     const handleAddToLove = async () => {
+        if (!isUserLoggedIn) {
+            handleShare();
+        }
         if (filmDetail && filmDetail.movieId) {
             const isFilmDetailInLove = dataLove.some(
                 (item: FilmItem) => item.id === filmDetail.movieId,

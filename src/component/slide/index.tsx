@@ -4,7 +4,8 @@ import {
     HeartOutlined,
     ShareAltOutlined,
 } from '@ant-design/icons';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin, notification } from 'antd';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
@@ -13,6 +14,10 @@ import { Link } from 'react-router-dom';
 import { Start } from '../../asset/icon/start';
 import { RootState } from '../../redux/store';
 import './index.scss';
+import { ColectIcon, ColectedIcon } from '../../asset/icon/collectionIcon';
+import { FilmItem } from '../film-item';
+import { request } from '../../utils/request';
+import Cookies from 'js-cookie';
 
 interface Movie {
     movieId: number;
@@ -32,19 +37,20 @@ interface Genres {
 const Slide: React.FC = () => {
     const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [isHeartFilled, setIsHeartFilled] = useState<boolean[]>([]);
     const [isTitleVisible, setIsTitleVisible] = useState(false);
-
+    const [movieId, setMovieId] = useState<number>(0);
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
-
-    useEffect(() => {
+    const carouselRef = useRef<Carousel>(null);
+    const fetchData = () => {
         fetch('http://localhost:8000/api/movies')
             .then((res) => res.json())
             .then((data) => {
                 setPopularMovies(data.movies);
-                setIsHeartFilled(new Array(data.length).fill(false));
             })
             .catch((err) => console.log(err));
+    };
+    useEffect(() => {
+        fetchData();
     }, []);
 
     const handleCarouselChange = () => {
@@ -68,17 +74,187 @@ const Slide: React.FC = () => {
         }
     };
 
-    const handleHeartClick = (index: number) => {
-        if (isUserLoggedIn) {
-            const updatedHearts = [...isHeartFilled];
-            updatedHearts[index] = !updatedHearts[index];
-            setIsHeartFilled(updatedHearts);
-        } else {
-            setModalVisible(true);
+    //bộ sưu tập
+    const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    // const [filmDetail, setFilmDetail] = useState<any>(null);
+    //yêu thích
+    const [addedToLove, setAddedToLove] = useState<boolean>(false);
+    const [dataLove, setDataLove] = useState<FilmItem[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    //check watch later
+    const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
+    const handleUnauthorizedAction = () => {
+        notification.warning({
+            message: 'Thông báo',
+            description: 'Vui lòng đăng nhập để thực hiện hành động này.',
+        });
+    };
+    const handleShare = () => {
+        if (!isUserLoggedIn) {
+            handleUnauthorizedAction();
         }
     };
 
-    const carouselRef = useRef<Carousel>(null);
+    const fetchWatchLaterList = async () => {
+        try {
+            const response = await request.get('user/get-watch-movie-list?page=1&pageSize=100', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data?.data?.ListMovie;
+            setDataCollect(data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const checkFilmDetailsInCollections = (movieId: number, dataCollect: FilmItem[]) => {
+        if (movieId) {
+            const isFilmDetailInWatchLater = dataCollect.some(
+                (item: FilmItem) => item.id === movieId,
+            );
+            setAddedToCollection(isFilmDetailInWatchLater);
+        }
+    };
+    const fetchDataAndWatchLaterList = async () => {
+        checkFilmDetailsInCollections(movieId, dataCollect);
+    };
+    //check lovemovie
+    const fetchLoveList = async () => {
+        try {
+            const response = await request.get('user/get-favorite-movie-list?page=1&pageSize=100', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data?.data?.ListMovie;
+            setDataLove(data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const checkFilmDetailsInLove = (movieId: number, dataLove: FilmItem[]) => {
+        if (movieId) {
+            const isFilmDetailInLove = dataLove.some((item: FilmItem) => item.id === movieId);
+            setAddedToLove(isFilmDetailInLove);
+        }
+    };
+
+    const fetchDataAndLoveList = async () => {
+        checkFilmDetailsInLove(movieId, dataLove);
+    };
+
+    useEffect(() => {
+        fetchWatchLaterList();
+    }, [addedToCollection]);
+
+    useEffect(() => {
+        fetchLoveList();
+    }, [addedToLove]);
+
+    useEffect(() => {
+        fetchDataAndWatchLaterList();
+        fetchDataAndLoveList();
+    }, [isUserLoggedIn, movieId, dataCollect, dataLove]);
+    // if (!filmDetail) {
+    //     return <Spin spinning={loading} size="large" className="mt-96" />;
+    // }
+
+    //api add bộ sưu tập
+    const handleAddToCollection = async (movieId: number) => {
+        if (!isUserLoggedIn) {
+            handleShare();
+        }
+        if (movieId) {
+            const isFilmDetailInWatchLater = dataCollect.some(
+                (item: FilmItem) => item.id === movieId,
+            );
+            if (!isFilmDetailInWatchLater) {
+                try {
+                    const response = await request.get(`user/add-watch-list?movieId=${movieId}`, {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    });
+                    if (response.data.status === 'Ok!') {
+                        setAddedToCollection(true);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            if (isFilmDetailInWatchLater) {
+                try {
+                    const response = await request.delete(
+                        `user/delete-watch-list?movieId=${movieId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        },
+                    );
+                    if (response.data.status === 'Ok!') {
+                        setAddedToCollection(false);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    };
+    //api love movie
+    const handleAddToLove = async (movieId: number) => {
+        setMovieId(movieId);
+        if (!isUserLoggedIn) {
+            handleShare();
+        }
+        if (movieId) {
+            const isFilmDetailInLove = dataLove.some((item: FilmItem) => item.id === movieId);
+            if (!isFilmDetailInLove) {
+                try {
+                    const response = await request.get(
+                        `user/add-favorite-movie?movieId=${movieId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        },
+                    );
+                    if (response.data.status === 'Ok!') {
+                        setAddedToLove(true);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+            if (isFilmDetailInLove) {
+                try {
+                    const response = await request.delete(
+                        `user/delete-favorite-movie?movieId=${movieId}`,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        },
+                    );
+                    if (response.data.status === 'Ok!') {
+                        setAddedToLove(false);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        }
+    };
+
     return (
         <>
             <div className="poster">
@@ -91,6 +267,10 @@ const Slide: React.FC = () => {
                     showStatus={false}
                     ref={carouselRef}
                     showIndicators={false}
+                    onChange={(index) => {
+                        const movieId = popularMovies[index]?.movieId;
+                        setMovieId(movieId);
+                    }}
                 >
                     {popularMovies.map((movie, index) => (
                         <div className="poster__item slide-item" key={movie.movieId}>
@@ -171,19 +351,23 @@ const Slide: React.FC = () => {
                                         Xem ngay
                                     </Link>
 
-                                    {isHeartFilled[index] ? (
-                                        <HeartFilled
-                                            twoToneColor="#cf1a1a"
-                                            style={{ color: '#cf1a1a' }}
-                                            className="btn-heart btn-heart__click"
-                                            onClick={() => handleHeartClick(index)}
-                                        />
-                                    ) : (
-                                        <HeartOutlined
-                                            className="btn-heart"
-                                            onClick={() => handleHeartClick(index)}
-                                        />
-                                    )}
+                                    <button
+                                        className=" mr-4 "
+                                        onClick={() => handleAddToLove(movie.movieId)}
+                                    >
+                                        {addedToLove ? (
+                                            <HeartFilled
+                                                style={{ color: '#cf1a1a' }}
+                                                className="btn-heart"
+                                            />
+                                        ) : (
+                                            <HeartOutlined className="btn-heart" />
+                                        )}
+                                    </button>
+                                    <button onClick={() => handleAddToCollection(movie.movieId)}>
+                                        {addedToCollection ? <ColectedIcon /> : <ColectIcon />}
+                                    </button>
+
                                     <ShareAltOutlined
                                         className="btn-heart ml-4"
                                         onClick={handleShareClick}
