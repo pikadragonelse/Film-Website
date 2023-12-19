@@ -22,8 +22,10 @@ export const SearchPage: React.FC = () => {
     const navigate = useNavigate();
 
     const getDataBySearchParams = (searchParams: string) => {
+        console.log(searchParams);
+
         axios
-            .get(`${endpoint}/api/movies${searchParams}&page=${currPage}&pageSize=12`)
+            .get(`${endpoint}/api/movies?${searchParams}&page=${currPage}&pageSize=12`)
             .then((res) => {
                 setSearchResults(res.data.movies);
                 setAmountMovies(res.data.totalCount);
@@ -33,15 +35,17 @@ export const SearchPage: React.FC = () => {
     };
 
     useEffect(() => {
+        console.log(window.location.hash.split('?'));
+
         setIsLoading(true);
-        getDataBySearchParams(window.location.search);
-        const paramsObj = handleSearchParams(window.location.search);
+        getDataBySearchParams(window.location.hash.split('?')[1]);
+        const paramsObj = handleSearchParams(window.location.hash.split('?')[1]);
         delete paramsObj['search'];
         setFilterParamsState(convertParams(paramsObj));
     }, [search, currPage]);
 
     const handleSetFilterParams = async () => {
-        let str = '?';
+        let str = '';
         const arrValueFilterParams = Object.values(filterParamsState);
         let count = 0;
         for (let key in filterParamsState) {
