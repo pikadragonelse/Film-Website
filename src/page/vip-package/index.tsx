@@ -47,7 +47,6 @@ export const VIPPackage = () => {
     const [dataInfoPackage, setDataInfoPackage] = useState<DataTable[]>();
     const [dataVIPPackage, setDataVIPPackage] = useState<VIPPackageRaw[]>();
     const idPackage = useAppSelector((state) => state.VIPPayment.subscriptionTypeId);
-    const dispatch = useAppDispatch();
 
     const getVipPackage = () => {
         axios
@@ -55,6 +54,7 @@ export const VIPPackage = () => {
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => {
+                response.data.data.shift();
                 setDataVIPPackage(response.data.data);
                 // dispatch(setIdSelectedInfoPackage(response.data.subscriptionTypeId));
             })

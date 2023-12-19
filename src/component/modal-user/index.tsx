@@ -1,5 +1,5 @@
-import { Modal, Upload } from 'antd';
-import React, { ReactNode } from 'react';
+import { Modal } from 'antd';
+import { ReactNode } from 'react';
 
 export type ModalUser = {
     open?: boolean;
