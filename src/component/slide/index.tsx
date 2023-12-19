@@ -18,6 +18,7 @@ import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import './index.scss';
+import QrCode from 'antd/es/qr-code';
 
 interface Movie {
     movieId: number;
@@ -85,6 +86,15 @@ const Slide: React.FC = () => {
                 if (response.ok) {
                     const data = await response.json();
                     setQrCodeUrl(data.qrCode);
+                    if (typeof data.qrCode === 'string') {
+                        const regex = /(data:image\/png;base64,[^'"]+)/;
+                        const match = data.qrCode.match(regex);
+
+                        if (match) {
+                            const base64Value = match[1];
+                            setQrCodeUrl(base64Value || '');
+                        }
+                    }
                     setShareModalVisible(true);
                 } else {
                     console.error('Failed to fetch QR code URL');
@@ -104,7 +114,7 @@ const Slide: React.FC = () => {
         }
     };
 
-    console.log('data', qrCode);
+    console.log(qrCode);
 
     //bộ sưu tập
     const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
@@ -465,7 +475,15 @@ const Slide: React.FC = () => {
                     <Divider className="!bg-gray-600" />
                     <div className="flex flex-col justify-center items-center mt-4">
                         <p>Quét để chia sẻ trên thiết bị di động</p>
-                        {qrCode ? <>{qrCode}</> : <Spin></Spin>}
+                        {qrCode ? (
+                            <img
+                                src={qrCode}
+                                alt="QR Code"
+                                style={{ width: '180px', height: '180px', marginTop: '15px' }}
+                            />
+                        ) : (
+                            <Spin></Spin>
+                        )}
                     </div>
                 </Modal>
             </div>
