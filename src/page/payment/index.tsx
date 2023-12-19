@@ -9,7 +9,6 @@ import { useAppSelector } from '../../redux/hook';
 export const Payment = () => {
     const [selectedTerm, setSelectedTerm] = useState<TermPackage | null>(null);
     const [selectedMethod, setSelectedMethod] = useState(1);
-    const idVIPPackage = useAppSelector((state) => state.VIPPayment.subscriptionTypeId);
 
     return (
         <>

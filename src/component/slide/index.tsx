@@ -4,21 +4,22 @@ import {
     HeartOutlined,
     ShareAltOutlined,
 } from '@ant-design/icons';
-import { Button, Modal, Spin, notification } from 'antd';
+import { Button, Divider, Modal, Spin, message } from 'antd';
 
+import Cookies from 'js-cookie';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Link } from 'react-router-dom';
+import { ColectIcon, ColectedIcon } from '../../asset/icon/collectionIcon';
 import { Start } from '../../asset/icon/start';
 import { RootState } from '../../redux/store';
-import './index.scss';
-import { ColectIcon, ColectedIcon } from '../../asset/icon/collectionIcon';
-import { FilmItem } from '../film-item';
 import { request } from '../../utils/request';
-import Cookies from 'js-cookie';
 import { endpoint } from '../../utils/baseUrl';
+import { FilmItem } from '../film-item';
+import QrCode from 'antd/es/qr-code';
+import './index.scss';
 
 interface Movie {
     movieId: number;
@@ -41,6 +42,10 @@ const Slide: React.FC = () => {
     const [isTitleVisible, setIsTitleVisible] = useState(false);
     const [movieId, setMovieId] = useState<number>(0);
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
+    const [shareModalVisible, setShareModalVisible] = useState(false);
+    const [copiedLink, setCopiedLink] = useState<string | null>(null);
+    const [qrCode, setQrCodeUrl] = useState<string | null>(null);
+
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {
         fetch(`${endpoint}/api/movies`)
@@ -68,12 +73,49 @@ const Slide: React.FC = () => {
         return new Date(dateString).toLocaleDateString(undefined, options);
     }
 
-    const handleShareClick = () => {
+    const handleShareClick = async () => {
         if (isUserLoggedIn) {
+            const currentIndex = carouselRef.current?.state.selectedItem ?? 0;
+            const movieId = popularMovies[currentIndex]?.movieId;
+            const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
+
+            try {
+                const response = await fetch(
+                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setQrCodeUrl(data.qrCode);
+                    if (typeof data.qrCode === 'string') {
+                        const regex = /(data:image\/png;base64,[^'"]+)/;
+                        const match = data.qrCode.match(regex);
+
+                        if (match) {
+                            const base64Value = match[1];
+                            setQrCodeUrl(base64Value || '');
+                        }
+                    }
+                    setShareModalVisible(true);
+                } else {
+                    console.error('Failed to fetch QR code URL');
+                }
+            } catch (error) {
+                console.error(error);
+            }
         } else {
             setModalVisible(true);
         }
     };
+
+    const handleCopyLink = () => {
+        if (copiedLink) {
+            navigator.clipboard.writeText(copiedLink);
+            message.success('Sao chép thành công');
+        }
+    };
+
+    console.log(qrCode);
 
     //bộ sưu tập
     const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
@@ -86,17 +128,6 @@ const Slide: React.FC = () => {
 
     //check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
-    const handleUnauthorizedAction = () => {
-        notification.warning({
-            message: 'Thông báo',
-            description: 'Vui lòng đăng nhập để thực hiện hành động này.',
-        });
-    };
-    const handleShare = () => {
-        if (!isUserLoggedIn) {
-            handleUnauthorizedAction();
-        }
-    };
 
     const fetchWatchLaterList = async () => {
         try {
@@ -114,7 +145,7 @@ const Slide: React.FC = () => {
         }
     };
 
-    const checkFilmDetailsInCollections = (movieId: number, dataCollect: FilmItem[]) => {
+    const checkFilmDetailsInCollections = (movieId: number, dataCollect: FilmItem[] = []) => {
         if (movieId) {
             const isFilmDetailInWatchLater = dataCollect.some(
                 (item: FilmItem) => item.id === movieId,
@@ -142,7 +173,7 @@ const Slide: React.FC = () => {
         }
     };
 
-    const checkFilmDetailsInLove = (movieId: number, dataLove: FilmItem[]) => {
+    const checkFilmDetailsInLove = (movieId: number, dataLove: FilmItem[] = []) => {
         if (movieId) {
             const isFilmDetailInLove = dataLove.some((item: FilmItem) => item.id === movieId);
             setAddedToLove(isFilmDetailInLove);
@@ -172,9 +203,10 @@ const Slide: React.FC = () => {
     //api add bộ sưu tập
     const handleAddToCollection = async (movieId: number) => {
         if (!isUserLoggedIn) {
-            handleShare();
+            setModalVisible(true);
         }
-        if (movieId) {
+        if (movieId && dataCollect) {
+            // Add a check for dataCollect
             const isFilmDetailInWatchLater = dataCollect.some(
                 (item: FilmItem) => item.id === movieId,
             );
@@ -211,13 +243,15 @@ const Slide: React.FC = () => {
             }
         }
     };
+
     //api love movie
     const handleAddToLove = async (movieId: number) => {
         setMovieId(movieId);
         if (!isUserLoggedIn) {
-            handleShare();
+            setModalVisible(true);
         }
-        if (movieId) {
+        if (movieId && dataLove) {
+            // Add a check for dataLove
             const isFilmDetailInLove = dataLove.some((item: FilmItem) => item.id === movieId);
             if (!isFilmDetailInLove) {
                 try {
@@ -271,6 +305,7 @@ const Slide: React.FC = () => {
                     onChange={(index) => {
                         const movieId = popularMovies[index]?.movieId;
                         setMovieId(movieId);
+                        setCopiedLink(`${window.location.origin}/movie/${movieId}`);
                     }}
                 >
                     {popularMovies.map((movie, index) => (
@@ -371,7 +406,7 @@ const Slide: React.FC = () => {
 
                                     <ShareAltOutlined
                                         className="btn-heart ml-4"
-                                        onClick={handleShareClick}
+                                        onClick={() => handleShareClick()}
                                     />
                                 </div>
                             </div>
@@ -403,6 +438,54 @@ const Slide: React.FC = () => {
                         </Link>{' '}
                         để tiếp tục sử dụng dịch vụ.
                     </p>
+                </Modal>
+
+                <Modal
+                    title={<p className="flex items-center justify-center mb-2">Chia sẻ</p>}
+                    visible={shareModalVisible}
+                    footer={null}
+                    onCancel={() => setShareModalVisible(false)}
+                    width={450}
+                >
+                    <div className="flex gap-10 items-center justify-center">
+                        <a
+                            className="modal-item flex flex-col items-center"
+                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                copiedLink || '',
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img
+                                className="modal-img ml-4"
+                                src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
+                                alt="facebook"
+                            />
+                            <p className="text-sm mt-2"> Facebook</p>
+                        </a>
+
+                        <a className="modal-item  flex flex-col" onClick={handleCopyLink}>
+                            <img
+                                className="modal-img ml-4"
+                                src="https://www.iqiyipic.com/lequ/20220216/copylink@2x.png"
+                                alt="addresss"
+                            />
+                            <p className="text-sm mt-2">Sao chép link</p>
+                        </a>
+                    </div>
+                    <Divider className="!bg-gray-600" />
+                    <div className="flex flex-col justify-center items-center mt-4">
+                        <p>Quét để chia sẻ trên thiết bị di động</p>
+                        {qrCode ? (
+                            <img
+                                src={qrCode}
+                                alt="QR Code"
+                                style={{ width: '180px', height: '180px', marginTop: '15px' }}
+                            />
+                        ) : (
+                            <Spin></Spin>
+                        )}
+                    </div>
                 </Modal>
             </div>
         </>

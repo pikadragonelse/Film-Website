@@ -8,7 +8,7 @@
 
         &::before {
             border-top: 15px solid transparent;
-            border-bottom: 15px solid transparent
+            border-bottom: 15px solid transparent;
         }
     }
     .control-next.control-arrow:before {
@@ -39,7 +39,7 @@
     }
 
     &__image {
-        height: auto;
+        height: 90%;
     }
 
     &__image > img {
