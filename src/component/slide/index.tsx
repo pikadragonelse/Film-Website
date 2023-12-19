@@ -18,7 +18,6 @@ import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import './index.scss';
-import QrCode from 'antd/es/qr-code';
 
 interface Movie {
     movieId: number;
