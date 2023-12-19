@@ -18,6 +18,7 @@ import { ColectIcon, ColectedIcon } from '../../asset/icon/collectionIcon';
 import { FilmItem } from '../film-item';
 import { request } from '../../utils/request';
 import Cookies from 'js-cookie';
+import { endpoint } from '../../utils/baseUrl';
 
 interface Movie {
     movieId: number;
@@ -42,7 +43,7 @@ const Slide: React.FC = () => {
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {
-        fetch('http://localhost:8000/api/movies')
+        fetch(`${endpoint}/api/movies`)
             .then((res) => res.json())
             .then((data) => {
                 setPopularMovies(data.movies);

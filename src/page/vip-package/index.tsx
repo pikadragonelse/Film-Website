@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { setDurationData } from '../../redux/durationSlice';
 import { DurationVIP } from '../../model/duration-VIP';
 import { setIdSelectedInfoPackage } from '../../redux/VIPPaymentSlice';
+import { endpoint } from '../../utils/baseUrl';
 
 const data = [
     {
@@ -50,7 +51,7 @@ export const VIPPackage = () => {
 
     const getVipPackage = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-type', {
+            .get(`${endpoint}/api/subscription/get-all-subscription-type`, {
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => {

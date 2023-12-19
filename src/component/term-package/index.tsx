@@ -11,6 +11,7 @@ import {
     setTotalPrice,
 } from '../../redux/VIPPaymentSlice';
 import { useParams } from 'react-router-dom';
+import { endpoint } from '../../utils/baseUrl';
 
 export interface TermPackage {
     value: number;
@@ -27,7 +28,7 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
     const [terms, setTerms] = useState<DurationVIP[]>([]);
     const getDataDuration = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-info', {
+            .get(`${endpoint}/api/subscription/get-all-subscription-info`, {
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => {

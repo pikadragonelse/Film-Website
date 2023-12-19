@@ -6,6 +6,7 @@ import { FilmItem } from '../film-item';
 import { useParams } from 'react-router';
 import { TabItem } from './actor-tag-item';
 import { TabContent } from './actor-tag-content';
+import { endpoint } from '../../utils/baseUrl';
 
 interface TabsProps {
     color: string;
@@ -28,7 +29,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/individuals/actors/${actorId}`)
+        fetch(`${endpoint}/api/individuals/actors/${actorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setActorInfo(data.data);

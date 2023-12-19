@@ -10,6 +10,7 @@ import Slide from '../../component/slide';
 import { Film } from '../../model/film';
 import { request } from '../../utils/request';
 import './index.scss';
+import { endpoint } from '../../utils/baseUrl';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -38,12 +39,9 @@ export const HomePage = () => {
 
     const getMovieByGenre = async () => {
         try {
-            const response = await axios.get(
-                'http://localhost:8000/api/home/genres?page=1&pageSize=20',
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                },
-            );
+            const response = await axios.get(`${endpoint}/api/home/genres?page=1&pageSize=20`, {
+                headers: { 'Content-Type': 'application/json' },
+            });
             setDataMovieByGenre(response.data);
         } catch (error) {
             console.log(error);
@@ -55,7 +53,7 @@ export const HomePage = () => {
     const getActorFamous = async () => {
         try {
             const response = await axios.get(
-                'http://localhost:8000/api/individuals/actors?page=1&pageSize=20',
+                `${endpoint}/api/individuals/actors?page=1&pageSize=20`,
             );
             setDataActorFamous(response.data.data.actors);
         } catch (error) {

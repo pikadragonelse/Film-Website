@@ -10,6 +10,7 @@ import Cookies from 'js-cookie';
 import { useAppSelector } from '../../redux/hook';
 import { getCurrentDateString } from '../../utils/getCurrentDate';
 import { getNextDateByMonth } from '../../utils/getNextDateByMonth';
+import { endpoint } from '../../utils/baseUrl';
 interface SummaryProps {
     selectedTerm: TermPackage | null;
     selectedMethod: number;
@@ -45,7 +46,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }
 
     const postOrder = async () => {
         return await axios
-            .post('http://localhost:8000/api/payments/paypal', { subscriptionInfoId: 9 })
+            .post(`${endpoint}/api/payments/paypal`, { subscriptionInfoId: 9 })
             .then((res) => {
                 console.log(res);
                 return res.data.id;
@@ -61,7 +62,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }
     async function onApprove(data: any) {
         return await request
             .post(
-                'http://localhost:8000/api/payments/paypal/capture',
+                `${endpoint}/api/payments/paypal/capture`,
                 {
                     orderID: data.orderID,
                 },
@@ -79,7 +80,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }
     const paymentVNPay = async () => {
         await axios
             .post(
-                'http://localhost:8000/api/payments/vn-pay',
+                `${endpoint}/api/payments/vn-pay`,
                 {
                     price: 100000,
                     ipAddress: '127.0.0.1',

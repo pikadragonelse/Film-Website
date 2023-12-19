@@ -17,6 +17,7 @@ import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
+import { endpoint } from '../../utils/baseUrl';
 
 interface Genre {
     id: number;
@@ -78,9 +79,7 @@ export const FilmDetail = () => {
 
     const fetchData = async () => {
         try {
-            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
-                res.json(),
-            );
+            const movieData = await fetch(`${endpoint}/api/movies/${id}`).then((res) => res.json());
             setFilmDetail(movieData.movie);
         } catch (error) {
             console.error(error);
