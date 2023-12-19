@@ -135,28 +135,51 @@ export const WatchingPage = () => {
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
     const fetchDataEpisode = async () => {
-        const response = await request.get(`episode/${episodeId}`).catch((err) => {
-            console.log(err);
-        });
-        const data = response?.data;
-        console.log(data);
-
-        //kiểm tra
-        if (watchingData.movieId !== data.movieId) {
-            await fetchData();
+        if (accessToken) {
+            const response = await request
+                .get(`episode/${episodeId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            const data = response?.data;
+            //kiểm tra
+            if (watchingData.movieId !== data.movieId) {
+                await fetchData();
+            }
+            setDataEpisode(data);
+            //
+            if (startTime) {
+                const elapsedMinutes = calculateElapsedTime();
+                saveWatchingHistory(data.episodeId, elapsedMinutes);
+            }
+            setStartTime(Date.now());
+        } else {
+            const response = await request.get(`episode/${episodeId}`).catch((err) => {
+                console.log(err);
+            });
+            const data = response?.data;
+            //kiểm tra
+            if (watchingData.movieId !== data.movieId) {
+                await fetchData();
+            }
+            setDataEpisode(data);
+            //
+            if (startTime) {
+                const elapsedMinutes = calculateElapsedTime();
+                saveWatchingHistory(data.episodeId, elapsedMinutes);
+            }
+            setStartTime(Date.now());
         }
-        setDataEpisode(data);
-        //
-        if (startTime) {
-            const elapsedMinutes = calculateElapsedTime();
-            saveWatchingHistory(data.episodeId, elapsedMinutes);
-        }
-        setStartTime(Date.now());
     };
     useEffect(() => {
         fetchDataEpisode();
         window.scrollTo(0, 0);
     }, [episodeId]);
+    console.log(dataEpisode);
     //api history
     const saveWatchingHistory = async (episodeId: number, duration: number) => {
         try {
