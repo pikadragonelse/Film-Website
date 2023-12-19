@@ -1,0 +1,30 @@
+{
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "@headlessui/react",
+    "@testing-library/jest-dom",
+    "@testing-library/react",
+    "@testing-library/user-event",
+    "@types/jest",
+    "@types/node",
+    "framer-motion",
+    "gasp",
+    "gh-pages",
+    "react-datetime",
+    "react-helmet",
+    "react-lazy-load-image-component",
+    "react-number-format",
+    "react-scripts",
+    "sass",
+    "swiper"
+  ],
+  "ignoreUnimported": [
+    "src/component/comment-section/index.tsx",
+    "src/component/comment-section/type/index.ts",
+    "src/component/list-episode/episode-item/index.tsx",
+    "src/component/plugin-comment/index.tsx",
+    "src/hooks/debounce.ts",
+    "src/page/watching/default-value.ts",
+    "src/setupTests.ts"
+  ]
+}

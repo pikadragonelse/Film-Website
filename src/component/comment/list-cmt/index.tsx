@@ -1,22 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import './index.scss';
-import { Cmt } from '../cmt';
-import { CurrentUser, UserProps } from '..';
 import Cookies from 'js-cookie';
-import { request } from '../../../utils/request';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { CurrentUser } from '..';
+import { request } from '../../../utils/request';
+import { Cmt } from '../cmt';
+import { listComment } from '../type';
+import './index.scss';
 
-export interface listComment {
-    id: number;
-    avatar: string;
-    username: string;
-    createdAt: string;
-    updatedAt?: string;
-    content: string;
-    numLike: number;
-    user?: UserProps;
-    subcomments?: Array<listComment>;
-}
 interface ListCommentProps {
     listComment: Array<listComment>;
     setListComment: (listComment: Array<listComment>) => void;

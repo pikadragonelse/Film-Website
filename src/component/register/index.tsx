@@ -55,11 +55,15 @@ export const Register: React.FC = () => {
         try {
             values.dateOfBirth = moment(values.datePicker).format('YYYY-MM-DD HH:mm:ss.SSSZ');
 
-            const response = await axios.post('http://localhost:8000/api/auth/register', values, {
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await axios.post(
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/auth/register',
+                values,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                 },
-            });
+            );
 
             if (response.status === 200) {
                 alert('Người dùng đã đăng ký thành công');

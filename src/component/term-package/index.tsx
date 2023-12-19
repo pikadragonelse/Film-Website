@@ -27,9 +27,12 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
     const [terms, setTerms] = useState<DurationVIP[]>([]);
     const getDataDuration = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-info', {
-                headers: { 'Content-Type': 'application/json' },
-            })
+            .get(
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/subscription/get-all-subscription-info',
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                },
+            )
             .then((response) => {
                 const listData: dataVIPPackageRaw[] = response.data.data;
                 const dataTemp: DurationVIP[] = listData.map((value) => {

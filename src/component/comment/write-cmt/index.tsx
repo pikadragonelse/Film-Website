@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import './index.scss';
 import { Button } from 'antd';
+import { CurrentUser } from '../type';
 
-interface CurrentUser {
-    username: string;
-    email: string;
-    avatarURL: string;
-}
 interface WriteCommentProps {
     currentUser: CurrentUser;
     placeholder: string;

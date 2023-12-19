@@ -49,9 +49,12 @@ export const VIPPackage = () => {
 
     const getVipPackage = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-type', {
-                headers: { 'Content-Type': 'application/json' },
-            })
+            .get(
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/subscription/get-all-subscription-type',
+                {
+                    headers: { 'Content-Type': 'application/json' },
+                },
+            )
             .then((response) => {
                 response.data.data.shift();
                 setDataVIPPackage(response.data.data);

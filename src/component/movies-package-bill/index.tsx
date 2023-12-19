@@ -20,19 +20,23 @@ export const MoviesPackageBill = () => {
 
     const verifyBill = () => {
         axios
-            .get('http://localhost:8000/api/payments/vn-pay/verify' + location.search, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + accessToken,
+            .get(
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/payments/vn-pay/verify' +
+                    location.search,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer ' + accessToken,
+                    },
                 },
-            })
+            )
             .then((res) => setDataBillReturn(res.data.results))
             .catch((err) => console.log(err));
     };
 
     const getUserInfo = () => {
         axios
-            .get('http://localhost:8000/api/user/get-user', {
+            .get('http://movies.southeastasia.cloudapp.azure.com:8000/api/user/get-user', {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + accessToken,
@@ -135,7 +139,7 @@ export const MoviesPackageBill = () => {
                 }}
             >
                 <span className="bill-list__bold">Tổng tiền </span>
-                {dataBillReturn.vnp_Amount.toLocaleString('it-IT')}
+                {(dataBillReturn.vnp_Amount / 100).toLocaleString('it-IT')}
             </div>
 
             <Button className="bill-list__btn" type="primary">

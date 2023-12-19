@@ -2,23 +2,7 @@ import { Avatar, Button, List, Skeleton } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useEffect, useState } from 'react';
 import './index.scss';
-
-interface DataType {
-    gender?: string;
-    name: {
-        title?: string;
-        first?: string;
-        last?: string;
-    };
-    email?: string;
-    picture: {
-        large?: string;
-        medium?: string;
-        thumbnail?: string;
-    };
-    nat?: string;
-    loading: boolean;
-}
+import { DataType } from './type';
 
 const count = 3;
 const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;

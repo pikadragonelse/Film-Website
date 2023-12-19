@@ -10,6 +10,8 @@ import Slide from '../../component/slide';
 import { Film } from '../../model/film';
 import { request } from '../../utils/request';
 import './index.scss';
+import ReserveMovies from '../../component/reserve-movie';
+import { ListReserveMovies } from '../../component/list-reserve-movie';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -39,7 +41,7 @@ export const HomePage = () => {
     const getMovieByGenre = async () => {
         try {
             const response = await axios.get(
-                'http://localhost:8000/api/home/genres?page=1&pageSize=20',
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/home/genres?page=1&pageSize=20',
                 {
                     headers: { 'Content-Type': 'application/json' },
                 },
@@ -55,7 +57,7 @@ export const HomePage = () => {
     const getActorFamous = async () => {
         try {
             const response = await axios.get(
-                'http://localhost:8000/api/individuals/actors?page=1&pageSize=20',
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/individuals/actors?page=1&pageSize=20',
             );
             setDataActorFamous(response.data.data.actors);
         } catch (error) {
@@ -141,6 +143,8 @@ export const HomePage = () => {
                     src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
                     alt=""
                 />
+                <ReserveMovies />
+                <ListReserveMovies listFilm={trendingData} />
                 {dataActorFamous.length > 0 && (
                     <ActorFamous
                         title="Người nổi tiếng"
