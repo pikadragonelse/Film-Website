@@ -131,8 +131,16 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
                                 footer={null}
                                 onCancel={handleCancel}
                                 width={450}
+                                className="top-6"
                             >
-                                <a className="modal-item" href="https://www.facebook.com/">
+                                <a
+                                    className="modal-item"
+                                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                        copiedLink || '',
+                                    )}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <img
                                         className="modal-img"
                                         src="https://www.iqiyipic.com/common/fix/global/fb.png"

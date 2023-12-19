@@ -57,7 +57,7 @@ export const FilmItem = ({ title, posterURL, posterMovieURL, movieTitle, level }
                     <h1 className="film-item-title max-w-[204px]">{title}</h1>
                 </Badge.Ribbon>
             ) : (
-                <div className={`${isLoadingImg === true ? 'hidden' : ''}`}>
+                <div>
                     <div className="film-item-container relative">
                         <Skeleton.Image
                             active

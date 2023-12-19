@@ -1,4 +1,4 @@
-import { Spin } from 'antd';
+import { BackTop, Spin, Tooltip } from 'antd';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
@@ -93,12 +93,25 @@ export const HomePage = () => {
     };
 
     useEffect(() => {
-        fetchTrending();
-        getMovieByGenre();
-        getActorFamous();
-        fetchVip();
-        fetchDataHistorymovies();
-        window.scrollTo(0, 0);
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                await Promise.all([
+                    fetchTrending(),
+                    getMovieByGenre(),
+                    getActorFamous(),
+                    fetchVip(),
+                    fetchDataHistorymovies(),
+                ]);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setLoading(false);
+                window.scrollTo(0, 0);
+            }
+        };
+
+        fetchData();
     }, []);
 
     const renderListFilmsByGenre = () => {
@@ -114,6 +127,9 @@ export const HomePage = () => {
 
     return (
         <div>
+            <Tooltip title="Quay về đầu trang" placement="left">
+                <BackTop className="bg-[#313439] rounded-full text-red " visibilityHeight={200} />
+            </Tooltip>
             <Slide />
             <div className="container-home"></div>
             <Spin spinning={loading} size="large" className="mt-96">
