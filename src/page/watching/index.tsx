@@ -135,46 +135,40 @@ export const WatchingPage = () => {
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
     const fetchDataEpisode = async () => {
-        if (accessToken) {
-            const response = await request
-                .get(`episode/${episodeId}`, {
+        try {
+            let response;
+
+            if (accessToken) {
+                response = await request.get(`episode/${episodeId}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-                })
-                .catch((err) => {
-                    console.log(err);
                 });
+            } else {
+                response = await request.get(`episode/${episodeId}`);
+            }
+
             const data = response?.data;
-            //kiểm tra
+
+            // Check if the movieId is different
             if (watchingData.movieId !== data.movieId) {
                 await fetchData();
             }
+
             setDataEpisode(data);
-            //
+
+            // Save watching history if startTime is available
             if (startTime) {
                 const elapsedMinutes = calculateElapsedTime();
                 saveWatchingHistory(data.episodeId, elapsedMinutes);
             }
+
             setStartTime(Date.now());
-        } else {
-            const response = await request.get(`episode/${episodeId}`).catch((err) => {
-                console.log(err);
-            });
-            const data = response?.data;
-            //kiểm tra
-            if (watchingData.movieId !== data.movieId) {
-                await fetchData();
-            }
-            setDataEpisode(data);
-            //
-            if (startTime) {
-                const elapsedMinutes = calculateElapsedTime();
-                saveWatchingHistory(data.episodeId, elapsedMinutes);
-            }
-            setStartTime(Date.now());
+        } catch (err) {
+            console.log(err);
         }
     };
+
     useEffect(() => {
         fetchDataEpisode();
         window.scrollTo(0, 0);

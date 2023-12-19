@@ -22,7 +22,9 @@ export const SearchPage: React.FC = () => {
 
     const getDataBySearchParams = (searchParams: string) => {
         axios
-            .get(`http://localhost:8000/api/movies${searchParams}&page=${currPage}&pageSize=12`)
+            .get(
+                `http://movies.southeastasia.cloudapp.azure.com:8000/api/movies${searchParams}&page=${currPage}&pageSize=12`,
+            )
             .then((res) => {
                 setSearchResults(res.data.movies);
                 setAmountMovies(res.data.totalCount);

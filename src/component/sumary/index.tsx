@@ -45,7 +45,9 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }
 
     const postOrder = async () => {
         return await axios
-            .post('http://localhost:8000/api/payments/paypal', { subscriptionInfoId: 9 })
+            .post('http://movies.southeastasia.cloudapp.azure.com:8000/api/payments/paypal', {
+                subscriptionInfoId: 9,
+            })
             .then((res) => {
                 console.log(res);
                 return res.data.id;
@@ -61,7 +63,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }
     async function onApprove(data: any) {
         return await request
             .post(
-                'http://localhost:8000/api/payments/paypal/capture',
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/payments/paypal/capture',
                 {
                     orderID: data.orderID,
                 },
@@ -79,7 +81,7 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }
     const paymentVNPay = async () => {
         await axios
             .post(
-                'http://localhost:8000/api/payments/vn-pay',
+                'http://movies.southeastasia.cloudapp.azure.com:8000/api/payments/vn-pay',
                 {
                     price: 100000,
                     ipAddress: '127.0.0.1',
