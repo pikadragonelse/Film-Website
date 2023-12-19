@@ -79,9 +79,7 @@ const Slide: React.FC = () => {
             const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
 
             try {
-                const response = await fetch(
-                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
-                );
+                const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
                 if (response.ok) {
                     const data = await response.json();
