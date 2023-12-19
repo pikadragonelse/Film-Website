@@ -134,7 +134,14 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                     onCancel={handleCancel}
                                     width={450}
                                 >
-                                    <a className="modal-item" href="https://www.facebook.com/">
+                                    <a
+                                        className="modal-item"
+                                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                            copiedLink || '',
+                                        )}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
                                         <img
                                             className="modal-img"
                                             src="https://www.iqiyipic.com/common/fix/global/fb.png"
@@ -142,6 +149,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                         />
                                         Facebook
                                     </a>
+
                                     <a className="modal-item" onClick={handleCopyLink}>
                                         <img
                                             className="modal-img"
