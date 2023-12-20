@@ -1,4 +1,4 @@
-import { BackTop, Spin, Tooltip } from 'antd';
+import { Avatar, BackTop, Button, Spin, Tooltip } from 'antd';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,8 @@ import { request } from '../../utils/request';
 import './index.scss';
 import ReserveMovies from '../../component/reserve-movie';
 import { ListReserveMovies } from '../../component/list-reserve-movie';
+import { Logo, LogoIcon } from '../../asset/icon/logo';
+import { Botchat } from '../../component/botchat';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -126,12 +128,34 @@ export const HomePage = () => {
             />
         ));
     };
+    //botchat
+    const [open, setOpen] = useState(false);
+
+    const showBotchat = () => {
+        setOpen(true);
+        console.log('open');
+    };
+
+    const closeBotchat = () => {
+        setOpen(false);
+    };
 
     return (
         <div>
             <Tooltip title="Quay về đầu trang" placement="left">
                 <BackTop className="bg-[#313439] rounded-full text-red " visibilityHeight={200} />
             </Tooltip>
+            <div className="botchat">
+                <Tooltip title="Xin chào, MovTime có thể giúp gì cho bạn?" placement="left">
+                    <Avatar
+                        size={54}
+                        icon={<LogoIcon />}
+                        onClick={showBotchat}
+                        style={{ backgroundColor: 'white' }}
+                    />
+                </Tooltip>
+            </div>
+            {open && <Botchat onClose={closeBotchat} />}
             <Slide />
             <div className="container-home"></div>
             <Spin spinning={loading} size="large" className="mt-96">
