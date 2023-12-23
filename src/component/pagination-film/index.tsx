@@ -1,12 +1,14 @@
 import { CloseOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Col, Modal, Pagination, Row } from 'antd';
 import Cookies from 'js-cookie';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import { FilmItemHistory } from '../film-item-history';
 import './index.scss';
+import { useDispatch } from 'react-redux';
+import { setDataCollect } from '../../redux/dataCollectSlide';
 
 const moment = require('moment');
 
@@ -35,6 +37,10 @@ export const PaginationFilm = ({
 }: PaginationFilmProps) => {
     const [open, setOpen] = useState(false);
     const [selectedFilm, setSelectedFilm] = useState<FilmItem | null>(null);
+    const [listFilm, setListFilm] = useState(searchResults);
+    useEffect(() => {
+        setListFilm(searchResults);
+    }, [searchResults]);
 
     const showModal = (film: FilmItem) => {
         setSelectedFilm(film);
@@ -54,7 +60,7 @@ export const PaginationFilm = ({
     };
 
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [localSearchResults, setLocalSearchResults] = useState<Array<FilmItem>>(searchResults);
+    const dispatch = useDispatch();
     const handleCancelClick = async (filmId: number, context: string) => {
         try {
             let apiEndpoint = '';
@@ -76,9 +82,12 @@ export const PaginationFilm = ({
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            setLocalSearchResults((prevResults) =>
-                prevResults.filter((result) => result.id !== filmId && result.movieId !== filmId),
-            );
+
+            if (response.data.status === 'Ok!') {
+                const updatedListFilm = listFilm.filter((film) => film.id !== filmId);
+                setListFilm(updatedListFilm);
+                dispatch(setDataCollect(updatedListFilm));
+            }
         } catch (error) {
             console.error(error);
         }
@@ -92,7 +101,7 @@ export const PaginationFilm = ({
             </div>
             <div className="content-list-film">
                 <Row gutter={[12, 24]}>
-                    {localSearchResults.map((result, index) => (
+                    {listFilm.map((result, index) => (
                         <Col span={number} key={index}>
                             {result.id && result.movieId ? (
                                 <Link to={`/movie/${result.movieId}/${result.id}`}>

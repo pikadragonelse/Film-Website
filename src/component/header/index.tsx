@@ -205,7 +205,7 @@ export const Header = ({ className }: Header) => {
                                 content={<ContentModalHistory />}
                                 zIndex={9999}
                             >
-                                <Link to="/foryou">
+                                <Link to="/foryou/profile">
                                     <HistoryOutlined className="icon-login" />
                                 </Link>
                             </Popover>
@@ -245,7 +245,7 @@ export const Header = ({ className }: Header) => {
                                 content={<ContentModalUser />}
                                 zIndex={9999}
                             >
-                                <Link to="/foryou">
+                                <Link to="/foryou/profile">
                                     <Avatar
                                         className="avatar"
                                         src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
