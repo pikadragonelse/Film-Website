@@ -4,8 +4,9 @@ import { CarouselRef } from 'antd/es/carousel';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Film } from '../../model/film';
-import { ItemReserveMovie } from '../item-reserve-movie';
+import { FilmItem } from '../film-item';
 import './index.scss';
+import { ItemReserveMovie } from '../item-reserve-movie';
 
 export type ListFilm = {
     title?: string;
@@ -54,7 +55,7 @@ export const ListReserveMovies = ({
     }, [listFilm]);
 
     return (
-        <div className="list-container">
+        <div className="list-container-reserve">
             <div className="list-heading">
                 <div className="list-sub-info">
                     {subInfo?.map((item) => (
@@ -103,14 +104,21 @@ export const ListReserveMovies = ({
                             <Row justify={'start'}>
                                 {listFilms.map((value) => (
                                     <Col span={4} className="list-col">
+                                        <div className="w-[98%] mb-10 px-2">
+                                            <div className="coming-soon-timeline-wrapper">
+                                                <div className="timeline-line"></div>
+                                                <div className="timeline-point"></div>
+                                            </div>
+                                            <p className="text-release">
+                                                {moment(value.releaseDate).format('DD/MM')}
+                                            </p>
+                                        </div>
                                         <ItemReserveMovie
                                             title={value.title}
-                                            releaseDate={moment(value.releaseDate).format(
-                                                'YYYY-MM-DD',
-                                            )}
                                             episodeNum={value.episodeNum}
                                             posterURL={value.posterURL}
                                             level={value.level}
+                                            releaseDate={value.releaseDate}
                                         />
                                     </Col>
                                 ))}

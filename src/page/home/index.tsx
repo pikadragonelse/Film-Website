@@ -1,19 +1,20 @@
-import { Avatar, BackTop, Button, Spin, Tooltip } from 'antd';
+import { Avatar, BackTop, Spin, Tooltip } from 'antd';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { LogoIcon } from '../../asset/icon/logo';
+import { Botchat } from '../../component/botchat';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMoviesHome } from '../../component/history-home';
 import { ActorFamous, ActorFamousInfo } from '../../component/list-actor-famous';
 import { ListFilm } from '../../component/list-film';
+import { ListReserveMovies } from '../../component/list-reserve-movie';
 import Slide from '../../component/slide';
 import { Film } from '../../model/film';
 import { request } from '../../utils/request';
 import './index.scss';
-import ReserveMovies from '../../component/reserve-movie';
-import { ListReserveMovies } from '../../component/list-reserve-movie';
-import { Logo, LogoIcon } from '../../asset/icon/logo';
-import { Botchat } from '../../component/botchat';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -28,6 +29,12 @@ export const HomePage = () => {
     const [dataMovieByGenre, setDataMovieByGenre] = useState<DataMovieByGenre[]>([]);
     const [dataActorFamous, setDataActorFamous] = useState<ActorFamousInfo[]>([]);
     const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
+    const [dataReserve, setDataReserve] = useState<Film[]>([]);
+    const [dataRecommend, setRecommened] = useState<Film[]>([]);
+
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+
+    const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
 
     const fetchTrending = async () => {
         try {
@@ -42,12 +49,9 @@ export const HomePage = () => {
 
     const getMovieByGenre = async () => {
         try {
-            const response = await axios.get(
-                'http://localhost:8000/api/home/genres?page=1&pageSize=20',
-                {
-                    headers: { 'Content-Type': 'application/json' },
-                },
-            );
+            const response = await request.get('home/genres?page=1&pageSize=20', {
+                headers: { 'Content-Type': 'application/json' },
+            });
             setDataMovieByGenre(response.data);
         } catch (error) {
             console.log(error);
@@ -58,9 +62,7 @@ export const HomePage = () => {
 
     const getActorFamous = async () => {
         try {
-            const response = await axios.get(
-                'http://localhost:8000/api/individuals/actors?page=1&pageSize=20',
-            );
+            const response = await request.get('individuals/actors?page=1&pageSize=20');
             setDataActorFamous(response.data.data.actors);
         } catch (error) {
             console.log(error);
@@ -80,7 +82,30 @@ export const HomePage = () => {
         }
     };
 
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const fetchUpcomping = async () => {
+        try {
+            const response = await request.get('movies/home/upcoming');
+            setDataReserve(response.data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchRecommend = async () => {
+        try {
+            const headers = isUserLoggedIn ? { Authorization: `Bearer ${accessToken}` } : {};
+            const response = await request.get('movies/recommend/get?page=1&pageSize=20', {
+                headers,
+            });
+            setRecommened(response.data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const fetchDataHistorymovies = async () => {
         try {
@@ -106,6 +131,8 @@ export const HomePage = () => {
                     getActorFamous(),
                     fetchVip(),
                     fetchDataHistorymovies(),
+                    fetchUpcomping(),
+                    fetchRecommend(),
                 ]);
             } catch (error) {
                 console.error(error);
@@ -160,15 +187,16 @@ export const HomePage = () => {
             <div className="container-home"></div>
             <Spin spinning={loading} size="large" className="mt-96">
                 <ListFilm title="Phim thịnh hành" listFilm={trendingData} />
-                <ListFilm title="Dành cho VIP" listFilm={dataFilmVip} />
                 <HistoryMoviesHome dataHistorymovies={dataHistorymovies} />
+                <div className="!mt-10"></div>
+                <ListFilm title="Dành cho VIP" listFilm={dataFilmVip} />
+                <ListFilm title="Hôm nay xem gì ?" listFilm={dataRecommend} />
                 <img
                     className="ml-20 w-[91%] rounded-md h-[88px]"
                     src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
                     alt=""
                 />
-                <ReserveMovies />
-                <ListReserveMovies listFilm={trendingData} />
+                <ListReserveMovies listFilm={dataReserve} />
                 {dataActorFamous.length > 0 && (
                     <ActorFamous
                         title="Người nổi tiếng"

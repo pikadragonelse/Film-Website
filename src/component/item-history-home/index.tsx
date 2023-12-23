@@ -31,7 +31,7 @@ export const ItemHistoryHome = ({ title, backgroundMovieURL, movieTitle }: FilmI
                     {movieTitle} - {title}
                 </p>
             </div>
-            <Button className="film-button-proccess text-center" icon={<CaretRightOutlined />}>
+            <Button className="film-button-proccess text-center mt-5" icon={<CaretRightOutlined />}>
                 Xem tiếp !
             </Button>
         </div>

@@ -1,4 +1,5 @@
-.list-container {
+.list-container-reserve {
+    margin-top: 40px;
     .list-heading {
         .list-title {
             color: var(--contrast-color);
@@ -53,6 +54,36 @@
         z-index: var(--z-high);
         .list-content {
             margin: 1rem 4.2rem;
+            .coming-soon-timeline-wrapper {
+                position: relative;
+                margin-top: 6px;
+                margin-bottom: 14px;
+                width: 100%;
+                .timeline-line {
+                    width: 112%;
+                    height: 2px;
+                    background: rgb(45, 47, 52);
+                    margin-bottom: 10px;
+                    padding-right: 10px;
+                }
+
+                .timeline-point {
+                    position: absolute;
+                    width: 14px;
+                    height: 14px;
+                    top: -6px;
+                    left: 48%;
+                    background: rgb(130, 131, 135);
+                    border: 2px solid rgb(17, 19, 25);
+                    border-radius: 50%;
+                    border-bottom-left-radius: 0;
+
+                    transform: rotate(-42deg);
+                }
+                .active-point {
+                    background-color: red;
+                }
+            }
         }
         position: relative;
 
@@ -90,6 +121,15 @@
         .list-col {
             display: flex;
             justify-content: center;
+            flex-wrap: wrap;
+
+            .text-release {
+                color: rgb(188, 189, 190);
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
     }
 }

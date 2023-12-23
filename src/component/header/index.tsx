@@ -118,6 +118,7 @@ export const Header = ({ className }: Header) => {
     const fetchItems = async () => {
         try {
             const response = await request.get('home/headers');
+
             const data = response.data.data;
             const listKey = Object.keys(data);
             const nations: ChildrenCategoriesHeader[] = data.nations.map((nation: string) => {
