@@ -44,8 +44,8 @@ export const LogoIcon = () => {
     return (
         <>
             <svg
-                width="130"
-                height="52"
+                width="110"
+                height="46"
                 viewBox="0 0 90 45.2617"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
