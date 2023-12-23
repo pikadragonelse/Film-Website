@@ -22,6 +22,7 @@ import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
 import { ContentModalHistory } from './modalHistory';
 import { ContentModalHistoryTitle } from './modalHistoryTitle';
+import { CurrentUser } from '../comment';
 export type Header = { className?: string };
 
 const queryParamMap: Record<string, string> = {
@@ -49,6 +50,13 @@ export interface CategoriesHeader {
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
+    const [items, setItems] = useState<any[]>([]);
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const [currentUser, setCurrentUser] = useState<CurrentUser>({
+        username: '',
+        email: '',
+        avatarURL: '',
+    });
 
     const isLoginPage =
         location.pathname === '/login' ||
@@ -113,7 +121,23 @@ export const Header = ({ className }: Header) => {
     };
     //api search theo mục
 
-    const [items, setItems] = useState<any[]>([]);
+    const fetchDataCurrentUser = async () => {
+        try {
+            const response = await request.get('user/get-self-information', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data;
+            setCurrentUser(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataCurrentUser();
+    }, []);
 
     const fetchItems = async () => {
         try {
@@ -234,11 +258,8 @@ export const Header = ({ className }: Header) => {
                             <Popover
                                 title={
                                     <div className="p-2 flex font-normal items-center justify-center border-b-[1px] border-[#989898]">
-                                        <Avatar
-                                            className="mr-4 mb-2"
-                                            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
-                                        />
-                                        {username}
+                                        <Avatar className="mr-4 mb-2" src={currentUser.avatarURL} />
+                                        {currentUser.username}
                                     </div>
                                 }
                                 overlayStyle={{ maxWidth: '30%' }}
@@ -248,7 +269,7 @@ export const Header = ({ className }: Header) => {
                                 <Link to="/foryou/profile">
                                     <Avatar
                                         className="avatar"
-                                        src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+                                        src={currentUser.avatarURL}
                                         style={{
                                             verticalAlign: 'middle',
                                         }}

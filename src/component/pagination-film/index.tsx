@@ -60,7 +60,9 @@ export const PaginationFilm = ({
     };
 
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+
     const dispatch = useDispatch();
+
     const handleCancelClick = async (filmId: number, context: string) => {
         try {
             let apiEndpoint = '';
@@ -82,12 +84,12 @@ export const PaginationFilm = ({
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-
             if (response.data.status === 'Ok!') {
                 const updatedListFilm = listFilm.filter((film) => film.id !== filmId);
                 setListFilm(updatedListFilm);
                 dispatch(setDataCollect(updatedListFilm));
             }
+
         } catch (error) {
             console.error(error);
         }
