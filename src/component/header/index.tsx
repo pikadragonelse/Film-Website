@@ -5,7 +5,7 @@ import {
     LoginOutlined,
     LogoutOutlined,
 } from '@ant-design/icons';
-import { Avatar, Button, Popover } from 'antd';
+import { Avatar, Button, Popover, Tooltip } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -129,15 +129,12 @@ export const Header = ({ className }: Header) => {
                 },
             });
             const data = response.data;
+            console.log('User Data:', data);
             setCurrentUser(data);
         } catch (error) {
             console.error(error);
         }
     };
-
-    useEffect(() => {
-        fetchDataCurrentUser();
-    }, []);
 
     const fetchItems = async () => {
         try {
@@ -176,6 +173,7 @@ export const Header = ({ className }: Header) => {
     };
     useEffect(() => {
         fetchItems();
+        fetchDataCurrentUser();
     }, []);
     return (
         <header
@@ -229,7 +227,7 @@ export const Header = ({ className }: Header) => {
                                 content={<ContentModalHistory />}
                                 zIndex={9999}
                             >
-                                <Link to="/foryou/profile">
+                                <Link to="/foryou">
                                     <HistoryOutlined className="icon-login" />
                                 </Link>
                             </Popover>
@@ -253,7 +251,7 @@ export const Header = ({ className }: Header) => {
                         <BellOutlined className="notification-btn" />
                         <p className="number-notification">12</p>
                     </div>
-                    {isLogin ? (
+                    {isLogin && currentUser ? (
                         <>
                             <Popover
                                 title={
@@ -277,9 +275,11 @@ export const Header = ({ className }: Header) => {
                                     ></Avatar>
                                 </Link>
                             </Popover>
-                            <div className="icon-login">
-                                <LogoutOutlined onClick={handleLogout} />
-                            </div>
+                            <Tooltip title="Đăng xuất">
+                                <div className="icon-login">
+                                    <LogoutOutlined onClick={handleLogout} />
+                                </div>
+                            </Tooltip>
                         </>
                     ) : (
                         <Link to="/login">
