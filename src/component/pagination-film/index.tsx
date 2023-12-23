@@ -54,7 +54,6 @@ export const PaginationFilm = ({
     };
 
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [localSearchResults, setLocalSearchResults] = useState<Array<FilmItem>>(searchResults);
     const handleCancelClick = async (filmId: number, context: string) => {
         try {
             let apiEndpoint = '';
@@ -76,9 +75,6 @@ export const PaginationFilm = ({
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            setLocalSearchResults((prevResults) =>
-                prevResults.filter((result) => result.id !== filmId && result.movieId !== filmId),
-            );
         } catch (error) {
             console.error(error);
         }
@@ -92,7 +88,7 @@ export const PaginationFilm = ({
             </div>
             <div className="content-list-film">
                 <Row gutter={[12, 24]}>
-                    {localSearchResults.map((result, index) => (
+                    {searchResults.map((result, index) => (
                         <Col span={number} key={index}>
                             {result.id && result.movieId ? (
                                 <Link to={`/movie/${result.movieId}/${result.id}`}>
