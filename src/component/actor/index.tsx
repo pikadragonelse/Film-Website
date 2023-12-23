@@ -22,7 +22,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
         const actorLink = encodeURIComponent(`${window.location.origin}/actor/${actorId}`);
         try {
             const response = await fetch(
-                `http://movies.southeastasia.cloudapp.azure.com:8000/api/movies/get/qrcode?url=${actorLink}`,
+                `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
             );
 
             if (response.ok) {
@@ -48,9 +48,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     };
 
     useEffect(() => {
-        fetch(
-            `http://movies.southeastasia.cloudapp.azure.com:8000/api/individuals/actors/${actorId}`,
-        )
+        fetch(`http://localhost:8000/api/individuals/actors/${actorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setActorInfo(data.data);

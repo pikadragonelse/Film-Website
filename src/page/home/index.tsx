@@ -43,7 +43,7 @@ export const HomePage = () => {
     const getMovieByGenre = async () => {
         try {
             const response = await axios.get(
-                'http://movies.southeastasia.cloudapp.azure.com:8000/api/home/genres?page=1&pageSize=20',
+                'http://localhost:8000/api/home/genres?page=1&pageSize=20',
                 {
                     headers: { 'Content-Type': 'application/json' },
                 },
@@ -59,7 +59,7 @@ export const HomePage = () => {
     const getActorFamous = async () => {
         try {
             const response = await axios.get(
-                'http://movies.southeastasia.cloudapp.azure.com:8000/api/individuals/actors?page=1&pageSize=20',
+                'http://localhost:8000/api/individuals/actors?page=1&pageSize=20',
             );
             setDataActorFamous(response.data.data.actors);
         } catch (error) {
