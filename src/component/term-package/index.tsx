@@ -22,19 +22,16 @@ interface TermPackageProps {
 
 export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => {
     const idPackage: number = Number(useParams().idPackage);
-    // const idPackage = useAppSelector((state) => state.VIPPayment.subscriptionTypeId);
 
     const [terms, setTerms] = useState<DurationVIP[]>([]);
     const getDataDuration = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-info', {
+            .get(`http://localhost:8000/api/subscription/get-all-subscription-info`, {
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => {
                 const listData: dataVIPPackageRaw[] = response.data.data;
                 const dataTemp: DurationVIP[] = listData.map((value) => {
-                    console.log(value.subscriptionType.subscriptionTypeId, idPackage);
-
                     return value.subscriptionType.subscriptionTypeId === idPackage
                         ? {
                               durationId: value.duration.durationId,
@@ -54,6 +51,20 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
 
     const [value, setValue] = useState(0);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        let count = 0;
+        if (terms.length !== 0) {
+            terms.forEach((term) => {
+                if (term.durationId !== 0 && count === 0) {
+                    setValue(term.durationId);
+                    dispatch(setIdSelectedInfoDuration(term.durationId));
+                    count++;
+                    dispatch(setTotalPrice(term.price));
+                }
+            });
+        }
+    }, [terms]);
 
     const onChange = (e: any) => {
         const selectedValue = e.target.value;

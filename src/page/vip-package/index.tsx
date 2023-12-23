@@ -43,19 +43,17 @@ export type dataVIPPackageRaw = {
 };
 
 export const VIPPackage = () => {
-    const [dataInfoPackage, setDataInfoPackage] = useState<DataTable[]>();
     const [dataVIPPackage, setDataVIPPackage] = useState<VIPPackageRaw[]>();
     const idPackage = useAppSelector((state) => state.VIPPayment.subscriptionTypeId);
 
     const getVipPackage = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-type', {
+            .get(`http://localhost:8000/api/subscription/get-all-subscription-type`, {
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => {
                 response.data.data.shift();
                 setDataVIPPackage(response.data.data);
-                // dispatch(setIdSelectedInfoPackage(response.data.subscriptionTypeId));
             })
             .catch((err) => {
                 console.log(err);
@@ -86,11 +84,7 @@ export const VIPPackage = () => {
                         </List.Item>
                     )}
                 />
-                <ListVipPackage
-                    className="list-vip-package"
-                    dataMap={dataInfoPackage}
-                    dataVIPPackage={dataVIPPackage}
-                />
+                <ListVipPackage className="list-vip-package" dataVIPPackage={dataVIPPackage} />
                 <Paragraph className="list-vip-package-policy">
                     Việc bạn có thể xem ở chế độ HD (720p), Full HD (1080p), Ultra HD (4K) và HDR
                     hay không phụ thuộc vào dịch vụ internet và khả năng của thiết bị. Không phải
@@ -98,7 +92,7 @@ export const VIPPackage = () => {
                     <a href="#">Điều khoản sử dụng</a> của chúng tôi để biết thêm chi tiết.
                 </Paragraph>
                 <Link
-                    to={`/payment/${idPackage}/1`}
+                    to={`/payment/${idPackage}`}
                     state={{ idPackage: idPackage }}
                     className="list-vip-package-btn"
                 >

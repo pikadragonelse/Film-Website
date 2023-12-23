@@ -33,7 +33,6 @@ export const SearchPage: React.FC = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        console.log(window.location.search);
 
         getDataBySearchParams(window.location.search);
         const paramsObj = handleSearchParams(window.location.search);
