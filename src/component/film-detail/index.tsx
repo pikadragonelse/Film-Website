@@ -78,9 +78,9 @@ export const FilmDetail = () => {
 
     const fetchData = async () => {
         try {
-            const movieData = await fetch(
-                `http://movies.southeastasia.cloudapp.azure.com:8000/api/movies/${id}`,
-            ).then((res) => res.json());
+            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
+                res.json(),
+            );
             setFilmDetail(movieData.movie);
         } catch (error) {
             console.error(error);

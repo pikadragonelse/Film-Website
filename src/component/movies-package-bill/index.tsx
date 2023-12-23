@@ -20,23 +20,19 @@ export const MoviesPackageBill = () => {
 
     const verifyBill = () => {
         axios
-            .get(
-                'http://movies.southeastasia.cloudapp.azure.com:8000/api/payments/vn-pay/verify' +
-                    location.search,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + accessToken,
-                    },
+            .get('http://localhost:8000/api/payments/vn-pay/verify' + location.search, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + accessToken,
                 },
-            )
+            })
             .then((res) => setDataBillReturn(res.data.results))
             .catch((err) => console.log(err));
     };
 
     const getUserInfo = () => {
         axios
-            .get('http://movies.southeastasia.cloudapp.azure.com:8000/api/user/get-user', {
+            .get('http://localhost:8000/api/user/get-user', {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + accessToken,

@@ -94,7 +94,7 @@
     border: #57595d !important;
     color: white !important;
 }
-
-.film-button-reserve:focus {
-    color: var(--sub-primary-color) !important;
+.ant-modal-confirm-title,
+.ant-modal-confirm-content {
+    color: white !important;
 }

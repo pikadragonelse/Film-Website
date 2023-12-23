@@ -25,7 +25,7 @@ export const Login: React.FC = () => {
         setLoading(true);
 
         axios
-            .post('http://movies.southeastasia.cloudapp.azure.com:8000/api/auth/login', data)
+            .post('http://localhost:8000/api/auth/login', data)
             .then((response) => {
                 console.log('POST', response);
                 let accessToken = JSON.stringify(response.data.result.token.accessToken);

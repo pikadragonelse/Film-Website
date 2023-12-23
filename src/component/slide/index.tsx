@@ -33,7 +33,7 @@ const Slide: React.FC = () => {
 
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {
-        fetch('http://movies.southeastasia.cloudapp.azure.com:8000/api/movies')
+        fetch('http://localhost:8000/api/movies?page=5&pageSize=4')
             .then((res) => res.json())
             .then((data) => {
                 setPopularMovies(data.movies);
@@ -59,7 +59,7 @@ const Slide: React.FC = () => {
 
             try {
                 const response = await fetch(
-                    `http://movies.southeastasia.cloudapp.azure.com:8000/api/movies/get/qrcode?url=${actorLink}`,
+                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
                 );
 
                 if (response.ok) {

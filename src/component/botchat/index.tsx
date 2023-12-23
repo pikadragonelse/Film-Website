@@ -1,14 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './index.scss';
-import {
-    CloseCircleOutlined,
-    CloseOutlined,
-    MinusOutlined,
-    SendOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
-import { Logo, LogoIcon } from '../../asset/icon/logo';
+import { CloseOutlined, SendOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { Logo, LogoIcon } from '../../asset/icon/logo';
+import './index.scss';
 
 interface botchatProp {
     onClose: () => void;
