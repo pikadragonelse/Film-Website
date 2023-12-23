@@ -39,7 +39,7 @@ export const App = () => {
                         <Route path="" element={<HomePage />} />
                         <Route path="/search/*" element={<SearchPage />} />
                         <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
-                        <Route path="/foryou" element={<LayoutUser />} />
+                        <Route path="/foryou/*" element={<LayoutUser />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/payment/:idPackage/*" element={<Payment />} />

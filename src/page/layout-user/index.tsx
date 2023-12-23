@@ -19,6 +19,8 @@ import { UserProfile } from '../../component/user-profile';
 import { WatchLater } from '../../component/watch-later';
 import { request } from '../../utils/request';
 import './index.scss';
+import { Route, Routes, useLocation, useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const { Header, Content, Sider } = Layout;
 
@@ -37,28 +39,53 @@ function getItem(
         label,
     } as MenuItem;
 }
-
 const items: MenuItem[] = [
-    getItem('Thông tin cá nhân', 'profile', <UserOutlined />),
-    getItem('Gói VIP', 'vip-package', <CrownOutlined />),
-    getItem('Phim xem sau', 'watch-later', <UnorderedListOutlined />),
-    getItem('Lịch sử xem', 'watched-movies', <CalendarOutlined />),
-    getItem('Phim yêu thích', 'love-movies', <HeartOutlined />),
-    getItem('Xóa tài khoản', 'delete-account', <DeleteOutlined />),
+    getItem(
+        'Thông tin cá nhân',
+        '/foryou/profile',
+        <Link to={'/foryou/profile'}>
+            <UserOutlined />
+        </Link>,
+    ),
+    getItem(
+        'Gói VIP',
+        '/vip-package',
+        <Link to={'/foryou/vip-package'}>
+            <CrownOutlined />
+        </Link>,
+    ),
+    getItem(
+        'Phim xem sau',
+        '/watch-later',
+        <Link to={'/foryou/watch-later'}>
+            <UnorderedListOutlined />
+        </Link>,
+    ),
+    getItem(
+        'Lịch sử xem',
+        '/watched-movies',
+        <Link to={'/foryou/watched-movies'}>
+            <CalendarOutlined />
+        </Link>,
+    ),
+    getItem(
+        'Phim yêu thích',
+        '/love-movies',
+        <Link to={'/foryou/love-movies'}>
+            <HeartOutlined />
+        </Link>,
+    ),
+    getItem(
+        'Xóa tài khoản',
+        '/delete-account',
+        <Link to={'/foryou/delete-account'}>
+            <DeleteOutlined />
+        </Link>,
+    ),
 ];
 
 export const LayoutUser = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const [selectedPage, setSelectedPage] = useState('');
-
-    const handleMenuClick = (item: MenuItem | null) => {
-        if (item && item.key) {
-            setSelectedPage(item.key.toString());
-        }
-    };
-
-    let content = null;
-    //api lovemovie
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [dataLovemovies, setDataLovemovies] = useState<FilmItem[]>([]);
     const fetchDataLove = async () => {
@@ -75,9 +102,6 @@ export const LayoutUser = () => {
         }
     };
 
-    useEffect(() => {
-        fetchDataLove();
-    }, []);
     //api watch late
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
     const fetchDataCollect = async () => {
@@ -94,9 +118,6 @@ export const LayoutUser = () => {
         }
     };
 
-    useEffect(() => {
-        fetchDataCollect();
-    }, []);
     //api history
     const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
     const fetchDataHistorymovies = async () => {
@@ -112,33 +133,12 @@ export const LayoutUser = () => {
             console.error(error);
         }
     };
-
+    const { pathname } = useLocation();
     useEffect(() => {
+        fetchDataCollect();
         fetchDataHistorymovies();
-    }, []);
-    switch (selectedPage) {
-        case 'profile':
-            content = <UserProfile />;
-            break;
-        case 'vip-package':
-            content = <VIPPackageUser />;
-            break;
-        case 'watch-later':
-            content = <WatchLater dataCollect={dataCollect} />;
-            break;
-        case 'watched-movies':
-            content = <HistoryMovies dataHistorymovies={dataHistorymovies} />;
-            break;
-        case 'love-movies':
-            content = <LoveMovies dataLovemovies={dataLovemovies} />;
-            break;
-        case 'delete-account':
-            content = <div>Delete account</div>;
-            break;
-        default:
-            content = <UserProfile />;
-    }
-
+        fetchDataLove();
+    }, [pathname]);
     return (
         <div className="wrapper-layout">
             <div className="header-layoutUser"></div>
@@ -156,7 +156,7 @@ export const LayoutUser = () => {
                                     <SettingOutlined />
                                 </div>
                             ) : (
-                                <div className="title-header">Của bạn</div>
+                                <div className="title-header">Dành cho bạn</div>
                             )}
                         </Header>
                         <hr className="mt-2 border-neutral-600" />
@@ -169,14 +169,39 @@ export const LayoutUser = () => {
                             defaultSelectedKeys={['profile']}
                             mode="inline"
                             items={items}
-                            onClick={handleMenuClick}
+                            selectedKeys={[pathname]}
                         />
                     </Sider>
                     <Layout>
                         <Content className="content-item">
                             <div className="content">
                                 <Breadcrumb className="content-title"></Breadcrumb>
-                                <div className="content-main"> {content}</div>
+                                <div className="content-main">
+                                    <Routes>
+                                        <Route path="/profile" element={<UserProfile />} />
+                                        <Route path="/vip-package" element={<VIPPackageUser />} />
+                                        <Route
+                                            path="/watch-later"
+                                            element={<WatchLater dataCollect={dataCollect} />}
+                                        />
+                                        <Route
+                                            path="/watched-movies"
+                                            element={
+                                                <HistoryMovies
+                                                    dataHistorymovies={dataHistorymovies}
+                                                />
+                                            }
+                                        />
+                                        <Route
+                                            path="/love-movies"
+                                            element={<LoveMovies dataLovemovies={dataLovemovies} />}
+                                        />
+                                        <Route
+                                            path="/delete-account"
+                                            element={<div>Delete account</div>}
+                                        />
+                                    </Routes>
+                                </div>
                             </div>
                         </Content>
                     </Layout>
