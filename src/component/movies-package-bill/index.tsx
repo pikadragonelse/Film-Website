@@ -135,7 +135,7 @@ export const MoviesPackageBill = () => {
                 }}
             >
                 <span className="bill-list__bold">Tổng tiền </span>
-                {dataBillReturn.vnp_Amount.toLocaleString('it-IT')}
+                {(dataBillReturn.vnp_Amount / 100).toLocaleString('it-IT')}
             </div>
 
             <Button className="bill-list__btn" type="primary">

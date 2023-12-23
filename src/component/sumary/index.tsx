@@ -45,7 +45,9 @@ export const Summary: React.FC<SummaryProps> = ({ selectedTerm, selectedMethod }
 
     const postOrder = async () => {
         return await axios
-            .post('http://localhost:8000/api/payments/paypal', { subscriptionInfoId: 9 })
+            .post('http://localhost:8000/api/payments/paypal', {
+                subscriptionInfoId: 9,
+            })
             .then((res) => {
                 console.log(res);
                 return res.data.id;

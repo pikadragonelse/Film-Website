@@ -1,23 +1,12 @@
 import { ShareAltOutlined } from '@ant-design/icons';
-import { Modal, message } from 'antd';
+import { Divider, Modal, Spin, message } from 'antd';
 import React, { useEffect, useState } from 'react';
-import './index.scss';
-import { FilmItem } from '../film-item';
 import { useParams } from 'react-router';
-import { TabItem } from './actor-tag-item';
+import { FilmItem } from '../film-item';
 import { TabContent } from './actor-tag-content';
-
-interface TabsProps {
-    color: string;
-}
-
-interface ActorInfo {
-    name: string;
-    gender: string;
-    avatar: string;
-    dateOfBirth: string;
-    description: string;
-}
+import { TabItem } from './actor-tag-item';
+import './index.scss';
+import { ActorInfo, TabsProps } from './type';
 
 export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
@@ -26,6 +15,37 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [actorInfo, setActorInfo] = useState<ActorInfo | null>(null);
     const [films, setFilms] = useState<Array<FilmItem>>([]);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
+    const [qrCode, setQrCodeUrl] = useState<string | null>(null);
+    console.log(activeTab);
+
+    const fetchActorQRCode = async () => {
+        const actorLink = encodeURIComponent(`${window.location.origin}/actor/${actorId}`);
+        try {
+            const response = await fetch(
+                `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+                setQrCodeUrl(data.qrCode);
+                console.log('data', qrCode);
+
+                if (typeof data.qrCode === 'string') {
+                    const regex = /(data:image\/png;base64,[^'"]+)/;
+                    const match = data.qrCode.match(regex);
+
+                    if (match) {
+                        const base64Value = match[1];
+                        setQrCodeUrl(base64Value || '');
+                    }
+                }
+            } else {
+                console.error('Failed to fetch QR code URL');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
         fetch(`http://localhost:8000/api/individuals/actors/${actorId}`)
@@ -33,6 +53,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
             .then((data) => {
                 setActorInfo(data.data);
                 setFilms(data.data.movies);
+                fetchActorQRCode();
             })
             .catch((error) => console.error('Error:', error));
     }, [actorId]);
@@ -133,31 +154,58 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                     footer={null}
                                     onCancel={handleCancel}
                                     width={450}
+                                    className="top-32"
                                 >
-                                    <a
-                                        className="modal-item"
-                                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                                            copiedLink || '',
-                                        )}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        <img
-                                            className="modal-img"
-                                            src="https://www.iqiyipic.com/common/fix/global/fb.png"
-                                            alt="facebook"
-                                        />
-                                        Facebook
-                                    </a>
+                                    <div className="flex gap-10 items-center justify-center">
+                                        <a
+                                            className="modal-item"
+                                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                                copiedLink || '',
+                                            )}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            <img
+                                                className="modal-img"
+                                                src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
+                                                alt="facebook"
+                                            />
+                                            Facebook
+                                        </a>
 
-                                    <a className="modal-item" onClick={handleCopyLink}>
-                                        <img
-                                            className="modal-img"
-                                            src="https://www.iqiyipic.com/common/fix/global/copylink.png"
-                                            alt="addresss"
-                                        />
-                                        Sao chép liên kết
-                                    </a>
+                                        <a className="modal-item" onClick={handleCopyLink}>
+                                            <img
+                                                className="modal-img"
+                                                src="https://www.iqiyipic.com/common/fix/global/copylink.png"
+                                                alt="addresss"
+                                            />
+                                            Liên kết
+                                        </a>
+                                    </div>
+                                    <Divider className="!bg-gray-600" />
+                                    <div className="flex flex-col justify-center items-center mt-4">
+                                        <p>Quét để chia sẻ trên thiết bị di động</p>
+
+                                        {qrCode ? (
+                                            <div className="flex items-center justify-center mt-4">
+                                                <img
+                                                    alt="img"
+                                                    className="w-[160px] h-full"
+                                                    src="https://movies-pbl6.s3.ap-southeast-1.amazonaws.com/movies/18/background.jpg?AWSAccessKeyId=AKIAYUIZLJ5BETCSGYOZ&Expires=1703080234&Signature=5T2CnQ%2BRFUt5c5%2BLE%2BZTSNZwX3c%3D"
+                                                />
+                                                <img
+                                                    src={qrCode}
+                                                    alt="QR Code"
+                                                    style={{
+                                                        width: '80px',
+                                                        height: '80px',
+                                                    }}
+                                                />
+                                            </div>
+                                        ) : (
+                                            <Spin></Spin>
+                                        )}
+                                    </div>
                                 </Modal>
                             </div>
                         </div>

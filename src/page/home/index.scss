@@ -10,3 +10,11 @@
 .anticon-vertical-align-top {
     color: var(--primary-color);
 }
+.botchat{
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    margin: 10px;
+    margin-bottom: 34px;
+    z-index: 999;
+}

@@ -16,7 +16,8 @@ export const EspList = ({ listEpisodes }: ListEpisodesType) => {
                         <Row justify="center">
                             <Link to={`/movie/${value.movie_id}/${value.episode_id}`}>
                                 <div className="items-esplist">
-                                    <img src={value.posterURL} alt="" className="poster-item" />
+                                    <img src={value.poster_url} alt="" className="poster-item" />
+
                                     <div
                                         className={`item-esplist ${
                                             episodeId !== undefined &&

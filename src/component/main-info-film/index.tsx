@@ -34,7 +34,7 @@ export const MainInfoFilm = ({
                 <h1 className="episode">{episode}</h1>
             </div>
             <div className="view-info flex items-center">
-                <div className="view">{view.toLocaleString()} lượt xem</div>
+                {/* <div className="view">{view.toLocaleString()} lượt xem</div> */}
 
                 <div className="rating">
                     <StarFilled style={{ color: '#fadb14', fontSize: 18 }} />

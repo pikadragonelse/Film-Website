@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { DeleteIcon, LoveIcon, ReplyIcon } from '../../../asset/icon/comment-icon';
-import { listComment } from '../list-cmt';
+
 import { WriteComment } from '../write-cmt';
 import { CurrentUser } from '..';
 import { Modal } from 'antd';
@@ -9,6 +9,7 @@ import { Modal } from 'antd';
 import './index.scss';
 import Cookies from 'js-cookie';
 import { request } from '../../../utils/request';
+import { listComment } from '../type';
 
 interface CmtProps {
     comment: listComment;

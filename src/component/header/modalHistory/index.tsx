@@ -43,12 +43,12 @@ export const ContentModalHistory = () => {
                                         className="w-36 h-16"
                                     />
                                 </Col>
-                                <Col span={13}>
+                                <Col span={11}>
                                     <h1 className="text-black !text-sm ml-1 hover:text-[#cc0e0e]">
                                         {result.movieTitle}
                                     </h1>
                                 </Col>
-                                <Col span={3}>
+                                <Col span={5}>
                                     <p className="text-black !text-sm hover:text-[#cc0e0e]">
                                         - {result.title}
                                     </p>

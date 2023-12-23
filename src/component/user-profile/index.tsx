@@ -1,23 +1,19 @@
-import Avatar from 'antd/es/avatar/avatar';
-import React, { useEffect, useState } from 'react';
-import './index.scss';
-import Title from 'antd/es/typography/Title';
 import { Button, Descriptions, DescriptionsProps, Form } from 'antd';
-import { ModalUser } from '../modal-user';
-import { FormEditUser } from '../modal-user/form-edit-user';
-import { FormChangePassword } from '../modal-user/form-change-password';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import Avatar from 'antd/es/avatar/avatar';
+import Title from 'antd/es/typography/Title';
 import Cookies from 'js-cookie';
-import { CurrentUser } from '../comment';
+import { useEffect, useState } from 'react';
 import { request } from '../../utils/request';
+import { CurrentUser } from '../comment';
+import { ModalUser } from '../modal-user';
+import { FormChangePassword } from '../modal-user/form-change-password';
+import { FormEditUser } from '../modal-user/form-edit-user';
+import './index.scss';
 
-export type UserProfile = {};
 export const UserProfile = () => {
     const moment = require('moment');
     const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
     const [isOpenChangePassword, setIsOpenChangePassword] = useState<boolean>(false);
-    const [form] = Form.useForm();
     //api currentUser
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>({
@@ -82,11 +78,7 @@ export const UserProfile = () => {
                 <FormChangePassword onCancel={() => setIsOpenChangePassword(false)} />
             </ModalUser>
             <div className="user-profile-general">
-                <Avatar
-                    src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
-                    size={160}
-                    className="user-profile-avt"
-                />
+                <Avatar src={currentUser.avatarURL} size={160} className="user-profile-avt" />
                 <Title className="user-profile-username" level={3}>
                     {currentUser.username}
                 </Title>

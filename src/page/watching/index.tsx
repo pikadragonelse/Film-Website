@@ -135,28 +135,45 @@ export const WatchingPage = () => {
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
     const fetchDataEpisode = async () => {
-        const response = await request.get(`episode/${episodeId}`).catch((err) => {
-            console.log(err);
-        });
-        const data = response?.data;
-        console.log(data);
+        try {
+            let response;
 
-        //kiểm tra
-        if (watchingData.movieId !== data.movieId) {
-            await fetchData();
+            if (accessToken) {
+                response = await request.get(`episode/${episodeId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+            } else {
+                response = await request.get(`episode/${episodeId}`);
+            }
+
+            const data = response?.data;
+
+            // Check if the movieId is different
+            if (watchingData.movieId !== data.movieId) {
+                await fetchData();
+            }
+
+            setDataEpisode(data);
+
+            // Save watching history if startTime is available
+            if (startTime) {
+                const elapsedMinutes = calculateElapsedTime();
+                saveWatchingHistory(data.episodeId, elapsedMinutes);
+            }
+
+            setStartTime(Date.now());
+        } catch (err) {
+            console.log(err);
         }
-        setDataEpisode(data);
-        //
-        if (startTime) {
-            const elapsedMinutes = calculateElapsedTime();
-            saveWatchingHistory(data.episodeId, elapsedMinutes);
-        }
-        setStartTime(Date.now());
     };
+
     useEffect(() => {
         fetchDataEpisode();
         window.scrollTo(0, 0);
     }, [episodeId]);
+    console.log(dataEpisode);
     //api history
     const saveWatchingHistory = async (episodeId: number, duration: number) => {
         try {
