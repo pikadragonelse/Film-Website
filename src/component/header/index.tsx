@@ -4,10 +4,11 @@ import {
     HistoryOutlined,
     LoginOutlined,
     LogoutOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, Button, Popover } from 'antd';
+import { Avatar, Button, Popover, Tooltip } from 'antd';
 import Cookies from 'js-cookie';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
@@ -22,7 +23,6 @@ import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
 import { ContentModalHistory } from './modalHistory';
 import { ContentModalHistoryTitle } from './modalHistoryTitle';
-import { CurrentUser } from '../comment';
 export type Header = { className?: string };
 
 const queryParamMap: Record<string, string> = {
@@ -47,6 +47,11 @@ export interface CategoriesHeader {
     queryParam?: string;
 }
 
+export interface CurrentUser {
+    username: string;
+    avatarURL: string;
+}
+
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -54,7 +59,6 @@ export const Header = ({ className }: Header) => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>({
         username: '',
-        email: '',
         avatarURL: '',
     });
 
@@ -94,6 +98,7 @@ export const Header = ({ className }: Header) => {
 
             if (storedUsername) {
                 dispatch(setUsername(storedUsername));
+                fetchDataCurrentUser();
             }
         }
     }, [dispatch]);
@@ -103,23 +108,23 @@ export const Header = ({ className }: Header) => {
     console.log('isLogin :', isLogin);
     console.log('username :', username);
 
-    const handleLogin = () => {
+    const handleLogin = useCallback(async () => {
         const storedUsername = Cookies.get('username');
-        // console.log('storedUsername', storedUsername);
         dispatch(setIslogin(true));
 
         if (storedUsername) {
             dispatch(setUsername(storedUsername));
         }
-    };
 
-    const handleLogout = () => {
+        await fetchDataCurrentUser();
+    }, [dispatch]);
+
+    const handleLogout = useCallback(() => {
         Cookies.remove('accessToken');
         Cookies.remove('username');
         dispatch(setIslogin(false));
         dispatch(setUsername(null));
-    };
-    //api search theo mục
+    }, [dispatch]);
 
     const fetchDataCurrentUser = async () => {
         try {
@@ -129,15 +134,14 @@ export const Header = ({ className }: Header) => {
                 },
             });
             const data = response.data;
+
             setCurrentUser(data);
         } catch (error) {
             console.error(error);
         }
     };
 
-    useEffect(() => {
-        fetchDataCurrentUser();
-    }, []);
+    console.log('User Data:', setCurrentUser);
 
     const fetchItems = async () => {
         try {
@@ -266,20 +270,38 @@ export const Header = ({ className }: Header) => {
                                 content={<ContentModalUser />}
                                 zIndex={9999}
                             >
-                                <Link to="/foryou">
-                                    <Avatar
-                                        className="avatar"
-                                        src={currentUser.avatarURL}
-                                        style={{
-                                            verticalAlign: 'middle',
-                                        }}
-                                        size="default"
-                                    ></Avatar>
+                                <Link
+                                    to="/foryou/profile"
+                                    onClick={() => {
+                                        window.scrollTo(0, 0);
+                                    }}
+                                >
+                                    {currentUser.avatarURL ? (
+                                        <Avatar
+                                            className="avatar"
+                                            src={currentUser.avatarURL}
+                                            style={{
+                                                verticalAlign: 'middle',
+                                            }}
+                                            size="default"
+                                        />
+                                    ) : (
+                                        <Avatar
+                                            className="avatar"
+                                            icon={<UserOutlined />}
+                                            style={{
+                                                verticalAlign: 'middle',
+                                            }}
+                                            size="default"
+                                        />
+                                    )}
                                 </Link>
                             </Popover>
-                            <div className="icon-login">
-                                <LogoutOutlined onClick={handleLogout} />
-                            </div>
+                            <Tooltip title="Đăng xuất">
+                                <div className="icon-login">
+                                    <LogoutOutlined onClick={handleLogout} />
+                                </div>
+                            </Tooltip>
                         </>
                     ) : (
                         <Link to="/login">

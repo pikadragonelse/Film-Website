@@ -86,5 +86,14 @@
     cursor: pointer;
 }
 .item-user:hover .icon {
-    color: red; /* Đổi màu biểu tượng thành đỏ khi di chuột vào .item-user */
+    color: red;
+}
+
+.ant-tooltip-inner {
+    background-color: white !important;
+    color: black !important;
+}
+
+.ant-tooltip-arrow::after {
+    background-color: white !important;
 }

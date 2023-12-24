@@ -66,7 +66,7 @@ export const ContentModalHistory = () => {
                 </div>
             ))}
             <Link
-                to="/foryou"
+                to="/foryou/profile"
                 className="text-[#989898] text-[13px] flex justify-center mt-5 hover:text-[red]"
             >
                 <div className="mr-2">Khác</div>

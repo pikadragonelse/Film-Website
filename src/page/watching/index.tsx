@@ -115,7 +115,10 @@ export const WatchingPage = () => {
         fetchData();
     }, [movieId, isLogin]);
 
-    const combinedActorsAndDirectors = [...watchingData.actors, ...watchingData.directors];
+    const combinedActorsAndDirectors = [
+        ...(watchingData?.actors || []),
+        ...(watchingData?.directors || []),
+    ];
 
     const year = moment(watchingData.releaseDate).format('YYYY');
     const genres = watchingData?.genres.map((genre) => genre.name) || [];
@@ -149,15 +152,12 @@ export const WatchingPage = () => {
             }
 
             const data = response?.data;
-
-            // Check if the movieId is different
             if (watchingData.movieId !== data.movieId) {
                 await fetchData();
             }
 
             setDataEpisode(data);
 
-            // Save watching history if startTime is available
             if (startTime) {
                 const elapsedMinutes = calculateElapsedTime();
                 saveWatchingHistory(data.episodeId, elapsedMinutes);
@@ -169,15 +169,10 @@ export const WatchingPage = () => {
         }
     };
 
-    useEffect(() => {
-        fetchDataEpisode();
-        window.scrollTo(0, 0);
-    }, [episodeId]);
-    console.log(dataEpisode);
     //api history
     const saveWatchingHistory = async (episodeId: number, duration: number) => {
         try {
-            const response = await request.get(
+            await request.get(
                 `user/add-movie-history?episodeId=${episodeId}&duration=${duration}`,
                 {
                     headers: {
@@ -189,7 +184,8 @@ export const WatchingPage = () => {
             console.error('API Error:', error);
         }
     };
-    const [startTime, setStartTime] = useState<number | null>(null);
+
+    const [startTime, setStartTime] = useState<number>(Date.now());
     const calculateElapsedTime = () => {
         if (startTime) {
             const endTime = Date.now();
@@ -198,6 +194,11 @@ export const WatchingPage = () => {
         }
         return 0;
     };
+
+    useEffect(() => {
+        fetchDataEpisode();
+        window.scrollTo(0, 0);
+    }, [episodeId]);
 
     return (
         <div className="watching-container">

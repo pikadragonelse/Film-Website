@@ -1,16 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './index.scss';
-import {
-    CloseCircleOutlined,
-    CloseOutlined,
-    MinusOutlined,
-    SendOutlined,
-    UserOutlined,
-} from '@ant-design/icons';
-import { Logo } from '../../asset/icon/logo';
+import { CloseOutlined, SendOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
-import { request } from '../../utils/request';
 import Cookies from 'js-cookie';
+import { useEffect, useRef, useState } from 'react';
+import { Logo } from '../../asset/icon/logo';
+import { request } from '../../utils/request';
+import './index.scss';
 
 interface botchatProp {
     onClose: () => void;
@@ -67,7 +61,8 @@ export const Botchat = ({ onClose }: botchatProp) => {
         if (ref.current) {
             ref.current.scrollTop = ref.current.scrollHeight;
         }
-        Cookies.set('historyMessenger', JSON.stringify(messages), { expires: 1 });
+        const mess = JSON.stringify(messages);
+        Cookies.set('historyMessenger', mess, { expires: 1 });
     }, [messages]);
     const [timeStart, setTimeStart] = useState<string>('');
     useEffect(() => {
