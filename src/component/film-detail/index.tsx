@@ -7,7 +7,7 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Modal, Progress, Spin, notification } from 'antd';
+import { Divider, Modal, Progress, Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -27,15 +27,15 @@ export const FilmDetail = () => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
-    //bộ sưu tập
     const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
-    //yêu thích
     const [addedToLove, setAddedToLove] = useState<boolean>(false);
     const [dataLove, setDataLove] = useState<FilmItem[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const [qrCode, setQrCodeUrl] = useState<string | null>(null);
+    const [shareModalVisible, setShareModalVisible] = useState(false);
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
-
+    const [copiedLink, setCopiedLink] = useState<string | null>(null);
+    const [logoutLoading, setLogoutLoading] = useState(false);
     let firstEpisodeId: number | null = null;
     //check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
@@ -45,9 +45,45 @@ export const FilmDetail = () => {
             description: 'Vui lòng đăng nhập để thực hiện hành động này.',
         });
     };
-    const handleShare = () => {
-        if (!isUserLoggedIn) {
+
+    const handleShare = async () => {
+        if (isUserLoggedIn) {
+            const movieId = filmDetail?.movieId;
+            const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
+
+            try {
+                const response = await fetch(
+                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setQrCodeUrl(data.qrCode);
+                    if (typeof data.qrCode === 'string') {
+                        const regex = /(data:image\/png;base64,[^'"]+)/;
+                        const match = data.qrCode.match(regex);
+
+                        if (match) {
+                            const base64Value = match[1];
+                            setQrCodeUrl(base64Value || '');
+                        }
+                    }
+                    setShareModalVisible(true);
+                } else {
+                    console.error('Failed to fetch QR code URL');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
             handleUnauthorizedAction();
+        }
+    };
+
+    const handleCopyLink = () => {
+        if (copiedLink) {
+            navigator.clipboard.writeText(copiedLink);
+            message.success('Sao chép thành công');
         }
     };
 
@@ -335,6 +371,53 @@ export const FilmDetail = () => {
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
+            <Modal
+                title={<p className="flex items-center justify-center mb-2">Chia sẻ</p>}
+                visible={shareModalVisible}
+                footer={null}
+                onCancel={() => setShareModalVisible(false)}
+                width={450}
+            >
+                <div className="flex gap-10 items-center justify-center">
+                    <a
+                        className="modal-item flex flex-col items-center"
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                            copiedLink || '',
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <img
+                            className="modal-img ml-4"
+                            src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
+                            alt="facebook"
+                        />
+                        <p className="text-sm mt-2"> Facebook</p>
+                    </a>
+
+                    <a className="modal-item  flex flex-col" onClick={handleCopyLink}>
+                        <img
+                            className="modal-img ml-4"
+                            src="https://www.iqiyipic.com/lequ/20220216/copylink@2x.png"
+                            alt="addresss"
+                        />
+                        <p className="text-sm mt-2">Sao chép link</p>
+                    </a>
+                </div>
+                <Divider className="!bg-gray-600" />
+                <div className="flex flex-col justify-center items-center mt-4">
+                    <p>Quét để chia sẻ trên thiết bị di động</p>
+                    {qrCode ? (
+                        <img
+                            src={qrCode}
+                            alt="QR Code"
+                            style={{ width: '100px', height: '100px', marginTop: '15px' }}
+                        />
+                    ) : (
+                        <Spin></Spin>
+                    )}
+                </div>
+            </Modal>
         </div>
     );
 };

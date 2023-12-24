@@ -115,7 +115,10 @@ export const WatchingPage = () => {
         fetchData();
     }, [movieId, isLogin]);
 
-    const combinedActorsAndDirectors = [...watchingData.actors, ...watchingData.directors];
+    const combinedActorsAndDirectors = [
+        ...(watchingData?.actors || []),
+        ...(watchingData?.directors || []),
+    ];
 
     const year = moment(watchingData.releaseDate).format('YYYY');
     const genres = watchingData?.genres.map((genre) => genre.name) || [];

@@ -1,5 +1,5 @@
 import { CaretRightOutlined } from '@ant-design/icons';
-import { Button, Skeleton } from 'antd';
+import { Button, Skeleton, Col } from 'antd';
 import { useState } from 'react';
 import './index.scss';
 import { FilmItem } from '../film-item';

@@ -1,5 +1,5 @@
-import { Badge } from 'antd';
-import React from 'react';
+import { Badge, Pagination } from 'antd';
+import React, { useState } from 'react';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import { Episodes } from '../../../model/film';
@@ -15,13 +15,23 @@ interface FilmDetailEpisodesProps {
 
 const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) => {
     const { episodes } = filmDetail;
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+
+    const startIdx = (currentPage - 1) * pageSize;
+    const visibleEpisodes = episodes.slice(startIdx, startIdx + pageSize);
+
+    const onPageChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
     return (
         <>
             <p className="episodes-length">Tổng số tập : {episodes.length}</p>
 
             <div className="grid grid-cols-5 gap-x-20 gap-y-[5.1rem] mt-8 episode-item">
-                {episodes.map((episode) => (
-                    <Badge.Ribbon text={episode.title} color="red">
+                {visibleEpisodes.map((episode) => (
+                    <Badge.Ribbon text={episode.title} color="red" key={episode.episode_id}>
                         <Link
                             to={`/movie/${episode.movie_id}/${episode.episode_id}`}
                             className="episode-link"
@@ -29,8 +39,7 @@ const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) =
                             <img
                                 className="object-cover h-[100%] w-[100%] rounded-[3px] episodes-image"
                                 alt={episode.title}
-                                src={episode.posterURL}
-                                key={episode.episode_id}
+                                src={episode.poster_url}
                             />
                             <div className="episodes-btnplay">
                                 <CaretRightOutlined />
@@ -42,6 +51,15 @@ const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) =
                         </p>
                     </Badge.Ribbon>
                 ))}
+            </div>
+
+            <div className="pagination-container mt-28 text-center">
+                <Pagination
+                    current={currentPage}
+                    pageSize={pageSize}
+                    total={episodes.length}
+                    onChange={onPageChange}
+                />
             </div>
         </>
     );
