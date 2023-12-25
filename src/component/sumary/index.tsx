@@ -62,26 +62,16 @@ export const Summary: React.FC<SummaryProps> = ({
                 },
             )
             .then((res) => {
-                console.log(res);
-
                 setLinkRedirect(res.data.data);
             })
             .catch((error) => console.log(error));
     };
-    useEffect(() => {
-        if (selectedMethod === 2) {
-            paymentVNPay();
-        } else if (selectedMethod === 1) {
-            postOrder();
-        }
-    }, [selectedMethod]);
 
     const paymentVNPay = async () => {
         await axios
             .post(
                 'http://localhost:8000/api/payments/vn-pay',
                 {
-                    price: 100000,
                     ipAddress: '127.0.0.1',
                     subscriptionInfoId: subscriptionInfoId,
                 },
@@ -97,6 +87,14 @@ export const Summary: React.FC<SummaryProps> = ({
             })
             .catch((err) => console.log(err));
     };
+
+    useEffect(() => {
+        if (selectedMethod === 2) {
+            paymentVNPay();
+        } else if (selectedMethod === 1) {
+            postOrder();
+        }
+    }, [selectedMethod, subscriptionInfoId]);
 
     return (
         <div className="wrapper-summary">
