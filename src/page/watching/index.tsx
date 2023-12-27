@@ -7,15 +7,17 @@ import { IconWithText } from '../../component/icon-with-text';
 import { ListEpisodes } from '../../component/list-episode';
 import { MainInfoFilm } from '../../component/main-info-film';
 import { SubInfo } from '../../component/sub-info';
-import { Film } from '../../model/film';
+import { Film, Genres } from '../../model/film';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
 
-import Cookies from 'js-cookie';
 import { ActorFamous } from '../../component/list-actor-famous';
 import { VideoPlayerCustom } from '../../component/video-player-custom';
 import { selectionItems } from './items-selection';
+import { useToken } from '../../hooks/useToken';
+import { defaultEpisode, defaultFilm } from './default-value';
+import axios from 'axios';
 
 interface Episodes {
     episodeId?: number;
@@ -32,37 +34,9 @@ interface Episodes {
 
 const moment = require('moment');
 
-const defaultEpisode = {
-    episodeId: 0,
-    movieId: 0,
-    title: '',
-    releaseDate: '',
-    posterURL: '',
-    movieURL: '',
-    numView: '',
-    duration: 0,
-    episodeNo: 0,
-};
-
-const defaultFilm = {
-    movieId: 0,
-    title: '',
-    description: '',
-    releaseDate: '',
-    nation: '',
-    posterURL: '',
-    trailerURL: '',
-    averageRating: '',
-    episodeNum: 0,
-    level: 0,
-    genres: [],
-    actors: [],
-    episodes: [],
-    directors: [],
-};
-
 export const WatchingPage = () => {
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const { userId, accessToken } = useToken();
+
     const [currentUser, setCurrentUser] = useState<CurrentUser>({
         username: '',
         avatarURL: '',
@@ -77,24 +51,12 @@ export const WatchingPage = () => {
         },
     });
 
-    const fetchDataCurrentUser = async () => {
-        try {
-            const response = await request.get('user/get-self-information', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            const data = response.data;
-            setCurrentUser(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     const [watchingData, setWatchingData] = useState<Film>(defaultFilm);
     const [rating, setRating] = useState(0);
     const { movieId, episodeId } = useParams();
-    const isLogin = useSelector((state: RootState) => state.user.isLogin);
+    const [combinedActorsAndDirectors, setCombinedActorsAndDirectors] = useState<any>([]);
+    const [subInfo, setSubInfo] = useState<Array<SubInfo>>([]);
+    const [listHashtag, setListHashtag] = useState<string[]>([]);
 
     const fetchData = async () => {
         try {
@@ -110,7 +72,16 @@ export const WatchingPage = () => {
             } else {
                 const response = await request.get(`movies/${movieId}`);
                 const data = response.data;
-                setWatchingData(data.movie);
+                const dataMovieHandler = {
+                    ...data.movie,
+                    releaseDate: moment(data.movie).format('YYYY'),
+                };
+                setListHashtag([
+                    ...data.movie.genres.map((genre: Genres) => genre.name),
+                    dataMovieHandler.releaseDate,
+                    'HD',
+                ]);
+                setWatchingData(dataMovieHandler);
                 setRating(data.rating);
             }
         } catch (error) {
@@ -120,77 +91,33 @@ export const WatchingPage = () => {
 
     useEffect(() => {
         fetchData();
-    }, [movieId, isLogin]);
-    const combinedActorsAndDirectors = [
-        ...(watchingData?.actors || []),
-        ...(watchingData?.directors || []),
-    ];
+    }, [movieId, accessToken]);
 
-    const year = moment(watchingData.releaseDate).format('YYYY');
-    const genres = watchingData?.genres.map((genre) => genre.name) || [];
-    const subInfo: Array<SubInfo> = [
-        {
-            title: 'Diễn viên',
-            content: watchingData?.actors.map((actor) => actor.name.concat(', ')).concat('...') || [
-                '',
-            ],
-        },
-        {
-            title: 'Thể loại',
-            content: watchingData?.genres.map((actor) => actor.name.concat(', ')) || [''],
-        },
-    ];
+    useEffect(() => {
+        setCombinedActorsAndDirectors([
+            ...(watchingData?.actors || []),
+            ...(watchingData?.directors || []),
+        ]);
+
+        setSubInfo([
+            {
+                title: 'Diễn viên',
+                content: watchingData?.actors
+                    .map((actor) => actor.name.concat(', '))
+                    .concat('...') || [''],
+            },
+            {
+                title: 'Thể loại',
+                content: watchingData?.genres.map((actor) => actor.name.concat(', ')) || [''],
+            },
+        ]);
+    }, [watchingData]);
 
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
-    const fetchDataEpisode = async () => {
-        try {
-            await fetchDataCurrentUser();
-            let response;
-            console.log(currentUser);
-            console.log('accessToken:', accessToken);
-            console.log('subscriptionType:', currentUser.subscription?.subscriptionType);
-            console.log('level:', watchingData?.level);
-            if (
-                (accessToken &&
-                    currentUser.subscription &&
-                    currentUser.subscription.subscriptionType === 'Cơ bản' &&
-                    watchingData.level === 0) ||
-                (accessToken &&
-                    currentUser.subscription &&
-                    currentUser.subscription.subscriptionType === 'Cao cấp')
-            ) {
-                response = await request.get(`episode/${episodeId}`, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-            } else if (
-                accessToken &&
-                currentUser.subscription &&
-                currentUser.subscription.subscriptionType === 'Cơ bản' &&
-                watchingData.level === 1
-            ) {
-                response = await request.get(`episode/${episodeId}`);
-            } else {
-                response = await request.get(`episode/${episodeId}`);
-            }
-            const data = response?.data;
-            if (watchingData && watchingData.movieId !== data.movieId) {
-                await fetchData();
-            }
 
-            setDataEpisode(data);
-
-            if (startTime) {
-                const elapsedMinutes = calculateElapsedTime();
-                saveWatchingHistory(data.episodeId, elapsedMinutes);
-            }
-
-            setStartTime(Date.now());
-        } catch (err) {
-            console.log(err);
-        }
+    const getDataEpisode = () => {
+        axios.get('');
     };
 
     //api history
@@ -220,9 +147,9 @@ export const WatchingPage = () => {
     };
 
     useEffect(() => {
-        fetchDataEpisode();
         window.scrollTo(0, 0);
     }, [episodeId]);
+
     return (
         <div className="watching-container">
             <div className="watching">
@@ -233,13 +160,13 @@ export const WatchingPage = () => {
                     <ListEpisodes
                         title="Danh sách tập"
                         subInfo={[
-                            `16/${watchingData.episodeNum}`,
+                            `16/${watchingData?.episodeNum}`,
                             'Phát sóng lúc 20h thứ 7 hàng tuần',
                         ]}
                         sessions={selectionItems}
                         multiSessions={false}
-                        titleFilm={watchingData.title}
-                        listEpisodes={watchingData.episodes}
+                        titleFilm={watchingData?.title}
+                        listEpisodes={watchingData?.episodes}
                     />
                     {/* <ListFilm title="Phim liên quan" listFilm={watchingData} /> */}
                 </div>
@@ -247,12 +174,12 @@ export const WatchingPage = () => {
             <div className="watching-info-container !mb-[-60px]">
                 <MainInfoFilm
                     className="watching-main-info-container"
-                    name={watchingData.title}
-                    rate={watchingData.averageRating}
-                    hashtag={[...genres, year, 'HD']}
-                    desc={watchingData.description}
-                    view={dataEpisode.numView}
-                    episode={`${dataEpisode.title}`}
+                    name={watchingData?.title}
+                    rate={watchingData?.averageRating}
+                    hashtag={listHashtag}
+                    desc={watchingData?.description}
+                    view={dataEpisode?.numView}
+                    episode={`${dataEpisode?.title}`}
                     movieId={parseInt(movieId ?? '0')}
                     rating={rating}
                 />
@@ -285,7 +212,7 @@ export const WatchingPage = () => {
             <div className="comment-container">
                 <Comment
                     title="Comments"
-                    isLogin={isLogin}
+                    isLogin={accessToken != null ? true : false}
                     currentUser={currentUser}
                     placeholder="Write a comment..."
                 />

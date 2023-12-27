@@ -1,10 +1,10 @@
 export const defaultEpisode = {
     episodeId: 0,
     movieId: 0,
-    episodeTitle: '',
+    title: '',
     releaseDate: '',
-    posterUrl: '',
-    movieUrl: '',
+    posterURL: '',
+    movieURL: '',
     numView: '',
     duration: 0,
     episodeNo: 0,
@@ -24,4 +24,5 @@ export const defaultFilm = {
     genres: [],
     actors: [],
     episodes: [],
+    directors: [],
 };

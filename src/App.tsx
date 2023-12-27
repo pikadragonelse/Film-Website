@@ -36,7 +36,7 @@ export const App = () => {
 
                 <div className="wrapper-app-container">
                     <Routes>
-                        <Route path="" element={<HomePage />} />
+                        <Route path="/" element={<HomePage />} />
                         <Route path="/search/*" element={<SearchPage />} />
                         <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
                         <Route path="/foryou/*" element={<LayoutUser />} />
@@ -48,7 +48,6 @@ export const App = () => {
                         <Route path="/director/:directorId" element={<Director color="white" />} />
                         <Route path="/actor/:actorId" element={<Actor color="white" />} />
                         <Route path="/movie/:id" element={<FilmDetail />} />
-
                         <Route path="/newpassword" element={<NewPassword />} />
                         <Route path="/forget" element={<LoginForget />} />
                     </Routes>
