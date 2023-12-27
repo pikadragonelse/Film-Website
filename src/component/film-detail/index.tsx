@@ -7,7 +7,7 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Divider, Modal, Progress, Spin, message, notification } from 'antd';
+import { Progress, Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,6 +17,8 @@ import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
+import ShareModal from './share';
+import FilmDetailsSection from './film-detail-section';
 
 interface Genre {
     id: number;
@@ -35,7 +37,6 @@ export const FilmDetail = () => {
     const [shareModalVisible, setShareModalVisible] = useState(false);
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
-    const [logoutLoading, setLogoutLoading] = useState(false);
     let firstEpisodeId: number | null = null;
     //check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
@@ -45,8 +46,6 @@ export const FilmDetail = () => {
             description: 'Vui lòng đăng nhập để thực hiện hành động này.',
         });
     };
-
-    console.log('filmDetail', filmDetail);
 
     const handleShare = async () => {
         if (isUserLoggedIn) {
@@ -120,6 +119,7 @@ export const FilmDetail = () => {
                 res.json(),
             );
             setFilmDetail(movieData.movie);
+            console.log(movieData);
         } catch (error) {
             console.error(error);
         } finally {
@@ -283,8 +283,6 @@ export const FilmDetail = () => {
                             />
                             <div className="film-detail__title">{filmDetail.title}</div>
                         </div>
-
-                        {/* Info */}
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
                                 <div className="film-detail__summary">
@@ -334,92 +332,36 @@ export const FilmDetail = () => {
                             )}
                         </a>
 
-                        <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white  "
-                        >
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white  ">
                             <ShareAltOutlined className="film-detail__icon" onClick={handleShare} />
                         </a>
 
-                        <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white"
-                        >
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white">
                             <SmallDashOutlined className="film-detail__icon" />
                         </a>
                     </div>
                 </div>
             </div>
             <div className='class="flex z-20 relative flex-col md:flex-row mt-32 md:mt-0 px-64'>
-                <div className="shrink-0 md:max-w-[150px] flex items-center md:flex-col justify-center flex-row gap-20 mt-28  md:border-r border-gray-600 pt-2 ml-[-200px]">
-                    <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">Đánh giá</p>
-                        <div>
-                            <Progress
-                                type="circle"
-                                size={68}
-                                percent={filmDetail.averageRating * 10}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">Lượt yêu thích</p>
-                        <div>
-                            <p> {filmDetail.numFavorite}</p>
-                        </div>
-                    </div>
-                </div>
+                <FilmDetailsSection
+                    averageRating={filmDetail.averageRating}
+                    numFavorite={filmDetail.numFavorite}
+                />
+
                 <div className="flex-grow min-h-[500px] px-20 mt-[-50px] detail-tabs">
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
-            <Modal
-                title={<p className="flex items-center justify-center mb-2">Chia sẻ</p>}
+            <ShareModal
                 visible={shareModalVisible}
-                footer={null}
-                onCancel={() => setShareModalVisible(false)}
-                width={450}
-            >
-                <div className="flex gap-10 items-center justify-center">
-                    <a
-                        className="modal-item flex flex-col items-center"
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                            copiedLink || '',
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <img
-                            className="modal-img ml-4"
-                            src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
-                            alt="facebook"
-                        />
-                        <p className="text-sm mt-2"> Facebook</p>
-                    </a>
-
-                    <a className="modal-item  flex flex-col" onClick={handleCopyLink}>
-                        <img
-                            className="modal-img ml-4"
-                            src="https://www.iqiyipic.com/lequ/20220216/copylink@2x.png"
-                            alt="addresss"
-                        />
-                        <p className="text-sm mt-2">Sao chép link</p>
-                    </a>
-                </div>
-                <Divider className="!bg-gray-600" />
-                <div className="flex flex-col justify-center items-center mt-4">
-                    <p>Quét để chia sẻ trên thiết bị di động</p>
-                    {qrCode ? (
-                        <img
-                            src={qrCode}
-                            alt="QR Code"
-                            style={{ width: '100px', height: '100px', marginTop: '15px' }}
-                        />
-                    ) : (
-                        <Spin></Spin>
-                    )}
-                </div>
-            </Modal>
+                closeModal={() => setShareModalVisible(false)}
+                copiedLink={copiedLink}
+                handleCopyLink={handleCopyLink}
+                handleAddToLove={handleAddToLove}
+                addedToLove={addedToLove}
+                handleShare={handleShare}
+                qrCode={qrCode}
+            />
         </div>
     );
 };
