@@ -74,7 +74,9 @@ export const Botchat = ({ onClose }: botchatProp) => {
     return (
         <div className="message-box">
             <div className="header-box">
-                <Logo />
+                <div className="mt-1">
+                    <Logo />
+                </div>
                 <CloseOutlined style={{ fontSize: '20px' }} onClick={onClose} />
             </div>
 
@@ -115,7 +117,7 @@ export const Botchat = ({ onClose }: botchatProp) => {
                     </div>
                 ))}
             </div>
-            <div className="input-box">
+            <div className="input-box !mt-2">
                 <input
                     type="text"
                     placeholder="Nhập tin nhắn..."

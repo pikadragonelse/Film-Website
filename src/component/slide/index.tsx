@@ -33,7 +33,7 @@ const Slide: React.FC = () => {
 
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {
-        fetch('http://localhost:8000/api/movies?page=5&pageSize=4')
+        fetch('http://localhost:8000/api/movies?page=2&pageSize=10')
             .then((res) => res.json())
             .then((data) => {
                 setPopularMovies(data.movies);

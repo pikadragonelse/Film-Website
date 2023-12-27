@@ -29,7 +29,6 @@ export const HomePage = () => {
     const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
     const [dataReserve, setDataReserve] = useState<Film[]>([]);
     const [dataRecommend, setRecommened] = useState<Film[]>([]);
-
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
 
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);

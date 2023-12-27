@@ -46,6 +46,8 @@ export const FilmDetail = () => {
         });
     };
 
+    console.log('filmDetail', filmDetail);
+
     const handleShare = async () => {
         if (isUserLoggedIn) {
             const movieId = filmDetail?.movieId;
@@ -351,7 +353,7 @@ export const FilmDetail = () => {
             <div className='class="flex z-20 relative flex-col md:flex-row mt-32 md:mt-0 px-64'>
                 <div className="shrink-0 md:max-w-[150px] flex items-center md:flex-col justify-center flex-row gap-20 mt-28  md:border-r border-gray-600 pt-2 ml-[-200px]">
                     <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">RATING</p>
+                        <p className="text-white font-medium text-lg">Đánh giá</p>
                         <div>
                             <Progress
                                 type="circle"
@@ -361,7 +363,7 @@ export const FilmDetail = () => {
                         </div>
                     </div>
                     <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">VOTE COUNT</p>
+                        <p className="text-white font-medium text-lg">Lượt yêu thích</p>
                         <div>
                             <p> {filmDetail.numFavorite}</p>
                         </div>
