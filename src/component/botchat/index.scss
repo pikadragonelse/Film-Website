@@ -4,55 +4,56 @@
     bottom: 0;
     right: 0px;
     width: 402px;
-    height:100%;
+    height: 100%;
     border-radius: 10px 0px 0 0;
     background-color: #121111;
     border: 1px solid #373737;
 
-    .header-box{
+    .header-box {
         border-radius: 10px 10px 0 0;
         height: 8%;
         width: 100%;
-        background-color:var(--main-color);
+        background-color: var(--main-color);
         display: flex;
         flex-direction: row;
-        padding: 0 15px 0 10px;
+        padding: 0 15px 0 15px;
         justify-content: space-between;
         border-bottom: 1px solid #252525;
     }
-    
+
     .message-list {
         height: 84%;
         overflow-y: scroll;
-        .header-avt{
+        .header-avt {
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 30px 0;
 
-            .admin-box{
+            .admin-box {
                 font-size: 26px;
-                padding:10px
+                padding: 10px;
             }
         }
-        
     }
-    
+
     .message {
-        padding:8px 12px;
-        margin:0px 4px;
+        padding: 9px 12px;
+        margin: 0px 5px;
         border-radius: 12px;
     }
-    .bot{
+    .bot {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
+        gap: 3px;
     }
-    .user{
+    .user {
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
         margin-bottom: 8px;
+        gap: 3px;
     }
     .message.user {
         background-color: #484747;
@@ -64,13 +65,14 @@
         max-width: 65%;
         font-size: 14px;
     }
-    
+
     .input-box {
         display: flex;
         height: 55px;
         padding: 8px;
+        margin: 0 10px;
     }
-    
+
     .input-box input {
         flex: 1;
         margin-right: 12px;
@@ -91,7 +93,3 @@
         background-color: #222121;
     }
 }
-
-
-
-
