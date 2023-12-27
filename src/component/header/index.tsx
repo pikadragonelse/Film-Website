@@ -23,6 +23,7 @@ import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
 import { ContentModalHistory } from './modalHistory';
 import { ContentModalHistoryTitle } from './modalHistoryTitle';
+import { CurrentUser } from '../comment';
 export type Header = { className?: string };
 
 const queryParamMap: Record<string, string> = {
@@ -47,11 +48,6 @@ export interface CategoriesHeader {
     queryParam?: string;
 }
 
-export interface CurrentUser {
-    username: string;
-    avatarURL: string;
-}
-
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
@@ -60,6 +56,15 @@ export const Header = ({ className }: Header) => {
     const [currentUser, setCurrentUser] = useState<CurrentUser>({
         username: '',
         avatarURL: '',
+        dateOfBirth: '',
+        gender: '',
+        email: '',
+        role: 0,
+        subscription: {
+            closeAt: '',
+            subscriptionType: '',
+            updatedAt: '',
+        },
     });
 
     const isLoginPage =
@@ -140,8 +145,6 @@ export const Header = ({ className }: Header) => {
             console.error(error);
         }
     };
-
-    console.log('User Data:', setCurrentUser);
 
     const fetchItems = async () => {
         try {

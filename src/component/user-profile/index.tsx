@@ -18,8 +18,16 @@ export const UserProfile = () => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>({
         username: '',
-        email: '',
         avatarURL: '',
+        dateOfBirth: '',
+        gender: '',
+        email: '',
+        role: 0,
+        subscription: {
+            closeAt: '',
+            subscriptionType: '',
+            updatedAt: '',
+        },
     });
     const fetchDataCurrentUser = async () => {
         try {

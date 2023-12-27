@@ -7,12 +7,20 @@ import { Button } from 'antd';
 import { request } from '../../utils/request';
 import Cookies from 'js-cookie';
 
+export interface Subscription {
+    closeAt: string;
+    subscriptionType: string;
+    updatedAt: string;
+}
 export interface CurrentUser {
     dateOfBirth?: string;
     gender?: string;
     username: string;
     email: string;
     avatarURL: string;
+    role: number;
+    subscription?: Subscription;
+    userId?: number;
 }
 interface CommentProps {
     title: string;

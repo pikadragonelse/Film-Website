@@ -8,10 +8,10 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { Breadcrumb, Button, Layout, Menu, Modal, notification } from 'antd';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
-import { VIPPackageUser } from '../../component/VIP-package-user';
+import { VIPPackageUser, statementProp } from '../../component/VIP-package-user';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMovies } from '../../component/history';
 import { LoveMovies } from '../../component/love-movie';
@@ -21,6 +21,7 @@ import { request } from '../../utils/request';
 import './index.scss';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { CurrentUser } from '../../component/comment';
 
 const { Header, Content, Sider } = Layout;
 
@@ -85,8 +86,38 @@ const items: MenuItem[] = [
 ];
 
 export const LayoutUser = () => {
+    const [modalVisible, setModalVisible] = useState(true);
     const [collapsed, setCollapsed] = useState(false);
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const [currentUser, setCurrentUser] = useState<CurrentUser>({
+        username: '',
+        avatarURL: '',
+        dateOfBirth: '',
+        gender: '',
+        email: '',
+        role: 0,
+        userId: 0,
+        subscription: {
+            closeAt: '',
+            subscriptionType: '',
+            updatedAt: '',
+        },
+    });
+
+    const fetchDataCurrentUser = async () => {
+        try {
+            const response = await request.get('user/get-self-information', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data;
+
+            setCurrentUser(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const [dataLovemovies, setDataLovemovies] = useState<FilmItem[]>([]);
     const fetchDataLove = async () => {
         try {
@@ -133,12 +164,42 @@ export const LayoutUser = () => {
             console.error(error);
         }
     };
+    //api payment
+    const [statement, setStatement] = useState<statementProp[]>([
+        {
+            paymentId: 0,
+            type: '',
+            price: 0,
+            orderInfo: '',
+            transactionId: '',
+            status: '',
+            isPayment: true,
+            userId: 0,
+            subscriptionInfoId: 0,
+            createdAt: '',
+            updatedAt: '',
+        },
+    ]);
+    const dataStatement = async () => {
+        try {
+            const response = await request.get(`payments?userId=${currentUser.userId}`);
+            const data = response.data.data;
+            setStatement(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const { pathname } = useLocation();
     useEffect(() => {
+        fetchDataCurrentUser();
         fetchDataCollect();
         fetchDataHistorymovies();
         fetchDataLove();
+        setModalVisible(true);
+        dataStatement();
     }, [pathname]);
+
     return (
         <div className="wrapper-layout">
             <div className="header-layoutUser"></div>
@@ -179,7 +240,53 @@ export const LayoutUser = () => {
                                 <div className="content-main">
                                     <Routes>
                                         <Route path="/profile" element={<UserProfile />} />
-                                        <Route path="/vip-package" element={<VIPPackageUser />} />
+                                        <Route
+                                            path="/vip-package"
+                                            element={
+                                                currentUser ? (
+                                                    <VIPPackageUser data={statement} />
+                                                ) : (
+                                                    <Modal
+                                                        visible={modalVisible}
+                                                        onCancel={() => setModalVisible(false)}
+                                                        footer={
+                                                            <Button
+                                                                className="poster__image-close"
+                                                                type="primary"
+                                                                onClick={() =>
+                                                                    setModalVisible(false)
+                                                                }
+                                                            >
+                                                                Đóng
+                                                            </Button>
+                                                        }
+                                                        style={{
+                                                            textAlign: 'center',
+                                                            marginTop: '100px',
+                                                        }}
+                                                    >
+                                                        <div className="poster__image-notifi">
+                                                            Thông báo
+                                                        </div>
+                                                        <p className="poster__image-notifititle">
+                                                            Hãy trở thành{' '}
+                                                            <Link
+                                                                style={{
+                                                                    color: 'var(--primary-color)',
+                                                                    fontWeight: 700,
+                                                                }}
+                                                                to="/VIPpackage"
+                                                            >
+                                                                thành viên VIP
+                                                            </Link>{' '}
+                                                            để có được những trải nghiệm tốt nhất
+                                                            của MovTime.
+                                                        </p>
+                                                    </Modal>
+                                                )
+                                            }
+                                        />
+
                                         <Route
                                             path="/watch-later"
                                             element={<WatchLater dataCollect={dataCollect} />}

@@ -65,9 +65,18 @@ export const WatchingPage = () => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>({
         username: '',
-        email: '',
         avatarURL: '',
+        dateOfBirth: '',
+        gender: '',
+        email: '',
+        role: 0,
+        subscription: {
+            closeAt: '',
+            subscriptionType: '',
+            updatedAt: '',
+        },
     });
+
     const fetchDataCurrentUser = async () => {
         try {
             const response = await request.get('user/get-self-information', {
@@ -81,9 +90,7 @@ export const WatchingPage = () => {
             console.error(error);
         }
     };
-    useEffect(() => {
-        fetchDataCurrentUser();
-    }, []);
+
     const [watchingData, setWatchingData] = useState<Film>(defaultFilm);
     const [rating, setRating] = useState(0);
     const { movieId, episodeId } = useParams();
@@ -114,7 +121,6 @@ export const WatchingPage = () => {
     useEffect(() => {
         fetchData();
     }, [movieId, isLogin]);
-
     const combinedActorsAndDirectors = [
         ...(watchingData?.actors || []),
         ...(watchingData?.directors || []),
@@ -139,20 +145,38 @@ export const WatchingPage = () => {
     const [dataEpisode, setDataEpisode] = useState<Episodes>(defaultEpisode);
     const fetchDataEpisode = async () => {
         try {
+            await fetchDataCurrentUser();
             let response;
-
-            if (accessToken) {
+            console.log(currentUser);
+            console.log('accessToken:', accessToken);
+            console.log('subscriptionType:', currentUser.subscription?.subscriptionType);
+            console.log('level:', watchingData?.level);
+            if (
+                (accessToken &&
+                    currentUser.subscription &&
+                    currentUser.subscription.subscriptionType === 'Cơ bản' &&
+                    watchingData.level === 0) ||
+                (accessToken &&
+                    currentUser.subscription &&
+                    currentUser.subscription.subscriptionType === 'Cao cấp')
+            ) {
                 response = await request.get(`episode/${episodeId}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
+            } else if (
+                accessToken &&
+                currentUser.subscription &&
+                currentUser.subscription.subscriptionType === 'Cơ bản' &&
+                watchingData.level === 1
+            ) {
+                response = await request.get(`episode/${episodeId}`);
             } else {
                 response = await request.get(`episode/${episodeId}`);
             }
-
             const data = response?.data;
-            if (watchingData.movieId !== data.movieId) {
+            if (watchingData && watchingData.movieId !== data.movieId) {
                 await fetchData();
             }
 
@@ -199,7 +223,6 @@ export const WatchingPage = () => {
         fetchDataEpisode();
         window.scrollTo(0, 0);
     }, [episodeId]);
-
     return (
         <div className="watching-container">
             <div className="watching">
