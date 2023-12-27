@@ -4,7 +4,7 @@
 }
 
 .container-home {
-    margin-top: -270px;
+    margin-top: -250px;
 }
 
 .anticon-vertical-align-top {
@@ -31,9 +31,9 @@
 @keyframes pulse {
     0%,
     100% {
-        transform: scale(1.2);
+        transform: scale(1.4);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
 }
