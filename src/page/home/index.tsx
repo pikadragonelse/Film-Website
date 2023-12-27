@@ -32,7 +32,6 @@ export const HomePage = () => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
 
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
-
     const fetchTrending = async () => {
         try {
             const response = await request.get('movies/home/trending');

@@ -119,7 +119,6 @@ export const FilmDetail = () => {
                 res.json(),
             );
             setFilmDetail(movieData.movie);
-            console.log(movieData);
         } catch (error) {
             console.error(error);
         } finally {

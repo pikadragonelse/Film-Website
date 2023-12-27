@@ -105,8 +105,6 @@ export const Header = ({ className }: Header) => {
 
     const isLogin = useSelector((state: RootState) => state.user.isLogin);
     const username = useSelector((state: RootState) => state.user.username);
-    console.log('isLogin :', isLogin);
-    console.log('username :', username);
 
     const handleLogin = useCallback(async () => {
         const storedUsername = Cookies.get('username');
@@ -140,8 +138,6 @@ export const Header = ({ className }: Header) => {
             console.error(error);
         }
     };
-
-    console.log('User Data:', setCurrentUser);
 
     const fetchItems = async () => {
         try {
