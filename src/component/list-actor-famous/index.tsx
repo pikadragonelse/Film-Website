@@ -57,7 +57,9 @@ export const ActorFamous = ({ DAlist, title, size, isShow }: ActorFamousProps) =
                                         <Link
                                             to={`/${
                                                 actor.actor_id != null ? 'actor' : 'director'
-                                            }/${actor.actor_id || actor.director_id}`}
+                                            }/${
+                                                actor.actor_id || actor.director_id || actor.actorId
+                                            }`}
                                             key={actor.actor_id}
                                             className="flex flex-col flex-wrap content-start gap-2 "
                                         >

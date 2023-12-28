@@ -7,19 +7,19 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Progress, Spin, message, notification } from 'antd';
+import { Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { RootState } from '../../redux/store';
+import { endpoint } from '../../utils/baseUrl';
 import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
+import FilmDetailsSection from './film-detail-section';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
-import { endpoint } from '../../utils/baseUrl';
 import ShareModal from './share';
-import FilmDetailsSection from './film-detail-section';
 
 interface Genre {
     id: number;
@@ -314,8 +314,7 @@ export const FilmDetail = () => {
 
                     <div className="flex gap-3 absolute top-[83%] right-[8%]">
                         <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white "
+                            className="h-10 w-10 rounded-full border-[1.5px] border-white hover:cursor-pointer"
                             onClick={handleAddToLove}
                         >
                             {addedToLove ? (

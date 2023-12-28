@@ -7,6 +7,7 @@ export interface Actors {
     actor_id: number;
     name: string;
     avatar: string;
+    actorId?:number;
 }
 
 export interface Directors {
