@@ -7,7 +7,7 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Modal, Progress, Spin, notification } from 'antd';
+import { Progress, Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -18,6 +18,9 @@ import { FilmItem } from '../film-item';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 import { endpoint } from '../../utils/baseUrl';
+import ShareModal from './share';
+import FilmDetailsSection from './film-detail-section';
+
 
 interface Genre {
     id: number;
@@ -28,15 +31,14 @@ export const FilmDetail = () => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const { id } = useParams<{ id: string }>();
     const [filmDetail, setFilmDetail] = useState<any>(null);
-    //bộ sưu tập
     const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
-    //yêu thích
     const [addedToLove, setAddedToLove] = useState<boolean>(false);
     const [dataLove, setDataLove] = useState<FilmItem[]>([]);
     const [loading, setLoading] = useState(true);
-
+    const [qrCode, setQrCodeUrl] = useState<string | null>(null);
+    const [shareModalVisible, setShareModalVisible] = useState(false);
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
-
+    const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
     //check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
@@ -46,9 +48,45 @@ export const FilmDetail = () => {
             description: 'Vui lòng đăng nhập để thực hiện hành động này.',
         });
     };
-    const handleShare = () => {
-        if (!isUserLoggedIn) {
+
+    const handleShare = async () => {
+        if (isUserLoggedIn) {
+            const movieId = filmDetail?.movieId;
+            const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
+
+            try {
+                const response = await fetch(
+                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
+                );
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setQrCodeUrl(data.qrCode);
+                    if (typeof data.qrCode === 'string') {
+                        const regex = /(data:image\/png;base64,[^'"]+)/;
+                        const match = data.qrCode.match(regex);
+
+                        if (match) {
+                            const base64Value = match[1];
+                            setQrCodeUrl(base64Value || '');
+                        }
+                    }
+                    setShareModalVisible(true);
+                } else {
+                    console.error('Failed to fetch QR code URL');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        } else {
             handleUnauthorizedAction();
+        }
+    };
+
+    const handleCopyLink = () => {
+        if (copiedLink) {
+            navigator.clipboard.writeText(copiedLink);
+            message.success('Sao chép thành công');
         }
     };
 
@@ -244,8 +282,6 @@ export const FilmDetail = () => {
                             />
                             <div className="film-detail__title">{filmDetail.title}</div>
                         </div>
-
-                        {/* Info */}
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
                                 <div className="film-detail__summary">
@@ -295,45 +331,36 @@ export const FilmDetail = () => {
                             )}
                         </a>
 
-                        <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white  "
-                        >
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white  ">
                             <ShareAltOutlined className="film-detail__icon" onClick={handleShare} />
                         </a>
 
-                        <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white"
-                        >
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white">
                             <SmallDashOutlined className="film-detail__icon" />
                         </a>
                     </div>
                 </div>
             </div>
             <div className='class="flex z-20 relative flex-col md:flex-row mt-32 md:mt-0 px-64'>
-                <div className="shrink-0 md:max-w-[150px] flex items-center md:flex-col justify-center flex-row gap-20 mt-28  md:border-r border-gray-600 pt-2 ml-[-200px]">
-                    <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">RATING</p>
-                        <div>
-                            <Progress
-                                type="circle"
-                                size={68}
-                                percent={filmDetail.averageRating * 10}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">VOTE COUNT</p>
-                        <div>
-                            <p> {filmDetail.numFavorite}</p>
-                        </div>
-                    </div>
-                </div>
+                <FilmDetailsSection
+                    averageRating={filmDetail.averageRating}
+                    numFavorite={filmDetail.numFavorite}
+                />
+
                 <div className="flex-grow min-h-[500px] px-20 mt-[-50px] detail-tabs">
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
+            <ShareModal
+                visible={shareModalVisible}
+                closeModal={() => setShareModalVisible(false)}
+                copiedLink={copiedLink}
+                handleCopyLink={handleCopyLink}
+                handleAddToLove={handleAddToLove}
+                addedToLove={addedToLove}
+                handleShare={handleShare}
+                qrCode={qrCode}
+            />
         </div>
     );
 };

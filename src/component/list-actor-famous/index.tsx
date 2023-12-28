@@ -12,6 +12,7 @@ export type ActorFamousInfo = {
     name: string;
     avatar: string;
     actor_id?: number;
+    director_id?: number;
 };
 
 interface ActorFamousProps {
@@ -60,7 +61,13 @@ export const ActorFamous = ({ actors, title, size, isShow }: ActorFamousProps) =
                         <Row gutter={[0, 16]} className="flex gap-7">
                             {actorRows.map((actor) => (
                                 <Link
-                                    to={`/actor/${actor.actorId}`}
+                                    to={
+                                        isShow
+                                            ? actor.actor_id
+                                                ? `/actor/${actor.actor_id}`
+                                                : `/director/${actor.director_id}`
+                                            : ''
+                                    }
                                     key={actor.actorId}
                                     className="flex flex-col flex-wrap content-start gap-2 "
                                 >

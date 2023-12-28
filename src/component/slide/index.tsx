@@ -19,21 +19,7 @@ import { request } from '../../utils/request';
 import { endpoint } from '../../utils/baseUrl';
 import { FilmItem } from '../film-item';
 import './index.scss';
-
-interface Movie {
-    movieId: number;
-    backgroundURL: string;
-    title: string;
-    releaseDate: string;
-    averageRating: number;
-    description: string;
-    episodeNum: string;
-    genres: Array<Genres>;
-}
-interface Genres {
-    genre_id: number;
-    name: string;
-}
+import { Movie } from './type';
 
 const Slide: React.FC = () => {
     const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -44,10 +30,11 @@ const Slide: React.FC = () => {
     const [shareModalVisible, setShareModalVisible] = useState(false);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
+    console.log(setIsTitleVisible);
 
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {
-        fetch(`${endpoint}/api/movies`)
+        fetch(`${endpoint}/api/movies?page=2&pageSize=10`)
             .then((res) => res.json())
             .then((data) => {
                 setPopularMovies(data.movies);
@@ -57,13 +44,6 @@ const Slide: React.FC = () => {
     useEffect(() => {
         fetchData();
     }, []);
-
-    const handleCarouselChange = () => {
-        setIsTitleVisible(false);
-        setTimeout(() => {
-            setIsTitleVisible(true);
-        }, 500);
-    };
 
     function formatYear(dateString: string) {
         const options: Intl.DateTimeFormatOptions = {
@@ -111,8 +91,6 @@ const Slide: React.FC = () => {
             message.success('Sao chép thành công');
         }
     };
-
-    console.log(qrCode);
 
     //bộ sưu tập
     const [addedToCollection, setAddedToCollection] = useState<boolean>(false);
@@ -477,7 +455,7 @@ const Slide: React.FC = () => {
                             <img
                                 src={qrCode}
                                 alt="QR Code"
-                                style={{ width: '180px', height: '180px', marginTop: '15px' }}
+                                style={{ width: '100px', height: '100px', marginTop: '15px' }}
                             />
                         ) : (
                             <Spin></Spin>

@@ -43,12 +43,12 @@ export const ContentModalHistory = () => {
                                         className="w-36 h-16"
                                     />
                                 </Col>
-                                <Col span={13}>
+                                <Col span={11}>
                                     <h1 className="text-black !text-sm ml-1 hover:text-[#cc0e0e]">
                                         {result.movieTitle}
                                     </h1>
                                 </Col>
-                                <Col span={3}>
+                                <Col span={5}>
                                     <p className="text-black !text-sm hover:text-[#cc0e0e]">
                                         - {result.title}
                                     </p>
@@ -66,7 +66,7 @@ export const ContentModalHistory = () => {
                 </div>
             ))}
             <Link
-                to="/foryou"
+                to="/foryou/profile"
                 className="text-[#989898] text-[13px] flex justify-center mt-5 hover:text-[red]"
             >
                 <div className="mr-2">Khác</div>

@@ -34,15 +34,19 @@ export const ListFilm = ({
         const listTemp: Array<Film[]> = [];
         let arrTemp: Film[] = [];
 
-        listFilm.forEach((film) => {
-            arrTemp.push(film);
+        if (Array.isArray(listFilm)) {
+            listFilm.forEach((film) => {
+                arrTemp.push(film);
 
-            if (counts % 6 === 0 || counts === listFilm.length) {
-                listTemp.push(arrTemp);
-                arrTemp = [];
-            }
-            counts++;
-        });
+                if (counts % 6 === 0 || counts === listFilm.length) {
+                    listTemp.push(arrTemp);
+                    arrTemp = [];
+                }
+                counts++;
+            });
+        } else {
+            console.error('listFilm is not an array!');
+        }
 
         return listTemp;
     };

@@ -14,6 +14,7 @@ import { useParams } from 'react-router-dom';
 import { endpoint } from '../../utils/baseUrl';
 
 export interface TermPackage {
+    id: number;
     value: number;
     price: number;
 }
@@ -23,7 +24,6 @@ interface TermPackageProps {
 
 export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => {
     const idPackage: number = Number(useParams().idPackage);
-    // const idPackage = useAppSelector((state) => state.VIPPayment.subscriptionTypeId);
 
     const [terms, setTerms] = useState<DurationVIP[]>([]);
     const getDataDuration = () => {
@@ -34,8 +34,6 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
             .then((response) => {
                 const listData: dataVIPPackageRaw[] = response.data.data;
                 const dataTemp: DurationVIP[] = listData.map((value) => {
-                    console.log(value.subscriptionType.subscriptionTypeId, idPackage);
-
                     return value.subscriptionType.subscriptionTypeId === idPackage
                         ? {
                               durationId: value.duration.durationId,
@@ -56,12 +54,24 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
     const [value, setValue] = useState(0);
     const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        let count = 0;
+        if (terms.length !== 0) {
+            terms.forEach((term) => {
+                if (term.durationId !== 0 && count === 0) {
+                    setValue(term.durationId);
+                    dispatch(setIdSelectedInfoDuration(term.durationId));
+                    count++;
+                    dispatch(setTotalPrice(term.price));
+                    setSelectedTerm({ id: term.durationId, value: term.time, price: term.price });
+                }
+            });
+        }
+    }, [terms]);
+
     const onChange = (e: any) => {
         const selectedValue = e.target.value;
         setValue(selectedValue);
-        dispatch(setIdSelectedInfoDuration(selectedValue));
-        // Thay đổi URL của trình duyệt
-        window.history.pushState({ path: window.location.href }, '', selectedValue);
     };
 
     return (
@@ -76,8 +86,13 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
                                     key={index}
                                     value={term.durationId}
                                     onClick={() => {
-                                        dispatch(setDurationValue(term.time));
-                                        dispatch(setTotalPrice(term.price));
+                                        setValue(term.durationId);
+                                        const temp: TermPackage = {
+                                            id: term.durationId,
+                                            value: term.time,
+                                            price: term.price,
+                                        };
+                                        setSelectedTerm(temp);
                                     }}
                                 >
                                     <Space>

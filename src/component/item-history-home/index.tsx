@@ -1,8 +1,8 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Button, Skeleton } from 'antd';
 import { useState } from 'react';
-import './index.scss';
 import { FilmItem } from '../film-item';
+import './index.scss';
 
 export const ItemHistoryHome = ({ title, backgroundMovieURL, movieTitle }: FilmItem) => {
     const [isLoadingImg, setIsLoadingImg] = useState(true);
@@ -27,11 +27,11 @@ export const ItemHistoryHome = ({ title, backgroundMovieURL, movieTitle }: FilmI
                         <CaretRightOutlined className="text-white" />
                     </div>
                 </div>
-                <p className="film-item-title !text-[13px]">
-                    {movieTitle} - {title}
+                <p className="film-item-title !text-[13px] !w-[60%] overflow-hidden whitespace-nowrap overflow-ellipsis">
+                    {title}
                 </p>
             </div>
-            <Button className="film-button-proccess text-center" icon={<CaretRightOutlined />}>
+            <Button className="film-button-proccess text-center mt-5" icon={<CaretRightOutlined />}>
                 Xem tiếp !
             </Button>
         </div>

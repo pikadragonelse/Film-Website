@@ -1,16 +1,4 @@
-import {
-    CaretRightOutlined,
-    PauseOutlined,
-    SettingFilled,
-    SettingOutlined,
-} from '@ant-design/icons';
-import { ConfigProvider, Popover, Progress, Slider, Tooltip } from 'antd';
-import React, { useEffect, useRef, useState } from 'react';
-import { IconForward10s } from '../../asset/icon/forward-10s';
-import { IconRewind10s } from '../../asset/icon/rewind-10s';
-import './index.scss';
-import { HandleClickProgressProps, ProgressBar } from '../progress-bar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CaretRightOutlined, PauseOutlined, SettingFilled } from '@ant-design/icons';
 import {
     IconDefinition,
     faCompress,
@@ -18,20 +6,25 @@ import {
     faVolumeHigh,
     faVolumeXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import { VideoWatching } from '../../redux/videoSlice';
-import { formatTime } from '../../utils/formatTime';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ConfigProvider, Popover, Slider, Tooltip } from 'antd';
+import { useState } from 'react';
+import { IconForward10s } from '../../asset/icon/forward-10s';
+import { IconRewind10s } from '../../asset/icon/rewind-10s';
 import { useAppSelector } from '../../redux/hook';
-import ReactPlayer from 'react-player';
-import { SettingItem } from './setting-item';
-import { SettingContent } from './setting-content';
+import { formatTime } from '../../utils/formatTime';
+import { HandleClickProgressProps, ProgressBar } from '../progress-bar';
+import { ControlPlayerType } from './control-player-type';
 import {
     defaultCustomConfigSlider,
+    defaultOverlayInnerStylePop,
+    defaultPropsToolTip,
     defaultSettingItems,
     settingItemContentMap,
-    defaultPropsToolTip,
-    defaultOverlayInnerStylePop,
 } from './default-value';
-import { ControlPlayerType } from './control-player-type';
+import './index.scss';
+import { SettingContent } from './setting-content';
+import { SettingItem } from './setting-item';
 
 const mapIconVolume: Record<string, IconDefinition> = {
     true: faVolumeXmark,
@@ -58,6 +51,7 @@ export const ControlPlayer = ({
     hidden,
 }: ControlPlayerType) => {
     const duration: number = videoRef?.current?.getDuration() || 0;
+
     const [selectedSetting, setSelectedSetting] = useState('');
     const [stateSetting, setStateSetting] = useState<SettingState>({ speed: 1, quality: 720 });
     const [isSelectedSettingIcon, setIsSelectedSettingIcon] = useState(false);

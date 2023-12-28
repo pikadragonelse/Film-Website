@@ -4,10 +4,11 @@ import {
     HistoryOutlined,
     LoginOutlined,
     LogoutOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, Button, Popover } from 'antd';
+import { Avatar, Button, Popover, Tooltip } from 'antd';
 import Cookies from 'js-cookie';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
@@ -46,9 +47,20 @@ export interface CategoriesHeader {
     queryParam?: string;
 }
 
+export interface CurrentUser {
+    username: string;
+    avatarURL: string;
+}
+
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
+    const [items, setItems] = useState<any[]>([]);
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const [currentUser, setCurrentUser] = useState<CurrentUser>({
+        username: '',
+        avatarURL: '',
+    });
 
     const isLoginPage =
         location.pathname === '/login' ||
@@ -86,38 +98,51 @@ export const Header = ({ className }: Header) => {
 
             if (storedUsername) {
                 dispatch(setUsername(storedUsername));
+                fetchDataCurrentUser();
             }
         }
     }, [dispatch]);
 
     const isLogin = useSelector((state: RootState) => state.user.isLogin);
     const username = useSelector((state: RootState) => state.user.username);
-    console.log('isLogin :', isLogin);
-    console.log('username :', username);
 
-    const handleLogin = () => {
+    const handleLogin = useCallback(async () => {
         const storedUsername = Cookies.get('username');
-        // console.log('storedUsername', storedUsername);
         dispatch(setIslogin(true));
 
         if (storedUsername) {
             dispatch(setUsername(storedUsername));
         }
-    };
 
-    const handleLogout = () => {
+        await fetchDataCurrentUser();
+    }, [dispatch]);
+
+    const handleLogout = useCallback(() => {
         Cookies.remove('accessToken');
         Cookies.remove('username');
         dispatch(setIslogin(false));
         dispatch(setUsername(null));
-    };
-    //api search theo mục
+    }, [dispatch]);
 
-    const [items, setItems] = useState<any[]>([]);
+    const fetchDataCurrentUser = async () => {
+        try {
+            const response = await request.get('user/get-self-information', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data;
+
+            setCurrentUser(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const fetchItems = async () => {
         try {
             const response = await request.get('home/headers');
+
             const data = response.data.data;
             const listKey = Object.keys(data);
             const nations: ChildrenCategoriesHeader[] = data.nations.map((nation: string) => {
@@ -233,31 +258,46 @@ export const Header = ({ className }: Header) => {
                             <Popover
                                 title={
                                     <div className="p-2 flex font-normal items-center justify-center border-b-[1px] border-[#989898]">
-                                        <Avatar
-                                            className="mr-4 mb-2"
-                                            src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
-                                        />
-                                        {username}
+                                        <Avatar className="mr-4 mb-2" src={currentUser.avatarURL} />
+                                        {currentUser.username}
                                     </div>
                                 }
                                 overlayStyle={{ maxWidth: '30%' }}
                                 content={<ContentModalUser />}
                                 zIndex={9999}
                             >
-                                <Link to="/foryou">
-                                    <Avatar
-                                        className="avatar"
-                                        src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
-                                        style={{
-                                            verticalAlign: 'middle',
-                                        }}
-                                        size="default"
-                                    ></Avatar>
+                                <Link
+                                    to="/foryou/profile"
+                                    onClick={() => {
+                                        window.scrollTo(0, 0);
+                                    }}
+                                >
+                                    {currentUser.avatarURL ? (
+                                        <Avatar
+                                            className="avatar"
+                                            src={currentUser.avatarURL}
+                                            style={{
+                                                verticalAlign: 'middle',
+                                            }}
+                                            size="default"
+                                        />
+                                    ) : (
+                                        <Avatar
+                                            className="avatar"
+                                            icon={<UserOutlined />}
+                                            style={{
+                                                verticalAlign: 'middle',
+                                            }}
+                                            size="default"
+                                        />
+                                    )}
                                 </Link>
                             </Popover>
-                            <div className="icon-login">
-                                <LogoutOutlined onClick={handleLogout} />
-                            </div>
+                            <Tooltip title="Đăng xuất">
+                                <div className="icon-login">
+                                    <LogoutOutlined onClick={handleLogout} />
+                                </div>
+                            </Tooltip>
                         </>
                     ) : (
                         <Link to="/login">

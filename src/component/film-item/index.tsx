@@ -26,7 +26,7 @@ export type FilmItem = {
     movieTitle?: string;
 };
 
-export const FilmItem = ({ title, posterURL, posterMovieURL, movieTitle, level }: FilmItem) => {
+export const FilmItem = ({ title, posterURL, level }: FilmItem) => {
     const [isLoadingImg, setIsLoadingImg] = useState(true);
 
     return (

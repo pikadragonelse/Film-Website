@@ -38,8 +38,9 @@ export const SearchPage: React.FC = () => {
         console.log(window.location.hash.split('?'));
 
         setIsLoading(true);
-        getDataBySearchParams(window.location.hash.split('?')[1]);
-        const paramsObj = handleSearchParams(window.location.hash.split('?')[1]);
+
+        getDataBySearchParams(window.location.search);
+        const paramsObj = handleSearchParams(window.location.search);
         delete paramsObj['search'];
         setFilterParamsState(convertParams(paramsObj));
     }, [search, currPage]);
