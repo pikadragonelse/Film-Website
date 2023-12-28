@@ -10,7 +10,6 @@ import { endpoint } from '../../utils/baseUrl';
 import { TabsProps } from '../actor/type';
 import { DirectorInfo } from './type';
 
-
 export const Director: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
     const [activeTab, setActiveTab] = useState(1);
@@ -22,9 +21,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     const fetchActorQRCode = async () => {
         const actorLink = encodeURIComponent(`${window.location.origin}/director/${directorId}`);
         try {
-            const response = await fetch(
-                `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
-            );
+            const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
             if (response.ok) {
                 const data = await response.json();

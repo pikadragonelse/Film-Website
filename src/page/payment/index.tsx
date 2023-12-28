@@ -8,6 +8,7 @@ import { useAppSelector } from '../../redux/hook';
 import axios from 'axios';
 import { SubscriptionInfo } from '../../model/subscription-info';
 import { useParams } from 'react-router-dom';
+import { endpoint } from '../../utils/baseUrl';
 
 export const Payment = () => {
     const [selectedTerm, setSelectedTerm] = useState<TermPackage | null>({
@@ -24,7 +25,7 @@ export const Payment = () => {
 
     const getDataSubscriptionInfo = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-info')
+            .get(`${endpoint}/api/subscription/get-all-subscription-info`)
             .then((response) => {
                 setDataSubscriptionInfo(response.data.data);
             })

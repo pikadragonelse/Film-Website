@@ -18,7 +18,6 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const currentDate = new Date();
 
-
 export const MoviesPackageBill = () => {
     const location = useLocation();
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
@@ -67,7 +66,7 @@ export const MoviesPackageBill = () => {
     const verifyBillPaypal = async () => {
         await axios
             .post(
-                'http://localhost:8000/api/payments/paypal/capture',
+                `${endpoint}/api/payments/paypal/capture`,
                 { order_id: location.search.split('&')[0].split('?')[1].split('=')[1] },
                 {
                     headers: {
