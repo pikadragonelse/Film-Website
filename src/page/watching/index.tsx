@@ -51,6 +51,19 @@ export const WatchingPage = () => {
         }
     };
 
+    //api history
+    const saveWatchingHistory = (episodeId: number, duration: number) => {
+        try {
+            request.get(`user/add-movie-history?episodeId=${episodeId}&duration=${duration}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+        } catch (error) {
+            console.error('API Error:', error);
+        }
+    };
+
     useEffect(() => {
         fetchData();
     }, [movieId, accessToken]);
@@ -96,19 +109,6 @@ export const WatchingPage = () => {
             getDataEpisode();
         }
     }, [watchingData]);
-
-    //api history
-    const saveWatchingHistory = (episodeId: number, duration: number) => {
-        try {
-            request.get(`user/add-movie-history?episodeId=${episodeId}&duration=${duration}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-        } catch (error) {
-            console.error('API Error:', error);
-        }
-    };
 
     useEffect(() => {
         // window.scrollTo(0, 0);

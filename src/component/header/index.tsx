@@ -25,6 +25,7 @@ import { ContentModalHistory } from './modalHistory';
 import { ContentModalHistoryTitle } from './modalHistoryTitle';
 import { CurrentUser } from '../comment/type';
 import { defaultCurrentUser } from '../../model/user';
+import { useToken } from '../../hooks/useToken';
 export type Header = { className?: string };
 
 const queryParamMap: Record<string, string> = {
@@ -53,8 +54,8 @@ export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
     const [items, setItems] = useState<any[]>([]);
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
+    const { accessToken, userId, username } = useToken();
 
     const isLoginPage =
         location.pathname === '/login' ||
@@ -96,9 +97,6 @@ export const Header = ({ className }: Header) => {
             }
         }
     }, [dispatch]);
-
-    const isLogin = useSelector((state: RootState) => state.user.isLogin);
-    const username = useSelector((state: RootState) => state.user.username);
 
     const handleLogin = useCallback(async () => {
         const storedUsername = Cookies.get('username');
@@ -210,12 +208,12 @@ export const Header = ({ className }: Header) => {
                 </div>
                 <div
                     style={{
-                        width: isLogin ? '21rem' : '16rem',
+                        width: accessToken ? '21rem' : '16rem',
                         marginRight: 'var(--spacing-lg)',
                     }}
                     className="flex justify-between items-center lg:order-2 mt-2"
                 >
-                    {isLogin ? (
+                    {accessToken ? (
                         <>
                             <Popover
                                 title={ContentModalHistoryTitle}
@@ -247,7 +245,7 @@ export const Header = ({ className }: Header) => {
                         <BellOutlined className="notification-btn" />
                         <p className="number-notification">12</p>
                     </div>
-                    {isLogin ? (
+                    {accessToken ? (
                         <>
                             <Popover
                                 title={

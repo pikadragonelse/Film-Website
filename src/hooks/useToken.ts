@@ -35,6 +35,7 @@ export const useToken = () => {
 
     tokenObject['accessToken'] = accessToken;
     tokenObject['refreshToken'] = refreshToken;
+    console.log(tokenObject);
 
     return { ...tokenObject };
 };
