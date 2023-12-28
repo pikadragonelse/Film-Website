@@ -20,8 +20,7 @@ import { defaultEpisode, defaultFilm } from './default-value';
 const moment = require('moment');
 
 export const WatchingPage = () => {
-    const { userId, accessToken } = useToken();
-
+    const { accessToken } = useToken();
     const [watchingData, setWatchingData] = useState<Film>(defaultFilm);
     const [rating, setRating] = useState(0);
     const { movieId, episodeId } = useParams();
@@ -112,7 +111,7 @@ export const WatchingPage = () => {
     };
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
     }, [episodeId]);
 
     return (

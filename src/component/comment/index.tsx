@@ -54,15 +54,13 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
     const getCurrentUser = () => {
         request
-            .get('/user/get-user', {
+            .get('user/get-self-information', {
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + accessToken,
+                    Authorization: `Bearer ${accessToken}`,
                 },
-                params: { userId: userId },
             })
             .then((response) => {
-                console.log(response);
+                setCurrentUser(response.data);
             })
             .catch((error) => {
                 console.log(error);
