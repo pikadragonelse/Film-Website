@@ -39,7 +39,29 @@ export const FilmDetail = () => {
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
-    //check watch later
+
+    const updateOgTags = (filmDetail: FilmItem) => {
+        const ogTags = [
+            { property: 'og:title', content: filmDetail.title || '' },
+            { property: 'og:description', content: filmDetail.description || '' },
+            { property: 'og:image', content: filmDetail.posterURL || '' },
+        ];
+
+        ogTags.forEach((tag) => {
+            const existingTag = document.head.querySelector(`meta[property="${tag.property}"]`);
+
+            if (existingTag) {
+                existingTag.setAttribute('content', tag.content || '');
+            } else {
+                const newTag = document.createElement('meta');
+                newTag.setAttribute('property', tag.property);
+                newTag.setAttribute('content', tag.content || '');
+                document.head.appendChild(newTag);
+            }
+        });
+    };
+
+    // check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
     const handleUnauthorizedAction = () => {
         notification.warning({
@@ -116,6 +138,7 @@ export const FilmDetail = () => {
         try {
             const movieData = await fetch(`${endpoint}/api/movies/${id}`).then((res) => res.json());
             setFilmDetail(movieData.movie);
+            updateOgTags(movieData.movie);
         } catch (error) {
             console.error(error);
         } finally {
@@ -349,6 +372,7 @@ export const FilmDetail = () => {
                 </div>
             </div>
             <ShareModal
+                movieId={id}
                 visible={shareModalVisible}
                 closeModal={() => setShareModalVisible(false)}
                 copiedLink={copiedLink}
