@@ -10,6 +10,9 @@ import Cookies from 'js-cookie';
 import { VNPayReturnDataRaw, VNPayReturnDataRawDefault } from '../../model/VNPay';
 import moment from 'moment';
 import { getNextDateByMonth } from '../../utils/getNextDateByMonth';
+
+import { endpoint } from '../../utils/baseUrl';
+
 import { PaypalReturn, defaultPaypalReturn } from '../../model/paypal';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -28,7 +31,7 @@ export const MoviesPackageBill = () => {
 
     const verifyBill = async () => {
         await axios
-            .get('http://localhost:8000/api/payments/vn-pay/verify' + location.search, {
+            .get(`${endpoint}/api/payments/vn-pay/verify` + location.search, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + accessToken,
@@ -40,7 +43,7 @@ export const MoviesPackageBill = () => {
 
     const getUserInfo = () => {
         axios
-            .get('http://localhost:8000/api/user/get-user', {
+            .get(`${endpoint}/api/user/get-user`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + accessToken,
@@ -63,7 +66,7 @@ export const MoviesPackageBill = () => {
     const verifyBillPaypal = async () => {
         await axios
             .post(
-                'http://localhost:8000/api/payments/paypal/capture',
+                `${endpoint}/api/payments/paypal/capture`,
                 { order_id: location.search.split('&')[0].split('?')[1].split('=')[1] },
                 {
                     headers: {

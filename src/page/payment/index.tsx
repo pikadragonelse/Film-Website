@@ -7,18 +7,25 @@ import { Summary } from '../../component/sumary';
 import { useAppSelector } from '../../redux/hook';
 import axios from 'axios';
 import { SubscriptionInfo } from '../../model/subscription-info';
+import { useParams } from 'react-router-dom';
+import { endpoint } from '../../utils/baseUrl';
 
 export const Payment = () => {
-    const [selectedTerm, setSelectedTerm] = useState<TermPackage | null>(null);
+    const [selectedTerm, setSelectedTerm] = useState<TermPackage | null>({
+        id: 0,
+        value: 0,
+        price: 0,
+    });
     const [selectedMethod, setSelectedMethod] = useState(1);
     const [dataSubscriptionInfo, setDataSubscriptionInfo] = useState<SubscriptionInfo[]>([]);
-    const { subscriptionTypeId, durationValue } = useAppSelector((state) => state.VIPPayment);
+    const { idPackage } = useParams();
+
     const [selectedPackageId, setSelectedPackageId] = useState(0);
     const [discount, setDiscount] = useState(1);
 
     const getDataSubscriptionInfo = () => {
         axios
-            .get('http://localhost:8000/api/subscription/get-all-subscription-info')
+            .get(`${endpoint}/api/subscription/get-all-subscription-info`)
             .then((response) => {
                 setDataSubscriptionInfo(response.data.data);
             })
@@ -33,15 +40,17 @@ export const Payment = () => {
         if (dataSubscriptionInfo.length !== 0) {
             dataSubscriptionInfo.forEach((subscription) => {
                 if (
-                    subscription.subscriptionType.subscriptionTypeId === subscriptionTypeId &&
-                    subscription.duration.time === durationValue
+                    subscription.subscriptionType.subscriptionTypeId === Number(idPackage) &&
+                    subscription.duration.durationId === selectedTerm?.id
                 ) {
+                    console.log('Yes');
+
                     setSelectedPackageId(subscription.subscriptionInfoId);
                     setDiscount(subscription.discount);
                 }
             });
         }
-    }, [durationValue, subscriptionTypeId]);
+    }, [selectedTerm, idPackage]);
 
     return (
         <>

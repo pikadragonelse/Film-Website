@@ -16,6 +16,7 @@ import { ColectIcon, ColectedIcon } from '../../asset/icon/collectionIcon';
 import { Start } from '../../asset/icon/start';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
+import { endpoint } from '../../utils/baseUrl';
 import { FilmItem } from '../film-item';
 import './index.scss';
 import { Movie } from './type';
@@ -32,7 +33,7 @@ const Slide: React.FC = () => {
 
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {
-        fetch('http://localhost:8000/api/movies?page=5&pageSize=4')
+        fetch(`${endpoint}/api/movies?page=2&pageSize=10`)
             .then((res) => res.json())
             .then((data) => {
                 setPopularMovies(data.movies);
@@ -57,9 +58,7 @@ const Slide: React.FC = () => {
             const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
 
             try {
-                const response = await fetch(
-                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
-                );
+                const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
                 if (response.ok) {
                     const data = await response.json();

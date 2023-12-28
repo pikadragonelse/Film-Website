@@ -7,7 +7,6 @@ import './index.scss';
 import { DAFilm } from '../../model/film';
 
 const { Text } = Typography;
-
 interface ActorFamousProps {
     DAlist: DAFilm[];
     title?: string;

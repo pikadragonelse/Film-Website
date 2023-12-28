@@ -1,8 +1,7 @@
 import { Avatar, BackTop, Spin, Tooltip } from 'antd';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
-import { LogoIcon } from '../../asset/icon/logo';
+import { useSelector } from 'react-redux';
 import { Botchat } from '../../component/botchat';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMoviesHome } from '../../component/history-home';
@@ -11,10 +10,10 @@ import { ListFilm } from '../../component/list-film';
 import { ListReserveMovies } from '../../component/list-reserve-movie';
 import Slide from '../../component/slide';
 import { DAFilm, Film } from '../../model/film';
+import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { endpoint } from '../../utils/baseUrl';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -31,11 +30,9 @@ export const HomePage = () => {
     const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
     const [dataReserve, setDataReserve] = useState<Film[]>([]);
     const [dataRecommend, setRecommened] = useState<Film[]>([]);
-
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
 
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
-
     const fetchTrending = async () => {
         try {
             const response = await request.get('movies/home/trending');
@@ -172,11 +169,11 @@ export const HomePage = () => {
             <Tooltip title="Quay về đầu trang" placement="left">
                 <BackTop className="bg-[#313439] rounded-full text-red " visibilityHeight={200} />
             </Tooltip>
-            <div className="botchat">
+            <div className="botchat relative bottom-3 !right-4">
                 <Tooltip title="Xin chào, MovTime có thể giúp gì cho bạn?" placement="left">
                     <Avatar
                         size={54}
-                        icon={<LogoIcon />}
+                        src="https://www.shutterstock.com/image-vector/artificial-ai-chat-bot-icon-600nw-2281213775.jpg"
                         onClick={showBotchat}
                         style={{ backgroundColor: 'white' }}
                     />

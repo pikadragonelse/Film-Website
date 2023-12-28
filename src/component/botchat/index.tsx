@@ -1,6 +1,5 @@
 import { CloseOutlined, SendOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
-import Cookies from 'js-cookie';
 import { useEffect, useRef, useState } from 'react';
 import { Logo } from '../../asset/icon/logo';
 import { request } from '../../utils/request';
@@ -9,15 +8,14 @@ import './index.scss';
 interface botchatProp {
     onClose: () => void;
 }
+
 export const Botchat = ({ onClose }: botchatProp) => {
     const ref = useRef<any>(null);
     const [question, setQuestion] = useState<string>('');
-    const [messages, setMessages] = useState<{ question?: string; answer?: string | any }[]>(() => {
-        const savedMessages = Cookies.get('historyMessenger');
-        return savedMessages
-            ? JSON.parse(savedMessages)
-            : [{ answer: 'Tôi có thể giúp gì cho bạn?' }];
-    });
+    const [messages, setMessages] = useState<{ question?: string; answer?: string | any }[]>(() => [
+        { answer: 'Tôi có thể giúp gì cho bạn?' },
+    ]);
+
     const LoadingSpinner = () => (
         <div className="loading-spinner flex gap-1 pt-2">
             <div className="h-2 w-2 bg-white rounded-full animate-bounce [animation-delay:-0.3s]"></div>
@@ -25,6 +23,7 @@ export const Botchat = ({ onClose }: botchatProp) => {
             <div className="h-2 w-2 bg-white rounded-full animate-bounce"></div>
         </div>
     );
+
     const postAnswer = async (ques: string) => {
         try {
             setMessages((prevState) => [
@@ -43,7 +42,6 @@ export const Botchat = ({ onClose }: botchatProp) => {
                     ...updatedMessages[lastMessageIndex],
                     answer: data,
                 };
-
                 return updatedMessages;
             });
         } catch (error) {
@@ -57,14 +55,15 @@ export const Botchat = ({ onClose }: botchatProp) => {
             setQuestion('');
         }
     };
+
     useEffect(() => {
         if (ref.current) {
             ref.current.scrollTop = ref.current.scrollHeight;
         }
-        const mess = JSON.stringify(messages);
-        Cookies.set('historyMessenger', mess, { expires: 1 });
     }, [messages]);
+
     const [timeStart, setTimeStart] = useState<string>('');
+
     useEffect(() => {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
@@ -75,7 +74,9 @@ export const Botchat = ({ onClose }: botchatProp) => {
     return (
         <div className="message-box">
             <div className="header-box">
-                <Logo />
+                <div className="mt-1">
+                    <Logo />
+                </div>
                 <CloseOutlined style={{ fontSize: '20px' }} onClick={onClose} />
             </div>
 
@@ -83,7 +84,7 @@ export const Botchat = ({ onClose }: botchatProp) => {
                 <div className="header-avt">
                     <Avatar
                         size={96}
-                        src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=3"
+                        src="https://www.shutterstock.com/image-vector/artificial-ai-chat-bot-icon-600nw-2281213775.jpg"
                         style={{ backgroundColor: 'white' }}
                     />
                     <h1 className="admin-box">MovTime</h1>
@@ -107,17 +108,16 @@ export const Botchat = ({ onClose }: botchatProp) => {
                             <div className="bot">
                                 <Avatar
                                     size={36}
-                                    src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=3"
+                                    src="https://www.shutterstock.com/image-vector/artificial-ai-chat-bot-icon-600nw-2281213775.jpg"
                                     style={{ backgroundColor: 'white' }}
                                 />
-
                                 <div className={`message bot`}>{mess.answer}</div>
                             </div>
                         )}
                     </div>
                 ))}
             </div>
-            <div className="input-box">
+            <div className="input-box !mt-2">
                 <input
                     type="text"
                     placeholder="Nhập tin nhắn..."

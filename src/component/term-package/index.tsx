@@ -11,8 +11,10 @@ import {
     setTotalPrice,
 } from '../../redux/VIPPaymentSlice';
 import { useParams } from 'react-router-dom';
+import { endpoint } from '../../utils/baseUrl';
 
 export interface TermPackage {
+    id: number;
     value: number;
     price: number;
 }
@@ -26,7 +28,7 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
     const [terms, setTerms] = useState<DurationVIP[]>([]);
     const getDataDuration = () => {
         axios
-            .get(`http://localhost:8000/api/subscription/get-all-subscription-info`, {
+            .get(`${endpoint}/api/subscription/get-all-subscription-info`, {
                 headers: { 'Content-Type': 'application/json' },
             })
             .then((response) => {
@@ -61,6 +63,7 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
                     dispatch(setIdSelectedInfoDuration(term.durationId));
                     count++;
                     dispatch(setTotalPrice(term.price));
+                    setSelectedTerm({ id: term.durationId, value: term.time, price: term.price });
                 }
             });
         }
@@ -69,9 +72,6 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
     const onChange = (e: any) => {
         const selectedValue = e.target.value;
         setValue(selectedValue);
-        dispatch(setIdSelectedInfoDuration(selectedValue));
-        // Thay đổi URL của trình duyệt
-        window.history.pushState({ path: window.location.href }, '', selectedValue);
     };
 
     return (
@@ -86,8 +86,13 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
                                     key={index}
                                     value={term.durationId}
                                     onClick={() => {
-                                        dispatch(setDurationValue(term.time));
-                                        dispatch(setTotalPrice(term.price));
+                                        setValue(term.durationId);
+                                        const temp: TermPackage = {
+                                            id: term.durationId,
+                                            value: term.time,
+                                            price: term.price,
+                                        };
+                                        setSelectedTerm(temp);
                                     }}
                                 >
                                     <Space>
