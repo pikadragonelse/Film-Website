@@ -17,6 +17,7 @@ import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
+import { FacebookShareButton } from 'react-share';
 
 interface Genre {
     id: number;
@@ -35,9 +36,30 @@ export const FilmDetail = () => {
     const [shareModalVisible, setShareModalVisible] = useState(false);
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
-    const [logoutLoading, setLogoutLoading] = useState(false);
     let firstEpisodeId: number | null = null;
-    //check watch later
+
+    const updateOgTags = (filmDetail: FilmItem) => {
+        const ogTags = [
+            { property: 'og:title', content: filmDetail.title || '' },
+            { property: 'og:description', content: filmDetail.description || '' },
+            { property: 'og:image', content: filmDetail.posterURL || '' },
+        ];
+
+        ogTags.forEach((tag) => {
+            const existingTag = document.head.querySelector(`meta[property="${tag.property}"]`);
+
+            if (existingTag) {
+                existingTag.setAttribute('content', tag.content || '');
+            } else {
+                const newTag = document.createElement('meta');
+                newTag.setAttribute('property', tag.property);
+                newTag.setAttribute('content', tag.content || '');
+                document.head.appendChild(newTag);
+            }
+        });
+    };
+
+    // check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
     const handleUnauthorizedAction = () => {
         notification.warning({
@@ -118,6 +140,7 @@ export const FilmDetail = () => {
                 res.json(),
             );
             setFilmDetail(movieData.movie);
+            updateOgTags(movieData.movie);
         } catch (error) {
             console.error(error);
         } finally {
@@ -379,21 +402,17 @@ export const FilmDetail = () => {
                 width={450}
             >
                 <div className="flex gap-10 items-center justify-center">
-                    <a
-                        className="modal-item flex flex-col items-center"
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                            copiedLink || '',
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <img
-                            className="modal-img ml-4"
-                            src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
-                            alt="facebook"
-                        />
-                        <p className="text-sm mt-2"> Facebook</p>
-                    </a>
+                    <FacebookShareButton url={`http://localhost:3000/movie/${id}`}>
+                        {/* <FacebookShareButton url={`https://www.youtube.com/`}> */}
+                        <a className="modal-item flex flex-col items-center">
+                            <img
+                                className="modal-img ml-4"
+                                src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
+                                alt="facebook"
+                            />
+                            <p className="text-sm mt-2"> Facebook</p>
+                        </a>
+                    </FacebookShareButton>
 
                     <a className="modal-item  flex flex-col" onClick={handleCopyLink}>
                         <img
