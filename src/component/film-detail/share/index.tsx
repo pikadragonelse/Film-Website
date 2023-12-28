@@ -1,7 +1,9 @@
 import React from 'react';
 import { Modal, Divider, Spin } from 'antd';
+import { FacebookShareButton } from 'react-share';
 
 interface ShareModalProps {
+    movieId?: string | undefined;
     visible: boolean;
     closeModal: () => void;
     copiedLink: string | null;
@@ -13,6 +15,7 @@ interface ShareModalProps {
 }
 
 const ShareModal: React.FC<ShareModalProps> = ({
+    movieId,
     visible,
     closeModal,
     copiedLink,
@@ -28,21 +31,17 @@ const ShareModal: React.FC<ShareModalProps> = ({
             width={450}
         >
             <div className="flex gap-10 items-center justify-center">
-                <a
-                    className="modal-item flex flex-col items-center"
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                        copiedLink || '',
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <img
-                        className="modal-img ml-4"
-                        src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
-                        alt="facebook"
-                    />
-                    <p className="text-sm mt-2"> Facebook</p>
-                </a>
+                <FacebookShareButton url={`http://movetimes.tech/movie/${movieId}`}>
+                    {/* <FacebookShareButton url={`https://www.youtube.com/`}> */}
+                    <a className="modal-item flex flex-col items-center">
+                        <img
+                            className="modal-img ml-4"
+                            src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
+                            alt="facebook"
+                        />
+                        <p className="text-sm mt-2"> Facebook</p>
+                    </a>
+                </FacebookShareButton>
 
                 <a className="modal-item  flex flex-col" onClick={handleCopyLink}>
                     <img

@@ -14,6 +14,6 @@ export interface listComment {
 
 export interface CurrentUser {
     username: string;
-    email: string;
+    email?: string;
     avatarURL: string;
 }

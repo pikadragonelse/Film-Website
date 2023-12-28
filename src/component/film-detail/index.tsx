@@ -7,19 +7,19 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Progress, Spin, message, notification } from 'antd';
+import { Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { RootState } from '../../redux/store';
+import { endpoint } from '../../utils/baseUrl';
 import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
+import FilmDetailsSection from './film-detail-section';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
-import { endpoint } from '../../utils/baseUrl';
 import ShareModal from './share';
-import FilmDetailsSection from './film-detail-section';
 
 interface Genre {
     id: number;
@@ -39,7 +39,29 @@ export const FilmDetail = () => {
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
-    //check watch later
+
+    const updateOgTags = (filmDetail: FilmItem) => {
+        const ogTags = [
+            { property: 'og:title', content: filmDetail.title || '' },
+            { property: 'og:description', content: filmDetail.description || '' },
+            { property: 'og:image', content: filmDetail.posterURL || '' },
+        ];
+
+        ogTags.forEach((tag) => {
+            const existingTag = document.head.querySelector(`meta[property="${tag.property}"]`);
+
+            if (existingTag) {
+                existingTag.setAttribute('content', tag.content || '');
+            } else {
+                const newTag = document.createElement('meta');
+                newTag.setAttribute('property', tag.property);
+                newTag.setAttribute('content', tag.content || '');
+                document.head.appendChild(newTag);
+            }
+        });
+    };
+
+    // check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
     const handleUnauthorizedAction = () => {
         notification.warning({
@@ -116,6 +138,7 @@ export const FilmDetail = () => {
         try {
             const movieData = await fetch(`${endpoint}/api/movies/${id}`).then((res) => res.json());
             setFilmDetail(movieData.movie);
+            updateOgTags(movieData.movie);
         } catch (error) {
             console.error(error);
         } finally {
@@ -314,8 +337,7 @@ export const FilmDetail = () => {
 
                     <div className="flex gap-3 absolute top-[83%] right-[8%]">
                         <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white "
+                            className="h-10 w-10 rounded-full border-[1.5px] border-white hover:cursor-pointer"
                             onClick={handleAddToLove}
                         >
                             {addedToLove ? (
@@ -349,6 +371,7 @@ export const FilmDetail = () => {
                 </div>
             </div>
             <ShareModal
+                movieId={id}
                 visible={shareModalVisible}
                 closeModal={() => setShareModalVisible(false)}
                 copiedLink={copiedLink}
