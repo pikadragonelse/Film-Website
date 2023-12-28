@@ -4,17 +4,27 @@ import { useEffect, useRef, useState } from 'react';
 import { Logo } from '../../asset/icon/logo';
 import { request } from '../../utils/request';
 import './index.scss';
+import Cookies from 'js-cookie';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { CurrentUser } from '../comment/type';
 
 interface botchatProp {
     onClose: () => void;
 }
 
 export const Botchat = ({ onClose }: botchatProp) => {
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const ref = useRef<any>(null);
     const [question, setQuestion] = useState<string>('');
     const [messages, setMessages] = useState<{ question?: string; answer?: string | any }[]>(() => [
         { answer: 'Tôi có thể giúp gì cho bạn?' },
     ]);
+    const [currentUser, setCurrentUser] = useState<CurrentUser>({
+        username: '',
+        avatarURL: '',
+    });
 
     const LoadingSpinner = () => (
         <div className="loading-spinner flex gap-1 pt-2">
@@ -23,6 +33,24 @@ export const Botchat = ({ onClose }: botchatProp) => {
             <div className="h-2 w-2 bg-white rounded-full animate-bounce"></div>
         </div>
     );
+
+    const fetchDataCurrentUser = async () => {
+        try {
+            const response = await request.get('user/get-self-information', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const data = response.data;
+            setCurrentUser(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataCurrentUser();
+    }, []);
 
     const postAnswer = async (ques: string) => {
         try {
@@ -97,11 +125,15 @@ export const Botchat = ({ onClose }: botchatProp) => {
                         {mess.question && (
                             <div className="user">
                                 <div className={`message user`}>{mess.question}</div>
-                                <Avatar
-                                    size={36}
-                                    icon={<UserOutlined />}
-                                    style={{ backgroundColor: '#87d068' }}
-                                />
+                                {isUserLoggedIn ? (
+                                    <Avatar size={36} src={currentUser.avatarURL} />
+                                ) : (
+                                    <Avatar
+                                        size={36}
+                                        icon={<UserOutlined />}
+                                        style={{ backgroundColor: '#87d068' }}
+                                    />
+                                )}
                             </div>
                         )}
                         {mess.answer && (

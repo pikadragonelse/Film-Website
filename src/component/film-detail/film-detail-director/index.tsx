@@ -6,6 +6,7 @@ interface Directors {
     name: string;
     character: string;
     avatar: string;
+    directorId?: number;
 }
 
 interface FilmDetailDirectorProps {
