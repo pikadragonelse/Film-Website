@@ -31,9 +31,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
             width={450}
         >
             <div className="flex gap-10 items-center justify-center">
-                <FacebookShareButton
-                    url={`http://movies.southeastasia.cloudapp.azure.com:3000/movie/${movieId}`}
-                >
+                <FacebookShareButton url={`http://movetimes.tech/movie/${movieId}`}>
                     {/* <FacebookShareButton url={`https://www.youtube.com/`}> */}
                     <a className="modal-item flex flex-col items-center">
                         <img

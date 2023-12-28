@@ -20,6 +20,7 @@ import './index.scss';
 import { endpoint } from '../../utils/baseUrl';
 import ShareModal from './share';
 import FilmDetailsSection from './film-detail-section';
+import { Helmet } from 'react-helmet';
 
 interface Genre {
     id: number;
@@ -41,24 +42,24 @@ export const FilmDetail = () => {
     let firstEpisodeId: number | null = null;
 
     const updateOgTags = (filmDetail: FilmItem) => {
-        const ogTags = [
-            { property: 'og:title', content: filmDetail.title || '' },
-            { property: 'og:description', content: filmDetail.description || '' },
-            { property: 'og:image', content: filmDetail.posterURL || '' },
+        const title = filmDetail.title || '';
+        const description = filmDetail.description || '';
+        const posterURL = filmDetail.posterURL || '';
+        const helmetTags = [
+            { property: 'og:title', content: title },
+            { property: 'og:description', content: description },
+            { property: 'og:image', content: posterURL },
         ];
 
-        ogTags.forEach((tag) => {
-            const existingTag = document.head.querySelector(`meta[property="${tag.property}"]`);
-
-            if (existingTag) {
-                existingTag.setAttribute('content', tag.content || '');
-            } else {
-                const newTag = document.createElement('meta');
-                newTag.setAttribute('property', tag.property);
-                newTag.setAttribute('content', tag.content || '');
-                document.head.appendChild(newTag);
-            }
-        });
+        return (
+            <Helmet>
+                <meta charSet="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                {helmetTags.map((tag, index) => (
+                    <meta key={index} property={tag.property} content={tag.content} />
+                ))}
+            </Helmet>
+        );
     };
 
     // check watch later
