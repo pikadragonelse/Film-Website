@@ -13,6 +13,7 @@ import { Film } from '../../model/film';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
+import { endpoint } from '../../utils/baseUrl';
 
 export type DataMovieByGenre = {
     genreId: number;

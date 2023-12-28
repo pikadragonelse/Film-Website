@@ -17,6 +17,7 @@ import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
+import { endpoint } from '../../utils/baseUrl';
 import ShareModal from './share';
 import FilmDetailsSection from './film-detail-section';
 
@@ -53,9 +54,7 @@ export const FilmDetail = () => {
             const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
 
             try {
-                const response = await fetch(
-                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
-                );
+                const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
                 if (response.ok) {
                     const data = await response.json();
@@ -115,9 +114,7 @@ export const FilmDetail = () => {
 
     const fetchData = async () => {
         try {
-            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
-                res.json(),
-            );
+            const movieData = await fetch(`${endpoint}/api/movies/${id}`).then((res) => res.json());
             setFilmDetail(movieData.movie);
         } catch (error) {
             console.error(error);

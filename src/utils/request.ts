@@ -1,5 +1,6 @@
 import axios from "axios";
+import { endpoint } from "./baseUrl";
 
 export const request = axios.create({
-    baseURL:'http://localhost:8000/api/'
+    baseURL:`${endpoint}/api/`
 })

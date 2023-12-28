@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { FilmItem } from '../film-item';
 import { TabContent } from './actor-tag-content';
+import { endpoint } from '../../utils/baseUrl';
 import { TabItem } from './actor-tag-item';
 import './index.scss';
 import { ActorInfo, TabsProps } from './type';
@@ -20,9 +21,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const fetchActorQRCode = async () => {
         const actorLink = encodeURIComponent(`${window.location.origin}/actor/${actorId}`);
         try {
-            const response = await fetch(
-                `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
-            );
+            const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
             if (response.ok) {
                 const data = await response.json();
@@ -46,7 +45,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/individuals/actors/${actorId}`)
+        fetch(`${endpoint}/api/individuals/actors/${actorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setActorInfo(data.data);
