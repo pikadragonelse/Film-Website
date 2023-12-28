@@ -45,19 +45,14 @@ export const FilmDetail = () => {
         const title = filmDetail.title || '';
         const description = filmDetail.description || '';
         const posterURL = filmDetail.posterURL || '';
-        const helmetTags = [
-            { property: 'og:title', content: title },
-            { property: 'og:description', content: description },
-            { property: 'og:image', content: posterURL },
-        ];
 
         return (
             <Helmet>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                {helmetTags.map((tag, index) => (
-                    <meta key={index} property={tag.property} content={tag.content} />
-                ))}
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={posterURL} />
             </Helmet>
         );
     };
@@ -287,6 +282,7 @@ export const FilmDetail = () => {
 
     return (
         <div className="film-detail flex-grow mb-[450px]">
+            {updateOgTags(filmDetail)}
             <div
                 style={{
                     backgroundImage: `url(${filmDetail.backgroundURL})`,
