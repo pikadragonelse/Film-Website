@@ -2,7 +2,7 @@ import { CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { Comment, CurrentUser } from '../../component/comment';
+import { Comment } from '../../component/comment';
 import { IconWithText } from '../../component/icon-with-text';
 import { ListEpisodes } from '../../component/list-episode';
 import { MainInfoFilm } from '../../component/main-info-film';
@@ -16,14 +16,11 @@ import { VideoPlayerCustom } from '../../component/video-player-custom';
 import { selectionItems } from './items-selection';
 import { useToken } from '../../hooks/useToken';
 import { defaultEpisode, defaultFilm } from './default-value';
-import { defaultUser } from '../../model/user';
 
 const moment = require('moment');
 
 export const WatchingPage = () => {
     const { userId, accessToken } = useToken();
-
-    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultUser);
 
     const [watchingData, setWatchingData] = useState<Film>(defaultFilm);
     const [rating, setRating] = useState(0);
@@ -36,8 +33,6 @@ export const WatchingPage = () => {
         try {
             const response = await request.get(`movies/${movieId}`);
             const data = response.data;
-
-            console.log(data);
 
             setWatchingData(data.movie);
             setRating(data.rating);
@@ -72,7 +67,9 @@ export const WatchingPage = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
-            .then((res) => setDataEpisode(res.data))
+            .then((res) => {
+                setDataEpisode(res.data);
+            })
             .catch((err) => console.log(err));
     };
 
@@ -181,7 +178,6 @@ export const WatchingPage = () => {
                 <Comment
                     title="Comments"
                     isLogin={accessToken != null ? true : false}
-                    currentUser={currentUser}
                     placeholder="Write a comment..."
                 />
             </div>

@@ -1,4 +1,4 @@
-import { UserProps } from "..";
+import { UserProps } from '../../../model/user';
 
 export interface listComment {
     id: number;

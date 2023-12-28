@@ -3,13 +3,13 @@ import './index.scss';
 import { DeleteIcon, LoveIcon, ReplyIcon } from '../../../asset/icon/comment-icon';
 
 import { WriteComment } from '../write-cmt';
-import { CurrentUser } from '..';
 import { Modal } from 'antd';
 
 import './index.scss';
 import Cookies from 'js-cookie';
 import { request } from '../../../utils/request';
-import { listComment } from '../type';
+import { CurrentUser, listComment } from '../type';
+import { defaultCurrentUser } from '../../../model/user';
 
 interface CmtProps {
     comment: listComment;
@@ -31,19 +31,7 @@ export const Cmt: React.FC<CmtProps> = ({
     decreaseLike,
 }) => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [currentUser, setCurrentUser] = useState<CurrentUser>({
-        username: '',
-        avatarURL: '',
-        dateOfBirth: '',
-        gender: '',
-        email: '',
-        role: 0,
-        subscription: {
-            closeAt: '',
-            subscriptionType: '',
-            updatedAt: '',
-        },
-    });
+    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
     const fetchDataCurrentUser = async () => {
         try {
             const response = await request.get('user/get-self-information', {

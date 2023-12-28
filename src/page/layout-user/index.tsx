@@ -21,7 +21,7 @@ import { request } from '../../utils/request';
 import './index.scss';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { CurrentUser } from '../../component/comment';
+import { CurrentUser, defaultCurrentUser } from '../../model/user';
 
 const { Header, Content, Sider } = Layout;
 
@@ -89,20 +89,7 @@ export const LayoutUser = () => {
     const [modalVisible, setModalVisible] = useState(true);
     const [collapsed, setCollapsed] = useState(false);
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [currentUser, setCurrentUser] = useState<CurrentUser>({
-        username: '',
-        avatarURL: '',
-        dateOfBirth: '',
-        gender: '',
-        email: '',
-        role: 0,
-        userId: 0,
-        subscription: {
-            closeAt: '',
-            subscriptionType: '',
-            updatedAt: '',
-        },
-    });
+    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
 
     const fetchDataCurrentUser = async () => {
         try {
