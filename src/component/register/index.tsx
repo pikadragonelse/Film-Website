@@ -5,6 +5,7 @@ import './index.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { endpoint } from '../../utils/baseUrl';
 
 const { Option } = Select;
 
@@ -55,7 +56,7 @@ export const Register: React.FC = () => {
         try {
             values.dateOfBirth = moment(values.datePicker).format('YYYY-MM-DD HH:mm:ss.SSSZ');
 
-            const response = await axios.post('http://localhost:8000/api/auth/register', values, {
+            const response = await axios.post(`${endpoint}/api/auth/register`, values, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
