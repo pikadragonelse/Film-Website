@@ -73,7 +73,7 @@ export const FilmDetail = () => {
     const handleShare = async () => {
         if (isUserLoggedIn) {
             const movieId = filmDetail?.movieId;
-            const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
+            const actorLink = encodeURIComponent(`${window.location.origin}/#/movie/${movieId}`);
 
             try {
                 const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
