@@ -2,11 +2,11 @@ import { Badge, Pagination } from 'antd';
 import React, { useState } from 'react';
 import './index.scss';
 import { Link } from 'react-router-dom';
-import { Episodes } from '../../../model/film';
+import { EpisodeFilm } from '../../../model/film';
 import { CaretRightOutlined } from '@ant-design/icons';
 
 interface FilmDetail {
-    episodes: Episodes[];
+    episodes: EpisodeFilm[];
 }
 
 interface FilmDetailEpisodesProps {

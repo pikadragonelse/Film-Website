@@ -5,9 +5,9 @@ import { RcFile, UploadFile } from 'antd/es/upload';
 import { useForm } from 'antd/es/form/Form';
 import { request } from '../../../utils/request';
 import Cookies from 'js-cookie';
-import { CurrentUser } from '../../comment';
 import { log } from 'console';
 import dayjs from 'dayjs';
+import { CurrentUser } from '../../../model/user';
 
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {

@@ -15,3 +15,15 @@ export interface DurationSubscription {
     durationId: number;
     time: number;
 }
+
+export interface Subscription {
+    closeAt: string;
+    subscriptionType: string;
+    updatedAt: string;
+}
+
+export const defaultSubscription = {
+    closeAt: '',
+    subscriptionType: '',
+    updatedAt: '',
+};

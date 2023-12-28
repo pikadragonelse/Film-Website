@@ -30,7 +30,6 @@ const Slide: React.FC = () => {
     const [shareModalVisible, setShareModalVisible] = useState(false);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
-    console.log(setIsTitleVisible);
 
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {

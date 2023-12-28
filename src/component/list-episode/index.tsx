@@ -2,7 +2,7 @@ import { AppstoreOutlined, BarsOutlined, DownOutlined } from '@ant-design/icons'
 import { Button, Dropdown, MenuProps } from 'antd';
 import Title from 'antd/es/typography/Title';
 import { useState } from 'react';
-import { Episodes } from '../../model/film';
+import { EpisodeFilm } from '../../model/film';
 import { EspKanban } from './esp-kanban';
 import { EspList } from './esp-list';
 import './index.scss';
@@ -13,7 +13,7 @@ export type ListEpisodesType = {
     subInfo?: Array<string>;
     sessions?: MenuProps['items'];
     multiSessions?: boolean;
-    listEpisodes: Array<Episodes>;
+    listEpisodes: Array<EpisodeFilm>;
 };
 export const ListEpisodes = ({
     title,

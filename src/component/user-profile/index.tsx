@@ -4,11 +4,11 @@ import Title from 'antd/es/typography/Title';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { request } from '../../utils/request';
-import { CurrentUser } from '../comment';
 import { ModalUser } from '../modal-user';
 import { FormChangePassword } from '../modal-user/form-change-password';
 import { FormEditUser } from '../modal-user/form-edit-user';
 import './index.scss';
+import { CurrentUser, defaultCurrentUser } from '../../model/user';
 
 export const UserProfile = () => {
     const moment = require('moment');
@@ -16,11 +16,7 @@ export const UserProfile = () => {
     const [isOpenChangePassword, setIsOpenChangePassword] = useState<boolean>(false);
     //api currentUser
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [currentUser, setCurrentUser] = useState<CurrentUser>({
-        username: '',
-        email: '',
-        avatarURL: '',
-    });
+    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
     const fetchDataCurrentUser = async () => {
         try {
             const response = await request.get('user/get-self-information', {

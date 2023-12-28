@@ -23,6 +23,8 @@ import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
 import { ContentModalHistory } from './modalHistory';
 import { ContentModalHistoryTitle } from './modalHistoryTitle';
+import { CurrentUser } from '../comment/type';
+import { defaultCurrentUser } from '../../model/user';
 export type Header = { className?: string };
 
 const queryParamMap: Record<string, string> = {
@@ -47,20 +49,12 @@ export interface CategoriesHeader {
     queryParam?: string;
 }
 
-export interface CurrentUser {
-    username: string;
-    avatarURL: string;
-}
-
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
     const [items, setItems] = useState<any[]>([]);
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [currentUser, setCurrentUser] = useState<CurrentUser>({
-        username: '',
-        avatarURL: '',
-    });
+    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
 
     const isLoginPage =
         location.pathname === '/login' ||
