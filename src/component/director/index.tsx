@@ -19,7 +19,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
     const fetchActorQRCode = async () => {
-        const actorLink = encodeURIComponent(`${window.location.origin}/director/${directorId}`);
+        const actorLink = encodeURIComponent(`${window.location.origin}/#/director/${directorId}`);
         try {
             const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
@@ -61,7 +61,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     };
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
-        const actorLink = `${window.location.origin}/director/${directorId}`;
+        const actorLink = `${window.location.origin}/#/director/${directorId}`;
         setCopiedLink(actorLink);
         setIsModalVisible(true);
     };
