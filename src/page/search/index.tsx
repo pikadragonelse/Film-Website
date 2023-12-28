@@ -10,6 +10,7 @@ import { FilterParams } from '../../model/filter-params';
 import { handleSearchParams } from '../../utils/handle-search-params';
 import { convertParams } from '../../utils/convert-prams';
 import { LoadingOutlined } from '@ant-design/icons';
+import { endpoint } from '../../utils/baseUrl';
 
 export const SearchPage: React.FC = () => {
     const { search } = useLocation();
@@ -21,8 +22,10 @@ export const SearchPage: React.FC = () => {
     const navigate = useNavigate();
 
     const getDataBySearchParams = (searchParams: string) => {
+        console.log(searchParams);
+
         axios
-            .get(`http://localhost:8000/api/movies${searchParams}&page=${currPage}&pageSize=12`)
+            .get(`${endpoint}/api/movies?${searchParams}&page=${currPage}&pageSize=12`)
             .then((res) => {
                 setSearchResults(res.data.movies);
                 setAmountMovies(res.data.totalCount);
@@ -32,6 +35,8 @@ export const SearchPage: React.FC = () => {
     };
 
     useEffect(() => {
+        console.log(window.location.hash.split('?'));
+
         setIsLoading(true);
 
         getDataBySearchParams(window.location.search);
@@ -41,7 +46,7 @@ export const SearchPage: React.FC = () => {
     }, [search, currPage]);
 
     const handleSetFilterParams = async () => {
-        let str = '?';
+        let str = '';
         const arrValueFilterParams = Object.values(filterParamsState);
         let count = 0;
         for (let key in filterParamsState) {

@@ -5,35 +5,8 @@ import { ListComment } from './list-cmt';
 import { Link, useParams } from 'react-router-dom';
 import { Button } from 'antd';
 import { request } from '../../utils/request';
-import Cookies from 'js-cookie';
-
-export interface Subscription {
-    closeAt: string;
-    subscriptionType: string;
-    updatedAt: string;
-}
-export interface CurrentUser {
-    dateOfBirth?: string;
-    gender?: string;
-    username: string;
-    email: string;
-    avatarURL: string;
-    role: number;
-    subscription?: Subscription;
-    userId?: number;
-}
-interface CommentProps {
-    title: string;
-    isLogin: boolean;
-    currentUser: CurrentUser;
-    placeholder: string;
-}
-export interface UserProps {
-    user_id: number;
-    gender: string;
-    avatar_url: string;
-    email: string;
-}
+import { useToken } from '../../hooks/useToken';
+import { CurrentUser, UserProps, defaultCurrentUser } from '../../model/user';
 interface listCommentsProps {
     id: number;
     avatar: string;
@@ -57,11 +30,17 @@ const listComment = [
     },
 ];
 
-export const Comment: React.FC<CommentProps> = ({ title, isLogin, currentUser, placeholder }) => {
-    const timestamp = Date.now();
+interface CommentProps {
+    title: string;
+    isLogin: boolean;
+    placeholder: string;
+}
+
+export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder }) => {
     const [refreshData, setRefreshData] = useState(false);
     const [listComments, setListComments] = useState<Array<listCommentsProps>>(listComment);
     const { episodeId } = useParams();
+    const { userId, accessToken } = useToken();
     const fetchData = async () => {
         try {
             const response = await request.get(`episode/${episodeId}/comments`);
@@ -71,11 +50,33 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, currentUser, p
             console.error(error);
         }
     };
+
+    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
+    const getCurrentUser = () => {
+        request
+            .get('/user/get-user', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + accessToken,
+                },
+                params: { userId: userId },
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        getCurrentUser();
+    }, [userId]);
+
     useEffect(() => {
         fetchData();
         setRefreshData(false);
     }, [episodeId, refreshData]);
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const postData = async (content: string) => {
         try {
             await request.post(

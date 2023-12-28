@@ -10,6 +10,8 @@ import './index.scss';
 import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
 
+import { endpoint } from '../../utils/baseUrl';
+
 type FieldType = {
     username?: string;
     password?: string;
@@ -27,7 +29,7 @@ export const Login: React.FC = () => {
         setLoading(true);
 
         axios
-            .post('http://localhost:8000/api/auth/login', data)
+            .post(`${endpoint}/api/auth/login`, data)
             .then((response) => {
                 console.log('POST', response);
                 let accessToken = JSON.stringify(response.data.result.token.accessToken);

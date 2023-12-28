@@ -4,44 +4,37 @@ import { CarouselRef } from 'antd/es/carousel';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './index.scss';
+import { DAFilm } from '../../model/film';
 
 const { Text } = Typography;
-
-export type ActorFamousInfo = {
-    actorId?: number;
-    name: string;
-    avatar: string;
-    actor_id?: number;
-};
-
 interface ActorFamousProps {
-    actors: ActorFamousInfo[];
+    DAlist: DAFilm[];
     title?: string;
     size?: number;
     isShow?: boolean;
 }
 
-export const ActorFamous = ({ actors, title, size, isShow }: ActorFamousProps) => {
+export const ActorFamous = ({ DAlist, title, size, isShow }: ActorFamousProps) => {
     const actorRef = useRef<CarouselRef>(null);
     const [actorPage, setActorPage] = useState<number>(1);
     const [actorMaxPage, setActorMaxPage] = useState<number>(1);
-    const [multipleActorRows, setMultipleActorRows] = useState<ActorFamousInfo[][]>([]);
-
+    const [multipleActorRows, setMultipleActorRows] = useState<DAFilm[][]>([]);
     useEffect(() => {
         const handledActorRows = handleSplitActorRows();
+
         setMultipleActorRows(handledActorRows);
         setActorMaxPage(handledActorRows.length);
-    }, [actors]);
+    }, [DAlist]);
 
     const handleSplitActorRows = () => {
         let counts = 1;
-        const actorRows: ActorFamousInfo[][] = [];
-        let actorRow: ActorFamousInfo[] = [];
+        const actorRows: DAFilm[][] = [];
+        let actorRow: DAFilm[] = [];
 
-        actors.forEach((actor) => {
-            actorRow.push(actor);
+        DAlist.forEach((DA) => {
+            actorRow.push(DA);
 
-            if (counts % 8 === 0 || counts === actors.length) {
+            if (counts % 8 === 0 || counts === DAlist.length) {
                 actorRows.push(actorRow);
                 actorRow = [];
             }
@@ -55,35 +48,41 @@ export const ActorFamous = ({ actors, title, size, isShow }: ActorFamousProps) =
         <div className="mt-14 mb-14 actor-famous list">
             <Text className="text-white text-[22px] font-medium ml-20 mt-4">{title}</Text>
             <Carousel className="ml-[68px] mb-10 mr-10 mt-4" ref={actorRef} dots={false}>
-                {multipleActorRows.map((actorRows, index) => (
-                    <div key={index}>
-                        <Row gutter={[0, 16]} className="flex gap-7">
-                            {actorRows.map((actor) => (
-                                <Link
-                                    to={`/actor/${actor.actorId}`}
-                                    key={actor.actorId}
-                                    className="flex flex-col flex-wrap content-start gap-2 "
-                                >
-                                    <Avatar
-                                        className="hover:border-[6px] hover:border-red-800 object-cover"
-                                        src={actor.avatar}
-                                        size={size}
-                                    />
-                                    <Text className="actor-famous__name text-center mt-4 hover:text-red-800">
-                                        {actor.name}
-                                    </Text>
-                                    <Text className="!text-gray-500 opacity-100 text-[12px] text-center">
-                                        {isShow && actor.actor_id
-                                            ? 'Diễn viên'
-                                            : isShow
-                                            ? 'Đạo diễn'
-                                            : null}
-                                    </Text>
-                                </Link>
-                            ))}
-                        </Row>
-                    </div>
-                ))}
+                {multipleActorRows.map((actorRows, index) => {
+                    return (
+                        <div key={index}>
+                            <Row gutter={[0, 16]} className="flex gap-7">
+                                {actorRows.map((actor) => {
+                                    return (
+                                        <Link
+                                            to={`/${
+                                                actor.actor_id != null ? 'actor' : 'director'
+                                            }/${actor.actor_id || actor.director_id}`}
+                                            key={actor.actor_id}
+                                            className="flex flex-col flex-wrap content-start gap-2 "
+                                        >
+                                            <Avatar
+                                                className="hover:border-[6px] hover:border-red-800 object-cover"
+                                                src={actor.avatar}
+                                                size={size}
+                                            />
+                                            <Text className="actor-famous__name text-center mt-4 hover:text-red-800">
+                                                {actor.name}
+                                            </Text>
+                                            <Text className="!text-gray-500 opacity-100 text-[12px] text-center">
+                                                {isShow && actor.actor_id
+                                                    ? 'Diễn viên'
+                                                    : isShow
+                                                    ? 'Đạo diễn'
+                                                    : null}
+                                            </Text>
+                                        </Link>
+                                    );
+                                })}
+                            </Row>
+                        </div>
+                    );
+                })}
             </Carousel>
             <div
                 className={`icon-list-container right-move-container ${

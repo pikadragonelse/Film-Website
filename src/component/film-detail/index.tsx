@@ -7,7 +7,7 @@ import {
     ShareAltOutlined,
     SmallDashOutlined,
 } from '@ant-design/icons';
-import { Divider, Modal, Progress, Spin, message, notification } from 'antd';
+import { Progress, Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -17,7 +17,9 @@ import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
-import { FacebookShareButton } from 'react-share';
+import { endpoint } from '../../utils/baseUrl';
+import ShareModal from './share';
+import FilmDetailsSection from './film-detail-section';
 
 interface Genre {
     id: number;
@@ -74,9 +76,7 @@ export const FilmDetail = () => {
             const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
 
             try {
-                const response = await fetch(
-                    `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
-                );
+                const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
                 if (response.ok) {
                     const data = await response.json();
@@ -136,9 +136,7 @@ export const FilmDetail = () => {
 
     const fetchData = async () => {
         try {
-            const movieData = await fetch(`http://localhost:8000/api/movies/${id}`).then((res) =>
-                res.json(),
-            );
+            const movieData = await fetch(`${endpoint}/api/movies/${id}`).then((res) => res.json());
             setFilmDetail(movieData.movie);
             updateOgTags(movieData.movie);
         } catch (error) {
@@ -304,8 +302,6 @@ export const FilmDetail = () => {
                             />
                             <div className="film-detail__title">{filmDetail.title}</div>
                         </div>
-
-                        {/* Info */}
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
                                 <div className="film-detail__summary">
@@ -320,7 +316,7 @@ export const FilmDetail = () => {
                                 </div>
                                 <div className="film-detail__listbutton">
                                     <Link
-                                        to={`/movie/${filmDetail.movieId}/${firstEpisodeId}`}
+                                        to={`/movie/${filmDetail.movieId}/${firstEpisodeId}/`}
                                         className="film-detail__watch flex items-center pl-3 pr-4 py-[6px] rounded-[6px] text-whitetransition duration-300 mt-[-10px] mr-3"
                                     >
                                         <CaretRightOutlined />
@@ -355,88 +351,37 @@ export const FilmDetail = () => {
                             )}
                         </a>
 
-                        <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white  "
-                        >
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white  ">
                             <ShareAltOutlined className="film-detail__icon" onClick={handleShare} />
                         </a>
 
-                        <a
-                            href="#icon"
-                            className="h-10 w-10 rounded-full border-[1.5px] border-white"
-                        >
+                        <a className="h-10 w-10 rounded-full border-[1.5px] border-white">
                             <SmallDashOutlined className="film-detail__icon" />
                         </a>
                     </div>
                 </div>
             </div>
             <div className='class="flex z-20 relative flex-col md:flex-row mt-32 md:mt-0 px-64'>
-                <div className="shrink-0 md:max-w-[150px] flex items-center md:flex-col justify-center flex-row gap-20 mt-28  md:border-r border-gray-600 pt-2 ml-[-200px]">
-                    <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">RATING</p>
-                        <div>
-                            <Progress
-                                type="circle"
-                                size={68}
-                                percent={filmDetail.averageRating * 10}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-6 items-center">
-                        <p className="text-white font-medium text-lg">VOTE COUNT</p>
-                        <div>
-                            <p> {filmDetail.numFavorite}</p>
-                        </div>
-                    </div>
-                </div>
+                <FilmDetailsSection
+                    averageRating={filmDetail.averageRating}
+                    numFavorite={filmDetail.numFavorite}
+                />
+
                 <div className="flex-grow min-h-[500px] px-20 mt-[-50px] detail-tabs">
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
-            <Modal
-                title={<p className="flex items-center justify-center mb-2">Chia sẻ</p>}
+            <ShareModal
+                movieId={id}
                 visible={shareModalVisible}
-                footer={null}
-                onCancel={() => setShareModalVisible(false)}
-                width={450}
-            >
-                <div className="flex gap-10 items-center justify-center">
-                    <FacebookShareButton url={`http://localhost:3000/movie/${id}`}>
-                        {/* <FacebookShareButton url={`https://www.youtube.com/`}> */}
-                        <a className="modal-item flex flex-col items-center">
-                            <img
-                                className="modal-img ml-4"
-                                src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
-                                alt="facebook"
-                            />
-                            <p className="text-sm mt-2"> Facebook</p>
-                        </a>
-                    </FacebookShareButton>
-
-                    <a className="modal-item  flex flex-col" onClick={handleCopyLink}>
-                        <img
-                            className="modal-img ml-4"
-                            src="https://www.iqiyipic.com/lequ/20220216/copylink@2x.png"
-                            alt="addresss"
-                        />
-                        <p className="text-sm mt-2">Sao chép link</p>
-                    </a>
-                </div>
-                <Divider className="!bg-gray-600" />
-                <div className="flex flex-col justify-center items-center mt-4">
-                    <p>Quét để chia sẻ trên thiết bị di động</p>
-                    {qrCode ? (
-                        <img
-                            src={qrCode}
-                            alt="QR Code"
-                            style={{ width: '100px', height: '100px', marginTop: '15px' }}
-                        />
-                    ) : (
-                        <Spin></Spin>
-                    )}
-                </div>
-            </Modal>
+                closeModal={() => setShareModalVisible(false)}
+                copiedLink={copiedLink}
+                handleCopyLink={handleCopyLink}
+                handleAddToLove={handleAddToLove}
+                addedToLove={addedToLove}
+                handleShare={handleShare}
+                qrCode={qrCode}
+            />
         </div>
     );
 };
