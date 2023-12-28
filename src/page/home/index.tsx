@@ -6,11 +6,11 @@ import { LogoIcon } from '../../asset/icon/logo';
 import { Botchat } from '../../component/botchat';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMoviesHome } from '../../component/history-home';
-import { ActorFamous, ActorFamousInfo } from '../../component/list-actor-famous';
+import { ActorFamous } from '../../component/list-actor-famous';
 import { ListFilm } from '../../component/list-film';
 import { ListReserveMovies } from '../../component/list-reserve-movie';
 import Slide from '../../component/slide';
-import { Film } from '../../model/film';
+import { DAFilm, Film } from '../../model/film';
 import { request } from '../../utils/request';
 import './index.scss';
 import { useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ export const HomePage = () => {
     const [trendingData, setTrendingData] = useState<Film[]>([]);
     const [dataFilmVip, setDataFimlVip] = useState<Film[]>([]);
     const [dataMovieByGenre, setDataMovieByGenre] = useState<DataMovieByGenre[]>([]);
-    const [dataActorFamous, setDataActorFamous] = useState<ActorFamousInfo[]>([]);
+    const [dataActorFamous, setDataActorFamous] = useState<DAFilm[]>([]);
     const [dataHistorymovies, setDataHistorymovies] = useState<FilmItem[]>([]);
     const [dataReserve, setDataReserve] = useState<Film[]>([]);
     const [dataRecommend, setRecommened] = useState<Film[]>([]);
@@ -200,7 +200,7 @@ export const HomePage = () => {
                 {dataActorFamous.length > 0 && (
                     <ActorFamous
                         title="Người nổi tiếng"
-                        actors={dataActorFamous}
+                        DAlist={dataActorFamous}
                         size={146}
                         isShow={false}
                     />

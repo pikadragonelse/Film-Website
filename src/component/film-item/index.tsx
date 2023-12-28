@@ -1,7 +1,7 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import { Badge, Skeleton } from 'antd';
 import { useState } from 'react';
-import { Actors, Episodes } from '../../model/film';
+import { Actors, EpisodeFilm } from '../../model/film';
 import './index.scss';
 
 export type FilmItem = {
@@ -17,7 +17,7 @@ export type FilmItem = {
     level?: number;
     genres?: Array<string>;
     actors?: Array<Actors>;
-    episodes?: Array<Episodes>;
+    episodes?: Array<EpisodeFilm>;
     data?: any;
     id?: number;
     backgroundURL?: string;

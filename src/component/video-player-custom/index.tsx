@@ -26,7 +26,7 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
     const [isShowControl, setIsShowControl] = useState(false);
 
     const [videoState, setVideoState] = useState<VideoState>({
-        playing: true,
+        playing: false,
         muted: false,
         volume: 0.5,
         played: 0,
@@ -98,10 +98,7 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
             onMouseLeave={handleMouseOutPlayer}
             onMouseOver={handleMouseOverPlayer}
         >
-            <div
-                className="player relative flex items-center justify-center"
-                onClick={() => playPauseHandler()}
-            >
+            <div className="player flex " onClick={() => playPauseHandler()}>
                 <ReactPlayer
                     ref={playerRef}
                     url={sourceUrl}
@@ -122,7 +119,7 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
                     volume={volume}
                 />
                 <CaretRightOutlined
-                    className="text-5xl absolute m-auto cursor-pointer bg-black/[.5] rounded-full p-3"
+                    className="text-5xl absolute cursor-pointer bg-black/[.5] rounded-full p-3 top-[40%] left-[48%] z-10"
                     hidden={playing}
                 />
                 <div className="absolute bottom-0 h-3 w-full bottom-box-shadow"></div>

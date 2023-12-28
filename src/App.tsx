@@ -18,6 +18,9 @@ import { store } from './redux/store';
 import { Actor } from './component/actor';
 import { NewPassword } from './component/new-password';
 import { LoginForget } from './component/forget-password';
+import { useToken } from './hooks/useToken';
+import { useEffect } from 'react';
+import { useRefreshToken } from './hooks/useRefreshToken';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -28,6 +31,13 @@ const locationMap: Record<string, string> = {
 
 export const App = () => {
     const location = useLocation();
+    const { accessToken, refreshToken } = useToken();
+    const timeRefreshToken = 1000 * 14 * 60; /*14m*/
+
+    useEffect(() => {
+        const timer = setInterval(useRefreshToken, timeRefreshToken);
+        return () => clearInterval(timer);
+    }, []);
 
     return (
         <Provider store={store}>
@@ -36,7 +46,7 @@ export const App = () => {
 
                 <div className="wrapper-app-container">
                     <Routes>
-                        <Route path="/" element={<HomePage />} />
+                        <Route path="" element={<HomePage />} />
                         <Route path="/search/*" element={<SearchPage />} />
                         <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
                         <Route path="/foryou/*" element={<LayoutUser />} />
