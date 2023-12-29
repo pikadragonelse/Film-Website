@@ -282,7 +282,6 @@ export const FilmDetail = () => {
 
     return (
         <div className="film-detail flex-grow mb-[450px]">
-            {updateOgTags(filmDetail)}
             <div
                 style={{
                     backgroundImage: `url(${filmDetail.backgroundURL})`,
