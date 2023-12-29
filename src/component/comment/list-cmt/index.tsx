@@ -18,7 +18,6 @@ export const ListComment: React.FC<ListCommentProps> = ({
     currentUser,
     setListComment,
 }) => {
-    const timestamp = Date.now();
     const [replyCommentId, setReplyCommentId] = useState<number | null>(null);
     //api subcomment
     const { episodeId } = useParams();

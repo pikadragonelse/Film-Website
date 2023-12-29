@@ -7,7 +7,7 @@ import { Button } from 'antd';
 import { request } from '../../utils/request';
 import { useToken } from '../../hooks/useToken';
 import { CurrentUser, UserProps, defaultCurrentUser } from '../../model/user';
-interface listCommentsProps {
+export interface listCommentsProps {
     id: number;
     avatar: string;
     username: string;
@@ -18,7 +18,7 @@ interface listCommentsProps {
     user?: UserProps;
 }
 
-const listComment = [
+export const listComment = [
     {
         id: 0,
         avatar: '',

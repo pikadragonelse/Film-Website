@@ -13,6 +13,7 @@ import { DAFilm, Film } from '../../model/film';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
+import { Link } from 'react-router-dom';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -186,11 +187,18 @@ export const HomePage = () => {
                 <div className="!mt-10"></div>
                 <ListFilm title="Dành cho VIP" listFilm={dataFilmVip} />
                 <ListFilm title="Hôm nay xem gì ?" listFilm={dataRecommend} />
-                <img
-                    className="ml-20 w-[91%] rounded-md h-[88px]"
-                    src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
-                    alt=""
-                />
+                <Link
+                    to={'/VIPpackage'}
+                    onClick={() => {
+                        window.scrollTo(0, 0);
+                    }}
+                >
+                    <img
+                        className="ml-20 w-[91%] rounded-md h-[88px]"
+                        src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
+                        alt=""
+                    />
+                </Link>
                 <ListReserveMovies listFilm={dataReserve} />
                 {dataActorFamous.length > 0 && (
                     <CastFamousHome title="Người nổi tiếng" DAlist={dataActorFamous} size={146} />

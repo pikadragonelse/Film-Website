@@ -27,20 +27,14 @@
     > li {
     color: #fff;
 }
-:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination
-    .ant-pagination-item
-    a {
+:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item a {
     color: #fff;
 }
 
-:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination
-    .ant-pagination-item-active
-    a {
+:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item-active a {
     color: var(--primary-color);
 }
-:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination
-    .ant-pagination-item-active
-    a:hover {
+:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item-active a:hover {
     color: var(--primary-color);
 }
 
@@ -55,12 +49,10 @@
     color: #fff;
 }
 
-:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination
-    .ant-pagination-item-active {
+:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item-active {
     border-color: var(--primary-color);
 }
 
-:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination
-    .ant-pagination-item-active:hover {
+:where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item-active:hover {
     border-color: var(--primary-color);
 }

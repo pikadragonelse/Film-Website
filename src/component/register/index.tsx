@@ -128,6 +128,7 @@ export const Register: React.FC = () => {
                                     required: true,
                                     message: 'Please input your E-mail!',
                                 },
+                                {},
                             ]}
                         >
                             <Input className="register-form__item-input" />

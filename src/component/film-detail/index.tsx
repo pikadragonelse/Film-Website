@@ -10,6 +10,7 @@ import {
 import { Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { RootState } from '../../redux/store';
@@ -20,7 +21,6 @@ import FilmDetailsSection from './film-detail-section';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 import ShareModal from './share';
-import { Helmet } from 'react-helmet';
 
 interface Genre {
     id: number;
@@ -279,7 +279,7 @@ export const FilmDetail = () => {
     };
 
     return (
-        <div className="film-detail flex-grow mb-[450px]">
+        <div className="film-detail flex-grow mb-[230px]">
             {updateOgTags(filmDetail)}
             <div
                 style={{

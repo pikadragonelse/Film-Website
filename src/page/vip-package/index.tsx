@@ -1,19 +1,17 @@
-import Title from 'antd/es/typography/Title';
-import { Button, List, Table } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
-import './index.scss';
-import { DataTable, ListVipPackage } from '../../component/list-vip-package';
+import { List } from 'antd';
 import Paragraph from 'antd/es/typography/Paragraph';
+import Title from 'antd/es/typography/Title';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HeaderPay } from '../../component/header-pay';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { ListVipPackage } from '../../component/list-vip-package';
 import { VIPPackageRaw } from '../../model/VIP-package';
-import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { setDurationData } from '../../redux/durationSlice';
 import { DurationVIP } from '../../model/duration-VIP';
-import { setIdSelectedInfoPackage } from '../../redux/VIPPaymentSlice';
+import { useAppSelector } from '../../redux/hook';
 import { endpoint } from '../../utils/baseUrl';
+import './index.scss';
 
 const data = [
     {
@@ -62,6 +60,7 @@ export const VIPPackage = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         getVipPackage();
     }, []);
 

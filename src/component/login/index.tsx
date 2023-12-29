@@ -11,6 +11,7 @@ import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
 
 import { endpoint } from '../../utils/baseUrl';
+import { FacebookFilled } from '@ant-design/icons';
 
 type FieldType = {
     username?: string;
@@ -188,24 +189,51 @@ export const Login: React.FC = () => {
                                 </a>
                             </Form.Item>
                         </div>
-                        <Form.Item>
-                            <Button
-                                className="form-btn-login !h-[44px]"
-                                type="primary"
-                                htmlType="submit"
-                                loading={loading}
-                            >
-                                Đăng nhập
-                            </Button>
-                        </Form.Item>
-
-                        <GoogleLogin
-                            clientId={clientId}
-                            buttonText="Login"
-                            onSuccess={onSuccessGG}
-                            onFailure={responseGoogle}
-                            cookiePolicy={'single_host_origin'}
-                        />
+                        <div>
+                            <Form.Item>
+                                <Button
+                                    className="form-btn-login !h-[44px]"
+                                    type="primary"
+                                    htmlType="submit"
+                                    loading={loading}
+                                >
+                                    Đăng nhập
+                                </Button>
+                            </Form.Item>
+                            <div className="!flex gap-[17px]">
+                                <GoogleLogin
+                                    clientId={clientId}
+                                    buttonText="Google"
+                                    onSuccess={onSuccessGG}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    className="flex basis-[43%]"
+                                />
+                                <Button
+                                    icon={
+                                        <img
+                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/1200px-2023_Facebook_icon.svg.png"
+                                            alt="Facebook Icon"
+                                            style={{
+                                                width: '20px',
+                                                height: '20px',
+                                                marginRight: '16px',
+                                                marginLeft: '8px',
+                                            }}
+                                        />
+                                    }
+                                    className="login-facebook flex basis-[43%]"
+                                >
+                                    Facebook
+                                </Button>
+                            </div>
+                            <div className="text-center mt-4 text-white !ml-[-18px]">
+                                Bạn chưa có tài khoản ? {}{' '}
+                                <Link className="form-signup" to="/register">
+                                    Đăng ký ngay
+                                </Link>
+                            </div>
+                        </div>
                     </Form>
                 </div>
             </div>
