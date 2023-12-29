@@ -12,7 +12,6 @@ export interface DataTable {
     package2: string;
     id: string;
 }
-
 export interface DataVIPLabel {
     title: string;
     value: string;
@@ -23,26 +22,45 @@ export type subInfo = {
     resolution: string;
 };
 
-const infoMap: Record<number, subInfo> = {
-    2: {
-        qualityVideo: 'Tốt',
-        resolution: '1080p',
-    },
-    3: {
-        qualityVideo: 'Tốt nhất',
-        resolution: '4k (HDR)',
-    },
-};
-
 export type ListVipPackage = {
     className?: string;
-    dataMap?: DataTable[];
-    dataLabel?: DataVIPLabel[];
     dataVIPPackage?: SubscriptionType[];
 };
 export const ListVipPackage = ({ className, dataVIPPackage = [] }: ListVipPackage) => {
-    const [selectedPackage, setSelectedPackage] = useState(1);
+    const [selectedPackage, setSelectedPackage] = useState(2);
     const dispatch = useAppDispatch();
+    const [dataRender, setDataRender] = useState<
+        {
+            label: string;
+            value1: string | number;
+            value2: string | number;
+        }[]
+    >([]);
+
+    useEffect(() => {
+        if (dataVIPPackage.length !== 0) {
+            setDataRender([
+                {
+                    label: 'Giá hàng tháng',
+                    value1: `${dataVIPPackage[0].price.toLocaleString('it-IT')} ₫`,
+                    value2: `${dataVIPPackage[1].price.toLocaleString('it-IT')} ₫`,
+                },
+                {
+                    label: 'Chất lượng video',
+                    value1: 'Tốt',
+                    value2: 'Tốt nhất',
+                },
+                {
+                    label: 'Độ phân giải',
+                    value1: '1080p',
+                    value2: '4k+HDR',
+                },
+            ]);
+            setSelectedPackage(dataVIPPackage[0].subscriptionTypeId);
+            dispatch(setIdSelectedInfoPackage(dataVIPPackage[0].subscriptionTypeId));
+            dispatch(setNamePackage(dataVIPPackage[0].name));
+        }
+    }, [dataVIPPackage]);
 
     return (
         <table className={`list-vip-package-table ${className}`}>
@@ -73,26 +91,22 @@ export const ListVipPackage = ({ className, dataVIPPackage = [] }: ListVipPackag
                     </td>
                 ))}
             </tr>
-            {dataVIPPackage.map((value) => (
+            {dataRender.map((value) => (
                 <tr className="list-vip-package-row">
-                    <td className="list-vip-package-cell list-vip-package-title ">{value.name}</td>
+                    <td className="list-vip-package-cell list-vip-package-title ">{value.label}</td>
                     <td
                         className={`list-vip-package-cell ${
                             selectedPackage === 2 ? 'highlight' : ''
                         }`}
                     >
-                        {infoMap[value.subscriptionTypeId] != null
-                            ? infoMap[value.subscriptionTypeId].qualityVideo
-                            : ''}
+                        {value.value1}
                     </td>
                     <td
                         className={`list-vip-package-cell ${
                             selectedPackage === 3 ? 'highlight' : ''
                         }`}
                     >
-                        {infoMap[value.subscriptionTypeId] != null
-                            ? infoMap[value.subscriptionTypeId].resolution
-                            : ''}
+                        {value.value2}
                     </td>
                 </tr>
             ))}

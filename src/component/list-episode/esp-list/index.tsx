@@ -12,7 +12,7 @@ export const EspList = ({ listEpisodes }: ListEpisodesType) => {
         <div className="list-esp">
             <Carousel className="list-content" dots={false} ref={listRef}>
                 <div>
-                    {listEpisodes.map((value) => (
+                    {listEpisodes?.map((value) => (
                         <Row justify="center">
                             <Link to={`/movie/${value.movie_id}/${value.episode_id}`}>
                                 <div className="items-esplist">

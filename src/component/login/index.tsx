@@ -1,12 +1,16 @@
 import { Button, Checkbox, Form, Input, notification } from 'antd';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
 import { setIslogin, setUsername } from '../../redux/isLoginSlice';
 import './index.scss';
+import GoogleLogin from 'react-google-login';
+import { gapi } from 'gapi-script';
+
+import { endpoint } from '../../utils/baseUrl';
 
 type FieldType = {
     username?: string;
@@ -25,7 +29,7 @@ export const Login: React.FC = () => {
         setLoading(true);
 
         axios
-            .post('http://localhost:8000/api/auth/login', data)
+            .post(`${endpoint}/api/auth/login`, data)
             .then((response) => {
                 console.log('POST', response);
                 let accessToken = JSON.stringify(response.data.result.token.accessToken);
@@ -67,6 +71,33 @@ export const Login: React.FC = () => {
             });
     };
 
+    const clientId = '339634676739-k6kutts85se6u0u279cronscq9j9cvu4.apps.googleusercontent.com';
+    useEffect(() => {
+        gapi.load('client:auth2', () => {
+            gapi.auth2.init({ clientId: clientId });
+        });
+    }, []);
+
+    const responseGoogle = (response: any) => {
+        console.log(response);
+    };
+    const onSuccessGG = (response: any) => {
+        notification.success({
+            message: 'Đăng nhập thành công',
+            description: 'Chúc mừng, bạn đã đăng nhập thành công',
+        });
+
+        dispatch(setIslogin(true));
+        console.log(response);
+        if (response.wt.cu) {
+            dispatch(setUsername(response.wt.cu));
+            Cookies.set('username', response.wt.cu, { expires: 1, secure: true });
+        }
+        Cookies.set('accessToken', response.accessToken, { expires: 1 });
+        // Cookies.set('refreshToken', refreshToken, { expires: 1 });
+        console.log(response.accessToken);
+        navigate('/');
+    };
     return (
         <div className="login">
             <div className="form-list">
@@ -167,12 +198,14 @@ export const Login: React.FC = () => {
                                 Đăng nhập
                             </Button>
                         </Form.Item>
-                        <div className="form-change !mt-[2px] !mr-10">
-                            Bạn mới sử dụng MovTime ? {}{' '}
-                            <Link className="form-signup" to="/register">
-                                Đăng ký ngay
-                            </Link>
-                        </div>
+
+                        <GoogleLogin
+                            clientId={clientId}
+                            buttonText="Login"
+                            onSuccess={onSuccessGG}
+                            onFailure={responseGoogle}
+                            cookiePolicy={'single_host_origin'}
+                        />
                     </Form>
                 </div>
             </div>

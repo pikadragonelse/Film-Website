@@ -1,4 +1,4 @@
-import { UserProps } from "..";
+import { UserProps } from '../../../model/user';
 
 export interface listComment {
     id: number;
@@ -14,6 +14,6 @@ export interface listComment {
 
 export interface CurrentUser {
     username: string;
-    email: string;
+    email?: string;
     avatarURL: string;
 }

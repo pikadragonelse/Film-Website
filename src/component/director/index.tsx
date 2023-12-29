@@ -6,6 +6,7 @@ import './index.scss';
 import { TabContent } from './director-tag-content/index';
 import { FilmItem } from '../film-item';
 import { useParams } from 'react-router';
+import { endpoint } from '../../utils/baseUrl';
 import { TabsProps } from '../actor/type';
 import { DirectorInfo } from './type';
 
@@ -17,18 +18,14 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     const [films, setFilms] = useState<Array<FilmItem>>([]);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
-    console.log(activeTab);
     const fetchActorQRCode = async () => {
-        const actorLink = encodeURIComponent(`${window.location.origin}/director/${directorId}`);
+        const actorLink = encodeURIComponent(`${window.location.origin}/#/director/${directorId}`);
         try {
-            const response = await fetch(
-                `http://localhost:8000/api/movies/get/qrcode?url=${actorLink}`,
-            );
+            const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
             if (response.ok) {
                 const data = await response.json();
                 setQrCodeUrl(data.qrCode);
-                console.log('data', qrCode);
 
                 if (typeof data.qrCode === 'string') {
                     const regex = /(data:image\/png;base64,[^'"]+)/;
@@ -48,7 +45,7 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/individuals/directors/${directorId}`)
+        fetch(`${endpoint}/api/individuals/directors/${directorId}`)
             .then((response) => response.json())
             .then((data) => {
                 setDirectorInfo(data.data);
@@ -58,15 +55,13 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
             .catch((error) => console.error('Error:', error));
     }, [directorId]);
 
-    console.log('directorInfo', directorInfo);
-
     const handleTabClick = (tabNumber: number) => {
         setOpenTab(tabNumber);
         setActiveTab(tabNumber);
     };
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
-        const actorLink = `${window.location.origin}/director/${directorId}`;
+        const actorLink = `${window.location.origin}/#/director/${directorId}`;
         setCopiedLink(actorLink);
         setIsModalVisible(true);
     };
