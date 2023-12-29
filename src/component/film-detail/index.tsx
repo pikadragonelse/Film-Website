@@ -43,13 +43,11 @@ export const FilmDetail = () => {
 
     const updateOgTags = (filmDetail: FilmItem) => {
         const title = filmDetail.title || '';
-        const description = filmDetail.description || '';
+        const description = filmDetail.description?.slice(0, 100) + '...' || '';
         const posterURL = filmDetail.posterURL || '';
 
         return (
             <Helmet>
-                <meta charSet="utf-8" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
                 <meta property="og:image" content={posterURL} />
