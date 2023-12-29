@@ -51,8 +51,8 @@ export const FilmDetail = () => {
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta property="og:title" content={title} />
-                {/* <meta property="og:description" content={description} />
-                <meta property="og:image" content={posterURL} /> */}
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={posterURL} />
             </Helmet>
         );
     };
