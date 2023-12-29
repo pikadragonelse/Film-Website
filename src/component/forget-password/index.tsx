@@ -3,18 +3,28 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
 import './index.scss';
+import axios from 'axios';
+import { endpoint } from '../../utils/baseUrl';
 
 type FieldType = {
     username?: string;
     password?: string;
     remember?: string;
+    email?: string;
 };
 
 export const LoginForget: React.FC = () => {
     const [loading, setLoading] = useState(false);
-
+    const [form] = Form.useForm();
     const onFinish = (data: FieldType) => {
+        console.log(data);
         setLoading(true);
+        axios.post(`${endpoint}/api/auth/forgot-password`, data).then((response) => {
+            if (response.data.status == 'Ok!') {
+                window.location.href = 'https://mail.google.com/';
+            }
+        });
+        setLoading(false);
     };
 
     return (
@@ -37,6 +47,7 @@ export const LoginForget: React.FC = () => {
                         <p className="form-header__small">nhập email để lấy lại tài khoản.</p>
                     </div>
                     <Form
+                        form={form}
                         className="form-group mt-20"
                         name="basic"
                         labelCol={{ span: 8, color: 'white' }}
@@ -49,12 +60,12 @@ export const LoginForget: React.FC = () => {
                     >
                         <div className="form-item">
                             <Form.Item<FieldType>
-                                name="username"
+                                name="email"
                                 className="mb-12"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your username!',
+                                        message: 'Nhập email để tiếp tục!',
                                     },
                                 ]}
                             >

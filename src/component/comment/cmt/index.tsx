@@ -167,7 +167,7 @@ export const Cmt: React.FC<CmtProps> = ({
                         <div className="reply-icon" onClick={handleReply}>
                             <div className="icon">
                                 <ReplyIcon />
-                                <p className="ml-1"> Reply</p>
+                                <p className="ml-1"> Phản hồi</p>
                             </div>
                         </div>
                     )}
@@ -187,7 +187,7 @@ export const Cmt: React.FC<CmtProps> = ({
                                 setIsReplying(false);
                             }
                         }}
-                        placeholder={`Reply to ${comment.user?.email}`}
+                        placeholder={`Trả lời ${comment.user?.email}`}
                         onCancel={handleCancelReply}
                     />
                 )}

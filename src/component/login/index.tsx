@@ -35,7 +35,6 @@ export const Login: React.FC = () => {
                 let accessToken = JSON.stringify(response.data.result.token.accessToken);
                 let refreshToken = JSON.stringify(response.data.result.token.refreshToken);
                 setLoading(false);
-
                 if (response.status === 200) {
                     notification.success({
                         message: 'Đăng nhập thành công',
@@ -52,18 +51,15 @@ export const Login: React.FC = () => {
                     Cookies.set('refreshToken', refreshToken, { expires: 1 });
                     console.log(accessToken);
                     navigate('/');
-                } else {
-                    if (response.data.error) {
-                        notification.error({
-                            message: 'Đăng nhập không thành công',
-                            description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',
-                        });
-                    }
                 }
             })
             .catch(function (err) {
                 setLoading(false);
                 console.error(err);
+                if (err.response.data.status === 'Unauthorized') {
+                    // axios.post(`${endpoint}/api/auth/login`, data)
+                    window.location.href = 'https://mail.google.com/';
+                }
                 notification.error({
                     message: 'Đăng nhập không thành công',
                     description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',

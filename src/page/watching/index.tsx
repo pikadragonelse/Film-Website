@@ -176,9 +176,9 @@ export const WatchingPage = () => {
 
             <div className="comment-container">
                 <Comment
-                    title="Comments"
+                    title="Bình luận"
                     isLogin={accessToken != null ? true : false}
-                    placeholder="Write a comment..."
+                    placeholder="Nhập bình luận..."
                 />
             </div>
         </div>

@@ -59,10 +59,10 @@ export const WriteComment: React.FC<WriteCommentProps> = ({
                 </div>
                 <div className="btn-action">
                     <Button className="btn-cancel" onClick={handleCancel}>
-                        Cancel
+                        Hủy
                     </Button>
                     <Button className="btn-sub" onClick={handleSub}>
-                        Submit
+                        Đồng ý
                     </Button>
                 </div>
             </div>
