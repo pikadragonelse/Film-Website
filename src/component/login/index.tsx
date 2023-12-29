@@ -56,10 +56,10 @@ export const Login: React.FC = () => {
             .catch(function (err) {
                 setLoading(false);
                 console.error(err);
-                if (err.response.data.status === 'Unauthorized') {
-                    // axios.post(`${endpoint}/api/auth/login`, data)
-                    window.location.href = 'https://mail.google.com/';
-                }
+                // if (err.response.data.status === 'Unauthorized') {
+                //     // axios.post(`${endpoint}/api/auth/login`, data)
+                //     window.location.href = 'https://mail.google.com/';
+                // }
                 notification.error({
                     message: 'Đăng nhập không thành công',
                     description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',
