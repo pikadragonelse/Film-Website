@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, notification } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
@@ -9,7 +9,6 @@ import { endpoint } from '../../utils/baseUrl';
 type FieldType = {
     username?: string;
     password?: string;
-    remember?: string;
     email?: string;
 };
 
@@ -19,12 +18,21 @@ export const LoginForget: React.FC = () => {
     const onFinish = (data: FieldType) => {
         console.log(data);
         setLoading(true);
-        axios.post(`${endpoint}/api/auth/forgot-password`, data).then((response) => {
-            if (response.data.status == 'Ok!') {
-                window.location.href = 'https://mail.google.com/';
-            }
-        });
-        setLoading(false);
+        axios
+            .post(`${endpoint}/api/auth/forgot-password`, data)
+            .then((response) => {
+                if (response.data.status == 'Ok!') {
+                    window.location.href = 'https://mail.google.com/';
+                }
+            })
+            .catch(function (err) {
+                setLoading(false);
+                console.error(err);
+                notification.error({
+                    message: 'Không thành công',
+                    description: 'Hãy kiểm tra lại định dạng email.',
+                });
+            });
     };
 
     return (
