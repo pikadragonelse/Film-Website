@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Botchat } from '../../component/botchat';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMoviesHome } from '../../component/history-home';
-import { ActorFamous } from '../../component/list-actor-famous';
+import { CastFamousHome } from '../../component/home-cast-famous';
 import { ListFilm } from '../../component/list-film';
 import { ListReserveMovies } from '../../component/list-reserve-movie';
 import Slide from '../../component/slide';
@@ -13,7 +13,6 @@ import { DAFilm, Film } from '../../model/film';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
-import { endpoint } from '../../utils/baseUrl';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -31,7 +30,7 @@ export const HomePage = () => {
     const [dataReserve, setDataReserve] = useState<Film[]>([]);
     const [dataRecommend, setRecommened] = useState<Film[]>([]);
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-
+    console.log('dataActorFamous', dataActorFamous);
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const fetchTrending = async () => {
         try {
@@ -157,7 +156,6 @@ export const HomePage = () => {
 
     const showBotchat = () => {
         setOpen(true);
-        console.log('open');
     };
 
     const closeBotchat = () => {
@@ -195,12 +193,7 @@ export const HomePage = () => {
                 />
                 <ListReserveMovies listFilm={dataReserve} />
                 {dataActorFamous.length > 0 && (
-                    <ActorFamous
-                        title="Người nổi tiếng"
-                        DAlist={dataActorFamous}
-                        size={146}
-                        isShow={false}
-                    />
+                    <CastFamousHome title="Người nổi tiếng" DAlist={dataActorFamous} size={146} />
                 )}
                 {renderListFilmsByGenre()}
             </Spin>

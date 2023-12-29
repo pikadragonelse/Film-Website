@@ -1,5 +1,5 @@
 import { ShareAltOutlined } from '@ant-design/icons';
-import { Divider, Modal, Spin, message } from 'antd';
+import { Avatar, Divider, Modal, Spin, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { FilmItem } from '../film-item';
@@ -106,10 +106,10 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                     <div className="container-actor__header"></div>
                     <div className="flex rounded-lg p-10 ml-14">
                         <div className="">
-                            <img
-                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4 object-cover"
+                            <Avatar
+                                className=" bg-white rounded-full w-full h-auto border-[5px] border-white shadow mb-4 object-cover"
                                 src={actorInfo.avatar}
-                                alt=""
+                                size={160}
                             />
                         </div>
                         <div className="my-3 ml-12">
