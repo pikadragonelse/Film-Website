@@ -1,5 +1,5 @@
-import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
-import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
+import { RightOutlined } from '@ant-design/icons';
+import { Carousel, Col, MenuProps, Row } from 'antd';
 import { CarouselRef } from 'antd/es/carousel';
 import { useEffect, useRef, useState } from 'react';
 import { Film } from '../../model/film';
