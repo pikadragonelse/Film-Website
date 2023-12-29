@@ -12,36 +12,17 @@ import { DirectorInfo } from './type';
 
 export const Director: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
+    const [activeTab, setActiveTab] = useState(1);
     const { directorId } = useParams();
     const [directorInfo, setDirectorInfo] = useState<DirectorInfo | null>(null);
     const [films, setFilms] = useState<Array<FilmItem>>([]);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchDirectorData = async () => {
-            try {
-                const response = await fetch(`${endpoint}/api/individuals/directors/${directorId}`);
-                const data = await response.json();
-                setDirectorInfo(data.data);
-                setFilms(data.data.movies);
-                fetchActorQRCode();
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-
-        fetchDirectorData();
-    }, [directorId]);
-
-    useEffect(() => {
-        fetchActorQRCode();
-    }, [directorInfo]);
-
     const fetchActorQRCode = async () => {
         const actorLink = encodeURIComponent(`${window.location.origin}/#/director/${directorId}`);
         try {
             const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
+
             if (response.ok) {
                 const data = await response.json();
                 setQrCodeUrl(data.qrCode);
@@ -64,46 +45,29 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     };
 
     useEffect(() => {
-        if (directorInfo) {
-            document.title = directorInfo.name;
-
-            const ogTags = [
-                { property: 'og:title', content: directorInfo.name },
-                { property: 'og:description', content: directorInfo.description },
-                { property: 'og:image', content: directorInfo.avatar },
-                { property: 'og:url', content: window.location.href },
-            ];
-
-            ogTags.forEach((tag) => {
-                const existingTag = document.querySelector(`meta[property="${tag.property}"]`);
-                if (existingTag) {
-                    existingTag.setAttribute('content', tag.content);
-                } else {
-                    const newTag = document.createElement('meta');
-                    newTag.setAttribute('property', tag.property);
-                    newTag.setAttribute('content', tag.content);
-                    document.head.appendChild(newTag);
-                }
-            });
-        }
-    }, [directorInfo]);
+        fetch(`${endpoint}/api/individuals/directors/${directorId}`)
+            .then((response) => response.json())
+            .then((data) => {
+                setDirectorInfo(data.data);
+                setFilms(data.data.movies);
+                fetchActorQRCode();
+            })
+            .catch((error) => console.error('Error:', error));
+    }, [directorId]);
 
     const handleTabClick = (tabNumber: number) => {
-        // handle tab click logic...
+        setOpenTab(tabNumber);
+        setActiveTab(tabNumber);
     };
-
     const [isModalVisible, setIsModalVisible] = useState(false);
-
     const showModal = () => {
         const actorLink = `${window.location.origin}/#/director/${directorId}`;
         setCopiedLink(actorLink);
         setIsModalVisible(true);
     };
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-
     const handleCopyLink = () => {
         if (copiedLink) {
             navigator.clipboard.writeText(copiedLink);
