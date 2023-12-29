@@ -67,9 +67,9 @@ export const NewPassword: React.FC = () => {
     return (
         <div className="newpassword">
             <div className="form-list">
-                <div className="header-logo">
+                <Link to="" className="header-logo">
                     <Logo />
-                </div>
+                </Link>
                 <div className="form-img">
                     <img
                         src="https://assets.nflxext.com/ffe/siteui/vlv3/9db4a880-3034-4e98-bdea-5d983e86bf52/a36e826e-5a25-480d-ab1c-4eebd385b7cc/VN-vi-20230925-popsignuptwoweeks-perspective_alpha_website_large.jpg"

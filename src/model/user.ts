@@ -30,6 +30,7 @@ export interface CurrentUser {
     role: number;
     subscription: Subscription;
     userId: number;
+    active?:boolean;
 }
 
 export interface UserProps {

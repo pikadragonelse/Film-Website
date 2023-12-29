@@ -99,7 +99,7 @@ export const FormChangePassword = ({ onCancel, onSubmit, open }: FormChangePassw
             <Form.Item className="btn-form-container">
                 <Space>
                     <Button type="primary" className="user-profile-btn" onClick={onCancel}>
-                        Cancel
+                        Hủy
                     </Button>
                     <Button
                         type="primary"

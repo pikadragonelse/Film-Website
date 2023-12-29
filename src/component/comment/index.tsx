@@ -109,7 +109,7 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-3xl lg:text-2xl font-bold dark:text-white">{title}</h2>
             </div>
-            {isLogin ? (
+            {accessToken ? (
                 <WriteComment
                     currentUser={currentUser}
                     onSubmitComment={handleCommentSubmit}
@@ -118,7 +118,7 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
             ) : (
                 <div className="login-btn">
                     <Link to="/login">
-                        <Button size="large">Login</Button>
+                        <Button size="large">Đăng nhập để có thể bình luận.</Button>
                     </Link>
                 </div>
             )}

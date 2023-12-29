@@ -48,9 +48,9 @@ export const FilmDetail = () => {
 
         return (
             <Helmet>
-                <meta property="og:title" content="Ngọc Cốt Dao" />
-                <meta property="og:description" content="Ngọc Cốt Dao" />
-                {/* <meta property="og:image" content={posterURL} /> */}
+                <meta property="og:title" content={title} />
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={posterURL} />
             </Helmet>
         );
     };
