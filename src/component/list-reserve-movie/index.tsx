@@ -2,11 +2,9 @@ import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
 import { CarouselRef } from 'antd/es/carousel';
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Film } from '../../model/film';
-import { FilmItem } from '../film-item';
-import './index.scss';
 import { ItemReserveMovie } from '../item-reserve-movie';
+import './index.scss';
 
 export type ListFilm = {
     title?: string;
@@ -63,30 +61,7 @@ export const ListReserveMovies = ({
                     ))}
                 </div>
             </div>
-            <div className={`session-section ${multiSessions === true ? 'show' : ''}`}>
-                <Dropdown
-                    menu={{ items: sessions }}
-                    trigger={['click']}
-                    className="session-section-select"
-                >
-                    <Button className="session-btn-select">
-                        Mùa 1
-                        <DownOutlined />
-                    </Button>
-                </Dropdown>
-            </div>
             <div className="list mb-16">
-                <div
-                    className={`icon-list-container left-move-container ${
-                        page === 1 ? 'hide' : ''
-                    }`}
-                    onClick={() => {
-                        listRef.current?.prev();
-                        setPage((prev) => prev - 1);
-                    }}
-                >
-                    <LeftOutlined className="icon-list " />
-                </div>
                 <div
                     className={`icon-list-container right-move-container ${
                         page === maxPage ? 'hide' : ''
