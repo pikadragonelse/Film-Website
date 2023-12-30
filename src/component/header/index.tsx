@@ -66,10 +66,8 @@ export const Header = ({ className }: Header) => {
     }, []);
 
     useEffect(() => {
-
         if (isLogin === true && accessToken != null && accessToken !== '') {
             fetchDataCurrentUser();
-
         }
     }, [isLogin]);
 
@@ -83,7 +81,6 @@ export const Header = ({ className }: Header) => {
             placement: 'bottomRight',
         });
     };
-
 
     const fetchDataCurrentUser = async () => {
         try {

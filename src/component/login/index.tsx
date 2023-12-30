@@ -9,7 +9,6 @@ import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
 import './index.scss';
 import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
-
 import { endpoint } from '../../utils/baseUrl';
 import { FacebookFilled } from '@ant-design/icons';
 
@@ -66,7 +65,6 @@ export const Login: React.FC = () => {
                             description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',
                         });
                     }
-
                 }
             })
             .catch(function (err) {
