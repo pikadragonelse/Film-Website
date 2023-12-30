@@ -7,8 +7,6 @@ import axios from 'axios';
 import { endpoint } from '../../utils/baseUrl';
 
 type FieldType = {
-    username?: string;
-    password?: string;
     email?: string;
 };
 
@@ -30,7 +28,7 @@ export const LoginForget: React.FC = () => {
                 console.error(err);
                 notification.error({
                     message: 'Không thành công',
-                    description: 'Hãy kiểm tra lại định dạng email.',
+                    description: 'Email của bạn chưa được đăng kí tài khoản.',
                 });
             });
     };
@@ -71,6 +69,10 @@ export const LoginForget: React.FC = () => {
                                 name="email"
                                 className="mb-12"
                                 rules={[
+                                    {
+                                        type: 'email',
+                                        message: 'Nhập đúng định dạng email!',
+                                    },
                                     {
                                         required: true,
                                         message: 'Nhập email để tiếp tục!',
