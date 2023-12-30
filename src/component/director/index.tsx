@@ -18,7 +18,6 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     const [films, setFilms] = useState<Array<FilmItem>>([]);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
-    console.log(activeTab);
     const fetchActorQRCode = async () => {
         const actorLink = encodeURIComponent(`${window.location.origin}/director/${directorId}`);
         try {
