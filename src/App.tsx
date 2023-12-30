@@ -14,13 +14,14 @@ import { Payment } from './page/payment';
 import { SearchPage } from './page/search';
 import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
-import { store } from './redux/store';
 import { Actor } from './component/actor';
 import { NewPassword } from './component/new-password';
 import { LoginForget } from './component/forget-password';
 import { useToken } from './hooks/useToken';
 import { useEffect } from 'react';
 import { useRefreshToken } from './hooks/useRefreshToken';
+import { useAppDispatch } from './redux/hook';
+import { setIsLogin } from './redux/isLoginSlice';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -31,18 +32,22 @@ const locationMap: Record<string, string> = {
 
 export const App = () => {
     const location = useLocation();
-    const { accessToken, refreshToken } = useToken();
     const timeRefreshToken = 1000 * 14 * 60; /*14m*/
+    const { accessToken } = useToken();
+    const dispatch = useAppDispatch();
+    useRefreshToken();
 
     useEffect(() => {
+        if (accessToken != null && accessToken !== '') {
+            dispatch(setIsLogin(true));
+        }
         const timer = setInterval(useRefreshToken, timeRefreshToken);
         return () => clearInterval(timer);
     }, []);
 
     return (
-        <Provider store={store}>
-            <div className="wrapper">
-                <Header className={`${locationMap[location.pathname]}`} />
+        <div className="wrapper">
+            <Header className={`${locationMap[location.pathname]}`} />
 
                 <div className="wrapper-app-container">
                     <Routes>
@@ -61,10 +66,10 @@ export const App = () => {
                         <Route path="/reset-password" element={<NewPassword />} />
                         <Route path="/forget" element={<LoginForget />} />
                     </Routes>
-                </div>
 
-                <Footer />
             </div>
-        </Provider>
+
+            <Footer />
+        </div>
     );
 };

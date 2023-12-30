@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './index.scss';
 import { WriteComment } from './write-cmt';
 import { ListComment } from './list-cmt';
@@ -7,7 +7,11 @@ import { Button } from 'antd';
 import { request } from '../../utils/request';
 import { useToken } from '../../hooks/useToken';
 import { CurrentUser, UserProps, defaultCurrentUser } from '../../model/user';
+
+import { useAppSelector } from '../../redux/hook';
+
 export interface listCommentsProps {
+
     id: number;
     avatar: string;
     username: string;
@@ -32,15 +36,16 @@ export const listComment = [
 
 interface CommentProps {
     title: string;
-    isLogin: boolean;
     placeholder: string;
 }
 
-export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder }) => {
+export const Comment: React.FC<CommentProps> = ({ title, placeholder }) => {
     const [refreshData, setRefreshData] = useState(false);
     const [listComments, setListComments] = useState<Array<listCommentsProps>>(listComment);
     const { episodeId } = useParams();
-    const { userId, accessToken } = useToken();
+    const { accessToken } = useToken();
+    const isLogin = useAppSelector((state) => state.user.isLogin);
+
     const fetchData = async () => {
         try {
             const response = await request.get(`episode/${episodeId}/comments`);
@@ -54,15 +59,13 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
     const getCurrentUser = () => {
         request
-            .get('/user/get-user', {
+            .get('user/get-self-information', {
                 headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + accessToken,
+                    Authorization: `Bearer ${accessToken}`,
                 },
-                params: { userId: userId },
             })
             .then((response) => {
-                console.log(response);
+                setCurrentUser(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -71,7 +74,7 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
 
     useEffect(() => {
         getCurrentUser();
-    }, [userId]);
+    }, []);
 
     useEffect(() => {
         fetchData();
@@ -109,12 +112,10 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-3xl lg:text-2xl font-bold dark:text-white">{title}</h2>
             </div>
-            {accessToken ? (
-                <WriteComment
-                    currentUser={currentUser}
-                    onSubmitComment={handleCommentSubmit}
-                    placeholder={placeholder}
-                />
+
+            {isLogin ? (
+                <WriteComment onSubmitComment={handleCommentSubmit} placeholder={placeholder} />
+
             ) : (
                 <div className="login-btn">
                     <Link to="/login">

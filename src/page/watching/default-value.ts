@@ -1,3 +1,5 @@
+import { NotifyModalContent } from '../../model/notify-modal';
+
 export const defaultEpisode = {
     description: '',
     duration: 0,
@@ -36,4 +38,17 @@ export const defaultFilm = {
     actors: [],
     episodes: [defaultEpisodeFilm],
     directors: [],
+};
+
+export const modalContentMap: Record<string, NotifyModalContent> = {
+    login: {
+        content: 'Vui lòng đăng nhập để xem phim',
+        btn: 'Đăng nhập',
+        linkDirect: '/login',
+    },
+    upgradePackage: {
+        content: 'Vui lòng nâng cấp gói thành viên để xem phim',
+        btn: 'Nâng cấp gói',
+        linkDirect: '/VIPpackage',
+    },
 };

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { DeleteIcon, LoveIcon, ReplyIcon } from '../../../asset/icon/comment-icon';
-
 import { WriteComment } from '../write-cmt';
+
 import { Avatar, Modal } from 'antd';
 
-import './index.scss';
 import Cookies from 'js-cookie';
-import { request } from '../../../utils/request';
-import { CurrentUser, listComment } from '../type';
-import { defaultCurrentUser } from '../../../model/user';
+import { listComment } from '../type';
+import { getTimeDifference } from '../../../utils/get-time-difference';
+import './index.scss';
 
 interface CmtProps {
     comment: listComment;
@@ -30,52 +29,6 @@ export const Cmt: React.FC<CmtProps> = ({
     increaseLike,
     decreaseLike,
 }) => {
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
-    const fetchDataCurrentUser = async () => {
-        try {
-            const response = await request.get('user/get-self-information', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            const data = response.data;
-            setCurrentUser(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-    useEffect(() => {
-        fetchDataCurrentUser();
-    }, []);
-
-    const getTimeDifference = (commentDateTime: string) => {
-        const commentDate = new Date(commentDateTime);
-        const currentDate = new Date();
-
-        const timeDifference = Math.abs(commentDate.getTime() - currentDate.getTime());
-
-        const seconds = Math.floor(timeDifference / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-        const months = Math.floor(days / 30.5);
-        const years = Math.floor(days / 365);
-
-        if (years > 0) {
-            return `${years} năm trước`;
-        } else if (months > 0) {
-            return `${months} tháng trước`;
-        } else if (days > 0) {
-            return `${days} ngày trước`;
-        } else if (hours > 0) {
-            return `${hours} giờ trước`;
-        } else if (minutes > 0) {
-            return `${minutes} phút trước`;
-        } else {
-            return `${seconds} giây trước`;
-        }
-    };
     const [isReplying, setIsReplying] = useState<boolean>(true);
 
     const handleCancelReply = () => {
@@ -152,7 +105,7 @@ export const Cmt: React.FC<CmtProps> = ({
                         <div className="love-icon" onClick={handleLike}>
                             {comment.numLike == 0 ? (
                                 <>
-                                    <LoveIcon /> <p className="ml-1">Like</p>
+                                    <LoveIcon /> <p className="ml-1">Thích</p>
                                 </>
                             ) : (
                                 <>
@@ -167,27 +120,30 @@ export const Cmt: React.FC<CmtProps> = ({
                         <div className="reply-icon" onClick={handleReply}>
                             <div className="icon">
                                 <ReplyIcon />
-                                <p className="ml-1"> Phản hồi</p>
+
+                                <p className="ml-1">Trả lời</p>
+
                             </div>
                         </div>
                     )}
                     {isCurrentUserComment && (
                         <div className="delete-icon" onClick={showModal}>
                             <DeleteIcon />
-                            <p className="ml-1"> Delete</p>
+                            <p className="ml-1"> Xóa</p>
                         </div>
                     )}
                 </div>
                 {isReplying && replyCommentId === comment.id && (
                     <WriteComment
-                        currentUser={currentUser}
                         onSubmitComment={(replyText) => {
                             if (onReplySubmit) {
                                 onReplySubmit(comment.id, replyText);
                                 setIsReplying(false);
                             }
                         }}
-                        placeholder={`Trả lời ${comment.user?.email}`}
+
+                        placeholder={`Trả lời ${comment.user?.email}`}
+
                         onCancel={handleCancelReply}
                     />
                 )}

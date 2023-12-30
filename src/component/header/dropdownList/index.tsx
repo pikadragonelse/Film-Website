@@ -4,7 +4,7 @@ import './index.scss';
 import { request } from '../../../utils/request';
 import { FilmItem } from '../../film-item';
 import { useNavigate } from 'react-router-dom';
-import { ChildrenCategoriesHeader } from '..';
+import { ChildrenCategoriesHeader } from '../handle-data-header';
 
 interface DropdownMenuProps {
     title: string;
@@ -28,7 +28,7 @@ export const DropdownList: React.FC<DropdownMenuProps> = ({ title, data, queryPa
         return data.slice(start, end).map((item, index) => (
             <Menu.Item
                 key={`item-${start + index}`}
-                onClick={() => handleItemClick(title, start + index, item.id)}
+                onClick={() => handleItemClick(title, start + index, item.id.toString())}
             >
                 {item && <React.Fragment>{item.value}</React.Fragment>}
             </Menu.Item>
