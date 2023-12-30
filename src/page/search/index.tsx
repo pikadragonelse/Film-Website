@@ -1,7 +1,7 @@
 import { QueryFilter, items } from './filItem';
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, ConfigProvider, Select, Spin } from 'antd';
+import { Button, ConfigProvider, Select, Spin, notification } from 'antd';
 import { FilmItem } from '../../component/film-item';
 import './index.scss';
 import { PaginationFilm } from '../../component/pagination-film';
@@ -22,31 +22,41 @@ export const SearchPage: React.FC = () => {
     const navigate = useNavigate();
 
     const getDataBySearchParams = (searchParams: string) => {
-        console.log(searchParams);
+        console.log(
+            `${endpoint}/api/movies${searchParams}&page=${currPage}&pageSize=12`,
+            searchParams,
+        );
 
         axios
-            .get(`${endpoint}/api/movies?${searchParams}&page=${currPage}&pageSize=12`)
+            .get(`${endpoint}/api/movies${searchParams}&page=${currPage}&pageSize=12`)
             .then((res) => {
                 setSearchResults(res.data.movies);
                 setAmountMovies(res.data.totalCount);
                 setIsLoading(false);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+                notification.error({
+                    message: 'Lọc phim thất bại',
+                    description: 'Vui lòng kiểm tra lại các trường và thử lại!',
+                    placement: 'bottomRight',
+                });
+            });
     };
 
     useEffect(() => {
-        console.log(window.location.hash.split('?'));
-
         setIsLoading(true);
 
         getDataBySearchParams(window.location.search);
         const paramsObj = handleSearchParams(window.location.search);
         delete paramsObj['search'];
+
         setFilterParamsState(convertParams(paramsObj));
     }, [search, currPage]);
 
-    const handleSetFilterParams = async () => {
-        let str = '';
+    const handleSetFilterParams = () => {
+        let str = '?';
         const arrValueFilterParams = Object.values(filterParamsState);
         let count = 0;
         for (let key in filterParamsState) {
