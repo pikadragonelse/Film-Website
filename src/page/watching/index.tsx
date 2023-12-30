@@ -1,7 +1,7 @@
 import { CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Comment } from '../../component/comment';
 import { IconWithText } from '../../component/icon-with-text';
 import { ListEpisodes } from '../../component/list-episode';
@@ -15,7 +15,10 @@ import { ActorFamous } from '../../component/list-actor-famous';
 import { VideoPlayerCustom } from '../../component/video-player-custom';
 import { selectionItems } from './items-selection';
 import { useToken } from '../../hooks/useToken';
-import { defaultEpisode, defaultFilm } from './default-value';
+import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
+import { NotifyModalContent, defaultNotifyModalContent } from '../../model/notify-modal';
+import { useAppSelector } from '../../redux/hook';
+import { Modal } from 'antd';
 
 const moment = require('moment');
 
@@ -27,6 +30,9 @@ export const WatchingPage = () => {
     const [combinedActorsAndDirectors, setCombinedActorsAndDirectors] = useState<Array<DAFilm>>([]);
     const [subInfo, setSubInfo] = useState<Array<SubInfo>>([]);
     const [listHashtag, setListHashtag] = useState<string[]>([]);
+    const [openModalNotify, setOpenModalNotify] = useState(false);
+    const [contentModal, setContentModal] = useState<NotifyModalContent>(defaultNotifyModalContent);
+    const navigator = useNavigate();
 
     const fetchData = async () => {
         try {
@@ -82,7 +88,14 @@ export const WatchingPage = () => {
             .then((res) => {
                 setDataEpisode(res.data);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                if (err.response.status === 401) {
+                    setOpenModalNotify(true);
+                    const dataNotifyModal = modalContentMap[handleNotify()];
+                    setContentModal(dataNotifyModal);
+                    console.log(err.response);
+                }
+            });
     };
 
     useEffect(() => {
@@ -114,8 +127,33 @@ export const WatchingPage = () => {
         // window.scrollTo(0, 0);
     }, [episodeId]);
 
+    const handleNotify = () => {
+        if (accessToken !== '' || accessToken != null) {
+            return 'login';
+        } else {
+            return 'upgradePackage';
+        }
+    };
+
     return (
         <div className="watching-container">
+            <Modal
+                title={'Không có quyền truy cập'}
+                open={openModalNotify}
+                onCancel={() => {
+                    navigator({ pathname: '/' });
+                }}
+                onOk={() => {
+                    navigator({
+                        pathname: contentModal.linkDirect,
+                        hash: watchingData.movieId.toString(),
+                    });
+                }}
+                okText={contentModal.btn}
+                cancelText="Về trang chủ"
+            >
+                {contentModal.content}
+            </Modal>
             <div className="watching ">
                 <div className="watching-player-container flex-1 bg-zinc-800 relative ">
                     <VideoPlayerCustom sourceUrl={dataEpisode.movieURL} />
@@ -174,11 +212,7 @@ export const WatchingPage = () => {
             <ActorFamous DAlist={combinedActorsAndDirectors} size={120} isShow={true} />
 
             <div className="comment-container">
-                <Comment
-                    title="Comments"
-                    isLogin={accessToken != null ? true : false}
-                    placeholder="Write a comment..."
-                />
+                <Comment title="Bình luận phim" placeholder="Bình luận về phim ở đây" />
             </div>
         </div>
     );

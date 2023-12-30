@@ -3,9 +3,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
-import { setIslogin, setUsername } from '../../redux/isLoginSlice';
+import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
 import './index.scss';
 import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
@@ -20,6 +20,7 @@ type FieldType = {
 
 export const Login: React.FC = () => {
     const [loading, setLoading] = useState(false);
+    const { hash } = useLocation();
 
     const navigate = useNavigate();
 
@@ -40,18 +41,24 @@ export const Login: React.FC = () => {
                     notification.success({
                         message: 'Đăng nhập thành công',
                         description: 'Chúc mừng, bạn đã đăng nhập thành công',
+                        placement: 'bottomRight',
                     });
 
-                    dispatch(setIslogin(true));
+                    dispatch(setIsLogin(true));
 
                     if (data.username) {
                         dispatch(setUsername(data.username));
                         Cookies.set('username', data.username, { expires: 1, secure: true });
                     }
+
                     Cookies.set('accessToken', accessToken, { expires: 1 });
                     Cookies.set('refreshToken', refreshToken, { expires: 1 });
                     console.log(accessToken);
-                    navigate('/');
+                    if (hash !== '') {
+                        navigate(`/movie/${hash.split('#')[1]}`);
+                    } else {
+                        navigate('/');
+                    }
                 } else {
                     if (response.data.error) {
                         notification.error({
@@ -87,7 +94,7 @@ export const Login: React.FC = () => {
             description: 'Chúc mừng, bạn đã đăng nhập thành công',
         });
 
-        dispatch(setIslogin(true));
+        dispatch(setIsLogin(true));
         console.log(response);
         if (response.wt.cu) {
             dispatch(setUsername(response.wt.cu));

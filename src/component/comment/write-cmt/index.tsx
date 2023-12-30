@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './index.scss';
 import { Button } from 'antd';
 import { CurrentUser } from '../type';
+import { request } from '../../../utils/request';
+import { defaultCurrentUser } from '../../../model/user';
+import { useToken } from '../../../hooks/useToken';
 
 interface WriteCommentProps {
-    currentUser: CurrentUser;
     placeholder: string;
     onSubmitComment?: (comment: string) => void;
     onCancel?: () => void;
 }
 
 export const WriteComment: React.FC<WriteCommentProps> = ({
-    currentUser,
     placeholder,
     onSubmitComment,
     onCancel,
@@ -32,6 +33,28 @@ export const WriteComment: React.FC<WriteCommentProps> = ({
             setComment('');
         }
     };
+
+    const { accessToken } = useToken();
+
+    const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
+    const getCurrentUser = () => {
+        request
+            .get('user/get-self-information', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            .then((response) => {
+                setCurrentUser(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
+    useEffect(() => {
+        getCurrentUser();
+    }, []);
 
     return (
         <div className="writecmt-container">
@@ -59,10 +82,10 @@ export const WriteComment: React.FC<WriteCommentProps> = ({
                 </div>
                 <div className="btn-action">
                     <Button className="btn-cancel" onClick={handleCancel}>
-                        Cancel
+                        Hủy
                     </Button>
                     <Button className="btn-sub" onClick={handleSub}>
-                        Submit
+                        Bình luận
                     </Button>
                 </div>
             </div>

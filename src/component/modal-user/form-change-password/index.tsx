@@ -5,7 +5,7 @@ import { useForm } from 'antd/es/form/Form';
 import Cookies from 'js-cookie';
 import { request } from '../../../utils/request';
 import { useDispatch } from 'react-redux';
-import { setIslogin, setUsername } from '../../../redux/isLoginSlice';
+import { setIsLogin, setUsername } from '../../../redux/isLoginSlice';
 
 export type FormChangePassword = {
     onCancel?: React.MouseEventHandler<HTMLElement> | undefined;
@@ -22,7 +22,7 @@ export const FormChangePassword = ({ onCancel, onSubmit, open }: FormChangePassw
     const handleLogout = useCallback(() => {
         Cookies.remove('accessToken');
         Cookies.remove('username');
-        dispatch(setIslogin(false));
+        dispatch(setIsLogin(false));
         dispatch(setUsername(null));
     }, [dispatch]);
     const onSubmitForm = (data: { oldPassword: string; newPassword: string }) => {

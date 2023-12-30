@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie';
+import { useEffect } from 'react';
 
 export interface TokenObject {
     exp: number;
@@ -25,6 +26,7 @@ export const useToken = () => {
         accessToken: '',
         refreshToken: '',
     };
+
     try {
         if (accessToken != null) {
             tokenObject = JSON.parse(atob(accessToken.split('.')[1]));
@@ -35,7 +37,6 @@ export const useToken = () => {
 
     tokenObject['accessToken'] = accessToken;
     tokenObject['refreshToken'] = refreshToken;
-    console.log(tokenObject);
 
     return { ...tokenObject };
 };

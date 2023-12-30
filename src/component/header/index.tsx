@@ -6,13 +6,13 @@ import {
     LogoutOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, Button, Popover, Tooltip } from 'antd';
+import { Avatar, Button, Popover, Tooltip, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
-import { setIslogin, setUsername } from '../../redux/isLoginSlice';
+import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import { Search } from '../header/search/index';
@@ -26,36 +26,17 @@ import { ContentModalHistoryTitle } from './modalHistoryTitle';
 import { CurrentUser } from '../comment/type';
 import { defaultCurrentUser } from '../../model/user';
 import { useToken } from '../../hooks/useToken';
+import { useAppSelector } from '../../redux/hook';
+import { DataHeader, handleDataHomeHeader } from './handle-data-header';
 export type Header = { className?: string };
-
-const queryParamMap: Record<string, string> = {
-    nations: 'nation',
-    releasedYears: 'year',
-    genres: 'genre',
-};
-
-export type Genre = {
-    genre_id: number;
-    name: string;
-};
-
-export interface ChildrenCategoriesHeader {
-    id: string;
-    value: string;
-}
-
-export interface CategoriesHeader {
-    title?: string;
-    children?: ChildrenCategoriesHeader[];
-    queryParam?: string;
-}
 
 export const Header = ({ className }: Header) => {
     const location = useLocation();
     const dispatch = useDispatch();
     const [items, setItems] = useState<any[]>([]);
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
-    const { accessToken, userId, username } = useToken();
+    const { accessToken } = useToken();
+    const isLogin = useAppSelector((state) => state.user.isLogin);
 
     const isLoginPage =
         location.pathname === '/login' ||
@@ -85,36 +66,20 @@ export const Header = ({ className }: Header) => {
     }, []);
 
     useEffect(() => {
-        const accessToken = Cookies.get('accessToken');
-        const storedUsername = Cookies.get('username');
-
-        if (accessToken) {
-            dispatch(setIslogin(true));
-
-            if (storedUsername) {
-                dispatch(setUsername(storedUsername));
-                fetchDataCurrentUser();
-            }
+        if (isLogin === true && accessToken != null && accessToken !== '') {
+            fetchDataCurrentUser();
         }
-    }, [dispatch]);
+    }, [isLogin]);
 
-    const handleLogin = useCallback(async () => {
-        const storedUsername = Cookies.get('username');
-        dispatch(setIslogin(true));
-
-        if (storedUsername) {
-            dispatch(setUsername(storedUsername));
-        }
-
-        await fetchDataCurrentUser();
-    }, [dispatch]);
-
-    const handleLogout = useCallback(() => {
+    const handleLogout = () => {
         Cookies.remove('accessToken');
-        Cookies.remove('username');
-        dispatch(setIslogin(false));
-        dispatch(setUsername(null));
-    }, [dispatch]);
+        dispatch(setIsLogin(false));
+        notification.success({
+            message: 'Đăng xuất thành công',
+            description: 'Chúc mừng, bạn đã đăng xuất thành công',
+            placement: 'bottomRight',
+        });
+    };
 
     const fetchDataCurrentUser = async () => {
         try {
@@ -135,33 +100,9 @@ export const Header = ({ className }: Header) => {
         try {
             const response = await request.get('home/headers');
 
-            const data = response.data.data;
-            const listKey = Object.keys(data);
-            const nations: ChildrenCategoriesHeader[] = data.nations.map((nation: string) => {
-                return { id: nation, value: nation };
-            });
-            const releasedYears: ChildrenCategoriesHeader[] = data.releasedYears.map(
-                (year: string) => {
-                    return { id: year, value: year };
-                },
-            );
-            const genres: ChildrenCategoriesHeader[] = data.genres.map((genre: Genre) => {
-                return { id: genre.genre_id, value: genre.name };
-            });
-            const itemsHeader: CategoriesHeader[] = [
-                {
-                    title: 'Thể loại',
-                    children: genres,
-                    queryParam: queryParamMap[listKey[2]],
-                },
-                { title: 'Quốc gia', children: nations, queryParam: queryParamMap[listKey[0]] },
-                {
-                    title: 'Năm sản xuất',
-                    children: releasedYears,
-                    queryParam: queryParamMap[listKey[1]],
-                },
-            ];
-            setItems(itemsHeader);
+            const data: DataHeader = response.data.data;
+
+            setItems(handleDataHomeHeader(data));
         } catch (error) {
             console.error(error);
         }
@@ -169,6 +110,7 @@ export const Header = ({ className }: Header) => {
     useEffect(() => {
         fetchItems();
     }, []);
+
     return (
         <header
             ref={headerRef}
@@ -208,12 +150,12 @@ export const Header = ({ className }: Header) => {
                 </div>
                 <div
                     style={{
-                        width: accessToken ? '21rem' : '16rem',
+                        width: isLogin === true ? '21rem' : '16rem',
                         marginRight: 'var(--spacing-lg)',
                     }}
                     className="flex justify-between items-center lg:order-2 mt-2"
                 >
-                    {accessToken ? (
+                    {isLogin === true ? (
                         <>
                             <Popover
                                 title={ContentModalHistoryTitle}
@@ -245,7 +187,7 @@ export const Header = ({ className }: Header) => {
                         <BellOutlined className="notification-btn" />
                         <p className="number-notification">12</p>
                     </div>
-                    {accessToken ? (
+                    {isLogin === true ? (
                         <>
                             <Popover
                                 title={
@@ -257,6 +199,7 @@ export const Header = ({ className }: Header) => {
                                 overlayStyle={{ maxWidth: '30%' }}
                                 content={<ContentModalUser />}
                                 zIndex={9999}
+                                placement="bottomRight"
                             >
                                 <Link
                                     to="/foryou/profile"
@@ -294,7 +237,7 @@ export const Header = ({ className }: Header) => {
                     ) : (
                         <Link to="/login">
                             <div className="icon-login">
-                                <LoginOutlined onClick={handleLogin} />
+                                <LoginOutlined />
                             </div>
                         </Link>
                     )}

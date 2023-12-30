@@ -34,7 +34,7 @@ export const ContentModalUser: React.FC = () => {
     return (
         <div>
             {contentItems.map((item, index) => (
-                <React.Fragment key={index}>
+                <div key={index}>
                     {item.to ? (
                         <Link to={item.to}>
                             <div className="flex justify-between mt-2 hover:bg-[#e9e9e9] text-black pt-3 px-3 cursor-pointer">
@@ -48,7 +48,7 @@ export const ContentModalUser: React.FC = () => {
                             <RightOutlined className="ml-20 mb-2 text-sm icon" />
                         </div>
                     )}
-                </React.Fragment>
+                </div>
             ))}
         </div>
     );

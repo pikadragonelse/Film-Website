@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './index.scss';
 import { WriteComment } from './write-cmt';
 import { ListComment } from './list-cmt';
@@ -7,6 +7,7 @@ import { Button } from 'antd';
 import { request } from '../../utils/request';
 import { useToken } from '../../hooks/useToken';
 import { CurrentUser, UserProps, defaultCurrentUser } from '../../model/user';
+import { useAppSelector } from '../../redux/hook';
 interface listCommentsProps {
     id: number;
     avatar: string;
@@ -32,15 +33,16 @@ const listComment = [
 
 interface CommentProps {
     title: string;
-    isLogin: boolean;
     placeholder: string;
 }
 
-export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder }) => {
+export const Comment: React.FC<CommentProps> = ({ title, placeholder }) => {
     const [refreshData, setRefreshData] = useState(false);
     const [listComments, setListComments] = useState<Array<listCommentsProps>>(listComment);
     const { episodeId } = useParams();
-    const { userId, accessToken } = useToken();
+    const { accessToken } = useToken();
+    const isLogin = useAppSelector((state) => state.user.isLogin);
+
     const fetchData = async () => {
         try {
             const response = await request.get(`episode/${episodeId}/comments`);
@@ -69,7 +71,7 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
 
     useEffect(() => {
         getCurrentUser();
-    }, [userId]);
+    }, []);
 
     useEffect(() => {
         fetchData();
@@ -108,11 +110,7 @@ export const Comment: React.FC<CommentProps> = ({ title, isLogin, placeholder })
                 <h2 className="text-3xl lg:text-2xl font-bold dark:text-white">{title}</h2>
             </div>
             {isLogin ? (
-                <WriteComment
-                    currentUser={currentUser}
-                    onSubmitComment={handleCommentSubmit}
-                    placeholder={placeholder}
-                />
+                <WriteComment onSubmitComment={handleCommentSubmit} placeholder={placeholder} />
             ) : (
                 <div className="login-btn">
                     <Link to="/login">

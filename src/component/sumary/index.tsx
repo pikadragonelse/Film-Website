@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import './index.scss';
 import { Link } from 'react-router-dom';
 import { TermPackage } from '../term-package';
@@ -11,6 +11,7 @@ import { useAppSelector } from '../../redux/hook';
 import { getCurrentDateString } from '../../utils/getCurrentDate';
 import { getNextDateByMonth } from '../../utils/getNextDateByMonth';
 import { endpoint } from '../../utils/baseUrl';
+import { useToken } from '../../hooks/useToken';
 interface SummaryProps {
     selectedTerm: TermPackage | null;
     selectedMethod: number;
@@ -30,10 +31,10 @@ export const Summary: React.FC<SummaryProps> = ({
     discount,
 }) => {
     const [linkRedirect, setLinkRedirect] = useState('');
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const { namePackage, durationValue, totalPrice } = useAppSelector((state) => state.VIPPayment);
-
+    const { subscriptionTypeId, accessToken } = useToken();
     const [endDate, setEndDate] = useState(getNextDateByMonth(durationValue));
+    const [isOpenModal, setIsOpenModal] = useState(false);
 
     useEffect(() => {
         const newDate = getNextDateByMonth(durationValue);
@@ -99,7 +100,24 @@ export const Summary: React.FC<SummaryProps> = ({
 
     return (
         <div className="wrapper-summary">
-            <div className="title-summary">Chi tiết thanh toán</div>
+            <Modal
+                title="Thông báo đăng ký"
+                open={isOpenModal}
+                onCancel={() => setIsOpenModal(false)}
+                footer={[
+                    <Button key="back" onClick={() => setIsOpenModal(false)}>
+                        Hủy bỏ
+                    </Button>,
+                    <Button key="link" href={linkRedirect} type="primary">
+                        Tiếp tục
+                    </Button>,
+                ]}
+            >
+                Hiện tại bạn đang ở gói {subscriptionTypeId === 2 ? 'Tiêu chuẩn' : 'Cao cấp'}.{' '}
+                <span className="text-red-600">Nếu bạn tiếp tục hoàn thành đăng ký</span>, gói hiện
+                tại của bạn sẽ bị xóa và thời gian hiệu lực của gói mới nhất sẽ được áp dụng!
+            </Modal>
+            <div className="title-summary">Chi tiết thanh toánMo</div>
             <div className="information">
                 <div className="term-package">
                     <div className="name-package">
@@ -175,9 +193,19 @@ export const Summary: React.FC<SummaryProps> = ({
                     của MOVTIME.
                 </div>
             </div>
-            <Button className={`btn-confirm flex`} type="primary" href={linkRedirect}>
-                Xác nhận
-            </Button>
+            {subscriptionTypeId === 1 ? (
+                <Button className={`btn-confirm flex`} type="primary" href={linkRedirect}>
+                    Xác nhận
+                </Button>
+            ) : (
+                <Button
+                    className={`btn-confirm flex`}
+                    type="primary"
+                    onClick={() => setIsOpenModal(true)}
+                >
+                    Xác nhận
+                </Button>
+            )}
         </div>
     );
 };
