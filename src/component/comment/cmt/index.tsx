@@ -3,7 +3,7 @@ import './index.scss';
 import { DeleteIcon, LoveIcon, ReplyIcon } from '../../../asset/icon/comment-icon';
 
 import { WriteComment } from '../write-cmt';
-import { Modal } from 'antd';
+import { Avatar, Modal } from 'antd';
 
 import './index.scss';
 import Cookies from 'js-cookie';
@@ -120,8 +120,8 @@ export const Cmt: React.FC<CmtProps> = ({
     };
     return (
         <article key={comment.id} className="pt-4 pb-4 text-base rounded-lg flex  ">
-            <img
-                className=" w-12 h-12 rounded-full"
+            <Avatar
+                className="w-12 h-12 rounded-full object-cover"
                 src={comment.user?.avatar_url}
                 alt={comment.user?.email}
             />

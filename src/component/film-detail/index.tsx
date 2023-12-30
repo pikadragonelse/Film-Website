@@ -67,7 +67,7 @@ export const FilmDetail = () => {
     const handleShare = async () => {
         if (isUserLoggedIn) {
             const movieId = filmDetail?.movieId;
-            const actorLink = encodeURIComponent(`${window.location.origin}/#/movie/${movieId}`);
+            const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
 
             try {
                 const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
@@ -84,6 +84,9 @@ export const FilmDetail = () => {
                             setQrCodeUrl(base64Value || '');
                         }
                     }
+
+                    setCopiedLink(`${window.location.origin}/movie/${movieId}`);
+
                     setShareModalVisible(true);
                 } else {
                     console.error('Failed to fetch QR code URL');
@@ -284,6 +287,8 @@ export const FilmDetail = () => {
             <div
                 style={{
                     backgroundImage: `url(${filmDetail.backgroundURL})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                 }}
                 className="bg-center bg-no-repeat md:h-[400px] h-[300px] relative"
             >

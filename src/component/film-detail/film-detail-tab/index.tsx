@@ -7,6 +7,7 @@ import FilmDetailReview from '../film-detail-review';
 import { FilmDetailOverall } from './../film-detail-overall/index';
 import './index.scss';
 import FilmDetailTrailer from '../film-trailer';
+import { FilmDetailRelate } from '../film-relate';
 
 interface FilmDetailTabProps {
     filmDetail: any;
@@ -38,6 +39,8 @@ export const FilmDetailTab: React.FC<FilmDetailTabProps> = ({ filmDetail }) => {
             case '6':
                 return <FilmDetailTrailer filmDetail={filmDetail} />;
 
+            case '7':
+                return <FilmDetailRelate />;
             default:
                 return null;
         }
@@ -47,32 +50,30 @@ export const FilmDetailTab: React.FC<FilmDetailTabProps> = ({ filmDetail }) => {
         {
             key: '1',
             label: 'Tổng thể',
-            children: '',
         },
         {
             key: '2',
             label: 'Đạo diễn',
-            children: '',
         },
         {
             key: '3',
             label: 'Diễn viên',
-            children: '',
         },
         {
             key: '4',
             label: 'Tập',
-            children: '',
         },
         {
             key: '5',
             label: 'Đánh giá',
-            children: '',
         },
         {
             key: '6',
             label: 'Trailer',
-            children: '',
+        },
+        {
+            key: '7',
+            label: 'Phim liên quan',
         },
     ];
     return (

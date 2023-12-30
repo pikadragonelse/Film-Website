@@ -1,6 +1,5 @@
 import { CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Comment } from '../../component/comment';
 import { IconWithText } from '../../component/icon-with-text';
@@ -13,14 +12,15 @@ import './index.scss';
 
 import { ActorFamous } from '../../component/list-actor-famous';
 import { VideoPlayerCustom } from '../../component/video-player-custom';
-import { selectionItems } from './items-selection';
 import { useToken } from '../../hooks/useToken';
 import { defaultEpisode, defaultFilm } from './default-value';
+import { selectionItems } from './items-selection';
+import { ListFilm } from '../../component/list-film';
 
 const moment = require('moment');
 
 export const WatchingPage = () => {
-    const { userId, accessToken } = useToken();
+    const { accessToken } = useToken();
 
     const [watchingData, setWatchingData] = useState<Film>(defaultFilm);
     const [rating, setRating] = useState(0);
@@ -28,6 +28,7 @@ export const WatchingPage = () => {
     const [combinedActorsAndDirectors, setCombinedActorsAndDirectors] = useState<Array<DAFilm>>([]);
     const [subInfo, setSubInfo] = useState<Array<SubInfo>>([]);
     const [listHashtag, setListHashtag] = useState<string[]>([]);
+    const [dataRecommend, setRecommened] = useState<Film[]>([]);
 
     const fetchData = async () => {
         try {
@@ -54,6 +55,7 @@ export const WatchingPage = () => {
 
     useEffect(() => {
         fetchData();
+        fetchRecommend();
     }, [movieId, accessToken]);
 
     //api từng tập
@@ -71,6 +73,18 @@ export const WatchingPage = () => {
                 setDataEpisode(res.data);
             })
             .catch((err) => console.log(err));
+    };
+
+    const fetchRecommend = async () => {
+        try {
+            const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+            const response = await request.get('movies/recommend/get?page=1&pageSize=20', {
+                headers,
+            });
+            setRecommened(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     useEffect(() => {
@@ -173,7 +187,7 @@ export const WatchingPage = () => {
             </div>
 
             <ActorFamous DAlist={combinedActorsAndDirectors} size={120} isShow={true} />
-
+            <ListFilm title="Có thể bạn sẽ thích" listFilm={dataRecommend} />
             <div className="comment-container">
                 <Comment
                     title="Bình luận"

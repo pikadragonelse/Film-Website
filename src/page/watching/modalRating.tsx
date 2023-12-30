@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Space, Rate } from 'antd';
-import './index.scss';
+import { Rate, Space } from 'antd';
 import Cookies from 'js-cookie';
 import { request } from '../../utils/request';
+import './index.scss';
 interface ratingProp {
     movieId: number;
     rating: number;

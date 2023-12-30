@@ -19,7 +19,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
 
     const fetchActorQRCode = async () => {
-        const actorLink = encodeURIComponent(`${window.location.origin}/#/actor/${actorId}`);
+        const actorLink = encodeURIComponent(`${window.location.origin}/actor/${actorId}`);
         try {
             const response = await fetch(`${endpoint}/api/movies/get/qrcode?url=${actorLink}`);
 
@@ -62,7 +62,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const showModal = () => {
-        const actorLink = `${window.location.origin}/#/actor/${actorId}`;
+        const actorLink = `${window.location.origin}/actor/${actorId}`;
         setCopiedLink(actorLink);
         setIsModalVisible(true);
     };
@@ -185,11 +185,6 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
 
                                         {qrCode ? (
                                             <div className="flex items-center justify-center mt-4">
-                                                <img
-                                                    alt="img"
-                                                    className="w-[160px] h-full"
-                                                    src="https://movies-pbl6.s3.ap-southeast-1.amazonaws.com/movies/18/background.jpg?AWSAccessKeyId=AKIAYUIZLJ5BETCSGYOZ&Expires=1703080234&Signature=5T2CnQ%2BRFUt5c5%2BLE%2BZTSNZwX3c%3D"
-                                                />
                                                 <img
                                                     src={qrCode}
                                                     alt="QR Code"
