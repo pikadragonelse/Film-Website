@@ -66,13 +66,16 @@ export const Header = ({ className }: Header) => {
     }, []);
 
     useEffect(() => {
+
         if (isLogin === true && accessToken != null && accessToken !== '') {
             fetchDataCurrentUser();
+
         }
     }, [isLogin]);
 
     const handleLogout = () => {
         Cookies.remove('accessToken');
+
         dispatch(setIsLogin(false));
         notification.success({
             message: 'Đăng xuất thành công',
@@ -80,6 +83,7 @@ export const Header = ({ className }: Header) => {
             placement: 'bottomRight',
         });
     };
+
 
     const fetchDataCurrentUser = async () => {
         try {

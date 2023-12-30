@@ -3,7 +3,7 @@ import { useForm } from 'antd/es/form/Form';
 import Cookies from 'js-cookie';
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { setIslogin, setUsername } from '../../../redux/isLoginSlice';
+import { setIsLogin, setUsername } from '../../../redux/isLoginSlice';
 import { request } from '../../../utils/request';
 import './index.scss';
 
