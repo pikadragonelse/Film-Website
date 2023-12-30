@@ -1,5 +1,5 @@
 import { ShareAltOutlined } from '@ant-design/icons';
-import { Divider, Modal, Spin, message } from 'antd';
+import { Avatar, Divider, Modal, Spin, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { FilmItem } from '../film-item';
@@ -106,10 +106,10 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                     <div className="container-actor__header"></div>
                     <div className="flex rounded-lg p-10 ml-14">
                         <div className="">
-                            <img
-                                className="h-52 w-52 bg-white p-2 rounded-full shadow mb-4 object-cover"
+                            <Avatar
+                                className=" bg-white rounded-full w-full h-auto border-[5px] border-white shadow mb-4 object-cover"
                                 src={actorInfo.avatar}
-                                alt=""
+                                size={160}
                             />
                         </div>
                         <div className="my-3 ml-12">
@@ -185,11 +185,6 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
 
                                         {qrCode ? (
                                             <div className="flex items-center justify-center mt-4">
-                                                <img
-                                                    alt="img"
-                                                    className="w-[160px] h-full"
-                                                    src="https://movies-pbl6.s3.ap-southeast-1.amazonaws.com/movies/18/background.jpg?AWSAccessKeyId=AKIAYUIZLJ5BETCSGYOZ&Expires=1703080234&Signature=5T2CnQ%2BRFUt5c5%2BLE%2BZTSNZwX3c%3D"
-                                                />
                                                 <img
                                                     src={qrCode}
                                                     alt="QR Code"

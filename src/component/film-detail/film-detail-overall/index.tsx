@@ -27,20 +27,6 @@ export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail })
             ),
             style: panelStyle,
         },
-
-        {
-            key: '2',
-            label: 'Trailer',
-            children: (
-                <p className="overall-info">
-                    <video controls width="620" height="400">
-                        <source src={filmDetail.trailerURL} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                </p>
-            ),
-            style: panelStyle,
-        },
     ];
 
     return (

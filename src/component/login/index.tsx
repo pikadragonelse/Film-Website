@@ -11,6 +11,7 @@ import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
 
 import { endpoint } from '../../utils/baseUrl';
+import { FacebookFilled } from '@ant-design/icons';
 
 type FieldType = {
     username?: string;
@@ -36,7 +37,6 @@ export const Login: React.FC = () => {
                 let accessToken = JSON.stringify(response.data.result.token.accessToken);
                 let refreshToken = JSON.stringify(response.data.result.token.refreshToken);
                 setLoading(false);
-
                 if (response.status === 200) {
                     notification.success({
                         message: 'Đăng nhập thành công',
@@ -66,11 +66,16 @@ export const Login: React.FC = () => {
                             description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',
                         });
                     }
+
                 }
             })
             .catch(function (err) {
                 setLoading(false);
                 console.error(err);
+                // if (err.response.data.status === 'Unauthorized') {
+                //     // axios.post(`${endpoint}/api/auth/login`, data)
+                //     window.location.href = 'https://mail.google.com/';
+                // }
                 notification.error({
                     message: 'Đăng nhập không thành công',
                     description: 'Sai mật khẩu hoặc tài khoản. Vui lòng thử lại.',
@@ -139,12 +144,12 @@ export const Login: React.FC = () => {
                     >
                         <div className="form-item">
                             <Form.Item<FieldType>
-                                label={<span style={{ color: 'white' }}>Tên đăng nhập</span>}
+                                label={<span style={{ color: 'white' }}>Tên đăng nhập/email</span>}
                                 name="username"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your username!',
+                                        message: 'Vui lòng nhập tên đăng nhập/email!',
                                     },
                                 ]}
                             >
@@ -163,7 +168,7 @@ export const Login: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    message: 'Vui lòng nhập mật khẩu!',
                                 },
                             ]}
                         >
@@ -195,24 +200,51 @@ export const Login: React.FC = () => {
                                 </a>
                             </Form.Item>
                         </div>
-                        <Form.Item>
-                            <Button
-                                className="form-btn-login !h-[44px]"
-                                type="primary"
-                                htmlType="submit"
-                                loading={loading}
-                            >
-                                Đăng nhập
-                            </Button>
-                        </Form.Item>
-
-                        <GoogleLogin
-                            clientId={clientId}
-                            buttonText="Login"
-                            onSuccess={onSuccessGG}
-                            onFailure={responseGoogle}
-                            cookiePolicy={'single_host_origin'}
-                        />
+                        <div>
+                            <Form.Item>
+                                <Button
+                                    className="form-btn-login !h-[44px]"
+                                    type="primary"
+                                    htmlType="submit"
+                                    loading={loading}
+                                >
+                                    Đăng nhập
+                                </Button>
+                            </Form.Item>
+                            <div className="!flex gap-[17px]">
+                                <GoogleLogin
+                                    clientId={clientId}
+                                    buttonText="Google"
+                                    onSuccess={onSuccessGG}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                    className="flex basis-[43%]"
+                                />
+                                <Button
+                                    icon={
+                                        <img
+                                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/1200px-2023_Facebook_icon.svg.png"
+                                            alt="Facebook Icon"
+                                            style={{
+                                                width: '20px',
+                                                height: '20px',
+                                                marginRight: '16px',
+                                                marginLeft: '8px',
+                                            }}
+                                        />
+                                    }
+                                    className="login-facebook flex basis-[43%]"
+                                >
+                                    Facebook
+                                </Button>
+                            </div>
+                            <div className="text-center mt-4 text-white !ml-[-18px]">
+                                Bạn chưa có tài khoản ? {}{' '}
+                                <Link className="form-signup" to="/register">
+                                    Đăng ký ngay
+                                </Link>
+                            </div>
+                        </div>
                     </Form>
                 </div>
             </div>

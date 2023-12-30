@@ -13,12 +13,13 @@ import './index.scss';
 
 import { ActorFamous } from '../../component/list-actor-famous';
 import { VideoPlayerCustom } from '../../component/video-player-custom';
-import { selectionItems } from './items-selection';
 import { useToken } from '../../hooks/useToken';
 import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
 import { NotifyModalContent, defaultNotifyModalContent } from '../../model/notify-modal';
 import { useAppSelector } from '../../redux/hook';
 import { Modal } from 'antd';
+import { selectionItems } from './items-selection';
+import { ListFilm } from '../../component/list-film';
 
 const moment = require('moment');
 
@@ -33,6 +34,7 @@ export const WatchingPage = () => {
     const [openModalNotify, setOpenModalNotify] = useState(false);
     const [contentModal, setContentModal] = useState<NotifyModalContent>(defaultNotifyModalContent);
     const navigator = useNavigate();
+    const [dataRecommend, setRecommened] = useState<Film[]>([]);
 
     const fetchData = async () => {
         try {
@@ -72,6 +74,7 @@ export const WatchingPage = () => {
 
     useEffect(() => {
         fetchData();
+        fetchRecommend();
     }, [movieId, accessToken]);
 
     //api từng tập
@@ -96,6 +99,18 @@ export const WatchingPage = () => {
                     console.log(err.response);
                 }
             });
+    };
+
+    const fetchRecommend = async () => {
+        try {
+            const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+            const response = await request.get('movies/recommend/get?page=1&pageSize=20', {
+                headers,
+            });
+            setRecommened(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     useEffect(() => {
@@ -184,6 +199,7 @@ export const WatchingPage = () => {
                     episode={`${dataEpisode?.title}`}
                     movieId={parseInt(movieId ?? '0')}
                     rating={rating}
+                    level={watchingData?.level}
                 />
 
                 <div className="watching-sub-info-container">
@@ -209,10 +225,11 @@ export const WatchingPage = () => {
                 </div>
             </div>
 
-            <ActorFamous DAlist={combinedActorsAndDirectors} size={120} isShow={true} />
-
+            <ActorFamous DAlist={combinedActorsAndDirectors} size={130} isShow={true} />
+            <ListFilm title="Có thể bạn sẽ thích" listFilm={dataRecommend} />
             <div className="comment-container">
                 <Comment title="Bình luận phim" placeholder="Bình luận về phim ở đây" />
+
             </div>
         </div>
     );

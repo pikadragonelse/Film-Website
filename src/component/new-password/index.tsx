@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, DatePicker, Modal, Select, Checkbox } from 'antd';
+import { Button, Form, Input, DatePicker, Modal, Select, Checkbox, notification } from 'antd';
 import { Logo } from '../../asset/icon/logo';
 import './index.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { endpoint } from '../../utils/baseUrl';
 
 const formItemLayout = {
     labelCol: {
@@ -29,47 +30,49 @@ const tailFormItemLayout = {
         },
     },
 };
+type FieldType = {
+    token?: string;
+    password?: string;
+    email?: string;
+};
 
 export const NewPassword: React.FC = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
-
-    const sendDataToAPI = async (values: any) => {
-        try {
-            const response = await axios.post('', values, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const token = urlSearchParams.get('token') || '';
+    const email = urlSearchParams.get('email') || '';
+    const onFinish = (value: FieldType) => {
+        const data = {
+            ...value,
+            token: token,
+            email: email,
+        };
+        console.log(data);
+        setLoading(false);
+        axios
+            .post(`${endpoint}/api/auth/forgot-password`, data)
+            .then((response) => {
+                if (response.data.status == 'Ok!') {
+                    navigate('/login');
+                }
+            })
+            .catch(function (err) {
+                setLoading(false);
+                console.error(err);
+                notification.error({
+                    message: 'Đổi mật khẩu không thành công',
+                    description: 'Kiểm tra lại định dạng mật khẩu mới.',
+                });
             });
-            if (response.status === 200) {
-                alert('Đổi mật khẩu hành công');
-                form.resetFields();
-                navigate('/login');
-            } else {
-                console.error('Error registering user:', response.data);
-            }
-        } catch (error) {
-            console.error('Error sending data to API:', error);
-        }
-    };
-
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
-        sendDataToAPI(values);
-    };
-    const handleNewPassword = async () => {
-        try {
-            await form.validateFields();
-        } catch (errorInfo) {
-            console.log('Validation failed:', errorInfo);
-        }
     };
     return (
         <div className="newpassword">
             <div className="form-list">
-                <div className="header-logo">
+                <Link to="" className="header-logo">
                     <Logo />
-                </div>
+                </Link>
                 <div className="form-img">
                     <img
                         src="https://assets.nflxext.com/ffe/siteui/vlv3/9db4a880-3034-4e98-bdea-5d983e86bf52/a36e826e-5a25-480d-ab1c-4eebd385b7cc/VN-vi-20230925-popsignuptwoweeks-perspective_alpha_website_large.jpg"
@@ -136,13 +139,14 @@ export const NewPassword: React.FC = () => {
                         </Form.Item>
                         <Form.Item className="newpassword-form__button" {...tailFormItemLayout}>
                             <Button
-                                htmlType="button"
+                                htmlType="submit"
                                 style={{
                                     borderColor: 'var(--primary-color)',
                                     color: 'var(--contrast-color)',
                                     backgroundColor: 'var(--primary-color)',
                                 }}
-                                onClick={handleNewPassword}
+                                loading={loading}
+                                type="primary"
                             >
                                 Xác nhận
                             </Button>

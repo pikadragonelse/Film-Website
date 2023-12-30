@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './index.scss';
 import { DeleteIcon, LoveIcon, ReplyIcon } from '../../../asset/icon/comment-icon';
 import { WriteComment } from '../write-cmt';
-import { Modal } from 'antd';
+
+import { Avatar, Modal } from 'antd';
+
 import Cookies from 'js-cookie';
 import { listComment } from '../type';
 import { getTimeDifference } from '../../../utils/get-time-difference';
@@ -71,8 +73,8 @@ export const Cmt: React.FC<CmtProps> = ({
     };
     return (
         <article key={comment.id} className="pt-4 pb-4 text-base rounded-lg flex  ">
-            <img
-                className=" w-12 h-12 rounded-full"
+            <Avatar
+                className="w-12 h-12 rounded-full object-cover"
                 src={comment.user?.avatar_url}
                 alt={comment.user?.email}
             />
@@ -118,7 +120,9 @@ export const Cmt: React.FC<CmtProps> = ({
                         <div className="reply-icon" onClick={handleReply}>
                             <div className="icon">
                                 <ReplyIcon />
+
                                 <p className="ml-1">Trả lời</p>
+
                             </div>
                         </div>
                     )}
@@ -137,7 +141,9 @@ export const Cmt: React.FC<CmtProps> = ({
                                 setIsReplying(false);
                             }
                         }}
+
                         placeholder={`Trả lời ${comment.user?.email}`}
+
                         onCancel={handleCancelReply}
                     />
                 )}

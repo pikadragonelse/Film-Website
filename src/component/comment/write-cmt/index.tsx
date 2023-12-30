@@ -82,10 +82,12 @@ export const WriteComment: React.FC<WriteCommentProps> = ({
                 </div>
                 <div className="btn-action">
                     <Button className="btn-cancel" onClick={handleCancel}>
+
                         Hủy
                     </Button>
                     <Button className="btn-sub" onClick={handleSub}>
                         Bình luận
+
                     </Button>
                 </div>
             </div>

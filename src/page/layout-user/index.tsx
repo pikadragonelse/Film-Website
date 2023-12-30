@@ -11,7 +11,7 @@ import type { MenuProps } from 'antd';
 import { Breadcrumb, Button, Layout, Menu, Modal, notification } from 'antd';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
-import { VIPPackageUser, statementProp } from '../../component/VIP-package-user';
+import { VIPPackageUser } from '../../component/VIP-package-user';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMovies } from '../../component/history';
 import { LoveMovies } from '../../component/love-movie';
@@ -152,31 +152,6 @@ export const LayoutUser = () => {
             console.error(error);
         }
     };
-    //api payment
-    const [statement, setStatement] = useState<statementProp[]>([
-        {
-            paymentId: 0,
-            type: '',
-            price: 0,
-            orderInfo: '',
-            transactionId: '',
-            status: '',
-            isPayment: true,
-            userId: 0,
-            subscriptionInfoId: 0,
-            createdAt: '',
-            updatedAt: '',
-        },
-    ]);
-    const dataStatement = async () => {
-        try {
-            const response = await request.get(`payments?userId=${currentUser.userId}`);
-            const data = response.data.data;
-            setStatement(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
     const { pathname } = useLocation();
     useEffect(() => {
@@ -185,7 +160,6 @@ export const LayoutUser = () => {
         fetchDataHistorymovies();
         fetchDataLove();
         setModalVisible(true);
-        dataStatement();
     }, [pathname]);
 
     return (
@@ -231,8 +205,9 @@ export const LayoutUser = () => {
                                         <Route
                                             path="/vip-package"
                                             element={
-                                                currentUser ? (
-                                                    <VIPPackageUser data={statement} />
+                                                currentUser.subscription.subscriptionType !==
+                                                    'Cơ bản' && currentUser ? (
+                                                    <VIPPackageUser data={currentUser} />
                                                 ) : (
                                                     <Modal
                                                         visible={modalVisible}

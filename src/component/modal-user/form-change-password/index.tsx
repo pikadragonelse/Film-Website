@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect } from 'react';
-import './index.scss';
 import { Button, Form, Input, Space, notification } from 'antd';
 import { useForm } from 'antd/es/form/Form';
 import Cookies from 'js-cookie';
-import { request } from '../../../utils/request';
+import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { setIsLogin, setUsername } from '../../../redux/isLoginSlice';
+import { setIslogin, setUsername } from '../../../redux/isLoginSlice';
+import { request } from '../../../utils/request';
+import './index.scss';
 
 export type FormChangePassword = {
     onCancel?: React.MouseEventHandler<HTMLElement> | undefined;
@@ -34,7 +34,6 @@ export const FormChangePassword = ({ onCancel, onSubmit, open }: FormChangePassw
                         Authorization: `Bearer ${accessToken}`,
                     },
                 });
-                console.log(response);
                 if (response.statusText === 'OK') {
                     // open = !open;
                     notification.success({
@@ -99,7 +98,7 @@ export const FormChangePassword = ({ onCancel, onSubmit, open }: FormChangePassw
             <Form.Item className="btn-form-container">
                 <Space>
                     <Button type="primary" className="user-profile-btn" onClick={onCancel}>
-                        Cancel
+                        Hủy
                     </Button>
                     <Button
                         type="primary"

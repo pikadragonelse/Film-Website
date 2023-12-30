@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { Button, Form, Input, DatePicker, Modal, Select, Checkbox } from 'antd';
-import { Logo } from '../../asset/icon/logo';
-import './index.scss';
+import { Button, Checkbox, DatePicker, Form, Input, Modal, Select, Tooltip } from 'antd';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Logo } from '../../asset/icon/logo';
 import { endpoint } from '../../utils/baseUrl';
+import './index.scss';
 
 const { Option } = Select;
 
@@ -46,6 +45,7 @@ export const Register: React.FC = () => {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [form] = Form.useForm();
+
     const handleModalOpen = () => {
         setShowModal(true);
     };
@@ -66,7 +66,6 @@ export const Register: React.FC = () => {
                 alert('Người dùng đã đăng ký thành công');
                 form.resetFields();
                 navigate('/login');
-                // console.log(updatedValues);
             } else {
                 console.error('Error registering user:', response.data);
             }
@@ -76,7 +75,6 @@ export const Register: React.FC = () => {
     };
 
     const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
         sendDataToAPI(values);
     };
     const handleRegularPackageRegister = async () => {
@@ -90,9 +88,11 @@ export const Register: React.FC = () => {
     return (
         <div className="register">
             <div className="form-list">
-                <div className="header-logo">
-                    <Logo />
-                </div>
+                <Link to="/">
+                    <div className="header-logo">
+                        <Logo />
+                    </div>
+                </Link>
                 <div className="form-img">
                     <img
                         src="https://assets.nflxext.com/ffe/siteui/vlv3/9db4a880-3034-4e98-bdea-5d983e86bf52/a36e826e-5a25-480d-ab1c-4eebd385b7cc/VN-vi-20230925-popsignuptwoweeks-perspective_alpha_website_large.jpg"
@@ -104,6 +104,7 @@ export const Register: React.FC = () => {
                         <h1 className="form-header__large">Chào mừng bạn,</h1>
                         <p className="form-header__small">đăng kí tài khoản để sử dụng MovTime.</p>
                     </div>
+
                     <Form
                         className="register-form__group"
                         {...formItemLayout}
@@ -122,16 +123,18 @@ export const Register: React.FC = () => {
                             rules={[
                                 {
                                     type: 'email',
-                                    message: 'The input is not valid E-mail!',
+                                    message: 'The input is not a valid E-mail!',
                                 },
                                 {
                                     required: true,
                                     message: 'Please input your E-mail!',
                                 },
+                                {},
                             ]}
                         >
                             <Input className="register-form__item-input" />
                         </Form.Item>
+
                         <Form.Item
                             className="register-form__item"
                             name="username"
@@ -146,20 +149,22 @@ export const Register: React.FC = () => {
                             <Input name="username" className="register-form__item-input" />
                         </Form.Item>
 
-                        <Form.Item
-                            className="register-form__item"
-                            name="password"
-                            label={<span style={{ color: 'white' }}>Mật khẩu</span>}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your password!',
-                                },
-                            ]}
-                            hasFeedback
-                        >
-                            <Input.Password className="register-form__item-input" />
-                        </Form.Item>
+                        <Tooltip title="Mật khẩu phải chứa đầy đủ chữ viết thường, chữ viết hoa, số, ký tự đặc biệt">
+                            <Form.Item
+                                className="register-form__item"
+                                name="password"
+                                label={<span style={{ color: 'white' }}>Mật khẩu</span>}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input your password!',
+                                    },
+                                ]}
+                                hasFeedback
+                            >
+                                <Input.Password className="register-form__item-input" />
+                            </Form.Item>
+                        </Tooltip>
                         <Form.Item
                             className="register-form__item"
                             name="confirm"

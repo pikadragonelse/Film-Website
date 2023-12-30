@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Botchat } from '../../component/botchat';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMoviesHome } from '../../component/history-home';
-import { ActorFamous } from '../../component/list-actor-famous';
+import { CastFamousHome } from '../../component/home-cast-famous';
 import { ListFilm } from '../../component/list-film';
 import { ListReserveMovies } from '../../component/list-reserve-movie';
 import Slide from '../../component/slide';
@@ -13,7 +13,7 @@ import { DAFilm, Film } from '../../model/film';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
-import { endpoint } from '../../utils/baseUrl';
+import { Link } from 'react-router-dom';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -112,7 +112,6 @@ export const HomePage = () => {
                 },
             });
             setDataHistorymovies(response.data.data.ListMovie);
-            console.log('response.data.data.ListMovie', response.data.data.ListMovie);
         } catch (error) {
             console.error(error);
         }
@@ -157,7 +156,6 @@ export const HomePage = () => {
 
     const showBotchat = () => {
         setOpen(true);
-        console.log('open');
     };
 
     const closeBotchat = () => {
@@ -188,19 +186,21 @@ export const HomePage = () => {
                 <div className="!mt-10"></div>
                 <ListFilm title="Dành cho VIP" listFilm={dataFilmVip} />
                 <ListFilm title="Hôm nay xem gì ?" listFilm={dataRecommend} />
-                <img
-                    className="ml-20 w-[91%] rounded-md h-[88px]"
-                    src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
-                    alt=""
-                />
+                <Link
+                    to={'/VIPpackage'}
+                    onClick={() => {
+                        window.scrollTo(0, 0);
+                    }}
+                >
+                    <img
+                        className="ml-20 w-[91%] rounded-md h-[88px]"
+                        src="http://u2.iqiyipic.com/intl_lang/20230222/48/21/intl_lang_65c467fd4f698e25c02870407453_default.jpg"
+                        alt=""
+                    />
+                </Link>
                 <ListReserveMovies listFilm={dataReserve} />
                 {dataActorFamous.length > 0 && (
-                    <ActorFamous
-                        title="Người nổi tiếng"
-                        DAlist={dataActorFamous}
-                        size={146}
-                        isShow={false}
-                    />
+                    <CastFamousHome title="Người nổi tiếng" DAlist={dataActorFamous} size={146} />
                 )}
                 {renderListFilmsByGenre()}
             </Spin>

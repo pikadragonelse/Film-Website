@@ -7,8 +7,11 @@ import { Button } from 'antd';
 import { request } from '../../utils/request';
 import { useToken } from '../../hooks/useToken';
 import { CurrentUser, UserProps, defaultCurrentUser } from '../../model/user';
+
 import { useAppSelector } from '../../redux/hook';
-interface listCommentsProps {
+
+export interface listCommentsProps {
+
     id: number;
     avatar: string;
     username: string;
@@ -19,7 +22,7 @@ interface listCommentsProps {
     user?: UserProps;
 }
 
-const listComment = [
+export const listComment = [
     {
         id: 0,
         avatar: '',
@@ -109,12 +112,14 @@ export const Comment: React.FC<CommentProps> = ({ title, placeholder }) => {
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-3xl lg:text-2xl font-bold dark:text-white">{title}</h2>
             </div>
+
             {isLogin ? (
                 <WriteComment onSubmitComment={handleCommentSubmit} placeholder={placeholder} />
+
             ) : (
                 <div className="login-btn">
                     <Link to="/login">
-                        <Button size="large">Login</Button>
+                        <Button size="large">Đăng nhập để có thể bình luận.</Button>
                     </Link>
                 </div>
             )}
