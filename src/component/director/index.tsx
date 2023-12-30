@@ -9,6 +9,7 @@ import { useParams } from 'react-router';
 import { endpoint } from '../../utils/baseUrl';
 import { TabsProps } from '../actor/type';
 import { DirectorInfo } from './type';
+import { Helmet } from 'react-helmet-async';
 
 export const Director: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
@@ -70,8 +71,9 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
     };
     const handleCopyLink = () => {
         if (copiedLink) {
-            navigator.clipboard.writeText(copiedLink);
-            message.success('Sao chép thành công');
+            const trackedLink = `${copiedLink}?utm_source=facebook`;
+            navigator.clipboard.writeText(trackedLink);
+            message.success('Link copied successfully');
         }
     };
 
@@ -100,6 +102,13 @@ export const Director: React.FC<TabsProps> = ({ color }) => {
         <>
             {directorInfo && (
                 <div>
+                    <Helmet>
+                        <title>{directorInfo.name}</title>
+                        <meta property="og:title" content={directorInfo.name} />
+                        <meta property="og:description" content={directorInfo.description} />
+                        <meta property="og:image" content={directorInfo.avatar} />
+                        <meta property="og:url" content={window.location.href} />
+                    </Helmet>
                     <div className="container-director__header"></div>
                     <div className="flex rounded-lg p-10 ml-14">
                         <div className="">
