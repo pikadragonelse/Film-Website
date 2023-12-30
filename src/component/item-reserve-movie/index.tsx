@@ -11,12 +11,19 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
     const [isReserved, setIsReserved] = useState(false);
     const [initialButtonText, setInitialButtonText] = useState('Đặt lịch');
     const [loading, setLoading] = useState(false);
-
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const handleReserveClick = async () => {
         try {
+            if (!accessToken) {
+                // User is not logged in, show a modal asking to log in
+                Modal.warning({
+                    title: 'Thông báo',
+                    content: 'Bạn cần đăng nhập để đặt lịch.',
+                });
+                return;
+            }
             const currentDate = new Date();
             const formattedReleaseDate = releaseDate ? new Date(releaseDate) : null;
-            const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
 
             if (!formattedReleaseDate) {
                 console.error('Release date is not available');
