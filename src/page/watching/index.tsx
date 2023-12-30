@@ -161,6 +161,7 @@ export const WatchingPage = () => {
                     episode={`${dataEpisode?.title}`}
                     movieId={parseInt(movieId ?? '0')}
                     rating={rating}
+                    level={watchingData?.level}
                 />
 
                 <div className="watching-sub-info-container">
@@ -186,7 +187,7 @@ export const WatchingPage = () => {
                 </div>
             </div>
 
-            <ActorFamous DAlist={combinedActorsAndDirectors} size={120} isShow={true} />
+            <ActorFamous DAlist={combinedActorsAndDirectors} size={130} isShow={true} />
             <ListFilm title="Có thể bạn sẽ thích" listFilm={dataRecommend} />
             <div className="comment-container">
                 <Comment

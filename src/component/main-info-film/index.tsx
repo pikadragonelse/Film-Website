@@ -14,6 +14,7 @@ export type MainInfoFilm = {
     className?: string;
     movieId: number;
     rating: number;
+    level?: number;
 };
 export const MainInfoFilm = ({
     name,
@@ -25,6 +26,7 @@ export const MainInfoFilm = ({
     className,
     movieId,
     rating,
+    level,
 }: MainInfoFilm) => {
     return (
         <div className={`main-info-container ${className}`}>
@@ -34,25 +36,32 @@ export const MainInfoFilm = ({
                 <h1 className="episode">{episode}</h1>
             </div>
             <div className="view-info flex items-center">
-                {/* <div className="view">{view.toLocaleString()} lượt xem</div> */}
-
                 <div className="rating">
-                    <StarFilled style={{ color: '#fadb14', fontSize: 18 }} />
-                    <p className="text-[16px] ml-1">{rate}</p>
+                    <StarFilled style={{ color: '#fadb14', fontSize: 16 }} />
+                    <p className="text-[14px] ml-1 ">
+                        {rate} ({view.toLocaleString()} lượt xem)
+                    </p>
                 </div>
                 <Popover
                     overlayStyle={{ maxWidth: '100%' }}
                     content={<ModalRating movieId={movieId} rating={rating} />}
                 >
-                    <div style={{ cursor: 'pointer' }}>Đánh giá ngay</div>
+                    <div className="text-[14px] text-[#cf1a1a]" style={{ cursor: 'pointer' }}>
+                        Đánh giá ngay
+                    </div>
                 </Popover>
             </div>
-            <div className="hashtag mb-2">
+            <div className="hashtag mb-2 flex items-center">
                 {hashtag?.map((value) => (
                     <a href="#" className="!px-4 !py-2 poster__image-padding">
                         {value}
                     </a>
                 ))}
+                {level === 1 ? (
+                    <p className="!px-4 !py-2 !bg-[#cf1a1a] poster__image-padding">VIP</p>
+                ) : (
+                    ''
+                )}
             </div>
 
             <Paragraph
