@@ -6,7 +6,6 @@ import FilmDetailEpisodes from '../film-detail-episodes';
 import FilmDetailReview from '../film-detail-review';
 import { FilmDetailOverall } from './../film-detail-overall/index';
 import './index.scss';
-import FilmDetailTrailer from '../film-trailer';
 import { FilmDetailRelate } from '../film-relate';
 
 interface FilmDetailTabProps {
@@ -37,9 +36,6 @@ export const FilmDetailTab: React.FC<FilmDetailTabProps> = ({ filmDetail }) => {
                 return <FilmDetailReview />;
 
             case '6':
-                return <FilmDetailTrailer filmDetail={filmDetail} />;
-
-            case '7':
                 return <FilmDetailRelate />;
             default:
                 return null;
@@ -69,10 +65,6 @@ export const FilmDetailTab: React.FC<FilmDetailTabProps> = ({ filmDetail }) => {
         },
         {
             key: '6',
-            label: 'Trailer',
-        },
-        {
-            key: '7',
             label: 'Phim liên quan',
         },
     ];
