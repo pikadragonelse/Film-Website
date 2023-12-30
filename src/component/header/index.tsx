@@ -184,12 +184,12 @@ export const Header = ({ className }: Header) => {
                         </Link>
                     </Popover>
 
-                    <div className="notification">
-                        <BellOutlined className="notification-btn" />
-                        <p className="number-notification">12</p>
-                    </div>
                     {isLogin === true ? (
                         <>
+                            <div className="notification">
+                                <BellOutlined className="notification-btn" />
+                                <p className="number-notification">12</p>
+                            </div>
                             <Popover
                                 title={
                                     <div className="p-2 flex font-normal items-center justify-center border-b-[1px] border-[#989898]">
@@ -237,9 +237,10 @@ export const Header = ({ className }: Header) => {
                         </>
                     ) : (
                         <Link to="/login">
-                            <div className="icon-login">
+                            <Button type="primary" className="flex items-center">
                                 <LoginOutlined />
-                            </div>
+                                Đăng nhập
+                            </Button>
                         </Link>
                     )}
                 </div>

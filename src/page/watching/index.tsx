@@ -229,7 +229,6 @@ export const WatchingPage = () => {
             <ListFilm title="Có thể bạn sẽ thích" listFilm={dataRecommend} />
             <div className="comment-container">
                 <Comment title="Bình luận phim" placeholder="Bình luận về phim ở đây" />
-
             </div>
         </div>
     );
