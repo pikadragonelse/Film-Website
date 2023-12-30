@@ -1,4 +1,4 @@
-import { RightOutlined } from '@ant-design/icons';
+import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Carousel, Col, MenuProps, Row } from 'antd';
 import { CarouselRef } from 'antd/es/carousel';
 import { useEffect, useRef, useState } from 'react';
@@ -33,15 +33,19 @@ export const ListReserveMovies = ({
         const listTemp: Array<Film[]> = [];
         let arrTemp: Film[] = [];
 
-        listFilm.forEach((film) => {
-            arrTemp.push(film);
+        if (Array.isArray(listFilm)) {
+            listFilm.forEach((film) => {
+                arrTemp.push(film);
 
-            if (counts % 6 === 0 || counts === listFilm.length) {
-                listTemp.push(arrTemp);
-                arrTemp = [];
-            }
-            counts++;
-        });
+                if (counts % 6 === 0 || counts === listFilm.length) {
+                    listTemp.push(arrTemp);
+                    arrTemp = [];
+                }
+                counts++;
+            });
+        } else {
+            console.error('listFilm is not an array!');
+        }
 
         return listTemp;
     };
@@ -61,7 +65,19 @@ export const ListReserveMovies = ({
                     ))}
                 </div>
             </div>
+
             <div className="list mb-16">
+                <div
+                    className={`icon-list-container left-move-container ${
+                        page === 1 ? 'hide' : ''
+                    }`}
+                    onClick={() => {
+                        listRef.current?.prev();
+                        setPage((prev) => prev - 1);
+                    }}
+                >
+                    <LeftOutlined className="icon-list " />
+                </div>
                 <div
                     className={`icon-list-container right-move-container ${
                         page === maxPage ? 'hide' : ''
@@ -78,7 +94,7 @@ export const ListReserveMovies = ({
                         <div>
                             <Row justify={'start'}>
                                 {listFilms.map((value) => (
-                                    <Col span={4} className="list-col">
+                                    <Col span={4} className="list-col" key={value.movieId}>
                                         <div className="w-[98%] mb-10 px-2">
                                             <div className="coming-soon-timeline-wrapper">
                                                 <div className="timeline-line"></div>
@@ -89,6 +105,7 @@ export const ListReserveMovies = ({
                                             </p>
                                         </div>
                                         <ItemReserveMovie
+                                            movieId={value.movieId}
                                             title={value.title}
                                             episodeNum={value.episodeNum}
                                             posterURL={value.posterURL}

@@ -1,4 +1,4 @@
-import { HeartFilled, HeartOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
+import { HeartOutlined, LikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { Avatar, List, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -25,7 +25,6 @@ const FilmDetailReview: React.FC = () => {
 
             const response = await request.get(`episode/${randomEpisodeNumber}/comments`);
             const data = response.data.comments;
-            console.log('data', data);
             setListComments(data);
         } catch (error) {
             console.error(error);

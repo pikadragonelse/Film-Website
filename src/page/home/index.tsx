@@ -31,7 +31,7 @@ export const HomePage = () => {
     const [dataReserve, setDataReserve] = useState<Film[]>([]);
     const [dataRecommend, setRecommened] = useState<Film[]>([]);
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-    console.log('dataActorFamous', dataActorFamous);
+
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const fetchTrending = async () => {
         try {
@@ -112,7 +112,6 @@ export const HomePage = () => {
                 },
             });
             setDataHistorymovies(response.data.data.ListMovie);
-            console.log('response.data.data.ListMovie', response.data.data.ListMovie);
         } catch (error) {
             console.error(error);
         }

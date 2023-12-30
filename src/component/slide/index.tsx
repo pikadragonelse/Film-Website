@@ -170,9 +170,6 @@ const Slide: React.FC = () => {
         fetchDataAndWatchLaterList();
         fetchDataAndLoveList();
     }, [isUserLoggedIn, movieId, dataCollect, dataLove]);
-    // if (!filmDetail) {
-    //     return <Spin spinning={loading} size="large" className="mt-96" />;
-    // }
 
     //api add bộ sưu tập
     const handleAddToCollection = async (movieId: number) => {

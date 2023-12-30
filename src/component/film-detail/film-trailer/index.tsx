@@ -9,7 +9,7 @@ const FilmDetailTrailer: React.FC<{ filmDetail: { trailerURL: string } }> = ({ f
 
     const panelStyle: React.CSSProperties = {
         marginBottom: 24,
-        marginTop: -28,
+        marginTop: -10,
         background: token.colorFillAlter,
         marginLeft: -10,
         borderRadius: token.borderRadiusLG,

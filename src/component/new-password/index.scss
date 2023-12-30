@@ -1,7 +1,7 @@
 .newpassword-form {
     position: absolute;
     top: 12%;
-    left: 28%;
+    left: 33%;
     padding: 5rem 6rem;
     background-color: rgba(0, 0, 0, 0.75);
 
@@ -67,8 +67,8 @@
         }
     }
 }
-.form-img{
-    margin-bottom:0;
+.form-img {
+    margin-bottom: 0;
 }
 
 @keyframes moveUpDown {
@@ -92,52 +92,52 @@
         top: 8%;
         left: 50%;
         transform: translateX(-50%);
-        width: 80%; 
+        width: 80%;
         max-width: 600px;
         height: auto;
         padding: 4rem;
         padding-bottom: 2rem;
         background-color: rgba(0, 0, 0, 0.75);
-        
-        .form-header__large{
+
+        .form-header__large {
             font-size: 1.6rem;
         }
-        .form-header__small{
+        .form-header__small {
             font-size: 0.9rem;
         }
-    
+
         &__button {
             margin-left: 0px;
         }
     }
-    .form-img{
-        margin-bottom:300px;
+    .form-img {
+        margin-bottom: 300px;
     }
-    .text-center{
+    .text-center {
         display: flex;
         flex-direction: column;
         margin-top: 3rem;
     }
 }
-@media screen and (max-width: 1025px)and (min-width: 760px) {
+@media screen and (max-width: 1025px) and (min-width: 760px) {
     .newpassword-form {
         position: absolute;
         top: 5%;
         left: 50%;
         transform: translateX(-50%);
-        width: 80%; 
+        width: 80%;
         max-width: 600px;
         height: auto;
-        padding:4rem 5rem;
+        padding: 4rem 5rem;
         background-color: rgba(0, 0, 0, 0.75);
-    
+
         &__header {
             margin-top: 15px;
             margin-bottom: 25px;
             font-weight: 600;
-    
+
             &__large {
-                font-size: 1.2rem ; 
+                font-size: 1.2rem;
             }
             &__small {
                 font-size: 0.8rem;

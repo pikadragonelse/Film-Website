@@ -1,6 +1,8 @@
+import React, { useState } from 'react';
 import { CaretRightOutlined, FieldTimeOutlined } from '@ant-design/icons';
 import { Badge, Button, Modal, Skeleton } from 'antd';
-import { useState } from 'react';
+import Cookies from 'js-cookie';
+import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import './index.scss';
 
@@ -8,12 +10,19 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
     const [isLoadingImg, setIsLoadingImg] = useState(true);
     const [isReserved, setIsReserved] = useState(false);
     const [initialButtonText, setInitialButtonText] = useState('Đặt lịch');
+    const [loading, setLoading] = useState(false);
 
     const handleReserveClick = async () => {
-        const currentDate = new Date();
-        const formattedReleaseDate = releaseDate ? new Date(releaseDate) : null;
+        try {
+            const currentDate = new Date();
+            const formattedReleaseDate = releaseDate ? new Date(releaseDate) : null;
+            const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
 
-        if (formattedReleaseDate) {
+            if (!formattedReleaseDate) {
+                console.error('Release date is not available');
+                return;
+            }
+
             const isReleaseDateToday =
                 currentDate.toDateString() === formattedReleaseDate.toDateString();
 
@@ -22,26 +31,72 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
                     title: 'Thông báo',
                     content: 'Hôm nay có phim ra mắt!',
                 });
-            } else {
-                const successMessage = !isReserved
-                    ? 'Đặt lịch thành công! Chúc bạn có những trải nghiệm thật tuyệt vời tại MovTime ❤'
-                    : 'Bạn đã hủy đặt lịch!';
+                return;
+            }
 
-                await Modal.success({
-                    title: 'Thông báo',
-                    content: successMessage,
+            setLoading(true);
+
+            if (isReserved) {
+                const response = await request.delete(`user/reserves/${movieId}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
                 });
 
-                setInitialButtonText(isReserved ? 'Đặt lịch' : 'Hủy');
-                setIsReserved(!isReserved);
+                if (response.status === 200) {
+                    Modal.success({
+                        title: 'Thông báo',
+                        content: 'Bạn đã hủy đặt lịch!',
+                        onOk: () => {
+                            setInitialButtonText('Đặt lịch');
+                            setIsReserved(false);
+                        },
+                    });
+                } else {
+                    console.error(`Failed to cancel the reservation. Status: ${response.status}`);
+                    Modal.error({
+                        title: 'Lỗi',
+                        content: 'Đã xảy ra lỗi khi hủy đặt lịch. Vui lòng thử lại sau.',
+                    });
+                }
+            } else {
+                const response = await request.post(
+                    'user/reserves',
+                    { movieId: movieId },
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                );
+                console.log('response', response);
+
+                if (response.status === 200) {
+                    Modal.success({
+                        title: 'Thông báo',
+                        content:
+                            'Đặt lịch thành công! Chúc bạn có những trải nghiệm tuyệt vời tại MovTime ❤',
+                        onOk: () => {
+                            setInitialButtonText('Hủy');
+                            setIsReserved(true);
+                        },
+                    });
+                }
             }
-        } else {
-            console.log('fail');
+        } catch (error) {
+            console.error('Error:', error);
+            Modal.error({
+                title: 'Lỗi',
+                content: 'Đã xảy ra lỗi. Vui lòng thử lại sau.',
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div>
+        <div key={movieId}>
             <Badge.Ribbon
                 text={level === 1 ? 'VIP' : ''}
                 color={level === 1 ? 'red' : '#111111'}
@@ -72,8 +127,13 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
                         isReserved ? 'reserved' : ''
                     }`}
                     icon={<FieldTimeOutlined />}
-                    onClick={handleReserveClick}
-                    style={{ color: isReserved ? 'red' : 'white' }}
+                    onClick={() => handleReserveClick()}
+                    style={{
+                        color: isReserved ? 'red' : 'white',
+                        boxShadow:
+                            'rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px',
+                    }}
+                    loading={loading}
                 >
                     {initialButtonText}
                 </Button>
