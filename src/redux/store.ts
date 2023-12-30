@@ -4,12 +4,9 @@ import isLoginSlide from './isLoginSlice';
 import videoSlice from './videoSlice';
 import dataCollectReducer from './dataCollectSlide';
 import dataLoveSlide from './dataLoveSlide';
-import VIPPaymentReducer from './VIPPaymentSlice'
-import DurationVip from './durationSlice'
-import SearchInvoke from './searchSlice'
-
-
-
+import VIPPaymentReducer from './VIPPaymentSlice';
+import DurationVip from './durationSlice';
+import SearchInvoke from './searchSlice';
 
 export const store = configureStore({
     reducer: {
@@ -20,10 +17,9 @@ export const store = configureStore({
         dataLove: dataLoveSlide,
         VIPPayment: VIPPaymentReducer,
         durationData: DurationVip,
-        searchSlice: SearchInvoke
+        searchSlice: SearchInvoke,
     },
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-

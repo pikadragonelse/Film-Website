@@ -12,7 +12,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
-import { setIslogin, setUsername } from '../../redux/isLoginSlice';
+import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import { Search } from '../header/search/index';
@@ -88,7 +88,7 @@ export const Header = ({ className }: Header) => {
         const storedUsername = Cookies.get('username');
 
         if (accessToken) {
-            dispatch(setIslogin(true));
+            dispatch(setIsLogin(true));
 
             if (storedUsername) {
                 dispatch(setUsername(storedUsername));
@@ -102,7 +102,7 @@ export const Header = ({ className }: Header) => {
 
     const handleLogin = useCallback(async () => {
         const storedUsername = Cookies.get('username');
-        dispatch(setIslogin(true));
+        dispatch(setIsLogin(true));
 
         if (storedUsername) {
             dispatch(setUsername(storedUsername));
@@ -114,7 +114,7 @@ export const Header = ({ className }: Header) => {
     const handleLogout = useCallback(() => {
         Cookies.remove('accessToken');
         Cookies.remove('username');
-        dispatch(setIslogin(false));
+        dispatch(setIsLogin(false));
         dispatch(setUsername(null));
     }, [dispatch]);
 

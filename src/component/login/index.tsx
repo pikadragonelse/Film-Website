@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
-import { setIslogin, setUsername } from '../../redux/isLoginSlice';
+import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
 import './index.scss';
 import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
@@ -42,7 +42,7 @@ export const Login: React.FC = () => {
                         description: 'Chúc mừng, bạn đã đăng nhập thành công',
                     });
 
-                    dispatch(setIslogin(true));
+                    dispatch(setIsLogin(true));
 
                     if (data.username) {
                         dispatch(setUsername(data.username));
@@ -84,7 +84,7 @@ export const Login: React.FC = () => {
             description: 'Chúc mừng, bạn đã đăng nhập thành công',
         });
 
-        dispatch(setIslogin(true));
+        dispatch(setIsLogin(true));
         console.log(response);
         if (response.wt.cu) {
             dispatch(setUsername(response.wt.cu));
