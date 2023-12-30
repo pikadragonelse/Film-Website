@@ -129,12 +129,12 @@ export const Login: React.FC = () => {
                     >
                         <div className="form-item">
                             <Form.Item<FieldType>
-                                label={<span style={{ color: 'white' }}>Tên đăng nhập</span>}
+                                label={<span style={{ color: 'white' }}>Tên đăng nhập/email</span>}
                                 name="username"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please input your username!',
+                                        message: 'Vui lòng nhập tên đăng nhập/email!',
                                     },
                                 ]}
                             >
@@ -153,7 +153,7 @@ export const Login: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    message: 'Vui lòng nhập mật khẩu!',
                                 },
                             ]}
                         >
