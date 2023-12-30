@@ -41,6 +41,16 @@ export const FilmDetail = () => {
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
 
+    const [showVideo, setShowVideo] = useState(false);
+
+    useEffect(() => {
+        const delay = setTimeout(() => {
+            setShowVideo(true);
+        }, 1000);
+
+        return () => clearTimeout(delay);
+    }, []);
+
     const updateOgTags = (filmDetail: FilmItem) => {
         const title = filmDetail.title || '';
         const description = filmDetail.description?.slice(0, 100) + '...' || '';
@@ -292,7 +302,24 @@ export const FilmDetail = () => {
                 }}
                 className="bg-center bg-no-repeat md:h-[400px] h-[300px] relative"
             >
-                <div className="bg-gradient-to-br from-transparent to-black/90 h-full ">
+                {showVideo && filmDetail.trailerURL && (
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center',
+                        }}
+                    >
+                        <source src={filmDetail.trailerURL} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                )}
+                <div className="bg-gradient-to-br from-transparent  h-full ">
                     <div className="flex flex-col md:flex-row bottom-[-85%] md:bottom-[20%] items-start tw-absolute-center-horizontal   ">
                         <div className="film-detail__name flex gap-10 items-center">
                             <img
@@ -300,7 +327,16 @@ export const FilmDetail = () => {
                                 src={filmDetail.posterURL}
                                 alt="poster"
                             />
-                            <div className="film-detail__title">{filmDetail.title}</div>
+                            <div
+                                className="film-detail__title"
+                                style={{
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                }}
+                            >
+                                {filmDetail.title}
+                            </div>
                         </div>
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
