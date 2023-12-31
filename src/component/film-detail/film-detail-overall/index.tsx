@@ -28,22 +28,11 @@ export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail })
             ),
             style: panelStyle,
         },
-        {
-            key: '2',
-            label: 'Trailer',
-            children: (
-                <div className="overall-info" style={{ width: '88%' }}>
-                    <Tooltip title="Bấm vào xem ngay để thưởng thức bộ phim" placement="topRight">
-                        <ReactPlayer url={filmDetail.trailerURL} controls playing={true} />
-                    </Tooltip>
-                </div>
-            ),
-            style: panelStyle,
-        },
     ];
 
     return (
         <Collapse
+            className="ml-[-10px]"
             bordered={false}
             defaultActiveKey={['1', '2', '3']}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
