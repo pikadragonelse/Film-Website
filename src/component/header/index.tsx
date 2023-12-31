@@ -8,26 +8,25 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Button, Popover, Tooltip, notification } from 'antd';
 import Cookies from 'js-cookie';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
-import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
-import { RootState } from '../../redux/store';
+import { useToken } from '../../hooks/useToken';
+import { defaultCurrentUser } from '../../model/user';
+import { useAppSelector } from '../../redux/hook';
+import { setIsLogin } from '../../redux/isLoginSlice';
 import { request } from '../../utils/request';
+import { CurrentUser } from '../comment/type';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
+import { DataHeader, handleDataHomeHeader } from './handle-data-header';
 import './index.scss';
+import { ContentModalHistory } from './modalHistory';
+import { ContentModalHistoryTitle } from './modalHistoryTitle';
 import { ContentModalUser } from './modalUser';
 import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
-import { ContentModalHistory } from './modalHistory';
-import { ContentModalHistoryTitle } from './modalHistoryTitle';
-import { CurrentUser } from '../comment/type';
-import { defaultCurrentUser } from '../../model/user';
-import { useToken } from '../../hooks/useToken';
-import { useAppSelector } from '../../redux/hook';
-import { DataHeader, handleDataHomeHeader } from './handle-data-header';
 export type Header = { className?: string };
 
 export const Header = ({ className }: Header) => {
