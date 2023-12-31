@@ -284,7 +284,7 @@ export const FilmDetail = () => {
     };
 
     return (
-        <div className="film-detail flex-grow mb-[340px]">
+        <div className="film-detail flex-grow mb-[300px]">
             {updateOgTags(filmDetail)}
             <div
                 style={{
