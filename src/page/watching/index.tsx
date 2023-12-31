@@ -1,6 +1,5 @@
 import { CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Comment } from '../../component/comment';
 import { IconWithText } from '../../component/icon-with-text';
@@ -11,16 +10,15 @@ import { DAFilm, Episode, Film, Genres } from '../../model/film';
 import { request } from '../../utils/request';
 import './index.scss';
 
+import { Modal } from 'antd';
+import { FacebookShareButton } from 'react-share';
 import { ActorFamous } from '../../component/list-actor-famous';
+import { ListFilm } from '../../component/list-film';
 import { VideoPlayerCustom } from '../../component/video-player-custom';
 import { useToken } from '../../hooks/useToken';
-import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
 import { NotifyModalContent, defaultNotifyModalContent } from '../../model/notify-modal';
-import { useAppSelector } from '../../redux/hook';
-import { Modal } from 'antd';
+import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
 import { selectionItems } from './items-selection';
-import { ListFilm } from '../../component/list-film';
-import { FacebookShareButton } from 'react-share';
 
 const moment = require('moment');
 

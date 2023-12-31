@@ -1,8 +1,9 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import type { CollapseProps } from 'antd';
-import { Collapse, theme } from 'antd';
+import { Collapse, Tooltip, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import React from 'react';
+import ReactPlayer from 'react-player';
 import './index.scss';
 
 export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail }) => {
@@ -24,6 +25,18 @@ export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail })
                 <p className="overall-info" style={{ width: '88%' }}>
                     {descriptions}
                 </p>
+            ),
+            style: panelStyle,
+        },
+        {
+            key: '2',
+            label: 'Trailer',
+            children: (
+                <div className="overall-info" style={{ width: '88%' }}>
+                    <Tooltip title="Bấm vào xem ngay để thưởng thức bộ phim" placement="topRight">
+                        <ReactPlayer url={filmDetail.trailerURL} controls playing={true} />
+                    </Tooltip>
+                </div>
             ),
             style: panelStyle,
         },
