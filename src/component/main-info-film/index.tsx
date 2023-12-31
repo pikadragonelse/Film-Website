@@ -39,7 +39,7 @@ export const MainInfoFilm = ({
                 <div className="rating">
                     <StarFilled style={{ color: '#fadb14', fontSize: 16 }} />
                     <p className="text-[14px] ml-1 ">
-                        {rate} ({view.toLocaleString()} lượt xem)
+                        {rate} ({view} lượt xem)
                     </p>
                 </div>
                 <Popover
