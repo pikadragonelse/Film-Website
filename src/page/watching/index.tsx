@@ -20,6 +20,7 @@ import { useAppSelector } from '../../redux/hook';
 import { Modal } from 'antd';
 import { selectionItems } from './items-selection';
 import { ListFilm } from '../../component/list-film';
+import { FacebookShareButton } from 'react-share';
 
 const moment = require('moment');
 
@@ -112,6 +113,7 @@ export const WatchingPage = () => {
             console.error(error);
         }
     };
+    //share
 
     useEffect(() => {
         if (watchingData != null) {
@@ -149,7 +151,7 @@ export const WatchingPage = () => {
             return 'upgradePackage';
         }
     };
-
+    console.log(dataEpisode);
     return (
         <div className="watching-container">
             <Modal
@@ -207,11 +209,17 @@ export const WatchingPage = () => {
                         <IconWithText
                             icon={<CommentOutlined className="watching-feature-icon" />}
                             text="Bình luận"
+                            scrollToSectionId="comment"
                         />
-                        <IconWithText
-                            icon={<ShareAltOutlined className="watching-feature-icon" />}
-                            text="Chia sẻ"
-                        />
+
+                        <FacebookShareButton
+                            url={`http://movetimes.tech/movie/${movieId}/${episodeId}`}
+                        >
+                            <IconWithText
+                                icon={<ShareAltOutlined className="watching-feature-icon" />}
+                                text="Chia sẻ"
+                            />
+                        </FacebookShareButton>
                     </div>
                     <div className="watching-sub-info">
                         {subInfo.map((value) => (
@@ -227,7 +235,7 @@ export const WatchingPage = () => {
 
             <ActorFamous DAlist={combinedActorsAndDirectors} size={130} isShow={true} />
             <ListFilm title="Có thể bạn sẽ thích" listFilm={dataRecommend} />
-            <div className="comment-container">
+            <div className="comment-container" id="comment">
                 <Comment title="Bình luận phim" placeholder="Bình luận về phim ở đây" />
             </div>
         </div>

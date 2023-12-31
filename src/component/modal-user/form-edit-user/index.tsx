@@ -35,24 +35,23 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
         setPreviewImage(file.url || (file.preview as string));
     };
 
-    const onSubmitForm = (data: {
-        userId: number;
-        email: string;
-        dateOfBirth: string;
-        gender: string;
-        username: string;
-    }) => {
+    const onSubmitForm = (data: { dateOfBirth: string; gender: string }) => {
         // Fill API vo day
-
         const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
-        data.userId = JSON.parse(atob(accessToken.split('.')[1])).userId;
         const editProfileUser = async () => {
             try {
-                await request.put('user/update-user', data, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                await request.put(
+                    'user/update-self-information',
+                    {
+                        dateOfBirth: data.dateOfBirth,
+                        gender: data.gender,
                     },
-                });
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    },
+                );
                 setIsOpenEdit(false);
             } catch (error) {
                 console.error(error);
@@ -84,7 +83,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                 />
             </Form.Item>
             <Form.Item name="username" label="Tên người dùng" rules={[{ required: false }]}>
-                <Input value={data.username} />
+                <Input value={data.username} readOnly />
             </Form.Item>
             <Form.Item name="email" label="Email">
                 <Input value={data.email} readOnly />
@@ -93,7 +92,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                 <DatePicker className="form-date-picker" />
             </Form.Item>
 
-            <Form.Item name="gender" label={<span style={{ color: 'white' }}>Gender</span>}>
+            <Form.Item name="gender" label={<span style={{ color: 'white' }}>Giới tính</span>}>
                 <Select
                     value={data.gender}
                     style={{
