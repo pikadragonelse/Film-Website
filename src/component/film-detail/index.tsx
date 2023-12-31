@@ -40,6 +40,7 @@ export const FilmDetail = () => {
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
+    const [isMuted, setIsMuted] = useState(false);
 
     const [showVideo, setShowVideo] = useState(false);
 
@@ -303,21 +304,43 @@ export const FilmDetail = () => {
                 className="bg-center bg-no-repeat md:h-[400px] h-[300px] relative"
             >
                 {showVideo && filmDetail.trailerURL && (
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center',
-                        }}
-                    >
-                        <source src={filmDetail.trailerURL} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
+                    <>
+                        <video
+                            autoPlay
+                            loop
+                            muted={isMuted}
+                            playsInline
+                            className="relative"
+                            style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                objectPosition: 'center',
+                            }}
+                        >
+                            <source src={filmDetail.trailerURL} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <div className="absolute bottom-3 left-2 w-10 h-10 flex items-center justify-center rounded-full mute">
+                            <button onClick={() => setIsMuted(!isMuted)}>
+                                {isMuted ? (
+                                    <>
+                                        <img
+                                            src="https://scontent.xx.fbcdn.net/v/t1.15752-9/415942220_1103081861051045_1330669794524405855_n.png?stp=cp0_dst-png&_nc_cat=111&ccb=1-7&_nc_sid=510075&_nc_eui2=AeGIjkxJyBQheLm4aI9ph-MAwaoECHrgDt3BqgQIeuAO3a2CSkJpUwLCGd49Zn30GMGubk1VVoxzhSjJZvIgbKEF&_nc_ohc=4K0wjyzSolwAX9Ii-pe&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTnNU6jfYKAxwAqScKpPR7TiKOeAnDeuS_uwReZ4l9jpA&oe=65B8C9BA"
+                                            alt="unmute"
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        <img
+                                            src="https://scontent.xx.fbcdn.net/v/t1.15752-9/411442388_1414389692493327_8859220876185290509_n.png?stp=cp0_dst-png&_nc_cat=100&ccb=1-7&_nc_sid=510075&_nc_eui2=AeGFej-qOCTGlxyegiMvvL599Y_Xs6ZzkjP1j9ezpnOSM3fms7r6S0mEXsbSBKuep_c3TVmP31DzE7tkCuYSJXQ-&_nc_ohc=gNQsiBRoBEAAX8yvZQM&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdT_w0SmZsMNmaC4fikPrM0iygvC5-bwa5cR0qUIEXBWYA&oe=65B8AE5E"
+                                            alt="mute"
+                                        />
+                                    </>
+                                )}
+                            </button>
+                        </div>
+                    </>
                 )}
                 <div className="bg-gradient-to-br from-transparent  h-full ">
                     <div className="flex flex-col md:flex-row bottom-[-85%] md:bottom-[20%] items-start tw-absolute-center-horizontal   ">
