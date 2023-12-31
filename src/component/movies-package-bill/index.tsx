@@ -1,20 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { BillItem } from '../movies-package-bill-item';
 import { Button, ConfigProvider, Spin } from 'antd';
-import { Link } from 'react-router-dom';
-import './index.scss';
-import { LogoDark } from '../../asset/icon/logoDark';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { VNPayReturnDataRaw, VNPayReturnDataRawDefault } from '../../model/VNPay';
 import moment from 'moment';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { LogoDark } from '../../asset/icon/logoDark';
+import { VNPayReturnDataRaw, VNPayReturnDataRawDefault } from '../../model/VNPay';
 import { getNextDateByMonth } from '../../utils/getNextDateByMonth';
+import { BillItem } from '../movies-package-bill-item';
+import './index.scss';
 
 import { endpoint } from '../../utils/baseUrl';
 
-import { PaypalReturn, defaultPaypalReturn } from '../../model/paypal';
 import { LoadingOutlined } from '@ant-design/icons';
+import { PaypalReturn, defaultPaypalReturn } from '../../model/paypal';
 
 const currentDate = new Date();
 
