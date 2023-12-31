@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import './index.scss';
-import { Paypal } from '../../asset/icon/paypal';
-import { MoMo } from '../../asset/icon/momo';
 import { Radio, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { VNPayLogo } from '../../asset/icon/VNPay-logo';
-import { useAppDispatch } from '../../redux/hook';
+import { Paypal } from '../../asset/icon/paypal';
 import { setMethodPayment } from '../../redux/VIPPaymentSlice';
+import { useAppDispatch } from '../../redux/hook';
+import './index.scss';
 
 interface PaymentMethod {
     icon: React.ReactNode;
