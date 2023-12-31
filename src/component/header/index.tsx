@@ -8,26 +8,25 @@ import {
 } from '@ant-design/icons';
 import { Avatar, Button, Popover, Tooltip, notification } from 'antd';
 import Cookies from 'js-cookie';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
-import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
-import { RootState } from '../../redux/store';
+import { useToken } from '../../hooks/useToken';
+import { defaultCurrentUser } from '../../model/user';
+import { useAppSelector } from '../../redux/hook';
+import { setIsLogin } from '../../redux/isLoginSlice';
 import { request } from '../../utils/request';
+import { CurrentUser } from '../comment/type';
 import { Search } from '../header/search/index';
 import { DropdownList } from './dropdownList/index';
+import { DataHeader, handleDataHomeHeader } from './handle-data-header';
 import './index.scss';
+import { ContentModalHistory } from './modalHistory';
+import { ContentModalHistoryTitle } from './modalHistoryTitle';
 import { ContentModalUser } from './modalUser';
 import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
-import { ContentModalHistory } from './modalHistory';
-import { ContentModalHistoryTitle } from './modalHistoryTitle';
-import { CurrentUser } from '../comment/type';
-import { defaultCurrentUser } from '../../model/user';
-import { useToken } from '../../hooks/useToken';
-import { useAppSelector } from '../../redux/hook';
-import { DataHeader, handleDataHomeHeader } from './handle-data-header';
 export type Header = { className?: string };
 
 export const Header = ({ className }: Header) => {
@@ -66,10 +65,8 @@ export const Header = ({ className }: Header) => {
     }, []);
 
     useEffect(() => {
-
         if (isLogin === true && accessToken != null && accessToken !== '') {
             fetchDataCurrentUser();
-
         }
     }, [isLogin]);
 
@@ -83,7 +80,6 @@ export const Header = ({ className }: Header) => {
             placement: 'bottomRight',
         });
     };
-
 
     const fetchDataCurrentUser = async () => {
         try {
@@ -187,12 +183,12 @@ export const Header = ({ className }: Header) => {
                         </Link>
                     </Popover>
 
-                    <div className="notification">
-                        <BellOutlined className="notification-btn" />
-                        <p className="number-notification">12</p>
-                    </div>
                     {isLogin === true ? (
                         <>
+                            <div className="notification">
+                                <BellOutlined className="notification-btn" />
+                                <p className="number-notification">12</p>
+                            </div>
                             <Popover
                                 title={
                                     <div className="p-2 flex font-normal items-center justify-center border-b-[1px] border-[#989898]">
@@ -240,9 +236,10 @@ export const Header = ({ className }: Header) => {
                         </>
                     ) : (
                         <Link to="/login">
-                            <div className="icon-login">
+                            <Button type="primary" className="flex items-center">
                                 <LoginOutlined />
-                            </div>
+                                Đăng nhập
+                            </Button>
                         </Link>
                     )}
                 </div>

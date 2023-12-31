@@ -41,6 +41,7 @@ export const Summary: React.FC<SummaryProps> = ({
 
         setEndDate(newDate);
     }, [durationValue]);
+    console.log('durationValue', durationValue);
 
     const handleRecoverDate = () => {
         const newDate = new Date(endDate);
@@ -117,7 +118,7 @@ export const Summary: React.FC<SummaryProps> = ({
                 <span className="text-red-600">Nếu bạn tiếp tục hoàn thành đăng ký</span>, gói hiện
                 tại của bạn sẽ bị xóa và thời gian hiệu lực của gói mới nhất sẽ được áp dụng!
             </Modal>
-            <div className="title-summary">Chi tiết thanh toánMo</div>
+            <div className="title-summary">Chi tiết thanh toán</div>
             <div className="information">
                 <div className="term-package">
                     <div className="name-package">

@@ -39,6 +39,8 @@ export const App = () => {
 
     useEffect(() => {
         if (accessToken != null && accessToken !== '') {
+            console.log(accessToken);
+
             dispatch(setIsLogin(true));
         }
         const timer = setInterval(useRefreshToken, timeRefreshToken);
@@ -49,24 +51,23 @@ export const App = () => {
         <div className="wrapper">
             <Header className={`${locationMap[location.pathname]}`} />
 
-                <div className="wrapper-app-container">
-                    <Routes>
-                        <Route path="" element={<HomePage />} />
-                        <Route path="/search/*" element={<SearchPage />} />
-                        <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
-                        <Route path="/foryou/*" element={<LayoutUser />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/payment/:idPackage/*" element={<Payment />} />
-                        <Route path="/VIPpackage" element={<VIPPackage />} />
-                        <Route path="/bill" element={<Bill />} />
-                        <Route path="/director/:directorId" element={<Director color="white" />} />
-                        <Route path="/actor/:actorId" element={<Actor color="white" />} />
-                        <Route path="/movie/:id" element={<FilmDetail />} />
-                        <Route path="/reset-password" element={<NewPassword />} />
-                        <Route path="/forget" element={<LoginForget />} />
-                    </Routes>
-
+            <div className="wrapper-app-container">
+                <Routes>
+                    <Route path="" element={<HomePage />} />
+                    <Route path="/search/*" element={<SearchPage />} />
+                    <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
+                    <Route path="/foryou/*" element={<LayoutUser />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/payment/:idPackage/*" element={<Payment />} />
+                    <Route path="/VIPpackage" element={<VIPPackage />} />
+                    <Route path="/bill" element={<Bill />} />
+                    <Route path="/director/:directorId" element={<Director color="white" />} />
+                    <Route path="/actor/:actorId" element={<Actor color="white" />} />
+                    <Route path="/movie/:id" element={<FilmDetail />} />
+                    <Route path="/reset-password" element={<NewPassword />} />
+                    <Route path="/forget" element={<LoginForget />} />
+                </Routes>
             </div>
 
             <Footer />
