@@ -36,7 +36,7 @@ export const FilmDetailTab: React.FC<FilmDetailTabProps> = ({ filmDetail }) => {
                 return <FilmDetailReview />;
 
             case '6':
-                return <FilmDetailRelate />;
+                return <FilmDetailRelate filmDetail={filmDetail} />;
             default:
                 return null;
         }

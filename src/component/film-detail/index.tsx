@@ -6,6 +6,7 @@ import {
     PlusOutlined,
     ShareAltOutlined,
     SmallDashOutlined,
+    StarFilled,
 } from '@ant-design/icons';
 import { Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
@@ -21,6 +22,7 @@ import FilmDetailsSection from './film-detail-section';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 import ShareModal from './share';
+import { Start } from '../../asset/icon/start';
 
 interface Genre {
     id: number;
@@ -40,17 +42,6 @@ export const FilmDetail = () => {
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
-    const [isMuted, setIsMuted] = useState(false);
-
-    const [showVideo, setShowVideo] = useState(false);
-
-    useEffect(() => {
-        const delay = setTimeout(() => {
-            setShowVideo(true);
-        }, 1000);
-
-        return () => clearTimeout(delay);
-    }, []);
 
     const updateOgTags = (filmDetail: FilmItem) => {
         const title = filmDetail.title || '';
@@ -293,57 +284,41 @@ export const FilmDetail = () => {
     };
 
     return (
-        <div className="film-detail flex-grow mb-[230px]">
+        <div className="film-detail flex-grow mb-[340px]">
             {updateOgTags(filmDetail)}
             <div
                 style={{
-                    backgroundImage: `url(${filmDetail.backgroundURL})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    position: 'relative',
                 }}
                 className="bg-center bg-no-repeat md:h-[400px] h-[300px] relative"
             >
-                {showVideo && filmDetail.trailerURL && (
-                    <>
-                        <video
-                            autoPlay
-                            loop
-                            muted={isMuted}
-                            playsInline
-                            className="relative"
-                            style={{
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                objectPosition: 'center',
-                            }}
-                        >
-                            <source src={filmDetail.trailerURL} type="video/mp4" />
-                            Your browser does not support the video tag.
-                        </video>
-                        <div className="absolute bottom-3 left-2 w-10 h-10 flex items-center justify-center rounded-full mute">
-                            <button onClick={() => setIsMuted(!isMuted)}>
-                                {isMuted ? (
-                                    <>
-                                        <img
-                                            src="https://scontent.xx.fbcdn.net/v/t1.15752-9/415942220_1103081861051045_1330669794524405855_n.png?stp=cp0_dst-png&_nc_cat=111&ccb=1-7&_nc_sid=510075&_nc_eui2=AeGIjkxJyBQheLm4aI9ph-MAwaoECHrgDt3BqgQIeuAO3a2CSkJpUwLCGd49Zn30GMGubk1VVoxzhSjJZvIgbKEF&_nc_ohc=4K0wjyzSolwAX9Ii-pe&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdTnNU6jfYKAxwAqScKpPR7TiKOeAnDeuS_uwReZ4l9jpA&oe=65B8C9BA"
-                                            alt="unmute"
-                                        />
-                                    </>
-                                ) : (
-                                    <>
-                                        <img
-                                            src="https://scontent.xx.fbcdn.net/v/t1.15752-9/411442388_1414389692493327_8859220876185290509_n.png?stp=cp0_dst-png&_nc_cat=100&ccb=1-7&_nc_sid=510075&_nc_eui2=AeGFej-qOCTGlxyegiMvvL599Y_Xs6ZzkjP1j9ezpnOSM3fms7r6S0mEXsbSBKuep_c3TVmP31DzE7tkCuYSJXQ-&_nc_ohc=gNQsiBRoBEAAX8yvZQM&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AdT_w0SmZsMNmaC4fikPrM0iygvC5-bwa5cR0qUIEXBWYA&oe=65B8AE5E"
-                                            alt="mute"
-                                        />
-                                    </>
-                                )}
-                            </button>
-                        </div>
-                    </>
-                )}
-                <div className="bg-gradient-to-br from-transparent  h-full ">
-                    <div className="flex flex-col md:flex-row bottom-[-85%] md:bottom-[20%] items-start tw-absolute-center-horizontal   ">
+                <div
+                    style={{
+                        backgroundImage: `url(${filmDetail.backgroundURL})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        objectFit: 'contain',
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                    }}
+                />
+
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    }}
+                />
+
+                <div className="bg-gradient-to-br from-transparent h-full ">
+                    <div className="flex flex-col md:flex-row bottom-[-85%] md:bottom-[20%] items-start tw-absolute-center-horizontal">
                         <div className="film-detail__name flex gap-10 items-center">
                             <img
                                 className="film-detail__poster"
@@ -363,7 +338,7 @@ export const FilmDetail = () => {
                         </div>
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
-                                <div className="film-detail__summary">
+                                <div className="film-detail__summary flex">
                                     {filmDetail.genres.slice(0, 4).map((genre: Genre) => (
                                         <span
                                             key={genre.id}
@@ -372,7 +347,19 @@ export const FilmDetail = () => {
                                             {genre.name}
                                         </span>
                                     ))}
+                                    <span className="flex gap-1 items-center justify-center px-8 py-2 film-detail__padding ">
+                                        <StarFilled style={{ color: '#fadb14', fontSize: 16 }} />
+                                        <p> {filmDetail.averageRating}</p>
+                                    </span>
+                                    {filmDetail.level === 1 ? (
+                                        <span className="px-4 py-2 film-detail__padding !bg-[#fadb14] !text-white">
+                                            VIP
+                                        </span>
+                                    ) : (
+                                        ''
+                                    )}
                                 </div>
+
                                 <div className="film-detail__listbutton">
                                     <Link
                                         to={`/movie/${filmDetail.movieId}/${firstEpisodeId}/`}
@@ -425,7 +412,7 @@ export const FilmDetail = () => {
                     numFavorite={filmDetail.numFavorite}
                 />
 
-                <div className="flex-grow min-h-[500px] px-20 mt-[-50px] detail-tabs">
+                <div className="flex-grow min-h-[500px] pl-20 mt-[-50px] detail-tabs pr-4">
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
