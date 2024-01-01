@@ -133,35 +133,31 @@ export const VideoPlayerCustom = ({
         setIsMouseOver(false);
     };
 
-    const handleMouseMove = (event: any) => {
-        const currentPosition = { x: event.clientX, y: event.clientY };
-        console.log(currentPosition, lastMousePosition);
+    let timer: NodeJS.Timeout;
+    const timeout = function () {
+        setIsShowControl(false);
+    };
 
-        let timer: NodeJS.Timeout;
-        if (isMouseStill === true) {
-            timer = setTimeout(() => {
-                setIsShowControl(false);
-            }, 3000);
-        }
-
-        if (
-            currentPosition.x !== lastMousePosition.x ||
-            currentPosition.y !== lastMousePosition.y
-        ) {
-            setIsMouseStill(true);
-        } else {
-            setIsMouseStill(false);
-        }
-
-        if (isMouseOver) {
-            // Check for movement
-
-            setLastMousePosition(currentPosition);
+    useEffect(() => {
+        const handleMouseStill = () => {
+            setIsShowControl(true);
+            clearTimeout(timer);
+            timer = setTimeout(timeout, 2000);
+        };
+        if (containerRef.current != null) {
+            containerRef.current.addEventListener('mousemove', handleMouseStill);
         }
         return () => {
-            clearTimeout(timer);
+            if (containerRef.current != null)
+                containerRef.current?.removeEventListener('mousemove', handleMouseStill);
         };
-    };
+    }, []);
+
+    // const handleMouseMove = (event: any) => {
+    //     setIsShowControl(true);
+    //     clearTimeout(timer);
+    //     timer = setTimeout(timeout, 1000);
+    // };
 
     const dispatch = useAppDispatch();
 
@@ -172,7 +168,7 @@ export const VideoPlayerCustom = ({
             // onMouseOver={handleMouseOverPlayer}
             onMouseOver={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onMouseMove={handleMouseMove}
+            // onMouseMove={handleMouseMove}
         >
             <div className="player flex " onClick={() => playPauseHandler()}>
                 <ReactPlayer
@@ -228,7 +224,7 @@ export const VideoPlayerCustom = ({
                 isFullscreen={isFullscreen}
                 handleVolumeChange={handleVolumeChange}
                 valueVolume={volume}
-                hidden={!isShowControl}
+                hidden={!isShowControl && playing}
                 setIsLoadingHidden={setIsLoadingHidden}
                 setSpeedVid={setSpeedVid}
                 setSrcVideo={setSrcVideo}

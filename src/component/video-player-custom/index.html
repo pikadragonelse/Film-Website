@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Mouse Stop Detection</title>
+    </head>
+    <body>
+        <h1>Mouse Stop Detection</h1>
+        <script>
+            let timer;
+            const delay = 1000; // Set the delay in milliseconds (1 second in this example)
+
+            function mouseStoppedMoving() {
+                // Your code to execute when the mouse stops moving
+                console.log('Mouse stopped moving!');
+            }
+
+            document.addEventListener('mousemove', function () {
+                clearTimeout(timer);
+                timer = setTimeout(mouseStoppedMoving, delay);
+            });
+        </script>
+    </body>
+</html>
