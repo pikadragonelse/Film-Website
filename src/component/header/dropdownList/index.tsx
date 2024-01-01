@@ -29,6 +29,7 @@ export const DropdownList: React.FC<DropdownMenuProps> = ({ title, data, queryPa
             <Menu.Item
                 key={`item-${start + index}`}
                 onClick={() => handleItemClick(title, start + index, item.id.toString())}
+                className="w-max"
             >
                 {item && <React.Fragment>{item.value}</React.Fragment>}
             </Menu.Item>
