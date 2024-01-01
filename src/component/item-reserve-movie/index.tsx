@@ -1,29 +1,74 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CaretRightOutlined, FieldTimeOutlined } from '@ant-design/icons';
 import { Badge, Button, Modal, Skeleton } from 'antd';
 import Cookies from 'js-cookie';
 import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import './index.scss';
+interface Reservation {
+    movieId?: number;
+}
 
 export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId }: FilmItem) => {
     const [isLoadingImg, setIsLoadingImg] = useState(true);
     const [isReserved, setIsReserved] = useState(false);
     const [initialButtonText, setInitialButtonText] = useState('Đặt lịch');
     const [loading, setLoading] = useState(false);
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+
+    useEffect(() => {
+        const checkReservationStatus = async () => {
+            try {
+                const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+                const response = await request.get('user/reserves', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (response.status === 200) {
+                    const responseData = response.data;
+                    console.log('Response Data:', responseData);
+
+                    if (responseData && responseData.data && Array.isArray(responseData.data)) {
+                        const reservations: Reservation[] = responseData.data;
+
+                        const matchingReservation = reservations.find(
+                            (reservation: Reservation) => reservation.movieId === movieId,
+                        );
+
+                        if (matchingReservation) {
+                            setIsReserved(true);
+                            setInitialButtonText('Hủy');
+                        } else {
+                            setIsReserved(false);
+                            setInitialButtonText('Đặt lịch');
+                        }
+                    } else {
+                        console.error('Unexpected format for reservations data:', responseData);
+                    }
+                } else {
+                    console.error(`Failed to fetch reservations. Status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        checkReservationStatus();
+    }, [movieId]);
+
     const handleReserveClick = async () => {
         try {
+            const currentDate = new Date();
+            const formattedReleaseDate = releaseDate ? new Date(releaseDate) : null;
+            const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
             if (!accessToken) {
-                // User is not logged in, show a modal asking to log in
-                Modal.warning({
+                await Modal.info({
                     title: 'Thông báo',
-                    content: 'Bạn cần đăng nhập để đặt lịch.',
+                    content: 'Vui lòng đăng nhập để đặt phim.',
                 });
                 return;
             }
-            const currentDate = new Date();
-            const formattedReleaseDate = releaseDate ? new Date(releaseDate) : null;
 
             if (!formattedReleaseDate) {
                 console.error('Release date is not available');

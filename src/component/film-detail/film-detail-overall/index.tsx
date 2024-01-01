@@ -1,8 +1,9 @@
 import { CaretRightOutlined } from '@ant-design/icons';
 import type { CollapseProps } from 'antd';
-import { Collapse, theme } from 'antd';
+import { Collapse, Tooltip, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import React from 'react';
+import ReactPlayer from 'react-player';
 import './index.scss';
 
 export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail }) => {
@@ -31,6 +32,7 @@ export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail })
 
     return (
         <Collapse
+            className="ml-[-10px]"
             bordered={false}
             defaultActiveKey={['1', '2', '3']}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}

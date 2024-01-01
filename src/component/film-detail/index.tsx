@@ -6,6 +6,7 @@ import {
     PlusOutlined,
     ShareAltOutlined,
     SmallDashOutlined,
+    StarFilled,
 } from '@ant-design/icons';
 import { Spin, message, notification } from 'antd';
 import Cookies from 'js-cookie';
@@ -21,6 +22,7 @@ import FilmDetailsSection from './film-detail-section';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 import ShareModal from './share';
+import { Start } from '../../asset/icon/start';
 
 interface Genre {
     id: number;
@@ -40,16 +42,6 @@ export const FilmDetail = () => {
     const isUserLoggedIn = useSelector((state: RootState) => state.user.isLogin);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
-
-    const [showVideo, setShowVideo] = useState(false);
-
-    useEffect(() => {
-        const delay = setTimeout(() => {
-            setShowVideo(true);
-        }, 1000);
-
-        return () => clearTimeout(delay);
-    }, []);
 
     const updateOgTags = (filmDetail: FilmItem) => {
         const title = filmDetail.title || '';
@@ -292,35 +284,41 @@ export const FilmDetail = () => {
     };
 
     return (
-        <div className="film-detail flex-grow mb-[230px]">
+        <div className="film-detail flex-grow mb-[300px]">
             {updateOgTags(filmDetail)}
             <div
                 style={{
-                    backgroundImage: `url(${filmDetail.backgroundURL})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    position: 'relative',
                 }}
                 className="bg-center bg-no-repeat md:h-[400px] h-[300px] relative"
             >
-                {showVideo && filmDetail.trailerURL && (
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover',
-                            objectPosition: 'center',
-                        }}
-                    >
-                        <source src={filmDetail.trailerURL} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                )}
-                <div className="bg-gradient-to-br from-transparent  h-full ">
-                    <div className="flex flex-col md:flex-row bottom-[-85%] md:bottom-[20%] items-start tw-absolute-center-horizontal   ">
+                <div
+                    style={{
+                        backgroundImage: `url(${filmDetail.backgroundURL})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        objectFit: 'contain',
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                    }}
+                />
+
+                <div
+                    style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: 0,
+                        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    }}
+                />
+
+                <div className="bg-gradient-to-br from-transparent h-full ">
+                    <div className="flex flex-col md:flex-row bottom-[-85%] md:bottom-[20%] items-start tw-absolute-center-horizontal">
                         <div className="film-detail__name flex gap-10 items-center">
                             <img
                                 className="film-detail__poster"
@@ -340,7 +338,7 @@ export const FilmDetail = () => {
                         </div>
                         <div className="film-detail__header mb-6">
                             <div className="film-detail__info">
-                                <div className="film-detail__summary">
+                                <div className="film-detail__summary flex">
                                     {filmDetail.genres.slice(0, 4).map((genre: Genre) => (
                                         <span
                                             key={genre.id}
@@ -349,7 +347,19 @@ export const FilmDetail = () => {
                                             {genre.name}
                                         </span>
                                     ))}
+                                    <span className="flex gap-1 items-center justify-center px-8 py-2 film-detail__padding ">
+                                        <StarFilled style={{ color: '#fadb14', fontSize: 16 }} />
+                                        <p> {filmDetail.averageRating}</p>
+                                    </span>
+                                    {filmDetail.level === 1 ? (
+                                        <span className="px-4 py-2 film-detail__padding !bg-[#fadb14] !text-white">
+                                            VIP
+                                        </span>
+                                    ) : (
+                                        ''
+                                    )}
                                 </div>
+
                                 <div className="film-detail__listbutton">
                                     <Link
                                         to={`/movie/${filmDetail.movieId}/${firstEpisodeId}/`}
@@ -402,7 +412,7 @@ export const FilmDetail = () => {
                     numFavorite={filmDetail.numFavorite}
                 />
 
-                <div className="flex-grow min-h-[500px] px-20 mt-[-50px] detail-tabs">
+                <div className="flex-grow min-h-[500px] pl-20 mt-[-50px] detail-tabs pr-4">
                     <FilmDetailTab filmDetail={filmDetail} />
                 </div>
             </div>
