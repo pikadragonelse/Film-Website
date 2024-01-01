@@ -9,8 +9,6 @@ import { MainInfoFilm } from '../../component/main-info-film';
 import { SubInfo } from '../../component/sub-info';
 import { DAFilm, Episode, Film, Genres } from '../../model/film';
 import { request } from '../../utils/request';
-import './index.scss';
-
 import { Modal } from 'antd';
 import { FacebookShareButton } from 'react-share';
 import { ActorFamous } from '../../component/list-actor-famous';
@@ -19,11 +17,10 @@ import { VideoPlayerCustom } from '../../component/video-player-custom';
 import { useToken } from '../../hooks/useToken';
 import { NotifyModalContent, defaultNotifyModalContent } from '../../model/notify-modal';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
-import { Modal } from 'antd';
 import { selectionItems } from './items-selection';
-import { ListFilm } from '../../component/list-film';
 import { setDurationDefault } from '../../redux/videoSlice';
 import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
+import './index.scss';
 
 const moment = require('moment');
 
