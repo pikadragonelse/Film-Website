@@ -1,5 +1,5 @@
-import ReactPlayer from "react-player";
-import { VideoWatching } from "../../redux/videoSlice";
+import ReactPlayer from 'react-player';
+import { VideoWatching } from '../../redux/videoSlice';
 
 export type ControlPlayerType = {
     onPlayPause?: (props?: any) => void;
@@ -14,4 +14,7 @@ export type ControlPlayerType = {
     handleVolumeChange?: (props?: any) => void;
     valueVolume?: number;
     hidden?: boolean;
+    setIsLoadingHidden?: (props?: any) => void;
+    setSpeedVid?: (props?: any) => void;
+    setSrcVideo?: (props?: any) => void;
 };

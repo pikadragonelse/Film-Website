@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ConfigProvider, Popover, Slider, Tooltip } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconForward10s } from '../../asset/icon/forward-10s';
 import { IconRewind10s } from '../../asset/icon/rewind-10s';
 import { useAppSelector } from '../../redux/hook';
@@ -24,7 +24,10 @@ import {
 } from './default-value';
 import './index.scss';
 import { SettingContent } from './setting-content';
-import { SettingItem } from './setting-item';
+import { SettingItem, SettingItemData } from './setting-item';
+import axios from 'axios';
+import { endpoint } from '../../utils/baseUrl';
+import { useToken } from '../../hooks/useToken';
 
 const mapIconVolume: Record<string, IconDefinition> = {
     true: faVolumeXmark,
@@ -49,17 +52,57 @@ export const ControlPlayer = ({
     handleVolumeChange = () => {},
     valueVolume = 0.5,
     hidden,
+    setIsLoadingHidden = () => {},
+    setSpeedVid = () => {},
+    setSrcVideo = () => {},
 }: ControlPlayerType) => {
     const duration: number = videoRef?.current?.getDuration() || 0;
-
     const [selectedSetting, setSelectedSetting] = useState('');
     const [stateSetting, setStateSetting] = useState<SettingState>({ speed: 1, quality: 720 });
     const [isSelectedSettingIcon, setIsSelectedSettingIcon] = useState(false);
+    const durationDefault: number = useAppSelector((state) => state.videoWatching.durationDefault);
+    const episodeId = useAppSelector((state) => state.videoWatching.episodeId);
+    const { accessToken } = useToken();
+
+    useEffect(() => {
+        videoRef?.current?.seekTo(durationDefault / duration, 'fraction');
+    }, [durationDefault, duration]);
+
+    useEffect(() => {}, [stateSetting.quality]);
+
+    const getQualityVid = (quality: number) => {
+        setIsLoadingHidden(false);
+
+        axios
+            .get(`${endpoint}/api/episode/qualities/${Number(episodeId)}`, {
+                params: {
+                    quality: quality === 1080 ? '1080p' : '4k',
+                },
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            .then((res) => {
+                setSrcVideo(res.data.data.videoUrl);
+                setIsLoadingHidden(true);
+            })
+            .catch((err) => {
+                if (err.response.status === 403) {
+                }
+            });
+    };
 
     const handleSettingSelection = (value: number) => {
         const settingMap: Record<string, any> = {
-            speed: () => setStateSetting({ ...stateSetting, speed: value }),
-            quality: () => setStateSetting({ ...stateSetting, quality: value }),
+            speed: () => {
+                setStateSetting({ ...stateSetting, speed: value });
+                setSpeedVid(value);
+            },
+            quality: () => {
+                setStateSetting({ ...stateSetting, quality: value });
+                getQualityVid(value);
+            },
         };
         settingMap[selectedSetting]();
         setSelectedSetting('');
@@ -72,10 +115,15 @@ export const ControlPlayer = ({
             const x = event.clientX - rect.left;
             const width = rect.width;
             videoRef?.current?.seekTo(x / width, 'fraction');
+            setIsLoadingHidden(false);
         }
     };
 
     const { played, playedSeconds, loadedSeconds } = useAppSelector((state) => state.videoWatching);
+
+    useEffect(() => {
+        setIsLoadingHidden(true);
+    }, [played]);
 
     return (
         <div className="control-player" hidden={hidden}>
@@ -168,6 +216,7 @@ export const ControlPlayer = ({
                                 <SettingItem
                                     items={defaultSettingItems}
                                     onSelected={(value) => setSelectedSetting(value as string)}
+                                    currValue={Object.values(stateSetting)}
                                 />
                             )
                         }

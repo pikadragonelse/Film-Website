@@ -7,13 +7,11 @@ export const defaultSettingItems: SettingItemData[] = [
     {
         icon: <DashboardOutlined className="text-xl " />,
         name: 'Tốc độ',
-        currValue: 'Chuẩn',
         value: 'speed',
     },
     {
         icon: <ControlOutlined className="text-xl " />,
         name: 'Chất lượng',
-        currValue: '720p',
         value: 'quality',
     },
 ];
@@ -39,6 +37,7 @@ export const settingItemContentMap: Record<string, SettingContentData> = {
             { label: '480p', value: 480 },
             { label: '720p', value: 720 },
             { label: '1080p', value: 1080 },
+            { label: '4k+HDR', value: 4 },
         ],
     },
 };

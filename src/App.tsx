@@ -18,10 +18,11 @@ import { Actor } from './component/actor';
 import { NewPassword } from './component/new-password';
 import { LoginForget } from './component/forget-password';
 import { useToken } from './hooks/useToken';
-import { useEffect } from 'react';
-import { useRefreshToken } from './hooks/useRefreshToken';
+import { useEffect, useRef } from 'react';
+import { refreshToken } from './utils/refreshToken';
 import { useAppDispatch } from './redux/hook';
 import { setIsLogin } from './redux/isLoginSlice';
+import { request } from './utils/request';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -32,20 +33,38 @@ const locationMap: Record<string, string> = {
 
 export const App = () => {
     const location = useLocation();
-    const timeRefreshToken = 1000 * 14 * 60; /*14m*/
+    const timeRefreshToken = 1000 * 29 * 60; /*29m*/
     const { accessToken } = useToken();
     const dispatch = useAppDispatch();
-    useRefreshToken();
+
+    const { pathname } = useLocation();
+
+    const saveWatchingHistory = (episodeId: number, duration: number) => {
+        request
+            .get(`user/add-movie-history?episodeId=${episodeId}&duration=${duration}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+            .then((res) => console.log(res))
+            .catch((err) => console.log(err));
+    };
 
     useEffect(() => {
-        if (accessToken != null && accessToken !== '') {
-            console.log(accessToken);
-
+        refreshToken();
+        if (accessToken !== '') {
             dispatch(setIsLogin(true));
         }
-        const timer = setInterval(useRefreshToken, timeRefreshToken);
+        const timer = setInterval(refreshToken, timeRefreshToken);
         return () => clearInterval(timer);
     }, []);
+
+    useEffect(() => {
+        const jsonDurationInfo = localStorage.getItem('durationInfo') || JSON.stringify('');
+        const durationInfo: { episodeId: number; duration: number } = JSON.parse(jsonDurationInfo);
+        console.log(durationInfo);
+        saveWatchingHistory(durationInfo.episodeId, durationInfo.duration);
+    }, [pathname]);
 
     return (
         <div className="wrapper">

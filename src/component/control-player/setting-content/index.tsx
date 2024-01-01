@@ -33,8 +33,9 @@ export const SettingContent = ({
             </div>
             <hr className="border-zinc-500" />
             <div className="setting-main-content text-slate-50 font-thin overflow-auto max-h-64 mt-2">
-                {options?.map((item) => (
+                {options?.map((item, index) => (
                     <div
+                        key={index}
                         className="px-8 py-3 hover:bg-zinc-700/[.5] cursor-pointer"
                         onClick={() => onSelected(item.value)}
                     >
