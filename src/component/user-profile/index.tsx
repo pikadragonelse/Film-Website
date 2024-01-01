@@ -1,14 +1,14 @@
-import { Button, Descriptions, DescriptionsProps, Form } from 'antd';
+import { Button, Descriptions, DescriptionsProps } from 'antd';
 import Avatar from 'antd/es/avatar/avatar';
 import Title from 'antd/es/typography/Title';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { CurrentUser, defaultCurrentUser } from '../../model/user';
 import { request } from '../../utils/request';
 import { ModalUser } from '../modal-user';
 import { FormChangePassword } from '../modal-user/form-change-password';
 import { FormEditUser } from '../modal-user/form-edit-user';
 import './index.scss';
-import { CurrentUser, defaultCurrentUser } from '../../model/user';
 
 export const UserProfile = () => {
     const moment = require('moment');

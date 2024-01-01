@@ -90,7 +90,7 @@ export const WatchingPage = () => {
                 dispatch(setDurationDefault(res.data.watchHistory.duration));
             })
             .catch((err) => {
-                if (err.response.status === 401) {
+                if (err.response?.status === 401) {
                     setOpenModalNotify(true);
                     const dataNotifyModal = modalContentMap[handleNotify()];
                     setContentModal(dataNotifyModal);
