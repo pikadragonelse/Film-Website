@@ -33,15 +33,17 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
             })
             .then((response) => {
                 const listData: dataVIPPackageRaw[] = response.data.data;
+
                 const dataTemp: DurationVIP[] = listData.map((value) => {
                     return value.subscriptionType.subscriptionTypeId === idPackage
                         ? {
                               durationId: value.duration.durationId,
                               time: value.duration.time,
-                              price: value.subscriptionType.price,
+                              price: value.price,
                           }
                         : { durationId: 0, time: 0, price: 0 };
                 });
+
                 setTerms(dataTemp);
             })
             .catch((err) => console.log(err));
@@ -92,6 +94,7 @@ export const TermPackage: React.FC<TermPackageProps> = ({ setSelectedTerm }) => 
                                             value: term.time,
                                             price: term.price,
                                         };
+
                                         setSelectedTerm(temp);
                                     }}
                                 >

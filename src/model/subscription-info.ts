@@ -1,5 +1,5 @@
 export interface SubscriptionInfo {
-    subscriptionInfoId: number;
+    subscription_info_id: number;
     discount: number;
     subscriptionType: SubscriptionType;
     duration: DurationSubscription;

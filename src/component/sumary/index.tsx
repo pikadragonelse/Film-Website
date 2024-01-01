@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 import './index.scss';
-import { Link } from 'react-router-dom';
 import { TermPackage } from '../term-package';
-import { request } from '../../utils/request';
-import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import { useAppSelector } from '../../redux/hook';
 import { getCurrentDateString } from '../../utils/getCurrentDate';
 import { getNextDateByMonth } from '../../utils/getNextDateByMonth';
 import { endpoint } from '../../utils/baseUrl';
 import { useToken } from '../../hooks/useToken';
+import moment from 'moment';
 interface SummaryProps {
     selectedTerm: TermPackage | null;
     selectedMethod: number;
@@ -29,19 +26,20 @@ export const Summary: React.FC<SummaryProps> = ({
     subscriptionInfoId = 0,
     selectedMethod,
     discount,
+    selectedTerm = { id: 0, value: 0, price: 0 },
 }) => {
     const [linkRedirect, setLinkRedirect] = useState('');
-    const { namePackage, durationValue, totalPrice } = useAppSelector((state) => state.VIPPayment);
+    const { namePackage, durationValue } = useAppSelector((state) => state.VIPPayment);
     const { subscriptionTypeId, accessToken } = useToken();
-    const [endDate, setEndDate] = useState(getNextDateByMonth(durationValue));
+    const duration = selectedTerm?.value || 0;
+    const totalPrice = selectedTerm?.price || 0;
+    const [endDate, setEndDate] = useState(getNextDateByMonth(duration));
     const [isOpenModal, setIsOpenModal] = useState(false);
 
     useEffect(() => {
-        const newDate = getNextDateByMonth(durationValue);
-
+        const newDate = getNextDateByMonth(duration);
         setEndDate(newDate);
-    }, [durationValue]);
-    console.log('durationValue', durationValue);
+    }, [selectedTerm]);
 
     const handleRecoverDate = () => {
         const newDate = new Date(endDate);
@@ -92,6 +90,8 @@ export const Summary: React.FC<SummaryProps> = ({
     };
 
     useEffect(() => {
+        console.log(subscriptionInfoId);
+
         if (selectedMethod === 2) {
             paymentVNPay();
         } else if (selectedMethod === 1) {
@@ -142,7 +142,7 @@ export const Summary: React.FC<SummaryProps> = ({
                     </div>
                     <div className="time-start">
                         <div className="">Sử dụng đến</div>
-                        <div className="value">{getCurrentDateString(endDate)}</div>
+                        <div className="value">{moment(endDate).format('DD/MM/YYYY')}</div>
                     </div>
                     <div className="time-end">
                         <div className="">Kỳ thanh toán tiếp theo</div>
@@ -155,7 +155,7 @@ export const Summary: React.FC<SummaryProps> = ({
                     <div className="price">
                         <div className="">Trị giá</div>
                         <div className="value">
-                            {totalPrice.toLocaleString('it-IT') || '---'}&nbsp;₫
+                            {selectedTerm?.price.toLocaleString('it-IT') || '---'}&nbsp;₫
                         </div>
                     </div>
                     <div className="price">
