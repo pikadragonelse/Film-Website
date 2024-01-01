@@ -4,7 +4,6 @@ import { HeaderPay } from '../../component/header-pay';
 import { MethodPayment } from '../../component/method-payment';
 import { TermPackage } from '../../component/term-package';
 import { Summary } from '../../component/sumary';
-import { useAppSelector } from '../../redux/hook';
 import axios from 'axios';
 import { SubscriptionInfo } from '../../model/subscription-info';
 import { useParams } from 'react-router-dom';
@@ -27,6 +26,8 @@ export const Payment = () => {
         axios
             .get(`${endpoint}/api/subscription/get-all-subscription-info`)
             .then((response) => {
+                console.log(response.data.data);
+
                 setDataSubscriptionInfo(response.data.data);
             })
             .catch((err) => console.log(err));
@@ -43,9 +44,9 @@ export const Payment = () => {
                     subscription.subscriptionType.subscriptionTypeId === Number(idPackage) &&
                     subscription.duration.durationId === selectedTerm?.id
                 ) {
-                    console.log('Yes');
+                    console.log(subscription.subscription_info_id);
 
-                    setSelectedPackageId(subscription.subscriptionInfoId);
+                    setSelectedPackageId(subscription.subscription_info_id);
                     setDiscount(subscription.discount);
                 }
             });

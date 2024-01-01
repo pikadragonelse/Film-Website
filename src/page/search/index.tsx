@@ -1,5 +1,4 @@
-import { QueryFilter, items } from './filItem';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, ConfigProvider, Select, Spin, notification } from 'antd';
 import { FilmItem } from '../../component/film-item';
@@ -11,6 +10,9 @@ import { handleSearchParams } from '../../utils/handle-search-params';
 import { convertParams } from '../../utils/convert-prams';
 import { LoadingOutlined } from '@ant-design/icons';
 import { endpoint } from '../../utils/baseUrl';
+import { FilterItem } from '../../model/filter';
+import { Genre } from '../../component/header/handle-data-header';
+import { QueryFilter, defaultFilterItems } from './filter-type';
 
 export const SearchPage: React.FC = () => {
     const { search } = useLocation();
@@ -20,19 +22,17 @@ export const SearchPage: React.FC = () => {
     const [filterParamsState, setFilterParamsState] = useState<FilterParams>({});
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const [filterItems, setFilterItems] = useState<FilterItem[]>(defaultFilterItems);
+    const getFilterRef = useRef(0);
 
     const getDataBySearchParams = (searchParams: string) => {
-        console.log(
-            `${endpoint}/api/movies${searchParams}&page=${currPage}&pageSize=12`,
-            searchParams,
-        );
-
         axios
-            .get(`${endpoint}/api/movies${searchParams}&page=${currPage}&pageSize=12`)
+            .get(`${endpoint}/api/movies?${searchParams}&page=${currPage}&pageSize=12`)
             .then((res) => {
                 setSearchResults(res.data.movies);
                 setAmountMovies(res.data.totalCount);
                 setIsLoading(false);
+                console.log(res);
             })
             .catch((err) => {
                 console.log(err);
@@ -45,10 +45,71 @@ export const SearchPage: React.FC = () => {
             });
     };
 
+    const getFilterItems = async () => {
+        try {
+            const genresPromise = axios.get(`${endpoint}/api/genres`);
+            const nationsPromise = axios.get(`${endpoint}/api/movies/get/nations`);
+            const yearsPromise = axios.get(`${endpoint}/api/movies/get/years`);
+
+            const [genresRes, nationsRes, yearsRes] = await Promise.all([
+                genresPromise,
+                nationsPromise,
+                yearsPromise,
+            ]);
+
+            const genresData = genresRes.data;
+            const nationsData = nationsRes.data;
+            const yearsData = yearsRes.data.sort((a: number, b: number) => b - a);
+
+            const genresHandledData: FilterItem = {
+                placeholder: 'Thể loại',
+                query: 'genre',
+                options: genresData.map((genre: Genre) => ({
+                    label: genre.name,
+                    value: genre.genre_id,
+                })),
+            };
+
+            const nationsHandledData: FilterItem = {
+                placeholder: 'Quốc gia',
+                query: 'nation',
+                options: nationsData.map((nation: string) => ({
+                    label: nation,
+                    value: nation,
+                })),
+            };
+
+            const yearsHandledData: FilterItem = {
+                placeholder: 'Năm sản xuất',
+                query: 'year',
+                options: yearsData.map((year: string) => ({
+                    label: year,
+                    value: year,
+                })),
+            };
+
+            setFilterItems([
+                ...filterItems,
+                genresHandledData,
+                nationsHandledData,
+                yearsHandledData,
+            ]);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        if (getFilterRef.current === 0) {
+            getFilterRef.current++;
+            getFilterItems();
+        }
+    }, []);
+
     useEffect(() => {
         setIsLoading(true);
 
-        getDataBySearchParams(window.location.search);
+        getDataBySearchParams(window.location.search.split('?')[1]);
         const paramsObj = handleSearchParams(window.location.search);
         delete paramsObj['search'];
 
@@ -56,17 +117,22 @@ export const SearchPage: React.FC = () => {
     }, [search, currPage]);
 
     const handleSetFilterParams = () => {
-        let str = '?';
+        let str = '';
         const arrValueFilterParams = Object.values(filterParamsState);
+        console.log(arrValueFilterParams);
+
         let count = 0;
         for (let key in filterParamsState) {
+            console.log(arrValueFilterParams, count);
+
             if (arrValueFilterParams[count] != null) {
                 if (count != 0) {
                     str += '&';
                 }
                 str += key + '=' + encodeURIComponent(arrValueFilterParams[count]);
-                count++;
+                console.log(str);
             }
+            count++;
         }
         setIsLoading(true);
         getDataBySearchParams(str);
@@ -77,14 +143,14 @@ export const SearchPage: React.FC = () => {
         });
 
         const url = window.location.href?.split('?')[0];
-        window.history.replaceState('', '', url + str);
+        window.history.replaceState('', '', url + '?' + str);
     };
 
     return (
         <div className="wrapper-searchPage">
             <div className="searchPage-header"></div>
             <div className="header-filter">
-                {items.map((item, index) => (
+                {filterItems.map((item, index) => (
                     <div className="menu-label">
                         <Select
                             className="select-menu w-full"

@@ -37,6 +37,7 @@ export type SubscriptionType = {
 export type dataVIPPackageRaw = {
     subscriptionInfoId: number;
     discount: number;
+    price: number;
     subscriptionType: SubscriptionType;
     duration: DurationVIP;
 };

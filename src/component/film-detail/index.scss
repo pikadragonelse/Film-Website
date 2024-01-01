@@ -6,12 +6,12 @@
 
     &__name {
         position: absolute;
-        top: 48%;
+        top: 47%;
         left: 14%;
     }
 
     &__title {
-        width: 75%;
+        width: 74%;
         margin-bottom: 160px;
         font-size: 2.7rem;
         font-weight: 700;
@@ -25,7 +25,7 @@
         justify-content: space-around;
         position: absolute;
         left: 22%;
-        top: 72%;
+        top: 73%;
     }
 
     &__summary {
@@ -59,7 +59,7 @@
 
     &__listbutton {
         display: flex;
-        margin-top: 45px;
+        margin-top: 36px;
     }
 }
 
@@ -86,7 +86,7 @@
     position: absolute;
     flex-direction: column;
     left: 10%;
-    top: -14%;
+    top: -12%;
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1280px) {

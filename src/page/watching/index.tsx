@@ -1,7 +1,7 @@
 import { CommentOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Comment } from '../../component/comment';
 import { IconWithText } from '../../component/icon-with-text';
 import { ListEpisodes } from '../../component/list-episode';
@@ -9,18 +9,18 @@ import { MainInfoFilm } from '../../component/main-info-film';
 import { SubInfo } from '../../component/sub-info';
 import { DAFilm, Episode, Film, Genres } from '../../model/film';
 import { request } from '../../utils/request';
-import './index.scss';
-
+import { Modal } from 'antd';
+import { FacebookShareButton } from 'react-share';
 import { ActorFamous } from '../../component/list-actor-famous';
+import { ListFilm } from '../../component/list-film';
 import { VideoPlayerCustom } from '../../component/video-player-custom';
 import { useToken } from '../../hooks/useToken';
-import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
 import { NotifyModalContent, defaultNotifyModalContent } from '../../model/notify-modal';
-import { useAppSelector } from '../../redux/hook';
-import { Modal } from 'antd';
+import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { selectionItems } from './items-selection';
-import { ListFilm } from '../../component/list-film';
-import { FacebookShareButton } from 'react-share';
+import { setDurationDefault } from '../../redux/videoSlice';
+import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
+import './index.scss';
 
 const moment = require('moment');
 
@@ -36,6 +36,9 @@ export const WatchingPage = () => {
     const [contentModal, setContentModal] = useState<NotifyModalContent>(defaultNotifyModalContent);
     const navigator = useNavigate();
     const [dataRecommend, setRecommened] = useState<Film[]>([]);
+    const dispatch = useAppDispatch();
+    const durationDefault = useAppSelector((state) => state.videoWatching.durationDefault);
+    const [srcVideo, setSrcVideo] = useState('');
 
     const fetchData = async () => {
         try {
@@ -60,18 +63,9 @@ export const WatchingPage = () => {
         }
     };
 
-    //api history
-    const saveWatchingHistory = (episodeId: number, duration: number) => {
-        try {
-            request.get(`user/add-movie-history?episodeId=${episodeId}&duration=${duration}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-        } catch (error) {
-            console.error('API Error:', error);
-        }
-    };
+    useEffect(() => {
+        console.log(durationDefault);
+    }, [durationDefault]);
 
     useEffect(() => {
         fetchData();
@@ -80,20 +74,23 @@ export const WatchingPage = () => {
 
     //api từng tập
     const [dataEpisode, setDataEpisode] = useState<Episode>(defaultEpisode);
+    const { pathname } = useLocation();
 
     const getDataEpisode = () => {
         request
-            .get(`/episode/${watchingData.episodes[0]?.episode_id}`, {
+            .get(`/episode/${pathname.split('/')[3]}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
             .then((res) => {
-                setDataEpisode(res.data);
+                setSrcVideo(res.data.episode.movieURL);
+                setDataEpisode(res.data.episode);
+                dispatch(setDurationDefault(res.data.watchHistory.duration));
             })
             .catch((err) => {
-                if (err.response.status === 401) {
+                if (err.response?.status === 401) {
                     setOpenModalNotify(true);
                     const dataNotifyModal = modalContentMap[handleNotify()];
                     setContentModal(dataNotifyModal);
@@ -138,7 +135,7 @@ export const WatchingPage = () => {
             ]);
             getDataEpisode();
         }
-    }, [watchingData]);
+    }, [watchingData, pathname]);
 
     useEffect(() => {
         // window.scrollTo(0, 0);
@@ -171,9 +168,14 @@ export const WatchingPage = () => {
             >
                 {contentModal.content}
             </Modal>
+
             <div className="watching ">
                 <div className="watching-player-container flex-1 bg-zinc-800 relative ">
-                    <VideoPlayerCustom sourceUrl={dataEpisode.movieURL} />
+                    <VideoPlayerCustom
+                        sourceUrl={srcVideo}
+                        episodeId={dataEpisode.episodeId}
+                        setSrcVideo={setSrcVideo}
+                    />
                 </div>
                 <div className="watching-list-film-container">
                     <ListEpisodes

@@ -38,7 +38,7 @@ const FilmDetailReview: React.FC = () => {
 
     return (
         <List
-            className="cmt-list-detail"
+            className="cmt-list-detail ml-[-20px]"
             itemLayout="vertical"
             size="large"
             pagination={{

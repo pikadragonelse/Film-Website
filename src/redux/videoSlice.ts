@@ -1,27 +1,34 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export interface VideoWatching {
-    played: number,
-    playedSeconds: number,
-    loadedSeconds: number,
+    episodeId?: number | string;
+    played: number;
+    playedSeconds: number;
+    loadedSeconds: number;
+    durationDefault?: number;
 }
 
 export const videoWatchingSlice = createSlice({
-  name: 'videoWatching',
-  initialState: {
-    played: 0,
-    playedSeconds: 0,
-    loadedSeconds: 0,
-  },
-  reducers: {
-    setDataVideoWatching: (state, action) => {
-      state.played = action.payload.played;
-      state.playedSeconds = action.payload.playedSeconds;
-      state.loadedSeconds = action.payload.loadedSeconds;
+    name: 'videoWatching',
+    initialState: {
+        episodeId: 0,
+        played: 0,
+        playedSeconds: 0,
+        durationDefault: 0,
+        loadedSeconds: 0,
     },
-
-  },
+    reducers: {
+        setDataVideoWatching: (state, action) => {
+            state.episodeId = action.payload.episodeId;
+            state.played = action.payload.played;
+            state.playedSeconds = action.payload.playedSeconds;
+            state.loadedSeconds = action.payload.loadedSeconds;
+        },
+        setDurationDefault: (state, action) => {
+            state.durationDefault = action.payload;
+        },
+    },
 });
 
-export const { setDataVideoWatching } = videoWatchingSlice.actions;
+export const { setDataVideoWatching, setDurationDefault } = videoWatchingSlice.actions;
 export default videoWatchingSlice.reducer;

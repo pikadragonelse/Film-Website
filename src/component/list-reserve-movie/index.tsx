@@ -101,7 +101,7 @@ export const ListReserveMovies = ({
                                                 <div className="timeline-point"></div>
                                             </div>
                                             <p className="text-release">
-                                                {moment(value.releaseDate).format('DD/MM')}
+                                                {moment(value.releaseDate).format('DD/MM/YY')}
                                             </p>
                                         </div>
                                         <ItemReserveMovie

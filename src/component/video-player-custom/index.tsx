@@ -5,7 +5,11 @@ import './index.scss';
 import { useAppDispatch } from '../../redux/hook';
 import { VideoWatching, setDataVideoWatching } from '../../redux/videoSlice';
 import screenfull from 'screenfull';
-import { CaretRightOutlined } from '@ant-design/icons';
+import { CaretRightOutlined, LoadingOutlined } from '@ant-design/icons';
+import { request } from '../../utils/request';
+import { useToken } from '../../hooks/useToken';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Spin } from 'antd';
 
 export interface VideoState {
     playing: boolean;
@@ -18,12 +22,27 @@ export interface VideoState {
     playedSeconds: number;
 }
 
-export type VideoPlayerCustom = { sourceUrl?: string; posterUrl?: string };
-export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) => {
+export type VideoPlayerCustom = {
+    sourceUrl?: string;
+    posterUrl?: string;
+    episodeId?: number | string;
+    setSrcVideo?: (props?: any) => void;
+};
+export const VideoPlayerCustom = ({
+    sourceUrl,
+    posterUrl,
+    episodeId,
+    setSrcVideo = () => {},
+}: VideoPlayerCustom) => {
     const playerRef = useRef<ReactPlayer | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [isShowControl, setIsShowControl] = useState(false);
+    const [isMouseOver, setIsMouseOver] = useState(false);
+    const [isMouseStill, setIsMouseStill] = useState(false);
+    const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 });
+    const [isLoadingHidden, setIsLoadingHidden] = useState(true);
+    const [speedVid, setSpeedVid] = useState(1);
 
     const [videoState, setVideoState] = useState<VideoState>({
         playing: false,
@@ -38,6 +57,32 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
 
     const { playing, muted, volume, played, seeking, buffer, loadedSeconds, playedSeconds } =
         videoState;
+
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        localStorage.setItem(
+            'durationInfo',
+            JSON.stringify({ episodeId: episodeId, duration: playedSeconds.toFixed() }),
+        );
+    }, [playedSeconds, pathname]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: any) => {
+            localStorage.setItem(
+                'durationInfo',
+                JSON.stringify({ episodeId: episodeId, duration: playedSeconds.toFixed() }),
+            );
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        // window.addEventListener('popstate', handleBeforeUnload);
+
+        return () => {
+            // Clean up event listeners when the component unmounts
+            window.addEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     const playPauseHandler = () => {
         setVideoState({ ...videoState, playing: !videoState.playing });
@@ -66,37 +111,64 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
         setVideoState({ ...videoState, volume: value });
     };
 
-    const handleMouseOverPlayer = () => {
-        if (isShowControl !== true) {
-            setIsShowControl(true);
-        }
-    };
+    // const handleMouseOverPlayer = () => {
+    //     setIsShowControl(true);
+    // };
 
-    const handleMouseMove = () => {
+    // const handleMouseOutPlayer = () => {
+    //     const timer = setTimeout(() => {
+    //         setIsShowControl(false);
+    //     }, 3000);
+    //     return () => clearTimeout(timer);
+    // };
+
+    const handleMouseEnter = () => {
         setIsShowControl(true);
-        const timeout = setTimeout(() => {
-            if (isShowControl) {
-                setIsShowControl(false);
-                // Your logic for when the mouse stops moving
-            }
-        }, 250); // Adjust the timeout duration as needed
-        return () => clearTimeout(timeout);
+        setIsMouseOver(true);
     };
 
-    const handleMouseOutPlayer = () => {
-        const timer = setTimeout(() => {
-            setIsShowControl(false);
-        }, 3000);
-        return () => clearTimeout(timer);
+    const handleMouseLeave = () => {
+        setIsShowControl(false);
+        setIsMouseStill(false);
+        setIsMouseOver(false);
     };
+
+    let timer: NodeJS.Timeout;
+    const timeout = function () {
+        setIsShowControl(false);
+    };
+
+    useEffect(() => {
+        const handleMouseStill = () => {
+            setIsShowControl(true);
+            clearTimeout(timer);
+            timer = setTimeout(timeout, 2000);
+        };
+        if (containerRef.current != null) {
+            containerRef.current.addEventListener('mousemove', handleMouseStill);
+        }
+        return () => {
+            if (containerRef.current != null)
+                containerRef.current?.removeEventListener('mousemove', handleMouseStill);
+        };
+    }, []);
+
+    // const handleMouseMove = (event: any) => {
+    //     setIsShowControl(true);
+    //     clearTimeout(timer);
+    //     timer = setTimeout(timeout, 1000);
+    // };
 
     const dispatch = useAppDispatch();
 
     return (
         <div
             ref={containerRef}
-            onMouseLeave={handleMouseOutPlayer}
-            onMouseOver={handleMouseOverPlayer}
+            // onMouseLeave={handleMouseOutPlayer}
+            // onMouseOver={handleMouseOverPlayer}
+            onMouseOver={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            // onMouseMove={handleMouseMove}
         >
             <div className="player flex " onClick={() => playPauseHandler()}>
                 <ReactPlayer
@@ -106,10 +178,16 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
                     playing={playing}
                     onProgress={(props) => {
                         const data: VideoWatching = {
+                            episodeId: episodeId,
                             loadedSeconds: props.loadedSeconds,
                             played: props.played * 100,
                             playedSeconds: props.playedSeconds,
                         };
+                        setVideoState({
+                            ...videoState,
+                            playedSeconds: props.playedSeconds,
+                            played: props.played,
+                        });
                         dispatch(setDataVideoWatching(data));
                     }}
                     className="watching-player"
@@ -117,13 +195,19 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
                     height="100%"
                     onEnded={playPauseHandler}
                     volume={volume}
+                    playbackRate={speedVid}
                 />
                 <CaretRightOutlined
                     className="text-5xl absolute cursor-pointer bg-black/[.5] rounded-full p-3 top-[40%] left-[48%] z-10"
-                    hidden={playing}
+                    hidden={playing || !isLoadingHidden}
+                />
+                <LoadingOutlined
+                    className="text-5xl absolute top-[40%] left-[48%] z-10 bg-black/[.5] rounded-full p-3"
+                    hidden={isLoadingHidden}
                 />
                 <div className="absolute bottom-0 h-3 w-full bottom-box-shadow"></div>
             </div>
+
             <ControlPlayer
                 onPlayPause={playPauseHandler}
                 isPlaying={playing}
@@ -140,7 +224,10 @@ export const VideoPlayerCustom = ({ sourceUrl, posterUrl }: VideoPlayerCustom) =
                 isFullscreen={isFullscreen}
                 handleVolumeChange={handleVolumeChange}
                 valueVolume={volume}
-                hidden={!isShowControl}
+                hidden={!isShowControl && playing}
+                setIsLoadingHidden={setIsLoadingHidden}
+                setSpeedVid={setSpeedVid}
+                setSrcVideo={setSrcVideo}
             />
         </div>
     );
