@@ -119,16 +119,20 @@ export const SearchPage: React.FC = () => {
     const handleSetFilterParams = () => {
         let str = '';
         const arrValueFilterParams = Object.values(filterParamsState);
+        console.log(arrValueFilterParams);
 
         let count = 0;
         for (let key in filterParamsState) {
+            console.log(arrValueFilterParams, count);
+
             if (arrValueFilterParams[count] != null) {
                 if (count != 0) {
                     str += '&';
                 }
                 str += key + '=' + encodeURIComponent(arrValueFilterParams[count]);
-                count++;
+                console.log(str);
             }
+            count++;
         }
         setIsLoading(true);
         getDataBySearchParams(str);
