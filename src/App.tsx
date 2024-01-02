@@ -23,6 +23,7 @@ import { refreshToken } from './utils/refreshToken';
 import { useAppDispatch } from './redux/hook';
 import { setIsLogin } from './redux/isLoginSlice';
 import { request } from './utils/request';
+import LoginGG from './component/loginGG';
 
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
@@ -86,6 +87,7 @@ export const App = () => {
                     <Route path="/movie/:id" element={<FilmDetail />} />
                     <Route path="/reset-password" element={<NewPassword />} />
                     <Route path="/forget" element={<LoginForget />} />
+                    <Route path="/google" element={<LoginGG />} />
                 </Routes>
             </div>
 

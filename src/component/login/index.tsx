@@ -92,22 +92,24 @@ export const Login: React.FC = () => {
         console.log(response);
     };
     const onSuccessGG = (response: any) => {
-        notification.success({
-            message: 'Đăng nhập thành công',
-            description: 'Chúc mừng, bạn đã đăng nhập thành công',
-        });
+        window.location.href = 'https://movies-app.me/api/auth/google';
+        // notification.success({
+        //     message: 'Đăng nhập thành công',
+        //     description: 'Chúc mừng, bạn đã đăng nhập thành công',
+        // });
 
-        dispatch(setIsLogin(true));
-        console.log(response);
-        if (response.wt.cu) {
-            dispatch(setUsername(response.wt.cu));
-            Cookies.set('username', response.wt.cu, { expires: 1, secure: true });
-        }
-        Cookies.set('accessToken', response.accessToken, { expires: 1 });
-        // Cookies.set('refreshToken', refreshToken, { expires: 1 });
-        console.log(response.accessToken);
-        navigate('/');
+        // dispatch(setIsLogin(true));
+        // console.log(response);
+        // if (response.wt.cu) {
+        //     dispatch(setUsername(response.wt.cu));
+        //     Cookies.set('username', response.wt.cu, { expires: 1, secure: true });
+        // }
+        // Cookies.set('accessToken', response.accessToken, { expires: 1 });
+        // // Cookies.set('refreshToken', refreshToken, { expires: 1 });
+        // console.log(response.accessToken);
+        // navigate('/');
     };
+
     return (
         <div className="login">
             <div className="form-list">

@@ -8,6 +8,8 @@ import Cookies from 'js-cookie';
 import { log } from 'console';
 import dayjs from 'dayjs';
 import { CurrentUser } from '../../../model/user';
+import { endpoint } from '../../../utils/baseUrl';
+import axios from 'axios';
 
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
@@ -31,13 +33,47 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj as RcFile);
         }
-
         setPreviewImage(file.url || (file.preview as string));
+        if (file.originFileObj) {
+            upload(file.originFileObj);
+        }
+    };
+    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const upload = async (file: File) => {
+        try {
+            const presignedUrlResponse = await axios.get(
+                `${endpoint}/api/user/get-presign-url-to-upload-avatar`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                },
+            );
+            if (!presignedUrlResponse.data.data) {
+                console.error('Presigned URL not received from the server.');
+                return;
+            }
+            const presignedUrl = presignedUrlResponse.data.data;
+            await axios.put(presignedUrl, file, {
+                headers: {
+                    'Content-Type': file.type,
+                },
+            });
+            await axios.post(
+                `${endpoint}/api/user/cloudfront/clear-cache`,
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                },
+            );
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
     };
 
     const onSubmitForm = (data: { dateOfBirth: string; gender: string }) => {
-        // Fill API vo day
-        const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
         const editProfileUser = async () => {
             try {
                 await request.put(
@@ -52,6 +88,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                         },
                     },
                 );
+
                 setIsOpenEdit(false);
             } catch (error) {
                 console.error(error);

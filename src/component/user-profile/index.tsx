@@ -61,6 +61,9 @@ export const UserProfile = () => {
             children: '5',
         },
     ];
+    {
+        console.log('New avatarURL:', currentUser);
+    }
     return (
         <div className="user-profile-container">
             <ModalUser open={isOpenEdit} onCancel={() => setIsOpenEdit(false)}>
