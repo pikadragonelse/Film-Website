@@ -15,8 +15,6 @@ export const UploadAvtCircle = ({
     customRequest = () => {},
     previewImage,
 }: UploadAvtCircle) => {
-    console.log(previewImage);
-
     return (
         <Upload
             className="upload-avt"
