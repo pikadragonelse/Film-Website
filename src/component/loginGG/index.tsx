@@ -14,6 +14,7 @@ interface GoogleAuthData {
 const LoginGG = () => {
     const navigate = useNavigate();
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
+    const [hasReloaded, setHasReloaded] = useState(false);
 
     const fetchData = async () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -30,22 +31,22 @@ const LoginGG = () => {
                 encodedParams.append(key, value);
             }
         });
-        const [hasReloaded, setHasReloaded] = useState(false);
+
         try {
             const response: AxiosResponse<{ token: string }> = await axios.get(
                 `https://movies-app.me/api/auth/google/callback?${encodedParams.toString()}`,
             );
 
-            let newRefreshToken = response.data.token;
+            let refreshToken = response.data.token;
 
-            if (newRefreshToken) {
-                setRefreshToken(newRefreshToken);
+            if (refreshToken) {
+                setRefreshToken(refreshToken);
                 request
-                    .post('/auth/get-access-token', { refreshToken: newRefreshToken })
+                    .post('/auth/get-access-token', { refreshToken: refreshToken })
                     .then((res) => {
                         let accessToken = JSON.stringify(res.data.result.token.accessToken);
                         Cookies.set('accessToken', accessToken, { expires: 1 });
-                        Cookies.set('refreshToken', newRefreshToken, { expires: 1 });
+                        Cookies.set('refreshToken', refreshToken, { expires: 1 });
                         if (!hasReloaded) {
                             setHasReloaded(true);
                             window.location.reload();
