@@ -80,18 +80,7 @@ export const Login: React.FC = () => {
                 });
             });
     };
-
-    const clientId = '339634676739-k6kutts85se6u0u279cronscq9j9cvu4.apps.googleusercontent.com';
-    useEffect(() => {
-        gapi.load('client:auth2', () => {
-            gapi.auth2.init({ clientId: clientId });
-        });
-    }, []);
-
-    const responseGoogle = (response: any) => {
-        console.log(response);
-    };
-    const onSuccessGG = (response: any) => {
+    const onSuccessGG = () => {
         window.location.href = 'https://movies-app.me/api/auth/google';
         // notification.success({
         //     message: 'Đăng nhập thành công',
@@ -212,14 +201,6 @@ export const Login: React.FC = () => {
                                 </Button>
                             </Form.Item>
                             <div className="!flex gap-[17px]">
-                                {/* <GoogleLogin
-                                    clientId={clientId}
-                                    buttonText="Google"
-                                    onSuccess={onSuccessGG}
-                                    onFailure={responseGoogle}
-                                    cookiePolicy={'single_host_origin'}
-                                    className="flex basis-[43%]"
-                                /> */}
                                 <Button
                                     icon={
                                         <img
