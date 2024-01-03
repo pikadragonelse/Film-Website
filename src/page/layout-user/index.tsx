@@ -22,6 +22,7 @@ import './index.scss';
 import { Route, Routes, useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { CurrentUser, defaultCurrentUser } from '../../model/user';
+import { useAppSelector } from '../../redux/hook';
 
 const { Header, Content, Sider } = Layout;
 
@@ -161,122 +162,162 @@ export const LayoutUser = () => {
         fetchDataLove();
         setModalVisible(true);
     }, [pathname]);
-
+    const isLogin = useAppSelector((state) => state.user.isLogin);
     return (
         <div className="wrapper-layout">
             <div className="header-layoutUser"></div>
-            <div className="container">
-                <Layout className="siderbar-nav">
-                    <Sider
-                        className="siderbar-nav-item"
-                        collapsible
-                        collapsed={collapsed}
-                        onCollapse={(value) => setCollapsed(value)}
-                    >
-                        <Header className="header">
-                            {collapsed ? (
-                                <div className="icon-header">
-                                    <SettingOutlined />
-                                </div>
-                            ) : (
-                                <div className="title-header">Dành cho bạn</div>
-                            )}
-                        </Header>
-                        <hr className="mt-2 border-neutral-600" />
+            {isLogin ? (
+                <div className="container">
+                    <Layout className="siderbar-nav">
+                        <Sider
+                            className="siderbar-nav-item"
+                            collapsible
+                            collapsed={collapsed}
+                            onCollapse={(value) => setCollapsed(value)}
+                        >
+                            <Header className="header">
+                                {collapsed ? (
+                                    <div className="icon-header">
+                                        <SettingOutlined />
+                                    </div>
+                                ) : (
+                                    <div className="title-header">Dành cho bạn</div>
+                                )}
+                            </Header>
+                            <hr className="mt-2 border-neutral-600" />
 
-                        <Menu
-                            style={{
-                                backgroundColor: '#1E1E1E',
-                            }}
-                            className="item"
-                            defaultSelectedKeys={['profile']}
-                            mode="inline"
-                            items={items}
-                            selectedKeys={[pathname]}
-                        />
-                    </Sider>
-                    <Layout>
-                        <Content className="content-item">
-                            <div className="content">
-                                <Breadcrumb className="content-title"></Breadcrumb>
-                                <div className="content-main">
-                                    <Routes>
-                                        <Route path="/profile" element={<UserProfile />} />
-                                        <Route
-                                            path="/vip-package"
-                                            element={
-                                                currentUser.subscription.subscriptionType !==
-                                                    'Cơ bản' && currentUser ? (
-                                                    <VIPPackageUser data={currentUser} />
-                                                ) : (
-                                                    <Modal
-                                                        visible={modalVisible}
-                                                        onCancel={() => setModalVisible(false)}
-                                                        footer={
-                                                            <Button
-                                                                className="poster__image-close"
-                                                                type="primary"
-                                                                onClick={() =>
-                                                                    setModalVisible(false)
-                                                                }
-                                                            >
-                                                                Đóng
-                                                            </Button>
-                                                        }
-                                                        style={{
-                                                            textAlign: 'center',
-                                                            marginTop: '100px',
-                                                        }}
-                                                    >
-                                                        <div className="poster__image-notifi">
-                                                            Thông báo
-                                                        </div>
-                                                        <p className="poster__image-notifititle">
-                                                            Hãy trở thành{' '}
-                                                            <Link
-                                                                style={{
-                                                                    color: 'var(--primary-color)',
-                                                                    fontWeight: 700,
-                                                                }}
-                                                                to="/VIPpackage"
-                                                            >
-                                                                thành viên VIP
-                                                            </Link>{' '}
-                                                            để có được những trải nghiệm tốt nhất
-                                                            của MovTime.
-                                                        </p>
-                                                    </Modal>
-                                                )
-                                            }
-                                        />
+                            <Menu
+                                style={{
+                                    backgroundColor: '#1E1E1E',
+                                }}
+                                className="item"
+                                defaultSelectedKeys={['profile']}
+                                mode="inline"
+                                items={items}
+                                selectedKeys={[pathname]}
+                            />
+                        </Sider>
+                        <Layout>
+                            <Content className="content-item">
+                                <div className="content">
+                                    <Breadcrumb className="content-title"></Breadcrumb>
+                                    <div className="content-main">
+                                        <Routes>
+                                            <Route path="/profile" element={<UserProfile />} />
+                                            <Route
+                                                path="/vip-package"
+                                                element={
+                                                    currentUser.subscription.subscriptionType !==
+                                                        'Cơ bản' && currentUser ? (
+                                                        <VIPPackageUser data={currentUser} />
+                                                    ) : (
+                                                        <Modal
+                                                            visible={modalVisible}
+                                                            onCancel={() => setModalVisible(false)}
+                                                            footer={
+                                                                <Button
+                                                                    className="poster__image-close"
+                                                                    type="primary"
+                                                                    onClick={() =>
+                                                                        setModalVisible(false)
+                                                                    }
+                                                                >
+                                                                    Đóng
+                                                                </Button>
+                                                            }
+                                                            style={{
+                                                                textAlign: 'center',
+                                                                marginTop: '100px',
+                                                            }}
+                                                        >
+                                                            <div className="poster__image-notifi">
+                                                                Thông báo
+                                                            </div>
+                                                            <p className="poster__image-notifititle">
+                                                                Hãy trở thành{' '}
+                                                                <Link
+                                                                    style={{
+                                                                        color: 'var(--primary-color)',
+                                                                        fontWeight: 700,
+                                                                    }}
+                                                                    to="/VIPpackage"
+                                                                >
+                                                                    thành viên VIP
+                                                                </Link>{' '}
+                                                                để có được những trải nghiệm tốt
+                                                                nhất của MovTime.
+                                                            </p>
+                                                        </Modal>
+                                                    )
+                                                }
+                                            />
 
-                                        <Route
-                                            path="/watch-later"
-                                            element={<WatchLater dataCollect={dataCollect} />}
-                                        />
-                                        <Route
-                                            path="/watched-movies"
-                                            element={
-                                                <HistoryMovies
-                                                    dataHistorymovies={dataHistorymovies}
-                                                />
-                                            }
-                                        />
-                                        <Route
-                                            path="/love-movies"
-                                            element={<LoveMovies dataLovemovies={dataLovemovies} />}
-                                        />
-                                        <Route
-                                            path="/delete-account"
-                                            element={<div>Delete account</div>}
-                                        />
-                                    </Routes>
+                                            <Route
+                                                path="/watch-later"
+                                                element={<WatchLater dataCollect={dataCollect} />}
+                                            />
+                                            <Route
+                                                path="/watched-movies"
+                                                element={
+                                                    <HistoryMovies
+                                                        dataHistorymovies={dataHistorymovies}
+                                                    />
+                                                }
+                                            />
+                                            <Route
+                                                path="/love-movies"
+                                                element={
+                                                    <LoveMovies dataLovemovies={dataLovemovies} />
+                                                }
+                                            />
+                                            <Route
+                                                path="/delete-account"
+                                                element={<div>Delete account</div>}
+                                            />
+                                        </Routes>
+                                    </div>
                                 </div>
-                            </div>
-                        </Content>
+                            </Content>
+                        </Layout>
                     </Layout>
-                </Layout>
-            </div>
+                </div>
+            ) : (
+                <div>
+                    <div style={{ height: '180px' }}></div>
+                    <Modal
+                        visible={modalVisible}
+                        onCancel={() => setModalVisible(false)}
+                        footer={
+                            <Button
+                                className="poster__image-close"
+                                type="primary"
+                                onClick={() => setModalVisible(false)}
+                            >
+                                Đóng
+                            </Button>
+                        }
+                        style={{
+                            textAlign: 'center',
+                            marginTop: '100px',
+                        }}
+                    >
+                        <div className="poster__image-notifi">Thông báo</div>
+                        <p className="poster__image-notifititle">
+                            Hãy{' '}
+                            <Link
+                                style={{
+                                    color: 'var(--primary-color)',
+                                    fontWeight: 700,
+                                }}
+                                to="/login"
+                            >
+                                đăng nhập
+                            </Link>{' '}
+                            để có được những trải nghiệm tốt nhất của MovTime.
+                        </p>
+                    </Modal>
+                </div>
+            )}
         </div>
     );
 };

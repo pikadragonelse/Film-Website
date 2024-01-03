@@ -17,15 +17,23 @@ export const UserProfile = () => {
     //api currentUser
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
+
     const fetchDataCurrentUser = async () => {
         try {
-            const response = await request.get('user/get-self-information', {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            const data = response.data;
-            setCurrentUser(data);
+            request
+                .get('user/get-self-information', {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                })
+                .then((res) => {
+                    const userId = {
+                        ...res.data,
+                        avatarURL: res.data.avatarURL,
+                    };
+                    setCurrentUser(userId);
+                })
+                .catch((err) => console.log(err));
         } catch (error) {
             console.error(error);
         }
@@ -61,9 +69,7 @@ export const UserProfile = () => {
             children: '5',
         },
     ];
-    {
-        console.log('New avatarURL:', currentUser);
-    }
+
     return (
         <div className="user-profile-container">
             <ModalUser open={isOpenEdit} onCancel={() => setIsOpenEdit(false)}>
@@ -76,8 +82,13 @@ export const UserProfile = () => {
             <ModalUser open={isOpenChangePassword} onCancel={() => setIsOpenChangePassword(false)}>
                 <FormChangePassword onCancel={() => setIsOpenChangePassword(false)} />
             </ModalUser>
-            <div className="user-profile-general">
-                <Avatar src={currentUser.avatarURL} size={160} className="user-profile-avt" />
+            <div key={currentUser.avatarURL} className="user-profile-general">
+                <Avatar
+                    src={currentUser.avatarURL}
+                    srcSet=""
+                    size={160}
+                    className="user-profile-avt"
+                />
                 <Title className="user-profile-username" level={3}>
                     {currentUser.username}
                 </Title>

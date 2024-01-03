@@ -11,7 +11,6 @@ import { CurrentUser, UserProps, defaultCurrentUser } from '../../model/user';
 import { useAppSelector } from '../../redux/hook';
 
 export interface listCommentsProps {
-
     id: number;
     avatar: string;
     username: string;
@@ -115,7 +114,6 @@ export const Comment: React.FC<CommentProps> = ({ title, placeholder }) => {
 
             {isLogin ? (
                 <WriteComment onSubmitComment={handleCommentSubmit} placeholder={placeholder} />
-
             ) : (
                 <div className="login-btn">
                     <Link to="/login">

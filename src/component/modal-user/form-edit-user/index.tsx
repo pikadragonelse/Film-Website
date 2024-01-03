@@ -1,16 +1,21 @@
-import { Button, DatePicker, Form, FormInstance, Input, Select, Space } from 'antd';
+import { Button, DatePicker, Form, FormInstance, Input, Select, Space, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { UploadAvtCircle } from '../../upload-avt-circle';
 import { RcFile, UploadFile } from 'antd/es/upload';
 import { useForm } from 'antd/es/form/Form';
 import { request } from '../../../utils/request';
 import Cookies from 'js-cookie';
-import { log } from 'console';
 import dayjs from 'dayjs';
 import { CurrentUser } from '../../../model/user';
 import { endpoint } from '../../../utils/baseUrl';
 import axios from 'axios';
+import { resolve } from 'path';
+import { LoadingOutlined } from '@ant-design/icons';
 
+type FieldType = {
+    dateOfBirth: string;
+    gender: string;
+};
 const getBase64 = (file: RcFile): Promise<string> =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -29,6 +34,8 @@ export type FormEditUser = {
 export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: FormEditUser) => {
     const [previewImage, setPreviewImage] = useState<string>(data.avatarURL);
     const [form] = useForm();
+    const [uploadDone, setUploadDone] = useState(true);
+
     const handleChange = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj as RcFile);
@@ -40,65 +47,70 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
     };
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const upload = async (file: File) => {
-        try {
-            const presignedUrlResponse = await axios.get(
-                `${endpoint}/api/user/get-presign-url-to-upload-avatar`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                },
-            );
-            if (!presignedUrlResponse.data.data) {
-                console.error('Presigned URL not received from the server.');
-                return;
-            }
-            const presignedUrl = presignedUrlResponse.data.data;
-            await axios.put(presignedUrl, file, {
+        setUploadDone(false);
+
+        const presignedUrlResponse = await axios.get(
+            `${endpoint}/api/user/get-presign-url-to-upload-avatar`,
+            {
                 headers: {
-                    'Content-Type': file.type,
+                    Authorization: `Bearer ${accessToken}`,
                 },
-            });
-            await axios.post(
-                `${endpoint}/api/user/cloudfront/clear-cache`,
-                {},
-                {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                },
-            );
-        } catch (error) {
-            console.error('Error uploading file:', error);
+            },
+        );
+        console.log(presignedUrlResponse.data);
+
+        if (!presignedUrlResponse.data.data) {
+            console.error('Presigned URL not received from the server.');
+            return;
         }
+        const presignedUrl = presignedUrlResponse.data.data;
+        await axios.put(presignedUrl, file, {
+            headers: {
+                'Content-Type': file.type,
+            },
+        });
+        await axios.post(
+            `${endpoint}/api/user/cloudfront/clear-cache`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            },
+        );
+        await new Promise((resolve) => {
+            resolve(true);
+        }).then(() => {
+            setUploadDone(true);
+        });
     };
 
-    const onSubmitForm = (data: { dateOfBirth: string; gender: string }) => {
-        const editProfileUser = async () => {
-            try {
-                await request.put(
-                    'user/update-self-information',
-                    {
-                        dateOfBirth: data.dateOfBirth,
-                        gender: data.gender,
+    const editProfileUser = async (data: FieldType) => {
+        try {
+            await request.put(
+                'user/update-self-information',
+                {
+                    dateOfBirth: data.dateOfBirth,
+                    gender: data.gender,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
                     },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    },
-                );
-
-                setIsOpenEdit(false);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        editProfileUser();
+                },
+            );
+            setIsOpenEdit(false);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    const onFinish = (data: FieldType) => {
+        editProfileUser(data);
     };
 
     return (
         <Form
+            key={data.avatarURL}
             form={form}
             name="validateOnly"
             layout="vertical"
@@ -110,14 +122,17 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                 dateOfBirth: dayjs(data.dateOfBirth),
                 gender: data.gender,
             }}
+            onFinish={onFinish}
         >
             <Form.Item name="avatar">
-                <UploadAvtCircle
-                    onChange={(info) => {
-                        handleChange(info.file);
-                    }}
-                    previewImage={previewImage}
-                />
+                <Spin spinning={!uploadDone} indicator={<LoadingOutlined />}>
+                    <UploadAvtCircle
+                        onChange={(info) => {
+                            handleChange(info.file);
+                        }}
+                        previewImage={previewImage}
+                    />
+                </Spin>
             </Form.Item>
             <Form.Item name="username" label="Tên người dùng" rules={[{ required: false }]}>
                 <Input value={data.username} readOnly />
@@ -128,7 +143,6 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
             <Form.Item name="dateOfBirth" label="Ngày sinh">
                 <DatePicker className="form-date-picker" />
             </Form.Item>
-
             <Form.Item name="gender" label={<span style={{ color: 'white' }}>Giới tính</span>}>
                 <Select
                     value={data.gender}
@@ -148,14 +162,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                     <Button type="primary" className="user-profile-btn" onClick={onCancel}>
                         Hủy
                     </Button>
-                    <Button
-                        type="primary"
-                        className="user-profile-btn"
-                        onClick={() => {
-                            onSubmitForm(form.getFieldsValue());
-                        }}
-                        htmlType="submit"
-                    >
+                    <Button type="primary" className="user-profile-btn" htmlType="submit">
                         Lưu
                     </Button>
                 </Space>
