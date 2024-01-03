@@ -14,7 +14,6 @@ interface GoogleAuthData {
 const LoginGG = () => {
     const navigate = useNavigate();
     const [refreshToken, setRefreshToken] = useState<string | null>(null);
-    const [hasReloaded, setHasReloaded] = useState(false);
 
     const fetchData = async () => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -47,8 +46,7 @@ const LoginGG = () => {
                         let accessToken = JSON.stringify(res.data.result.token.accessToken);
                         Cookies.set('accessToken', accessToken, { expires: 1 });
                         Cookies.set('refreshToken', refreshToken, { expires: 1 });
-                        if (!hasReloaded) {
-                            setHasReloaded(true);
+                        if (accessToken) {
                             window.location.reload();
                             navigate('/');
                         }
