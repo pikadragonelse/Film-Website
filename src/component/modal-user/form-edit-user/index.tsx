@@ -30,8 +30,16 @@ export type FormEditUser = {
     open?: boolean;
     data: CurrentUser;
     setIsOpenEdit: React.Dispatch<React.SetStateAction<boolean>>;
+    setHasReloaded: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: FormEditUser) => {
+export const FormEditUser = ({
+    onCancel,
+    onSubmit,
+    open,
+    data,
+    setIsOpenEdit,
+    setHasReloaded,
+}: FormEditUser) => {
     const [previewImage, setPreviewImage] = useState<string>(data.avatarURL);
     const [form] = useForm();
     const [uploadDone, setUploadDone] = useState(true);
@@ -100,6 +108,7 @@ export const FormEditUser = ({ onCancel, onSubmit, open, data, setIsOpenEdit }: 
                 },
             );
             setIsOpenEdit(false);
+            setHasReloaded(true);
         } catch (error) {
             console.error(error);
         }

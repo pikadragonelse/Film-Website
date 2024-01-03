@@ -16,6 +16,7 @@ export const refreshToken = () => {
             console.log(err);
             if (err.response.status === 401) {
                 Cookies.remove('accessToken');
+                Cookies.remove('refreshToken');
             }
         });
 };

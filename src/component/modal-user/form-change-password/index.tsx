@@ -21,6 +21,7 @@ export const FormChangePassword = ({ onCancel, onSubmit, open }: FormChangePassw
     const dispatch = useDispatch();
     const handleLogout = useCallback(() => {
         Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
         Cookies.remove('username');
         dispatch(setIsLogin(false));
         dispatch(setUsername(null));

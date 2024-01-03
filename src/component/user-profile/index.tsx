@@ -17,6 +17,7 @@ export const UserProfile = () => {
     //api currentUser
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
+    const [hasReloaded, setHasReloaded] = useState(false);
 
     const fetchDataCurrentUser = async () => {
         try {
@@ -38,9 +39,17 @@ export const UserProfile = () => {
             console.error(error);
         }
     };
+    // useEffect(() => {
+    //     fetchDataCurrentUser();
+    // }, [isOpenEdit]);
     useEffect(() => {
         fetchDataCurrentUser();
-    }, [isOpenEdit]);
+
+        if (isOpenEdit === false && hasReloaded === true) {
+            window.location.reload();
+            setHasReloaded(false);
+        }
+    }, [isOpenEdit, hasReloaded]);
 
     const items2: DescriptionsProps['items'] = [
         {
@@ -72,10 +81,17 @@ export const UserProfile = () => {
 
     return (
         <div className="user-profile-container">
-            <ModalUser open={isOpenEdit} onCancel={() => setIsOpenEdit(false)}>
+            <ModalUser
+                open={isOpenEdit}
+                onCancel={() => {
+                    setIsOpenEdit(false);
+                    setHasReloaded(true);
+                }}
+            >
                 <FormEditUser
                     data={currentUser}
                     setIsOpenEdit={setIsOpenEdit}
+                    setHasReloaded={setHasReloaded}
                     onCancel={() => setIsOpenEdit(false)}
                 />
             </ModalUser>
