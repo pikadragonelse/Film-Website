@@ -149,22 +149,24 @@ export const Register: React.FC = () => {
                             <Input name="username" className="register-form__item-input" />
                         </Form.Item>
 
-                        <Tooltip title="Mật khẩu phải chứa đầy đủ chữ viết thường, chữ viết hoa, số, ký tự đặc biệt">
-                            <Form.Item
-                                className="register-form__item"
-                                name="password"
-                                label={<span style={{ color: 'white' }}>Mật khẩu</span>}
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
-                                ]}
-                                hasFeedback
-                            >
-                                <Input.Password className="register-form__item-input" />
-                            </Form.Item>
-                        </Tooltip>
+                        <Form.Item
+                            className="register-form__item"
+                            name="password"
+                            label={<span style={{ color: 'white' }}>Mật khẩu</span>}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please input your password!',
+                                },
+                            ]}
+                            hasFeedback
+                        >
+                            <Input.Password className="register-form__item-input" />
+                        </Form.Item>
+                        <p className=" !mt-[-20px] mb-4 text-[11px] italic text-red-700">
+                            Mật khẩu phải chứa đầy đủ chữ viết thường, chữ viết hoa, số, ký tự đặc
+                            biệt!
+                        </p>
                         <Form.Item
                             className="register-form__item"
                             name="confirm"

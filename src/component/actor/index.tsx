@@ -130,7 +130,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                                     {'|'}
                                 </div>
                                 <div>
-                                    <span className="text-[#989898] mr-4">Việt Nam</span>
+                                    <span className="text-[#989898] mr-4">Trung Quốc</span>
                                     {'|'}
                                 </div>
                                 <div className="mx-4">
