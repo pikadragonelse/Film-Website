@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
 import { request } from '../../utils/request';
 import Cookies from 'js-cookie';
@@ -13,6 +13,8 @@ interface GoogleAuthData {
 
 const LoginGG = () => {
     const navigate = useNavigate();
+    const [refreshToken, setRefreshToken] = useState<string | null>(null);
+
     const fetchData = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const authData: GoogleAuthData = {
@@ -28,35 +30,35 @@ const LoginGG = () => {
                 encodedParams.append(key, value);
             }
         });
-        console.log(`https://movies-app.me/api/auth/google/callback?${encodedParams.toString()}`);
 
-        if (authData) {
-            try {
-                const response: AxiosResponse<{ token: string }> = await axios.get(
-                    `https://movies-app.me/api/auth/google/callback?${encodedParams.toString()}`,
-                );
-                let refreshToken = response.data.token;
+        try {
+            const response: AxiosResponse<{ token: string }> = await axios.get(
+                `https://movies-app.me/api/auth/google/callback?${encodedParams.toString()}`,
+            );
+
+            let newRefreshToken = response.data.token;
+
+            if (newRefreshToken) {
+                setRefreshToken(newRefreshToken);
                 request
-                    .post('/auth/get-access-token', { refreshToken: refreshToken })
+                    .post('/auth/get-access-token', { refreshToken: newRefreshToken })
                     .then((res) => {
                         let accessToken = JSON.stringify(res.data.result.token.accessToken);
                         Cookies.set('accessToken', accessToken, { expires: 1 });
-                        console.log('Refresh Token');
+                        Cookies.set('refreshToken', newRefreshToken, { expires: 1 });
                         navigate('/');
                     })
                     .catch((err) => {
-                        console.log('Error refresh');
-
-                        console.log(err);
-                        if (err.response.status === 401) {
+                        console.log('Error refresh', err);
+                        if (err.response && err.response.status === 401) {
                             Cookies.remove('accessToken');
                         }
                     });
-            } catch (error) {
-                console.error('Error:', error);
+            } else {
+                console.log('Refresh token not found.');
             }
-        } else {
-            console.log('Authorization code not found.');
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
 
