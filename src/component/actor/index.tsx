@@ -61,38 +61,10 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     };
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-
     const showModal = () => {
         const actorLink = `${window.location.origin}/actor/${actorId}`;
         setCopiedLink(actorLink);
-
-        const fbShareUrl = `https://www.facebook.com/dialog/share?app_id=YOUR_APP_ID&display=popup&href=${encodeURIComponent(
-            actorLink,
-        )}`;
-
-        window.open(fbShareUrl, '_blank');
-
-        const ogTags = `
-            <meta property="og:title" content="${actorInfo?.name || 'Actor Name'}" />
-            <meta property="og:description" content="${
-                actorInfo?.description || 'Actor Description'
-            }" />
-            <meta property="og:image" content="${actorInfo?.avatar || 'Default Image URL'}" />
-            <meta property="og:url" content="${actorLink}" />
-        `;
-
-        const existingMetaTags = document.querySelectorAll('meta[property^="og"]');
-        existingMetaTags.forEach((tag) => tag.remove());
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(ogTags, 'text/html');
-        const head = document.head;
-
-        doc.head.childNodes.forEach((node) => {
-            if (node instanceof Element) {
-                head.appendChild(node);
-            }
-        });
+        setIsModalVisible(true);
     };
 
     const handleCancel = () => {
