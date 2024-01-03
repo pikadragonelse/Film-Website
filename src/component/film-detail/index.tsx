@@ -22,7 +22,6 @@ import FilmDetailsSection from './film-detail-section';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 import ShareModal from './share';
-import { Start } from '../../asset/icon/start';
 
 interface Genre {
     id: number;
