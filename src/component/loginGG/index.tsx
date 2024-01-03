@@ -50,7 +50,6 @@ const LoginGG = () => {
                         if (!hasReloaded) {
                             setHasReloaded(true);
                             window.location.reload();
-                        } else {
                             navigate('/');
                         }
                     })
