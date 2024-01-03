@@ -65,7 +65,12 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const showModal = () => {
         const actorLink = `${window.location.origin}/actor/${actorId}`;
         setCopiedLink(actorLink);
-        setIsModalVisible(true);
+
+        const fbShareUrl = `https://www.facebook.com/dialog/share?app_id=YOUR_APP_ID&display=popup&href=${encodeURIComponent(
+            actorLink,
+        )}`;
+
+        window.open(fbShareUrl, '_blank');
 
         const ogTags = `
             <meta property="og:title" content="${actorInfo?.name || 'Actor Name'}" />
