@@ -30,7 +30,7 @@ const LoginGG = () => {
                 encodedParams.append(key, value);
             }
         });
-
+        const [hasReloaded, setHasReloaded] = useState(false);
         try {
             const response: AxiosResponse<{ token: string }> = await axios.get(
                 `https://movies-app.me/api/auth/google/callback?${encodedParams.toString()}`,
@@ -46,12 +46,18 @@ const LoginGG = () => {
                         let accessToken = JSON.stringify(res.data.result.token.accessToken);
                         Cookies.set('accessToken', accessToken, { expires: 1 });
                         Cookies.set('refreshToken', newRefreshToken, { expires: 1 });
-                        navigate('/');
+                        if (!hasReloaded) {
+                            setHasReloaded(true);
+                            window.location.reload();
+                        } else {
+                            navigate('/');
+                        }
                     })
                     .catch((err) => {
                         console.log('Error refresh', err);
                         if (err.response && err.response.status === 401) {
                             Cookies.remove('accessToken');
+                            Cookies.remove('refreshToken');
                         }
                     });
             } else {

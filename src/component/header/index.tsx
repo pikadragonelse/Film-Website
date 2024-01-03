@@ -72,6 +72,7 @@ export const Header = ({ className }: Header) => {
 
     const handleLogout = () => {
         Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
 
         dispatch(setIsLogin(false));
         notification.success({
