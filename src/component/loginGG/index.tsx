@@ -28,6 +28,7 @@ const LoginGG = () => {
                 encodedParams.append(key, value);
             }
         });
+        console.log(`https://movies-app.me/api/auth/google/callback?${encodedParams.toString()}`);
 
         if (authData) {
             try {
@@ -63,7 +64,7 @@ const LoginGG = () => {
         fetchData();
     }, []);
 
-    return <div>LoginGG</div>;
+    return <div style={{ height: '180px' }}></div>;
 };
 
 export default LoginGG;

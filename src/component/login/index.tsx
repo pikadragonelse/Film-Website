@@ -10,7 +10,7 @@ import './index.scss';
 import GoogleLogin from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { endpoint } from '../../utils/baseUrl';
-import { FacebookFilled } from '@ant-design/icons';
+import { FacebookFilled, GoogleOutlined } from '@ant-design/icons';
 
 type FieldType = {
     username?: string;
@@ -212,14 +212,34 @@ export const Login: React.FC = () => {
                                 </Button>
                             </Form.Item>
                             <div className="!flex gap-[17px]">
-                                <GoogleLogin
+                                {/* <GoogleLogin
                                     clientId={clientId}
                                     buttonText="Google"
                                     onSuccess={onSuccessGG}
                                     onFailure={responseGoogle}
                                     cookiePolicy={'single_host_origin'}
                                     className="flex basis-[43%]"
-                                />
+                                /> */}
+                                <Button
+                                    icon={
+                                        <img
+                                            src="https://w7.pngwing.com/pngs/989/129/png-transparent-google-logo-google-search-meng-meng-company-text-logo-thumbnail.png"
+                                            alt="Google Icon"
+                                            style={{
+                                                width: '28px',
+                                                height: '28px',
+                                                marginRight: '16px',
+                                                marginLeft: '8px',
+                                                borderRadius: '50%',
+                                            }}
+                                        />
+                                    }
+                                    className="login-facebook flex basis-[43%]"
+                                    onClick={onSuccessGG}
+                                >
+                                    Google
+                                </Button>
+
                                 <Button
                                     icon={
                                         <img
