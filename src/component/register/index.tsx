@@ -1,4 +1,14 @@
-import { Button, Checkbox, DatePicker, Form, Input, Modal, Select, Tooltip } from 'antd';
+import {
+    Button,
+    Checkbox,
+    DatePicker,
+    Form,
+    Input,
+    Modal,
+    Select,
+    Tooltip,
+    notification,
+} from 'antd';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -52,6 +62,28 @@ export const Register: React.FC = () => {
     const handleModalClose = () => {
         setShowModal(false);
     };
+    const sendActive = async (values: any) => {
+        try {
+            const data = { identifier: values.email };
+            console.log(data);
+
+            const response = await axios.post(`${endpoint}/api/auth/active-user`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.data.status === 'Ok!') {
+                notification.error({
+                    message: 'Đăng kí thành công',
+                    description: 'Hãy kiểm tra mail để xác nhận.',
+                });
+            }
+        } catch (error) {
+            console.error('Error sending data to API:', error);
+        }
+    };
+
     const sendDataToAPI = async (values: any) => {
         try {
             values.dateOfBirth = moment(values.datePicker).format('YYYY-MM-DD HH:mm:ss.SSSZ');
@@ -63,7 +95,7 @@ export const Register: React.FC = () => {
             });
 
             if (response.status === 200) {
-                alert('Người dùng đã đăng ký thành công');
+                sendActive(values);
                 form.resetFields();
                 navigate('/login');
             } else {
