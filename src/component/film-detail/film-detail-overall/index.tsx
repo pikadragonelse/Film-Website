@@ -32,7 +32,7 @@ export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail })
 
     return (
         <Collapse
-            className="ml-[-10px]"
+            className="ml-[-10px] !mt-[-6px]"
             bordered={false}
             defaultActiveKey={['1', '2', '3']}
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}

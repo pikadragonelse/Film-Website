@@ -11,7 +11,7 @@ const FilmDetailTrailer: React.FC<{ filmDetail: any }> = ({ filmDetail }) => {
             bordered={false}
             defaultActiveKey={['1']}
             ghost
-            className="ml-[-10px]"
+            className="ml-[-10px] !mt-[-6px]"
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
         >
             <Panel header={<span style={{ fontSize: '16px' }}>Trailer </span>} key="1">
