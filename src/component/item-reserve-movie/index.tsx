@@ -121,7 +121,6 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
                         },
                     },
                 );
-                console.log('response', response);
 
                 if (response?.status === 200) {
                     Modal.success({
