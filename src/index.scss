@@ -177,51 +177,24 @@ ul {
     background-color: var(--contrast-color) !important;
 }
 
-// .ant-input {
-//     background-color: var(--main-color) !important;
-//     border: 1px solid transparent !important;
-//     color: var(--contrast-color) !important;
-
-//     &::placeholder {
-//         color: var(--sub-color) !important;
-//     }
-
-//     &:hover {
-//         border-color: var(--sub-primary-color) !important;
-//     }
-//     &:focus {
-//         border-color: var(--primary-color) !important;
-//     }
-// }
-
-// .ant-picker {
-//     background-color: var(--main-color) !important;
-//     border: 1px solid transparent !important;
-//     color: var(--contrast-color) !important;
-
-//     &:hover,
-//     &:focus-within,
-//     &:focus-visible {
-//         border-color: var(--sub-primary-color) !important;
-//     }
-//     &:focus,
-//     &:active,
-//     &:target {
-//         border-color: var(--primary-color) !important;
-//     }
-// }
-
-// .ant-picker-suffix {
-//     color: var(--contrast-color) !important;
-// }
-
-// .ant-picker-input > input {
-//     color: var(--contrast-color) !important;
-//     &::placeholder {
-//         color: var(--sub-color) !important;
-//     }
-// }
+:where(.css-i46qwz).ant-progress
+    .ant-progress-inner:not(.ant-progress-circle-gradient)
+    .ant-progress-circle-path {
+    stroke: #cf1a1a !important;
+}
 
 .ant-table {
     background-color: var(--main-color) !important;
+}
+
+:where(.css-i46qwz).ant-pagination .ant-pagination-item a {
+    color: white !important;
+}
+
+:where(.css-i46qwz).ant-pagination .ant-pagination-item-active a {
+    color: var(--primary-color) !important;
+}
+
+:where(.css-i46qwz).ant-pagination .ant-pagination-item-active {
+    border-color: var(--primary-color) !important;
 }
