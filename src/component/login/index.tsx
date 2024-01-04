@@ -215,7 +215,7 @@ export const Login: React.FC = () => {
                                             }}
                                         />
                                     }
-                                    className="login-facebook flex basis-[43%]"
+                                    className="login-facebook flex sm:basis-[43%] basis-[46%]"
                                     onClick={onSuccessGG}
                                 >
                                     Google
@@ -234,7 +234,7 @@ export const Login: React.FC = () => {
                                             }}
                                         />
                                     }
-                                    className="login-facebook flex basis-[43%]"
+                                    className="login-facebook flex sm:basis-[43%] basis-[46%] "
                                 >
                                     Facebook
                                 </Button>
