@@ -90,12 +90,12 @@ export const Summary: React.FC<SummaryProps> = ({
     };
 
     useEffect(() => {
-        console.log(subscriptionInfoId);
-
-        if (selectedMethod === 2) {
-            paymentVNPay();
-        } else if (selectedMethod === 1) {
-            postOrder();
+        if (subscriptionInfoId !== 0) {
+            if (selectedMethod === 2) {
+                paymentVNPay();
+            } else if (selectedMethod === 1) {
+                postOrder();
+            }
         }
     }, [selectedMethod, subscriptionInfoId]);
 

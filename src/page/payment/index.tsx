@@ -26,8 +26,6 @@ export const Payment = () => {
         axios
             .get(`${endpoint}/api/subscription/get-all-subscription-info`)
             .then((response) => {
-                console.log(response.data.data);
-
                 setDataSubscriptionInfo(response.data.data);
             })
             .catch((err) => console.log(err));
