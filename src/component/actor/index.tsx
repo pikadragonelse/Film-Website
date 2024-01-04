@@ -134,6 +134,7 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
 
                 <meta property="og:site_name" content="Your Site Name" />
                 <meta property="og:locale" content="en_US" />
+
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content={ogTags.title || 'Actor Name'} />
                 <meta
