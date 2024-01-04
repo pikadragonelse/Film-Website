@@ -1,8 +1,8 @@
-import { Avatar, BackTop, Spin, Tooltip } from 'antd';
+import { BackTop, Spin, Tooltip } from 'antd';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Botchat } from '../../component/botchat';
+import { Link } from 'react-router-dom';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMoviesHome } from '../../component/history-home';
 import { CastFamousHome } from '../../component/home-cast-famous';
@@ -13,7 +13,6 @@ import { DAFilm, Film } from '../../model/film';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
-import { Link } from 'react-router-dom';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -150,33 +149,13 @@ export const HomePage = () => {
             />
         ));
     };
-    //botchat
-    const [open, setOpen] = useState(false);
-
-    const showBotchat = () => {
-        setOpen(true);
-    };
-
-    const closeBotchat = () => {
-        setOpen(false);
-    };
 
     return (
         <div>
             <Tooltip title="Quay về đầu trang" placement="left">
                 <BackTop className="bg-[#313439] rounded-full text-red " visibilityHeight={200} />
             </Tooltip>
-            <div className="botchat relative bottom-3 !right-4">
-                <Tooltip title="Xin chào, MovTime có thể giúp gì cho bạn?" placement="left">
-                    <Avatar
-                        size={54}
-                        src="https://www.shutterstock.com/image-vector/artificial-ai-chat-bot-icon-600nw-2281213775.jpg"
-                        onClick={showBotchat}
-                        style={{ backgroundColor: 'white' }}
-                    />
-                </Tooltip>
-            </div>
-            {open && <Botchat onClose={closeBotchat} />}
+
             <Slide />
             <div className="container-home"></div>
             <Spin spinning={loading} size="large" className="mt-96">
