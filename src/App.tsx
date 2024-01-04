@@ -59,13 +59,14 @@ export const App = () => {
         }
         const timer = setInterval(refreshToken, timeRefreshToken);
         return () => clearInterval(timer);
-    }, []);
+    }, [accessToken]);
 
     useEffect(() => {
         const jsonDurationInfo = localStorage.getItem('durationInfo') || JSON.stringify('');
         const durationInfo: { episodeId: number; duration: number } = JSON.parse(jsonDurationInfo);
-        console.log(durationInfo);
-        saveWatchingHistory(durationInfo.episodeId, durationInfo.duration);
+        if (durationInfo.episodeId !== 0 && durationInfo.duration !== 0) {
+            saveWatchingHistory(durationInfo.episodeId, durationInfo.duration);
+        }
     }, [pathname]);
 
     return (

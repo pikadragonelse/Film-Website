@@ -36,8 +36,15 @@ export const MoviesPackageBill = () => {
                     Authorization: 'Bearer ' + accessToken,
                 },
             })
-            .then((res) => setDataBillReturn(res.data.results))
-            .catch((err) => console.log(err));
+            .then((res) => {
+                setIsLoading(false);
+                setDataBillReturn(res.data.results);
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoading(false);
+            });
     };
 
     const getUserInfo = () => {
@@ -55,9 +62,11 @@ export const MoviesPackageBill = () => {
                 },
             })
             .then((res) => {
+                setIsLoading(false);
                 setDataUser(res.data);
             })
             .catch((err) => {
+                setIsLoading(false);
                 console.log(err);
             });
     };
@@ -214,9 +223,8 @@ export const MoviesPackageBill = () => {
                     >
                         <span className="bill-list__bold">Tổng tiền </span>
                         {location.search.includes('vnp_Amount') === true
-                            ? (dataBillReturn.vnp_Amount / 100).toLocaleString('it-IT')
-                            : dataBilPaypalReturn.price.toLocaleString('it-IT')}
-                        &nbsp;₫
+                            ? (dataBillReturn.vnp_Amount / 100).toLocaleString('it-IT') + ' ₫'
+                            : dataBilPaypalReturn.price.toLocaleString('it-IT') + ' $'}
                     </div>
                     <Link to="/">
                         <Button className="bill-list__btn" type="primary">

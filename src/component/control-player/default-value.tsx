@@ -33,11 +33,9 @@ export const settingItemContentMap: Record<string, SettingContentData> = {
     quality: {
         title: 'Chất lượng',
         options: [
-            { label: '360p', value: 360 },
-            { label: '480p', value: 480 },
-            { label: '720p', value: 720 },
-            { label: '1080p', value: 1080 },
             { label: '4k+HDR', value: 4 },
+            { label: '1080p', value: 1080 },
+            { label: '720p', value: 720 },
         ],
     },
 };

@@ -47,6 +47,7 @@ export const SettingItem = ({
                 <div
                     className=" flex items-center justify-between px-3 py-4 hover:bg-zinc-700/[.5] cursor-pointer"
                     onClick={() => onSelected(value.value)}
+                    key={index}
                 >
                     <div className="setting-item flex gap-2 items-center text-slate-50">
                         {value.icon}

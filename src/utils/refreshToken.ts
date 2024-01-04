@@ -14,7 +14,7 @@ export const refreshToken = () => {
             console.log('Error refresh');
 
             console.log(err);
-            if (err.response.status === 401) {
+            if (err.response.status === 400) {
                 Cookies.remove('accessToken');
                 Cookies.remove('refreshToken');
             }
