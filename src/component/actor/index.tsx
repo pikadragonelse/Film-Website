@@ -8,7 +8,7 @@ import { endpoint } from '../../utils/baseUrl';
 import { TabItem } from './actor-tag-item';
 import './index.scss';
 import { ActorInfo, TabsProps } from './type';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
@@ -120,11 +120,17 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
         <>
             <Helmet>
                 <title>{ogTags.title}</title>
-                <meta property="og:title" content={ogTags.title} />
-                <meta property="og:description" content={ogTags.description} />
-                <meta property="og:image" content={ogTags.image} />
-                <meta property="og:url" content={ogTags.url} />
-                <meta property="og:type" content={ogTags.type} />
+                <meta property="og:title" content={ogTags.title || 'Actor Name'} />
+                <meta
+                    property="og:description"
+                    content={ogTags.description || 'Actor Description'}
+                />
+                <meta property="og:image" content={ogTags.image || defaultImage} />
+                <meta
+                    property="og:url"
+                    content={ogTags.url || `${window.location.origin}/actor/${actorId}`}
+                />
+                <meta property="og:type" content={ogTags.type || 'article'} />
             </Helmet>
             {actorInfo && (
                 <div>
