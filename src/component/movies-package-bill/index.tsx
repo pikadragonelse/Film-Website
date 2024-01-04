@@ -60,35 +60,40 @@ export const MoviesPackageBill = () => {
     };
 
     const verifyBill = async () => {
-        await axios
-            .get(`${endpoint}/api/payments/vn-pay/verify` + location.search, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + accessToken,
+        try {
+            const response = await axios.get(
+                `${endpoint}/api/payments/vn-pay/verify` + location.search,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
                 },
-            })
-            .then((res) => setDataBillReturn(res.data.results))
-            .catch((err) => console.log(err));
+            );
+            setDataBillReturn(response.data.results);
+        } catch (error) {
+            console.error('Error verifying VNPay bill:', error);
+        }
     };
 
     const verifyBillPaypal = async () => {
-        await axios
-            .post(
+        try {
+            const response = await axios.post(
                 `${endpoint}/api/payments/paypal/capture`,
                 { order_id: location.search.split('&')[0].split('?')[1].split('=')[1] },
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + accessToken,
+                        Authorization: `Bearer ${accessToken}`,
                     },
                 },
-            )
-            .then((res) => {
-                if (res.data.data.status !== 422 && res.data.data.name !== 'AxiosError') {
-                    setDataBilPaypalReturn(res.data.data);
-                }
-            })
-            .catch((err) => console.log(err));
+            );
+            if (response.data.data.status !== 422 && response.data.data.name !== 'AxiosError') {
+                setDataBilPaypalReturn(response.data.data);
+            }
+        } catch (error) {
+            console.error('Error verifying Paypal bill:', error);
+        }
     };
 
     useEffect(() => {
@@ -105,7 +110,7 @@ export const MoviesPackageBill = () => {
         }
         handleDataReturn();
         fetchDataCurrentUser();
-    }, [dataBilPaypalReturn]);
+    }, [dataBilPaypalReturn, dataBillReturn]);
 
     const handleDataReturn = () => {
         const arrCutInfo = dataBillReturn.vnp_OrderInfo.split(' ');
