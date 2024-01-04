@@ -46,10 +46,7 @@ const LoginGG = () => {
                         let accessToken = JSON.stringify(res.data.result.token.accessToken);
                         Cookies.set('accessToken', accessToken, { expires: 1 });
                         Cookies.set('refreshToken', refreshToken, { expires: 1 });
-                        if (accessToken) {
-                            window.location.reload();
-                            navigate('/');
-                        }
+                        navigate('/');
                     })
                     .catch((err) => {
                         console.log('Error refresh', err);
