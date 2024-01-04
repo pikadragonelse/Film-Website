@@ -14,7 +14,6 @@ const IconText = ({ icon, text }: { icon: React.FC; text?: number; date?: string
 
 const FilmDetailReview: React.FC = () => {
     const { episodeId } = useParams();
-    console.log('episodeId', episodeId);
 
     const [refreshData, setRefreshData] = useState(false);
     const [listComments, setListComments] = useState<Array<listCommentsProps>>([]);

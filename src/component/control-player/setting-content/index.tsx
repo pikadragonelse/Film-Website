@@ -40,6 +40,11 @@ export const SettingContent = ({
                         onClick={() => onSelected(item.value)}
                     >
                         {item.label}
+                        {item.label === '1080p' || item.label === '4k+HDR' ? (
+                            <span className="text-red-600 font-normal">&nbsp;VIP</span>
+                        ) : (
+                            ''
+                        )}
                     </div>
                 ))}
             </div>

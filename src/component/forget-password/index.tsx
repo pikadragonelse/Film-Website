@@ -14,7 +14,6 @@ export const LoginForget: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
     const onFinish = (data: FieldType) => {
-        console.log(data);
         setLoading(true);
         axios
             .post(`${endpoint}/api/auth/forgot-password`, data)

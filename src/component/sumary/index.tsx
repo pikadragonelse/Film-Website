@@ -90,12 +90,12 @@ export const Summary: React.FC<SummaryProps> = ({
     };
 
     useEffect(() => {
-        console.log(subscriptionInfoId);
-
-        if (selectedMethod === 2) {
-            paymentVNPay();
-        } else if (selectedMethod === 1) {
-            postOrder();
+        if (subscriptionInfoId !== 0) {
+            if (selectedMethod === 2) {
+                paymentVNPay();
+            } else if (selectedMethod === 1) {
+                postOrder();
+            }
         }
     }, [selectedMethod, subscriptionInfoId]);
 
@@ -176,7 +176,7 @@ export const Summary: React.FC<SummaryProps> = ({
                 <div className="total-price">
                     <div className="">Thành tiền</div>
                     <div className="value-1">
-                        {(totalPrice - totalPrice * discount).toLocaleString('it-IT') || '---'}
+                        {totalPrice.toLocaleString('it-IT') || '---'}
                         &nbsp;₫
                     </div>
                 </div>

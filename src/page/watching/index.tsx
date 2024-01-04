@@ -64,10 +64,6 @@ export const WatchingPage = () => {
     };
 
     useEffect(() => {
-        console.log(durationDefault);
-    }, [durationDefault]);
-
-    useEffect(() => {
         fetchData();
         fetchRecommend();
     }, [movieId, accessToken]);
@@ -148,7 +144,6 @@ export const WatchingPage = () => {
             return 'upgradePackage';
         }
     };
-    console.log(dataEpisode);
     return (
         <div className="watching-container">
             <Modal
@@ -175,6 +170,7 @@ export const WatchingPage = () => {
                         sourceUrl={srcVideo}
                         episodeId={dataEpisode.episodeId}
                         setSrcVideo={setSrcVideo}
+                        watchingVideoId={watchingData.movieId}
                     />
                 </div>
                 <div className="watching-list-film-container">

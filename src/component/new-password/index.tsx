@@ -49,7 +49,6 @@ export const NewPassword: React.FC = () => {
             token: token,
             email: email,
         };
-        console.log(data);
         setLoading(false);
         axios
             .post(`${endpoint}/api/auth/forgot-password`, data)

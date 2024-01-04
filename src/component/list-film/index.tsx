@@ -14,6 +14,7 @@ export type ListFilm = {
     listFilm: Array<Film>;
     multiSessions?: boolean;
     genreId?: number;
+    isShow?: boolean;
 };
 export const ListFilm = ({
     title,
@@ -22,6 +23,7 @@ export const ListFilm = ({
     listFilm = [],
     multiSessions = false,
     genreId,
+    isShow,
 }: ListFilm) => {
     const moment = require('moment');
     const listRef = useRef<CarouselRef>(null);
@@ -62,17 +64,21 @@ export const ListFilm = ({
             <div className="list-heading">
                 <div className="flex items-center justify-between">
                     <h2 className="list-title ml-20 mb-1 font-medium">{title}</h2>
-                    <Link
-                        to={{
-                            pathname: '/search',
-                            search: `genre=${genreId}`,
-                        }}
-                        className={`mt-1 text-red-500 hover:text-red-600 mr-20 ${
-                            listFilm.length < 6 ? 'hidden' : ''
-                        }`}
-                    >
-                        Xem tất cả
-                    </Link>
+                    {isShow === false ? (
+                        ''
+                    ) : (
+                        <Link
+                            to={{
+                                pathname: '/search',
+                                search: `genre=${genreId}`,
+                            }}
+                            className={`mt-1 text-red-500 hover:text-red-600 mr-20 ${
+                                listFilm.length < 6 ? 'hidden' : ''
+                            }`}
+                        >
+                            Xem tất cả
+                        </Link>
+                    )}
                 </div>
                 <div className="list-sub-info">
                     {subInfo?.map((item) => (

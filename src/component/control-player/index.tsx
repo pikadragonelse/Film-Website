@@ -7,7 +7,7 @@ import {
     faVolumeXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ConfigProvider, Popover, Slider, Tooltip } from 'antd';
+import { ConfigProvider, Modal, Popover, Slider, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { IconForward10s } from '../../asset/icon/forward-10s';
 import { IconRewind10s } from '../../asset/icon/rewind-10s';
@@ -24,10 +24,11 @@ import {
 } from './default-value';
 import './index.scss';
 import { SettingContent } from './setting-content';
-import { SettingItem, SettingItemData } from './setting-item';
+import { SettingItem } from './setting-item';
 import axios from 'axios';
 import { endpoint } from '../../utils/baseUrl';
 import { useToken } from '../../hooks/useToken';
+import { useNavigate } from 'react-router-dom';
 
 const mapIconVolume: Record<string, IconDefinition> = {
     true: faVolumeXmark,
@@ -37,6 +38,12 @@ const mapIconVolume: Record<string, IconDefinition> = {
 export type SettingState = {
     speed: number;
     quality: number;
+};
+
+const mapQuality: Record<number, string> = {
+    720: '720p',
+    1080: '1080p',
+    4: '4k',
 };
 
 export const ControlPlayer = ({
@@ -55,6 +62,7 @@ export const ControlPlayer = ({
     setIsLoadingHidden = () => {},
     setSpeedVid = () => {},
     setSrcVideo = () => {},
+    setIsOpenModal = () => {},
 }: ControlPlayerType) => {
     const duration: number = videoRef?.current?.getDuration() || 0;
     const [selectedSetting, setSelectedSetting] = useState('');
@@ -72,11 +80,10 @@ export const ControlPlayer = ({
 
     const getQualityVid = (quality: number) => {
         setIsLoadingHidden(false);
-
         axios
             .get(`${endpoint}/api/episode/qualities/${Number(episodeId)}`, {
                 params: {
-                    quality: quality === 1080 ? '1080p' : '4k',
+                    quality: mapQuality[quality],
                 },
                 headers: {
                     'Content-Type': 'application/json',
@@ -84,11 +91,17 @@ export const ControlPlayer = ({
                 },
             })
             .then((res) => {
+                setStateSetting({ ...stateSetting, quality: quality });
                 setSrcVideo(res.data.data.videoUrl);
                 setIsLoadingHidden(true);
             })
             .catch((err) => {
+                console.log(err);
+                setIsLoadingHidden(true);
+
                 if (err.response.status === 403) {
+                    setIsOpenModal(true);
+                    setIsLoadingHidden(false);
                 }
             });
     };
@@ -100,7 +113,6 @@ export const ControlPlayer = ({
                 setSpeedVid(value);
             },
             quality: () => {
-                setStateSetting({ ...stateSetting, quality: value });
                 getQualityVid(value);
             },
         };
@@ -229,6 +241,7 @@ export const ControlPlayer = ({
                             setSelectedSetting('');
                             setIsSelectedSettingIcon(!isSelectedSettingIcon);
                         }}
+                        zIndex={10}
                     >
                         <div className="feature-item feature-right-item">
                             <SettingFilled

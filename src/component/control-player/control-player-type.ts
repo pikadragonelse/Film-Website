@@ -17,4 +17,5 @@ export type ControlPlayerType = {
     setIsLoadingHidden?: (props?: any) => void;
     setSpeedVid?: (props?: any) => void;
     setSrcVideo?: (props?: any) => void;
+    setIsOpenModal?: (props?: any) => void;
 };

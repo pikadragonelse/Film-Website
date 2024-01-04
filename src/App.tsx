@@ -14,7 +14,7 @@ import { Payment } from './page/payment';
 import { SearchPage } from './page/search';
 import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
-import { Actor } from './component/actor';
+import Actor from './component/actor';
 import { NewPassword } from './component/new-password';
 import { LoginForget } from './component/forget-password';
 import { useToken } from './hooks/useToken';
@@ -48,7 +48,6 @@ export const App = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
-            .then((res) => console.log(res))
             .catch((err) => console.log(err));
     };
 
@@ -59,13 +58,14 @@ export const App = () => {
         }
         const timer = setInterval(refreshToken, timeRefreshToken);
         return () => clearInterval(timer);
-    }, []);
+    }, [accessToken]);
 
     useEffect(() => {
         const jsonDurationInfo = localStorage.getItem('durationInfo') || JSON.stringify('');
         const durationInfo: { episodeId: number; duration: number } = JSON.parse(jsonDurationInfo);
-        console.log(durationInfo);
-        saveWatchingHistory(durationInfo.episodeId, durationInfo.duration);
+        if (durationInfo.episodeId !== 0 && durationInfo.duration !== 0) {
+            saveWatchingHistory(durationInfo.episodeId, durationInfo.duration);
+        }
     }, [pathname]);
 
     return (

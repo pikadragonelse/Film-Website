@@ -26,8 +26,6 @@ export const Payment = () => {
         axios
             .get(`${endpoint}/api/subscription/get-all-subscription-info`)
             .then((response) => {
-                console.log(response.data.data);
-
                 setDataSubscriptionInfo(response.data.data);
             })
             .catch((err) => console.log(err));
@@ -44,8 +42,6 @@ export const Payment = () => {
                     subscription.subscriptionType.subscriptionTypeId === Number(idPackage) &&
                     subscription.duration.durationId === selectedTerm?.id
                 ) {
-                    console.log(subscription.subscription_info_id);
-
                     setSelectedPackageId(subscription.subscription_info_id);
                     setDiscount(subscription.discount);
                 }

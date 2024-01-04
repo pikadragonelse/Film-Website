@@ -19,7 +19,7 @@ export const Botchat = ({ onClose }: botchatProp) => {
     const ref = useRef<any>(null);
     const [question, setQuestion] = useState<string>('');
     const [messages, setMessages] = useState<{ question?: string; answer?: string | any }[]>(() => [
-        { answer: 'Tôi có thể giúp gì cho bạn?' },
+        { answer: 'Tôi có thể giúp gì cho bạn ?' },
     ]);
     const [currentUser, setCurrentUser] = useState<CurrentUser>({
         username: '',
@@ -130,7 +130,7 @@ export const Botchat = ({ onClose }: botchatProp) => {
                                 ) : (
                                     <Avatar
                                         size={36}
-                                        icon={<UserOutlined />}
+                                        src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
                                         style={{ backgroundColor: '#87d068' }}
                                     />
                                 )}

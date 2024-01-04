@@ -65,7 +65,6 @@ export const FormEditUser = ({
                 },
             },
         );
-        console.log(presignedUrlResponse.data);
 
         if (!presignedUrlResponse.data.data) {
             console.error('Presigned URL not received from the server.');
