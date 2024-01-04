@@ -48,7 +48,7 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
                     }
                 }
             } else {
-                console.error('Failed to fetch QR code URL');
+                console.error('Failed to fetch ');
             }
         } catch (error) {
             console.error(error);
