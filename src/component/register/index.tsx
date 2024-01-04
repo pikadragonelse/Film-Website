@@ -74,7 +74,7 @@ export const Register: React.FC = () => {
             });
 
             if (response.data.status === 'Ok!') {
-                notification.error({
+                notification.info({
                     message: 'Đăng kí thành công',
                     description: 'Hãy kiểm tra mail để xác nhận.',
                 });

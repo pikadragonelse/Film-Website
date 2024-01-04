@@ -1,4 +1,4 @@
-import { Rate, Space } from 'antd';
+import { Rate, Space, notification } from 'antd';
 import Cookies from 'js-cookie';
 import { request } from '../../utils/request';
 import './index.scss';
@@ -24,10 +24,14 @@ export const ModalRating = ({ movieId, rating }: ratingProp) => {
                     },
                 },
             );
-            const data = response.data;
-            console.log(data);
         } catch (error: any) {
             console.log(error);
+            if (error.response?.status === 403) {
+                notification.warning({
+                    message: 'Thông báo!',
+                    description: 'Bạn đã đánh giá bộ phim này trước đó.',
+                });
+            }
         }
     };
 
