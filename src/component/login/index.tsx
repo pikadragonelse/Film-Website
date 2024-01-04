@@ -39,7 +39,7 @@ export const Login: React.FC = () => {
                 if (response.status === 200) {
                     notification.success({
                         message: 'Đăng nhập thành công',
-                        description: 'Chúc mừng, bạn đã đăng nhập thành công',
+                        description: 'Chúc bạn có một trải nghiệm tuyệt vời với MovTime.',
                         placement: 'bottomRight',
                     });
 

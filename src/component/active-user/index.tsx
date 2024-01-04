@@ -26,7 +26,7 @@ const ActiveUser = () => {
             })
             .catch(function (err) {
                 console.error(err);
-                notification.error({
+                notification.info({
                     message: 'Kiểm tra email',
                     description: 'Hãy đảm bảo rằng bạn đã xác nhận tài khoản.',
                 });
