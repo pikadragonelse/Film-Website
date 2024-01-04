@@ -8,7 +8,7 @@ import { endpoint } from '../../utils/baseUrl';
 import { TabItem } from './actor-tag-item';
 import './index.scss';
 import { ActorInfo, TabsProps } from './type';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 
 const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
@@ -48,7 +48,7 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
                     }
                 }
             } else {
-                console.error('Failed to fetch ');
+                console.error('Failed to fetch QR code URL');
             }
         } catch (error) {
             console.error(error);
