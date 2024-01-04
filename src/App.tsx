@@ -14,7 +14,7 @@ import { Payment } from './page/payment';
 import { SearchPage } from './page/search';
 import { VIPPackage } from './page/vip-package';
 import { WatchingPage } from './page/watching';
-import { Actor } from './component/actor';
+import Actor from './component/actor';
 import { NewPassword } from './component/new-password';
 import { LoginForget } from './component/forget-password';
 import { useToken } from './hooks/useToken';

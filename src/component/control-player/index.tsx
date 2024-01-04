@@ -24,7 +24,7 @@ import {
 } from './default-value';
 import './index.scss';
 import { SettingContent } from './setting-content';
-import { SettingItem, SettingItemData } from './setting-item';
+import { SettingItem } from './setting-item';
 import axios from 'axios';
 import { endpoint } from '../../utils/baseUrl';
 import { useToken } from '../../hooks/useToken';
