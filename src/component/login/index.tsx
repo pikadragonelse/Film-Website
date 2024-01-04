@@ -32,7 +32,6 @@ export const Login: React.FC = () => {
         axios
             .post(`${endpoint}/api/auth/login`, data)
             .then((response) => {
-                console.log('POST', response);
                 let accessToken = JSON.stringify(response.data.result.token.accessToken);
                 let refreshToken = JSON.stringify(response.data.result.token.refreshToken);
                 setLoading(false);
@@ -52,7 +51,6 @@ export const Login: React.FC = () => {
 
                     Cookies.set('accessToken', accessToken, { expires: 1 });
                     Cookies.set('refreshToken', refreshToken, { expires: 1 });
-                    console.log(accessToken);
                     if (hash !== '') {
                         navigate(`/movie/${hash.split('#')[1]}`);
                     } else {

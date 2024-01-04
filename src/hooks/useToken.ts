@@ -1,5 +1,4 @@
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
 
 export interface TokenObject {
     exp: number;

@@ -27,7 +27,6 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
 
                 if (response.status === 200) {
                     const responseData = response.data;
-                    console.log('Response Data:', responseData);
 
                     if (responseData && responseData.data && Array.isArray(responseData.data)) {
                         const reservations: Reservation[] = responseData.data;
@@ -95,7 +94,7 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
                     },
                 });
 
-                if (response.status === 200) {
+                if (response?.status === 200) {
                     Modal.success({
                         title: 'Thông báo',
                         content: 'Bạn đã hủy đặt lịch!',
@@ -105,7 +104,7 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
                         },
                     });
                 } else {
-                    console.error(`Failed to cancel the reservation. Status: ${response.status}`);
+                    console.error(`Failed to cancel the reservation. Status: ${response?.status}`);
                     Modal.error({
                         title: 'Lỗi',
                         content: 'Đã xảy ra lỗi khi hủy đặt lịch. Vui lòng thử lại sau.',
@@ -122,9 +121,8 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
                         },
                     },
                 );
-                console.log('response', response);
 
-                if (response.status === 200) {
+                if (response?.status === 200) {
                     Modal.success({
                         title: 'Thông báo',
                         content:

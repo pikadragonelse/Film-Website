@@ -17,3 +17,11 @@
 .overall-info {
     color: #989898;
 }
+
+:where(.css-i46qwz).ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    color: white !important;
+}
+
+.ant-collapse-header-text {
+    font-size: 16px !important;
+}

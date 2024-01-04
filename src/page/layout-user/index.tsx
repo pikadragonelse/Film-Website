@@ -1,28 +1,27 @@
 import {
     CalendarOutlined,
     CrownOutlined,
-    DeleteOutlined,
     HeartOutlined,
     SettingOutlined,
     UnorderedListOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Button, Layout, Menu, Modal, notification } from 'antd';
+import { Breadcrumb, Button, Layout, Menu, Modal } from 'antd';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router';
+import { Link } from 'react-router-dom';
 import { VIPPackageUser } from '../../component/VIP-package-user';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMovies } from '../../component/history';
 import { LoveMovies } from '../../component/love-movie';
 import { UserProfile } from '../../component/user-profile';
 import { WatchLater } from '../../component/watch-later';
-import { request } from '../../utils/request';
-import './index.scss';
-import { Route, Routes, useLocation, useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import { CurrentUser, defaultCurrentUser } from '../../model/user';
 import { useAppSelector } from '../../redux/hook';
+import { request } from '../../utils/request';
+import './index.scss';
 
 const { Header, Content, Sider } = Layout;
 
@@ -77,13 +76,6 @@ const items: MenuItem[] = [
             <HeartOutlined />
         </Link>,
     ),
-    getItem(
-        'Xóa tài khoản',
-        '/delete-account',
-        <Link to={'/foryou/delete-account'}>
-            <DeleteOutlined />
-        </Link>,
-    ),
 ];
 
 export const LayoutUser = () => {
@@ -106,7 +98,6 @@ export const LayoutUser = () => {
             console.error(error);
         }
     };
-    console.log(currentUser);
     const [dataLovemovies, setDataLovemovies] = useState<FilmItem[]>([]);
     const fetchDataLove = async () => {
         try {

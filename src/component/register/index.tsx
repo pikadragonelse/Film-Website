@@ -65,7 +65,6 @@ export const Register: React.FC = () => {
     const sendActive = async (values: any) => {
         try {
             const data = { identifier: values.email };
-            console.log(data);
 
             const response = await axios.post(`${endpoint}/api/auth/active-user`, data, {
                 headers: {

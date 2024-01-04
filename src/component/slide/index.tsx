@@ -20,6 +20,7 @@ import { endpoint } from '../../utils/baseUrl';
 import { FilmItem } from '../film-item';
 import './index.scss';
 import { Movie } from './type';
+import { Helmet } from 'react-helmet';
 
 const Slide: React.FC = () => {
     const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -30,7 +31,7 @@ const Slide: React.FC = () => {
     const [shareModalVisible, setShareModalVisible] = useState(false);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
-
+    const currentMovie = popularMovies.length > 0 ? popularMovies[0] : null;
     const carouselRef = useRef<Carousel>(null);
     const fetchData = () => {
         fetch(`${endpoint}/api/movies?page=1&pageSize=8&sort=highFavorited&sortBy=DESC`)
@@ -263,6 +264,19 @@ const Slide: React.FC = () => {
 
     return (
         <>
+            <Helmet>
+                {currentMovie && (
+                    <>
+                        <meta property="og:title" content={currentMovie.title} />
+                        <meta property="og:description" content={currentMovie.description} />
+                        <meta property="og:image" content={currentMovie.backgroundURL} />
+                        <meta
+                            property="og:url"
+                            content={`${window.location.origin}/movie/${movieId}`}
+                        />
+                    </>
+                )}
+            </Helmet>
             <div className="poster">
                 <Carousel
                     className="slide"

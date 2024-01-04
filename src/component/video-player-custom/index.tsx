@@ -6,10 +6,8 @@ import { useAppDispatch } from '../../redux/hook';
 import { VideoWatching, setDataVideoWatching } from '../../redux/videoSlice';
 import screenfull from 'screenfull';
 import { CaretRightOutlined, LoadingOutlined } from '@ant-design/icons';
-import { request } from '../../utils/request';
-import { useToken } from '../../hooks/useToken';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Spin } from 'antd';
+import { Modal, Spin } from 'antd';
 
 export interface VideoState {
     playing: boolean;
@@ -27,12 +25,14 @@ export type VideoPlayerCustom = {
     posterUrl?: string;
     episodeId?: number | string;
     setSrcVideo?: (props?: any) => void;
+    watchingVideoId?: number;
 };
 export const VideoPlayerCustom = ({
     sourceUrl,
     posterUrl,
     episodeId,
     setSrcVideo = () => {},
+    watchingVideoId,
 }: VideoPlayerCustom) => {
     const playerRef = useRef<ReactPlayer | null>(null);
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -40,7 +40,6 @@ export const VideoPlayerCustom = ({
     const [isShowControl, setIsShowControl] = useState(false);
     const [isMouseOver, setIsMouseOver] = useState(false);
     const [isMouseStill, setIsMouseStill] = useState(false);
-    const [lastMousePosition, setLastMousePosition] = useState({ x: 0, y: 0 });
     const [isLoadingHidden, setIsLoadingHidden] = useState(true);
     const [speedVid, setSpeedVid] = useState(1);
 
@@ -160,16 +159,29 @@ export const VideoPlayerCustom = ({
     // };
 
     const dispatch = useAppDispatch();
+    const [isOpenModal, setIsOpenModal] = useState(false);
+    const navigator = useNavigate();
 
     return (
-        <div
-            ref={containerRef}
-            // onMouseLeave={handleMouseOutPlayer}
-            // onMouseOver={handleMouseOverPlayer}
-            onMouseOver={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            // onMouseMove={handleMouseMove}
-        >
+        <div ref={containerRef} onMouseOver={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <Modal
+                title={'Không có quyền truy cập'}
+                open={isOpenModal}
+                onCancel={() => {
+                    setIsOpenModal(false);
+                }}
+                onOk={() => {
+                    navigator({
+                        pathname: '/VIPPackage',
+                        hash: `${watchingVideoId?.toString()}/${episodeId}`,
+                    });
+                }}
+                okText={'Đăng ký gói'}
+                cancelText="Tiếp tục xem"
+            >
+                Gói hiện tại của bạn không hỗ trợ xem phim ở chất lượng này, vui lòng nâng cấp gói
+                để trải nghiệm chất lượng phim tốt nhất
+            </Modal>
             <div className="player flex " onClick={() => playPauseHandler()}>
                 <ReactPlayer
                     ref={playerRef}
@@ -228,6 +240,7 @@ export const VideoPlayerCustom = ({
                 setIsLoadingHidden={setIsLoadingHidden}
                 setSpeedVid={setSpeedVid}
                 setSrcVideo={setSrcVideo}
+                setIsOpenModal={setIsOpenModal}
             />
         </div>
     );

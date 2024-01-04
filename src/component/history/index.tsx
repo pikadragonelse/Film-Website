@@ -9,7 +9,6 @@ export interface HistoryMoviesProps {
 }
 
 export const HistoryMovies = ({ dataHistorymovies }: HistoryMoviesProps) => {
-    console.log(dataHistorymovies);
     return (
         <div className="content-page-love-movies">
             {dataHistorymovies.length !== 0 ? (

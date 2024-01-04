@@ -8,8 +8,9 @@ import { endpoint } from '../../utils/baseUrl';
 import { TabItem } from './actor-tag-item';
 import './index.scss';
 import { ActorInfo, TabsProps } from './type';
+import { Helmet } from 'react-helmet';
 
-export const Actor: React.FC<TabsProps> = ({ color }) => {
+const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
     const [activeTab, setActiveTab] = useState(1);
     const { actorId } = useParams();
@@ -17,6 +18,16 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [films, setFilms] = useState<Array<FilmItem>>([]);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
+
+    const defaultImage =
+        'https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg';
+    const ogTags = {
+        title: actorInfo?.name || 'Actor Name',
+        description: actorInfo?.description || 'Actor Description',
+        image: actorInfo?.avatar || defaultImage,
+        url: `${window.location.origin}/actor/${actorId}`,
+        type: 'article',
+    };
 
     const fetchActorQRCode = async () => {
         const actorLink = encodeURIComponent(`${window.location.origin}/actor/${actorId}`);
@@ -51,6 +62,12 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                 setActorInfo(data.data);
                 setFilms(data.data.movies);
                 fetchActorQRCode();
+
+                ogTags.title = data.data.name || 'Actor Name';
+                ogTags.description = data.data.description || 'Actor Description';
+                ogTags.image = data.data.avatar || defaultImage;
+                ogTags.url = `${window.location.origin}/actor/${actorId}`;
+                ogTags.type = 'article';
             })
             .catch((error) => console.error('Error:', error));
     }, [actorId]);
@@ -61,33 +78,10 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     };
 
     const [isModalVisible, setIsModalVisible] = useState(false);
-
     const showModal = () => {
         const actorLink = `${window.location.origin}/actor/${actorId}`;
         setCopiedLink(actorLink);
         setIsModalVisible(true);
-
-        const ogTags = `
-            <meta property="og:title" content="${actorInfo?.name || 'Actor Name'}" />
-            <meta property="og:description" content="${
-                actorInfo?.description || 'Actor Description'
-            }" />
-            <meta property="og:image" content="${actorInfo?.avatar || 'Default Image URL'}" />
-            <meta property="og:url" content="${actorLink}" />
-        `;
-
-        const existingMetaTags = document.querySelectorAll('meta[property^="og"]');
-        existingMetaTags.forEach((tag) => tag.remove());
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(ogTags, 'text/html');
-        const head = document.head;
-
-        doc.head.childNodes.forEach((node) => {
-            if (node instanceof Element) {
-                head.appendChild(node);
-            }
-        });
     };
 
     const handleCancel = () => {
@@ -124,6 +118,20 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
 
     return (
         <>
+            <Helmet>
+                <title>{ogTags.title}</title>
+                <meta property="og:title" content={ogTags.title || 'Actor Name'} />
+                <meta
+                    property="og:description"
+                    content={ogTags.description || 'Actor Description'}
+                />
+                <meta property="og:image" content={ogTags.image || defaultImage} />
+                <meta
+                    property="og:url"
+                    content={ogTags.url || `${window.location.origin}/actor/${actorId}`}
+                />
+                <meta property="og:type" content={ogTags.type || 'article'} />
+            </Helmet>
             {actorInfo && (
                 <div>
                     <div className="container-actor__header"></div>
@@ -264,3 +272,4 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
         </>
     );
 };
+export default Actor;

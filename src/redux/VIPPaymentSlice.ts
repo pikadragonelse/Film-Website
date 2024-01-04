@@ -28,7 +28,6 @@ const VIPPaymentSlice = createSlice({
         },
         setMethodPayment: (state, action: PayloadAction<number>) => {
             state.methodPayment = action.payload;
-            console.log(state.methodPayment);
         },
     },
 });
