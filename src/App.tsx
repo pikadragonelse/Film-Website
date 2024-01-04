@@ -26,6 +26,8 @@ import { useAppDispatch } from './redux/hook';
 import { setIsLogin } from './redux/isLoginSlice';
 import { refreshToken } from './utils/refreshToken';
 import { request } from './utils/request';
+import { HelmetProvider } from 'react-helmet-async';
+
 const locationMap: Record<string, string> = {
     '/VIPpackage': 'hidden',
     '/payment': 'hidden',
@@ -79,43 +81,47 @@ export const App = () => {
         }
     }, [pathname]);
 
+    const helmetContext = {};
+
     return (
-        <div className="wrapper">
-            <Header className={`${locationMap[location.pathname]}`} />
+        <HelmetProvider context={helmetContext}>
+            <div className="wrapper">
+                <Header className={`${locationMap[location.pathname]}`} />
 
-            <div className="botchat relative bottom-3 !right-4">
-                <Tooltip title="Xin chào, MovTime có thể giúp gì cho bạn?" placement="left">
-                    <Avatar
-                        size={54}
-                        src="https://www.shutterstock.com/image-vector/artificial-ai-chat-bot-icon-600nw-2281213775.jpg"
-                        onClick={showBotchat}
-                        style={{ backgroundColor: 'white' }}
-                    />
-                </Tooltip>
-            </div>
-            {open && <Botchat onClose={closeBotchat} />}
-            <div className="wrapper-app-container">
-                <Routes>
-                    <Route path="" element={<HomePage />} />
-                    <Route path="/search/*" element={<SearchPage />} />
-                    <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
-                    <Route path="/foryou/*" element={<LayoutUser />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/payment/:idPackage/*" element={<Payment />} />
-                    <Route path="/VIPpackage" element={<VIPPackage />} />
-                    <Route path="/bill" element={<Bill />} />
-                    <Route path="/director/:directorId" element={<Director color="white" />} />
-                    <Route path="/actor/:actorId" element={<Actor color="white" />} />
-                    <Route path="/movie/:id" element={<FilmDetail />} />
-                    <Route path="/reset-password" element={<NewPassword />} />
-                    <Route path="/forget" element={<LoginForget />} />
-                    <Route path="/google" element={<LoginGG />} />
-                    <Route path="/active-user" element={<ActiveUser />} />
-                </Routes>
-            </div>
+                <div className="botchat relative bottom-3 !right-4">
+                    <Tooltip title="Xin chào, MovTime có thể giúp gì cho bạn?" placement="left">
+                        <Avatar
+                            size={54}
+                            src="https://www.shutterstock.com/image-vector/artificial-ai-chat-bot-icon-600nw-2281213775.jpg"
+                            onClick={showBotchat}
+                            style={{ backgroundColor: 'white' }}
+                        />
+                    </Tooltip>
+                </div>
+                {open && <Botchat onClose={closeBotchat} />}
+                <div className="wrapper-app-container">
+                    <Routes>
+                        <Route path="" element={<HomePage />} />
+                        <Route path="/search/*" element={<SearchPage />} />
+                        <Route path="/movie/:movieId/:episodeId" element={<WatchingPage />} />
+                        <Route path="/foryou/*" element={<LayoutUser />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                        <Route path="/payment/:idPackage/*" element={<Payment />} />
+                        <Route path="/VIPpackage" element={<VIPPackage />} />
+                        <Route path="/bill" element={<Bill />} />
+                        <Route path="/director/:directorId" element={<Director color="white" />} />
+                        <Route path="/actor/:actorId" element={<Actor color="white" />} />
+                        <Route path="/movie/:id" element={<FilmDetail />} />
+                        <Route path="/reset-password" element={<NewPassword />} />
+                        <Route path="/forget" element={<LoginForget />} />
+                        <Route path="/google" element={<LoginGG />} />
+                        <Route path="/active-user" element={<ActiveUser />} />
+                    </Routes>
+                </div>
 
-            <Footer />
-        </div>
+                <Footer />
+            </div>
+        </HelmetProvider>
     );
 };
