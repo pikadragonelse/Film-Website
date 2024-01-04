@@ -8,6 +8,7 @@ import { endpoint } from '../../utils/baseUrl';
 import { TabItem } from './actor-tag-item';
 import './index.scss';
 import { ActorInfo, TabsProps } from './type';
+import { Helmet } from 'react-helmet';
 
 export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
@@ -17,6 +18,14 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [films, setFilms] = useState<Array<FilmItem>>([]);
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
+
+    const ogTags = {
+        title: actorInfo?.name || 'Actor Name',
+        description: actorInfo?.description || 'Actor Description',
+        image: actorInfo?.avatar || 'default_image_url',
+        url: `${window.location.origin}/actor/${actorId}`,
+        type: 'article',
+    };
 
     const fetchActorQRCode = async () => {
         const actorLink = encodeURIComponent(`${window.location.origin}/actor/${actorId}`);
@@ -101,6 +110,14 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
 
     return (
         <>
+            <Helmet>
+                <title>{ogTags.title}</title>
+                <meta property="og:title" content={ogTags.title} />
+                <meta property="og:description" content={ogTags.description} />
+                <meta property="og:image" content={ogTags.image} />
+                <meta property="og:url" content={ogTags.url} />
+                <meta property="og:type" content={ogTags.type} />
+            </Helmet>
             {actorInfo && (
                 <div>
                     <div className="container-actor__header"></div>
