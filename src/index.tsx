@@ -6,12 +6,17 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { App } from './App';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { Helmet } from 'react-helmet';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
     <React.StrictMode>
         <Provider store={store}>
             <Router>
+                <Helmet>
+                    <title>{'Title'}</title>
+                </Helmet>
                 <App />
             </Router>
         </Provider>
