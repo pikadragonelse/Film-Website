@@ -181,11 +181,11 @@ export const HomePage = () => {
             <Slide />
             <div className="container-home"></div>
             <Spin spinning={loading} size="large" className="mt-96">
-                <ListFilm title="Phim thịnh hành" listFilm={trendingData} />
+                <ListFilm isShow={false} title="Phim thịnh hành" listFilm={trendingData} />
                 <HistoryMoviesHome dataHistorymovies={dataHistorymovies} />
                 <div className="!mt-10"></div>
-                <ListFilm title="Dành cho VIP" listFilm={dataFilmVip} />
-                <ListFilm title="Hôm nay xem gì ?" listFilm={dataRecommend} />
+                <ListFilm isShow={false} title="Dành cho VIP" listFilm={dataFilmVip} />
+                <ListFilm isShow={false} title="Hôm nay xem gì ?" listFilm={dataRecommend} />
                 <Link
                     to={'/VIPpackage'}
                     onClick={() => {
