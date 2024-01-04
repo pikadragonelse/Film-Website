@@ -119,7 +119,6 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
     return (
         <>
             <Helmet>
-                <title>{ogTags.title}</title>
                 <meta property="og:title" content={ogTags.title || 'Actor Name'} />
                 <meta
                     property="og:description"
