@@ -19,10 +19,12 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
 
+    const defaultImage =
+        'https://ik.imagekit.io/tvlk/blog/2022/07/phim-hanh-dong-my-8-1024x576.jpeg?tr=dpr-2,w-675';
     const ogTags = {
         title: actorInfo?.name || 'Actor Name',
         description: actorInfo?.description || 'Actor Description',
-        image: actorInfo?.avatar || 'default_image_url',
+        image: actorInfo?.avatar || defaultImage,
         url: `${window.location.origin}/actor/${actorId}`,
         type: 'article',
     };
@@ -60,6 +62,12 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
                 setActorInfo(data.data);
                 setFilms(data.data.movies);
                 fetchActorQRCode();
+
+                ogTags.title = data.data.name || 'Actor Name';
+                ogTags.description = data.data.description || 'Actor Description';
+                ogTags.image = data.data.avatar || defaultImage;
+                ogTags.url = `${window.location.origin}/actor/${actorId}`;
+                ogTags.type = 'article';
             })
             .catch((error) => console.error('Error:', error));
     }, [actorId]);
