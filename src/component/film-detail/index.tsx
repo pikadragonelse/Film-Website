@@ -43,15 +43,21 @@ export const FilmDetail = () => {
     let firstEpisodeId: number | null = null;
 
     const updateOgTags = (filmDetail: FilmItem) => {
+        const movieId = filmDetail?.movieId;
         const title = filmDetail.title || '';
         const description = filmDetail.description?.slice(0, 100) + '...' || '';
         const posterURL = filmDetail.posterURL || '';
+        const url = `${window.location.origin}/movie/${movieId}` || '';
 
         return (
             <Helmet>
+                <meta property="og:type" content="website" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
                 <meta property="og:image" content={posterURL} />
+                <meta property="og:url" content={url} />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
             </Helmet>
         );
     };
