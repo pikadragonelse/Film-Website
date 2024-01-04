@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 interface ContentItemProps {
     icon: JSX.Element;
     title: string;
-    to?: string | undefined; // Make 'to' optional
+    to?: string | undefined;
 }
 
 const ContentItem: React.FC<ContentItemProps> = ({ icon, title, to }) => (

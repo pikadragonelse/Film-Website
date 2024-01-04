@@ -1,4 +1,4 @@
-import { Button, Descriptions, DescriptionsProps } from 'antd';
+import { Button, Descriptions, DescriptionsProps, Spin, notification } from 'antd';
 import Avatar from 'antd/es/avatar/avatar';
 import Title from 'antd/es/typography/Title';
 import Cookies from 'js-cookie';
@@ -78,6 +78,40 @@ export const UserProfile = () => {
             children: '5',
         },
     ];
+    const [loadingRemoveAvatar, setLoadingRemoveAvatar] = useState(false);
+
+    const handleRemoveAvatar = async () => {
+        try {
+            setLoadingRemoveAvatar(true);
+
+            const response = await request.delete('user/remove-avatar', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            if (response?.status === 204 || response?.status === 200) {
+                notification.success({
+                    message: 'Xóa Avatar thành công',
+                    description: 'Avatar đã được xóa thành công.',
+                    placement: 'topRight',
+                });
+            } else {
+                notification.error({
+                    message: 'Lỗi',
+                    description: `Không thể xóa avatar. Status: ${response.status}`,
+                    placement: 'topRight',
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setTimeout(() => {
+                setLoadingRemoveAvatar(false);
+                window.location.reload();
+            }, 3200);
+        }
+    };
 
     return (
         <div className="user-profile-container">
@@ -99,12 +133,14 @@ export const UserProfile = () => {
                 <FormChangePassword onCancel={() => setIsOpenChangePassword(false)} />
             </ModalUser>
             <div key={currentUser.avatarURL} className="user-profile-general">
-                <Avatar
-                    src={currentUser.avatarURL}
-                    srcSet=""
-                    size={160}
-                    className="user-profile-avt"
-                />
+                <Spin spinning={loadingRemoveAvatar} size="large">
+                    <Avatar
+                        src={currentUser.avatarURL}
+                        srcSet=""
+                        size={160}
+                        className="user-profile-avt"
+                    />
+                </Spin>
                 <Title className="user-profile-username" level={3}>
                     {currentUser.username}
                 </Title>
@@ -133,6 +169,13 @@ export const UserProfile = () => {
                             onClick={() => setIsOpenEdit(true)}
                         >
                             Chỉnh sửa
+                        </Button>
+                        <Button
+                            type="primary"
+                            className="user-profile-btn"
+                            onClick={handleRemoveAvatar}
+                        >
+                            Xóa Avatar
                         </Button>
                     </div>
                 </div>
