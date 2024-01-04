@@ -176,7 +176,7 @@ export const Summary: React.FC<SummaryProps> = ({
                 <div className="total-price">
                     <div className="">Thành tiền</div>
                     <div className="value-1">
-                        {(totalPrice - totalPrice * discount).toLocaleString('it-IT') || '---'}
+                        {totalPrice.toLocaleString('it-IT') || '---'}
                         &nbsp;₫
                     </div>
                 </div>
