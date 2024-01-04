@@ -131,7 +131,18 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
                     content={ogTags.url || `${window.location.origin}/actor/${actorId}`}
                 />
                 <meta property="og:type" content={ogTags.type || 'article'} />
+
+                <meta property="og:site_name" content="Your Site Name" />
+                <meta property="og:locale" content="en_US" />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={ogTags.title || 'Actor Name'} />
+                <meta
+                    name="twitter:description"
+                    content={ogTags.description || 'Actor Description'}
+                />
+                <meta name="twitter:image" content={ogTags.image || defaultImage} />
             </Helmet>
+
             {actorInfo && (
                 <div>
                     <div className="container-actor__header"></div>

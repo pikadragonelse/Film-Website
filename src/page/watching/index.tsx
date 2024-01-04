@@ -232,7 +232,7 @@ export const WatchingPage = () => {
             </div>
 
             <ActorFamous DAlist={combinedActorsAndDirectors} size={130} isShow={true} />
-            <ListFilm title="Có thể bạn sẽ thích" listFilm={dataRecommend} />
+            <ListFilm title="Có thể bạn sẽ thích" listFilm={dataRecommend} isShow={false} />
             <div className="comment-container" id="comment">
                 <Comment title="Bình luận phim" placeholder="Bình luận về phim ở đây" />
             </div>
