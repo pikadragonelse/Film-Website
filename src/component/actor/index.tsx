@@ -10,7 +10,7 @@ import './index.scss';
 import { ActorInfo, TabsProps } from './type';
 import { Helmet } from 'react-helmet';
 
-export const Actor: React.FC<TabsProps> = ({ color }) => {
+const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
     const [activeTab, setActiveTab] = useState(1);
     const { actorId } = useParams();
@@ -20,7 +20,7 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
     const [qrCode, setQrCodeUrl] = useState<string | null>(null);
 
     const defaultImage =
-        'https://ik.imagekit.io/tvlk/blog/2022/07/phim-hanh-dong-my-8-1024x576.jpeg?tr=dpr-2,w-675';
+        'https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg';
     const ogTags = {
         title: actorInfo?.name || 'Actor Name',
         description: actorInfo?.description || 'Actor Description',
@@ -266,3 +266,4 @@ export const Actor: React.FC<TabsProps> = ({ color }) => {
         </>
     );
 };
+export default Actor;
