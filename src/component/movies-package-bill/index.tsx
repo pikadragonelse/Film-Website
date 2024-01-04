@@ -14,19 +14,50 @@ import { endpoint } from '../../utils/baseUrl';
 
 import { LoadingOutlined } from '@ant-design/icons';
 import { PaypalReturn, defaultPaypalReturn } from '../../model/paypal';
+import { useToken } from '../../hooks/useToken';
+import { request } from '../../utils/request';
+import { CurrentUser } from '../comment/type';
 
 const currentDate = new Date();
 
 export const MoviesPackageBill = () => {
     const location = useLocation();
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [dataBillReturn, setDataBillReturn] =
         useState<VNPayReturnDataRaw>(VNPayReturnDataRawDefault);
     const [dataBilPaypalReturn, setDataBilPaypalReturn] =
         useState<PaypalReturn>(defaultPaypalReturn);
-    const [dataUser, setDataUser] = useState<{ username?: string; email?: string }>({});
+
     const [billItems, setBillItems] = useState<{ title: string; content: string }[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { accessToken } = useToken();
+    const [currentUser, setCurrentUser] = useState<CurrentUser>({
+        username: '',
+        avatarURL: '',
+    });
+
+    const fetchDataCurrentUser = async () => {
+        try {
+            const response = await request.get('user/get-self-information', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            const data = response.data;
+
+            if (data) {
+                setCurrentUser({
+                    username: data.username || '',
+                    avatarURL: data.avatarURL || '',
+                    email: data.email || '',
+                });
+            } else {
+                console.error('Failed to fetch user data');
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
 
     const verifyBill = async () => {
         await axios
@@ -38,28 +69,6 @@ export const MoviesPackageBill = () => {
             })
             .then((res) => setDataBillReturn(res.data.results))
             .catch((err) => console.log(err));
-    };
-
-    const getUserInfo = () => {
-        axios
-            .get(`${endpoint}/api/user/get-user`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + accessToken,
-                },
-                params: {
-                    userId:
-                        location.search.includes('vnp_Amount') === true
-                            ? dataBillReturn.vnp_OrderInfo.split(' ')[0].split('_')[1]
-                            : dataBilPaypalReturn?.userId,
-                },
-            })
-            .then((res) => {
-                setDataUser(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     };
 
     const verifyBillPaypal = async () => {
@@ -95,7 +104,7 @@ export const MoviesPackageBill = () => {
             setIsLoading(false);
         }
         handleDataReturn();
-        getUserInfo();
+        fetchDataCurrentUser();
     }, [dataBilPaypalReturn]);
 
     const handleDataReturn = () => {
@@ -187,10 +196,10 @@ export const MoviesPackageBill = () => {
                     <div className="border-b-2 border-gray-100 pb-4 mb-4">
                         <h2 className="text-2xl font-bold mb-4">Người thanh toán</h2>
                         <p className="text-zinc-800 text-lg">
-                            <span className="font-semibold">Username:</span> {dataUser.username}
+                            <span className="font-semibold">Username:</span> {currentUser.username}
                         </p>
                         <p className="text-zinc-800 text-lg">
-                            <span className="font-semibold">Email:</span> {dataUser.email}
+                            <span className="font-semibold">Email:</span> {currentUser.email}
                         </p>
                     </div>
                     <ul className=" bill-list__info border-b-2 border-gray-100 pb-4 mb-4">
