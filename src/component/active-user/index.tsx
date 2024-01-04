@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { request } from '../../utils/request';
-import Cookies from 'js-cookie';
+import { notification } from 'antd';
+import axios from 'axios';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { endpoint } from '../../utils/baseUrl';
-import { notification } from 'antd';
 
 const ActiveUser = () => {
     const navigate = useNavigate();
