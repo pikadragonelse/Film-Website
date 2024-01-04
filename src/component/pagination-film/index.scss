@@ -26,7 +26,7 @@
 
     .ant-pagination .ant-pagination-item-active {
         border: 1px solid var(--primary-color);
-        color: var(--primary-color);
+        color: var(--primary-color) !important;
         background-color: transparent;
     }
 
