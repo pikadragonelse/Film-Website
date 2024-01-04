@@ -101,8 +101,13 @@ export const Register: React.FC = () => {
             } else {
                 console.error('Error registering user:', response.data);
             }
-        } catch (error) {
-            console.error('Error sending data to API:', error);
+        } catch (error: any) {
+            if (error.response.status === 409) {
+                notification.warning({
+                    message: 'Đăng kí không thành công',
+                    description: 'Email hoặc username đã tồn tại.',
+                });
+            }
         }
     };
 
@@ -116,6 +121,14 @@ export const Register: React.FC = () => {
         } catch (errorInfo) {
             console.log('Validation failed:', errorInfo);
         }
+    };
+    const passwordValidator = (_: any, value: any) => {
+        if (/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])/.test(value)) {
+            return Promise.resolve();
+        }
+        return Promise.reject(
+            'Mật khẩu phải chứa chữ viết thường, chữ viết hoa, số và ký tự đặc biệt!',
+        );
     };
     return (
         <div className="register">
@@ -155,11 +168,11 @@ export const Register: React.FC = () => {
                             rules={[
                                 {
                                     type: 'email',
-                                    message: 'The input is not a valid E-mail!',
+                                    message: 'Vui lòng nhập đúng định dạng E-mail!',
                                 },
                                 {
                                     required: true,
-                                    message: 'Please input your E-mail!',
+                                    message: 'Vui lòng nhập E-mail!',
                                 },
                                 {},
                             ]}
@@ -174,7 +187,7 @@ export const Register: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your username!',
+                                    message: 'Vui lòng nhập tên đăng nhập!',
                                 },
                             ]}
                         >
@@ -188,17 +201,20 @@ export const Register: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please input your password!',
+                                    message: 'Vui lòng nhập mật khẩu!',
+                                },
+                                {
+                                    validator: passwordValidator,
                                 },
                             ]}
                             hasFeedback
                         >
                             <Input.Password className="register-form__item-input" />
                         </Form.Item>
-                        <p className=" !mt-[-20px] mb-4 text-[11px] italic text-red-700">
+                        {/* <p className=" !mt-[-20px] mb-4 text-[11px] italic text-red-700">
                             Mật khẩu phải chứa đầy đủ chữ viết thường, chữ viết hoa, số, ký tự đặc
                             biệt!
-                        </p>
+                        </p> */}
                         <Form.Item
                             className="register-form__item"
                             name="confirm"
@@ -208,7 +224,7 @@ export const Register: React.FC = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: 'Please confirm your password!',
+                                    message: 'Vui lòng nhập mật khẩu!',
                                 },
                                 ({ getFieldValue }) => ({
                                     validator(_, value) {
@@ -216,9 +232,7 @@ export const Register: React.FC = () => {
                                             return Promise.resolve();
                                         }
                                         return Promise.reject(
-                                            new Error(
-                                                'The new password that you entered do not match!',
-                                            ),
+                                            new Error('Mật khẩu không trùng khớp!'),
                                         );
                                     },
                                 }),
@@ -244,7 +258,7 @@ export const Register: React.FC = () => {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please select gender!',
+                                        message: 'Vui lòng chọn giới tính!',
                                     },
                                 ]}
                             >

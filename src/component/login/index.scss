@@ -118,3 +118,38 @@
     border: none !important;
     color: rgba(0, 0, 0, 0.54) !important;
 }
+@media screen and (max-width: 760px) {
+    .form-list{
+        height: 650px;
+    }
+    .form-info {
+        position: absolute;
+        top: 0%;
+        left: 3%;
+        height: auto;
+        padding: 18px;
+        background-color: transparent;
+        margin-top:70px;
+    }
+
+    .form-header {
+        margin-bottom: calc(10 * var(--spacing-sm-1));
+        font-weight: 600;
+    
+        &__large {
+            font-size: 1.6rem;
+        }
+        &__small {
+            font-size: 1.1rem;
+        }
+    }
+
+    .form-img{
+        display: none;
+    }
+    .form-item {
+        margin-bottom: 0;
+       
+    }
+
+}
