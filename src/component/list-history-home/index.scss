@@ -22,12 +22,12 @@
 
         .ant-pagination .ant-pagination-item-active {
             border: 1px solid var(--primary-color);
-            color: var(--primary-color);
+            color: var(--primary-color) !important;
             background-color: transparent;
         }
 
         .ant-pagination .ant-pagination-item a {
-            color: var(--contrast-color);
+            color: var(--contrast-color) !important;
         }
     }
 }

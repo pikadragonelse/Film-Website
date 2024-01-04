@@ -28,14 +28,14 @@
     color: #fff;
 }
 :where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item a {
-    color: #fff;
+    color: #fff !important;
 }
 
 :where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item-active a {
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
 }
 :where(.css-dev-only-do-not-override-1vr7spz).ant-pagination .ant-pagination-item-active a:hover {
-    color: var(--primary-color);
+    color: var(--primary-color) !important;
 }
 
 :where(.css-dev-only-do-not-override-1vr7spz).ant-pagination
