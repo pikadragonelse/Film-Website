@@ -42,8 +42,6 @@ export const Payment = () => {
                     subscription.subscriptionType.subscriptionTypeId === Number(idPackage) &&
                     subscription.duration.durationId === selectedTerm?.id
                 ) {
-                    console.log(subscription.subscription_info_id);
-
                     setSelectedPackageId(subscription.subscription_info_id);
                     setDiscount(subscription.discount);
                 }

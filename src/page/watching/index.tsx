@@ -64,10 +64,6 @@ export const WatchingPage = () => {
     };
 
     useEffect(() => {
-        console.log(durationDefault);
-    }, [durationDefault]);
-
-    useEffect(() => {
         fetchData();
         fetchRecommend();
     }, [movieId, accessToken]);

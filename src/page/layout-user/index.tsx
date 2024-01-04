@@ -98,7 +98,6 @@ export const LayoutUser = () => {
             console.error(error);
         }
     };
-    console.log(currentUser);
     const [dataLovemovies, setDataLovemovies] = useState<FilmItem[]>([]);
     const fetchDataLove = async () => {
         try {
