@@ -56,6 +56,9 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
     };
 
     useEffect(() => {
+        document
+            .querySelector("meta[property='og:description']")
+            ?.setAttribute('content', 'Heeloo');
         fetch(`${endpoint}/api/individuals/actors/${actorId}`)
             .then((response) => response.json())
             .then((data) => {
