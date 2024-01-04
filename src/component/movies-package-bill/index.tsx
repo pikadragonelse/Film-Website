@@ -42,7 +42,7 @@ export const MoviesPackageBill = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
-            
+
             const data = response.data;
 
             if (data) {
@@ -52,11 +52,11 @@ export const MoviesPackageBill = () => {
                     email: data.email || '',
                 });
             } else {
-              setIsLoading(false);
+                setIsLoading(false);
                 console.error('Failed to fetch user data');
             }
         } catch (error) {
-          setIsLoading(false);
+            setIsLoading(false);
             console.error('Error fetching user data:', error);
         }
     };
@@ -72,10 +72,10 @@ export const MoviesPackageBill = () => {
                     },
                 },
             );
-          setIsLoading(false);
+            setIsLoading(false);
             setDataBillReturn(response.data.results);
         } catch (error) {
-          setIsLoading(false);
+            setIsLoading(false);
             console.error('Error verifying VNPay bill:', error);
         }
     };
@@ -93,11 +93,11 @@ export const MoviesPackageBill = () => {
                 },
             );
             if (response.data.data.status !== 422 && response.data.data.name !== 'AxiosError') {
-              setIsLoading(false);
+                setIsLoading(false);
                 setDataBilPaypalReturn(response.data.data);
             }
         } catch (error) {
-          setIsLoading(false);
+            setIsLoading(false);
             console.error('Error verifying Paypal bill:', error);
         }
     };

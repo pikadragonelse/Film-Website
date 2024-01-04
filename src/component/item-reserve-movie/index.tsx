@@ -27,7 +27,6 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
 
                 if (response.status === 200) {
                     const responseData = response.data;
-                    console.log('Response Data:', responseData);
 
                     if (responseData && responseData.data && Array.isArray(responseData.data)) {
                         const reservations: Reservation[] = responseData.data;
