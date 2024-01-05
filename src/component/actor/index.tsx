@@ -23,8 +23,8 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
         'https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg';
     const ogTags = {
         title: actorInfo?.name || 'Actor Name',
-        description: actorInfo?.description || 'Actor Description',
-        image: actorInfo?.avatar || defaultImage,
+        description: 'Actor Description',
+        image: defaultImage,
         url: `${window.location.origin}/actor/${actorId}`,
         type: 'article',
     };
