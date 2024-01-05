@@ -11,7 +11,7 @@ import { Breadcrumb, Button, Layout, Menu, Modal } from 'antd';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { VIPPackageUser } from '../../component/VIP-package-user';
 import { FilmItem } from '../../component/film-item';
 import { HistoryMovies } from '../../component/history';
@@ -83,7 +83,7 @@ export const LayoutUser = () => {
     const [collapsed, setCollapsed] = useState(false);
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
-
+    const navigate = useNavigate();
     const fetchDataCurrentUser = async () => {
         try {
             const response = await request.get('user/get-self-information', {
@@ -261,10 +261,6 @@ export const LayoutUser = () => {
                                                     <LoveMovies dataLovemovies={dataLovemovies} />
                                                 }
                                             />
-                                            <Route
-                                                path="/delete-account"
-                                                element={<div>Delete account</div>}
-                                            />
                                         </Routes>
                                     </div>
                                 </div>
@@ -277,12 +273,12 @@ export const LayoutUser = () => {
                     <div style={{ height: '180px' }}></div>
                     <Modal
                         visible={modalVisible}
-                        onCancel={() => setModalVisible(false)}
+                        onCancel={() => navigate('/')}
                         footer={
                             <Button
                                 className="poster__image-close"
                                 type="primary"
-                                onClick={() => setModalVisible(false)}
+                                onClick={() => navigate('/')}
                             >
                                 Đóng
                             </Button>
