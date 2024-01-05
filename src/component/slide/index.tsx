@@ -54,7 +54,8 @@ const Slide: React.FC = () => {
     const handleShareClick = async () => {
         if (isUserLoggedIn) {
             const currentIndex = carouselRef.current?.state.selectedItem ?? 0;
-            const movieId = popularMovies[currentIndex]?.movieId;
+            const currentMovie = popularMovies[currentIndex];
+            const movieId = currentMovie?.movieId;
             const actorLink = encodeURIComponent(`${window.location.origin}/movie/${movieId}`);
 
             try {
@@ -72,6 +73,7 @@ const Slide: React.FC = () => {
                             setQrCodeUrl(base64Value || '');
                         }
                     }
+                    setCopiedLink(actorLink);
                     setShareModalVisible(true);
                 } else {
                     console.error('Failed to fetch QR code URL');
@@ -276,7 +278,8 @@ const Slide: React.FC = () => {
                     onChange={(index) => {
                         const movieId = popularMovies[index]?.movieId;
                         setMovieId(movieId);
-                        setCopiedLink(`${window.location.origin}/movie/${movieId}`);
+                        const newCopiedLink = `${window.location.origin}/movie/${movieId}`;
+                        setCopiedLink(newCopiedLink);
                     }}
                 >
                     {popularMovies.map((movie, index) => (

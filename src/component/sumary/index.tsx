@@ -35,6 +35,7 @@ export const Summary: React.FC<SummaryProps> = ({
     const totalPrice = selectedTerm?.price || 0;
     const [endDate, setEndDate] = useState(getNextDateByMonth(duration));
     const [isOpenModal, setIsOpenModal] = useState(false);
+    const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
 
     useEffect(() => {
         const newDate = getNextDateByMonth(duration);
@@ -90,17 +91,34 @@ export const Summary: React.FC<SummaryProps> = ({
     };
 
     useEffect(() => {
-        if (subscriptionInfoId !== 0) {
+        if (!accessToken) {
+            setIsLoginModalVisible(true);
+        } else if (subscriptionInfoId !== 0) {
             if (selectedMethod === 2) {
                 paymentVNPay();
             } else if (selectedMethod === 1) {
                 postOrder();
             }
         }
-    }, [selectedMethod, subscriptionInfoId]);
+    }, [selectedMethod, subscriptionInfoId, accessToken]);
 
     return (
         <div className="wrapper-summary">
+            <Modal
+                title="Thông báo đăng ký"
+                visible={isLoginModalVisible}
+                onCancel={() => setIsLoginModalVisible(false)}
+                footer={[
+                    <Button key="link" href="/">
+                        Hủy bỏ
+                    </Button>,
+                    <Button key="link" href="/login" type="primary">
+                        Đăng nhập
+                    </Button>,
+                ]}
+            >
+                Vui lòng đăng nhập để tiếp tục thanh toán.
+            </Modal>
             <Modal
                 title="Thông báo đăng ký"
                 open={isOpenModal}

@@ -111,6 +111,7 @@ export const NewPassword: React.FC = () => {
                         >
                             <Input.Password className="newpassword-form__item-input" />
                         </Form.Item>
+
                         <Form.Item
                             className="newpassword-form__item"
                             name="confirm"

@@ -67,16 +67,6 @@ export const UserProfile = () => {
             label: 'Giới tính',
             children: currentUser.gender,
         },
-        {
-            key: '4',
-            label: 'Phim đã xem',
-            children: '25',
-        },
-        {
-            key: '5',
-            label: 'Phim yêu thích',
-            children: '5',
-        },
     ];
     const [loadingRemoveAvatar, setLoadingRemoveAvatar] = useState(false);
 
@@ -155,7 +145,7 @@ export const UserProfile = () => {
                         column={3}
                         layout="vertical"
                     />
-                    <div className="btn-container">
+                    <div className="btn-container !mt-20">
                         <Button
                             type="primary"
                             className="user-profile-btn"

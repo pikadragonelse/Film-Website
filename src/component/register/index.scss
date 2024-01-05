@@ -5,6 +5,7 @@
     height: 100%;
     padding: 5rem 6rem;
     background-color: rgba(0, 0, 0, 0.75);
+    width: 36%;
 
     &__header {
         margin-top: -40px;
@@ -83,4 +84,10 @@
     color: var(--primary-color);
     margin-top: 20px;
     animation: moveUpDown 0.5s infinite alternate;
+}
+
+.ant-form-item-explain-error {
+    width: 100%;
+    font-size: 12px;
+    margin-top: 4px;
 }
