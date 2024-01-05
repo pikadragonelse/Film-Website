@@ -20,6 +20,7 @@ import { endpoint } from '../../utils/baseUrl';
 import { FilmItem } from '../film-item';
 import './index.scss';
 import { Movie } from './type';
+import { FacebookShareButton } from 'react-share';
 
 const Slide: React.FC = () => {
     const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -422,21 +423,16 @@ const Slide: React.FC = () => {
                     width={450}
                 >
                     <div className="flex gap-10 items-center justify-center">
-                        <a
-                            className="modal-item flex flex-col items-center"
-                            href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                                copiedLink || '',
-                            )}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <img
-                                className="modal-img ml-4"
-                                src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
-                                alt="facebook"
-                            />
-                            <p className="text-sm mt-2"> Facebook</p>
-                        </a>
+                        <FacebookShareButton url={`http://movetimes.tech/movie/${movieId}`}>
+                            <a className="modal-item flex flex-col items-center">
+                                <img
+                                    className="modal-img ml-4"
+                                    src="https://www.iqiyipic.com/lequ/20220216/Facebook@3x.png"
+                                    alt="facebook"
+                                />
+                                <p className="text-sm mt-2"> Facebook</p>
+                            </a>
+                        </FacebookShareButton>
 
                         <a className="modal-item  flex flex-col" onClick={handleCopyLink}>
                             <img
