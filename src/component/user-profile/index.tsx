@@ -1,7 +1,6 @@
 import { Button, Descriptions, DescriptionsProps, Spin, notification } from 'antd';
 import Avatar from 'antd/es/avatar/avatar';
 import Title from 'antd/es/typography/Title';
-import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
 import { CurrentUser, defaultCurrentUser } from '../../model/user';
 import { request } from '../../utils/request';
@@ -9,13 +8,14 @@ import { ModalUser } from '../modal-user';
 import { FormChangePassword } from '../modal-user/form-change-password';
 import { FormEditUser } from '../modal-user/form-edit-user';
 import './index.scss';
+import { useToken } from '../../hooks/useToken';
 
 export const UserProfile = () => {
     const moment = require('moment');
     const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
     const [isOpenChangePassword, setIsOpenChangePassword] = useState<boolean>(false);
     //api currentUser
-    const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
+    const { accessToken } = useToken();
     const [currentUser, setCurrentUser] = useState<CurrentUser>(defaultCurrentUser);
     const [hasReloaded, setHasReloaded] = useState(false);
 
