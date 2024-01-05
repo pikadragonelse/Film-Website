@@ -41,7 +41,8 @@ export const Header = ({ className }: Header) => {
         location.pathname === '/login' ||
         location.pathname === '/register' ||
         location.pathname === '/forget' ||
-        location.pathname === '/payment';
+        location.pathname === '/payment' ||
+        location.pathname === '/reset-password';
 
     const scrollThreshold = 50;
 

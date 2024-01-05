@@ -1,6 +1,5 @@
 import { Button, ConfigProvider, Spin } from 'antd';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -13,8 +12,8 @@ import './index.scss';
 import { endpoint } from '../../utils/baseUrl';
 
 import { LoadingOutlined } from '@ant-design/icons';
-import { PaypalReturn, defaultPaypalReturn } from '../../model/paypal';
 import { useToken } from '../../hooks/useToken';
+import { PaypalReturn, defaultPaypalReturn } from '../../model/paypal';
 import { request } from '../../utils/request';
 import { CurrentUser } from '../comment/type';
 
