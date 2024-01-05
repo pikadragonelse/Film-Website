@@ -42,12 +42,14 @@ export const FilmDetail = () => {
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
 
-    const updateOgTags = (filmDetail: FilmItem) => {
+    const updateOgTags = (filmDetail: FilmItem, isMoviePage: boolean = false) => {
         const movieId = filmDetail?.movieId;
         const title = filmDetail.title || '';
         const description = filmDetail.description?.slice(0, 100) + '...' || '';
         const posterURL = filmDetail.posterURL || '';
-        const url = `${window.location.origin}/movie/${movieId}` || '';
+        const url = isMoviePage
+            ? `${window.location.origin}/movie/${movieId}`
+            : `${window.location.origin}`;
 
         return (
             <Helmet>
