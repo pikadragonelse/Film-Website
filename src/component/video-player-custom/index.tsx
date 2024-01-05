@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player';
 import { ControlPlayer } from '../control-player';
 import './index.scss';
 import { useAppDispatch } from '../../redux/hook';
-import { VideoWatching, setDataVideoWatching } from '../../redux/videoSlice';
+import { VideoWatching, setDataVideoWatching, setEpisodeId } from '../../redux/videoSlice';
 import screenfull from 'screenfull';
 import { CaretRightOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -200,6 +200,7 @@ export const VideoPlayerCustom = ({
                             playedSeconds: props.playedSeconds,
                             played: props.played,
                         });
+                        dispatch(setEpisodeId(episodeId));
                         dispatch(setDataVideoWatching(data));
                     }}
                     className="watching-player"
