@@ -11,7 +11,7 @@ export const ModalRating = ({ movieId, rating }: ratingProp) => {
     const accessToken = Cookies.get('accessToken')?.replace(/^"(.*)"$/, '$1') || '';
     const handleRating = async (newValue: number) => {
         try {
-            const response = await request.post(
+            await request.post(
                 'ratings/create',
                 {
                     movieId: movieId,
@@ -24,6 +24,10 @@ export const ModalRating = ({ movieId, rating }: ratingProp) => {
                     },
                 },
             );
+            notification.success({
+                message: 'Thành công!',
+                description: 'Bạn đã đánh giá thành công.',
+            });
         } catch (error: any) {
             console.log(error);
             if (error.response?.status === 403) {
