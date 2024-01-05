@@ -91,6 +91,7 @@ export const ControlPlayer = ({
                 },
             })
             .then((res) => {
+                console.log(res);
                 setStateSetting({ ...stateSetting, quality: quality });
                 setSrcVideo(res.data.data.videoUrl);
                 setIsLoadingHidden(true);
@@ -208,8 +209,8 @@ export const ControlPlayer = ({
                     <Tooltip title={`Thời gian`} {...defaultPropsToolTip}>
                         <div className="feature-item feature-left-item">
                             <span>
-                                {formatTime(Number(playedSeconds.toFixed()))} /{' '}
-                                {formatTime(Number(duration.toFixed()))}
+                                {formatTime(Number(playedSeconds?.toFixed()))} /{' '}
+                                {formatTime(Number(duration?.toFixed()))}
                             </span>
                         </div>{' '}
                     </Tooltip>

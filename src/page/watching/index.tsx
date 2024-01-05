@@ -18,7 +18,7 @@ import { useToken } from '../../hooks/useToken';
 import { NotifyModalContent, defaultNotifyModalContent } from '../../model/notify-modal';
 import { useAppDispatch, useAppSelector } from '../../redux/hook';
 import { selectionItems } from './items-selection';
-import { setDurationDefault } from '../../redux/videoSlice';
+import { setDataVideoWatching, setDurationDefault, setEpisodeId } from '../../redux/videoSlice';
 import { defaultEpisode, defaultFilm, modalContentMap } from './default-value';
 import './index.scss';
 
@@ -73,6 +73,7 @@ export const WatchingPage = () => {
     const { pathname } = useLocation();
 
     const getDataEpisode = () => {
+        dispatch(setEpisodeId(pathname.split('/')[3]));
         request
             .get(`/episode/${pathname.split('/')[3]}`, {
                 headers: {
@@ -165,7 +166,7 @@ export const WatchingPage = () => {
             </Modal>
 
             <div className="watching ">
-                <div className="watching-player-container flex-1 bg-zinc-800 relative ">
+                <div className="watching-player-container w-full bg-zinc-800 relative h-fit">
                     <VideoPlayerCustom
                         sourceUrl={srcVideo}
                         episodeId={dataEpisode.episodeId}

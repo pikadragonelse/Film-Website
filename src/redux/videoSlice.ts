@@ -27,8 +27,12 @@ export const videoWatchingSlice = createSlice({
         setDurationDefault: (state, action) => {
             state.durationDefault = action.payload;
         },
+        setEpisodeId: (state, action) => {
+            state.episodeId = action.payload;
+        },
     },
 });
 
-export const { setDataVideoWatching, setDurationDefault } = videoWatchingSlice.actions;
+export const { setDataVideoWatching, setDurationDefault, setEpisodeId } =
+    videoWatchingSlice.actions;
 export default videoWatchingSlice.reducer;
