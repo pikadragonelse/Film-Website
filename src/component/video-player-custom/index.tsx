@@ -163,7 +163,12 @@ export const VideoPlayerCustom = ({
     const navigator = useNavigate();
 
     return (
-        <div ref={containerRef} onMouseOver={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <div
+            ref={containerRef}
+            onMouseOver={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="flex "
+        >
             <Modal
                 title={'Không có quyền truy cập'}
                 open={isOpenModal}
@@ -182,7 +187,7 @@ export const VideoPlayerCustom = ({
                 Gói hiện tại của bạn không hỗ trợ xem phim ở chất lượng này, vui lòng nâng cấp gói
                 để trải nghiệm chất lượng phim tốt nhất
             </Modal>
-            <div className="player flex " onClick={() => playPauseHandler()}>
+            <div className="player flex self-center" onClick={() => playPauseHandler()}>
                 <ReactPlayer
                     ref={playerRef}
                     url={sourceUrl}
