@@ -8,7 +8,7 @@ import { endpoint } from '../../utils/baseUrl';
 import { TabItem } from './actor-tag-item';
 import './index.scss';
 import { ActorInfo, TabsProps } from './type';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const Actor: React.FC<TabsProps> = ({ color }) => {
     const [openTab, setOpenTab] = useState(1);
@@ -23,8 +23,8 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
         'https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg';
     const ogTags = {
         title: actorInfo?.name || 'Actor Name',
-        description: actorInfo?.description || 'Actor Description',
-        image: actorInfo?.avatar || defaultImage,
+        description: 'Actor Description',
+        image: defaultImage,
         url: `${window.location.origin}/actor/${actorId}`,
         type: 'article',
     };
@@ -66,8 +66,8 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
                 ogTags.title = data.data.name || 'Actor Name';
                 ogTags.description = data.data.description || 'Actor Description';
                 ogTags.image = data.data.avatar || defaultImage;
-                ogTags.url = `${window.location.origin}/actor/${actorId}`;
-                ogTags.type = 'article';
+                ogTags.url = `https://www.movetimes.tech/actor/${actorId}`;
+                ogTags.type = 'actor';
             })
             .catch((error) => console.error('Error:', error));
     }, [actorId]);
@@ -119,7 +119,6 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
     return (
         <>
             <Helmet>
-                <title>{ogTags.title}</title>
                 <meta property="og:title" content={ogTags.title || 'Actor Name'} />
                 <meta
                     property="og:description"

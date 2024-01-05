@@ -9,7 +9,7 @@ export type ModalUser = {
 export const ModalUser = ({ open, onCancel, children }: ModalUser) => {
     return (
         <Modal
-            title="Edit User Profile"
+            title={<p className="!mb-6 !text-14">Sửa thông tin cá nhân</p>}
             open={open}
             onCancel={onCancel}
             footer={[]}
