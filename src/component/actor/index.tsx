@@ -56,9 +56,6 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
     };
 
     useEffect(() => {
-        document
-            .querySelector("meta[property='og:description']")
-            ?.setAttribute('content', 'Heeloo');
         fetch(`${endpoint}/api/individuals/actors/${actorId}`)
             .then((response) => response.json())
             .then((data) => {
@@ -69,8 +66,8 @@ const Actor: React.FC<TabsProps> = ({ color }) => {
                 ogTags.title = data.data.name || 'Actor Name';
                 ogTags.description = data.data.description || 'Actor Description';
                 ogTags.image = data.data.avatar || defaultImage;
-                ogTags.url = `${window.location.origin}/actor/${actorId}`;
-                ogTags.type = 'article';
+                ogTags.url = `https://www.movetimes.tech/actor/${actorId}`;
+                ogTags.type = 'actor';
             })
             .catch((error) => console.error('Error:', error));
     }, [actorId]);
