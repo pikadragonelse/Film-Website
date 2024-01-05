@@ -33,6 +33,7 @@ const locationMap: Record<string, string> = {
     '/payment': 'hidden',
     '/bill': 'hidden',
     '/newpassword': 'hidden',
+    '/reset-password': 'hidden',
 };
 
 export const App = () => {

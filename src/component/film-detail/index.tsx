@@ -42,28 +42,28 @@ export const FilmDetail = () => {
     const [copiedLink, setCopiedLink] = useState<string | null>(null);
     let firstEpisodeId: number | null = null;
 
-    const updateOgTags = (filmDetail: FilmItem, isMoviePage: boolean = false) => {
-        const movieId = filmDetail?.movieId;
-        const title = filmDetail.title || '';
-        const description = filmDetail.description?.slice(0, 100) + '...' || '';
-        const posterURL = filmDetail.posterURL || '';
-        const url = isMoviePage
-            ? `${window.location.origin}/movie/${movieId}`
-            : `${window.location.origin}`;
+    // const updateOgTags = (filmDetail: FilmItem, isMoviePage: boolean = false) => {
+    //     const movieId = filmDetail?.movieId;
+    //     const title = filmDetail.title || '';
+    //     const description = filmDetail.description?.slice(0, 100) + '...' || '';
+    //     const posterURL = filmDetail.posterURL || '';
+    //     const url = isMoviePage
+    //         ? `${window.location.origin}/movie/${movieId}`
+    //         : `${window.location.origin}`;
 
-        return (
-            <Helmet>
-                <title>{title}</title>
-                <meta property="og:type" content="website" />
-                <meta property="og:title" content={title} />
-                <meta property="og:description" content={description} />
-                <meta property="og:image" content={posterURL} />
-                <meta property="og:url" content={url} />
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
-            </Helmet>
-        );
-    };
+    //     return (
+    //         <Helmet>
+    //             <title>{title}</title>
+    //             <meta property="og:type" content="website" />
+    //             <meta property="og:title" content={title} />
+    //             <meta property="og:description" content={description} />
+    //             <meta property="og:image" content={posterURL} />
+    //             <meta property="og:url" content={url} />
+    //             <meta property="og:image:width" content="1200" />
+    //             <meta property="og:image:height" content="630" />
+    //         </Helmet>
+    //     );
+    // };
 
     // check watch later
     const [dataCollect, setDataCollect] = useState<FilmItem[]>([]);
@@ -145,7 +145,6 @@ export const FilmDetail = () => {
         try {
             const movieData = await fetch(`${endpoint}/api/movies/${id}`).then((res) => res.json());
             setFilmDetail(movieData.movie);
-            updateOgTags(movieData.movie);
         } catch (error) {
             console.error(error);
         } finally {
@@ -293,7 +292,6 @@ export const FilmDetail = () => {
 
     return (
         <div className="film-detail flex-grow mb-[300px]">
-            {updateOgTags(filmDetail)}
             <div
                 style={{
                     position: 'relative',
