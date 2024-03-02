@@ -16,5 +16,15 @@
     "SeeAll": "查看全部",
     "SearchResults": "搜索结果",
     "Criteria": "条件",
-    "FilmFilter": "电影筛选"
+    "FilmFilter": "电影筛选",
+    "Trailer":"预告片",
+    "Director":"导演",
+    "Actor":"演员",
+    "Episode":"插曲",
+    "Evaluate":"评价",
+    "RelatedMovies":"相关电影",
+    "WatchLater":"稍后观看",
+    "DetailedDescription":"详细说明",
+    "Favorites":"收藏夹",
+    "TotalNumberOfEpisodes":"总集数"
 }

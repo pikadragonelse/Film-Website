@@ -53,27 +53,27 @@ export const FilmDetailTab: React.FC<FilmDetailTabProps> = ({ filmDetail }) => {
         },
         {
             key: '2',
-            label: 'Trailer',
+            label: t('Trailer'),
         },
         {
             key: '3',
-            label: 'Đạo diễn',
+            label: t('Director'),
         },
         {
             key: '4',
-            label: 'Diễn viên',
+            label: t('Actor'),
         },
         {
             key: '5',
-            label: 'Tập',
+            label: t('Episode'),
         },
         {
             key: '6',
-            label: 'Đánh giá',
+            label: t('Evaluate'),
         },
         {
             key: '7',
-            label: 'Phim liên quan',
+            label: t('RelatedMovies'),
         },
     ];
     return (

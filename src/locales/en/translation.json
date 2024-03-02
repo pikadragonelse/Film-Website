@@ -16,5 +16,15 @@
     "SeeAll":"See all",
     "SearchResults":"Search Results",
     "Criteria":"Criteria",
-    "FilmFilter": "Film Filter"
+    "FilmFilter": "Film Filter",
+    "Trailer":"Trailer",
+    "Director":"Director",
+    "Actor":"Actor",
+    "Episode":"Episode",
+    "Evaluate":"Evaluate",
+    "RelatedMovies":"Related movies",
+    "WatchLater":"Watch later",
+    "DetailedDescription":"Detailed description",
+    "Favorites":"Favorites",
+    "TotalNumberOfEpisodes":"Total number of episodes"
 }

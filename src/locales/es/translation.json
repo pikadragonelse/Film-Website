@@ -16,5 +16,15 @@
     "SeeAll": "Ver todo",
     "SearchResults": "Resultados de la búsqueda",
     "Criteria": "Criterios",
-    "FilmFilter": "Filtro de películas"
+    "FilmFilter": "Filtro de películas",
+    "Trailer":"Remolque",
+    "Director":"Directora",
+    "Actor":"Ejecutante",
+    "Episode":"Episodio",
+    "Evaluate":"Evaluar",
+    "RelatedMovies":"Películas relacionadas",
+    "WatchLater":"Míralo más tarde",
+    "DetailedDescription":"Descripción detallada",
+    "Favorites":"Favoritos",
+    "TotalNumberOfEpisodes":"Número total de episodios"
 }

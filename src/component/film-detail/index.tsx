@@ -22,6 +22,7 @@ import FilmDetailsSection from './film-detail-section';
 import { FilmDetailTab } from './film-detail-tab';
 import './index.scss';
 import ShareModal from './share';
+import { t } from '../../utils/i18n';
 
 interface Genre {
     id: number;
@@ -372,7 +373,7 @@ export const FilmDetail = () => {
                                         className="film-detail__watch flex items-center pl-3 pr-4 py-[6px] rounded-[6px] text-whitetransition duration-300 mt-[-10px] mr-3"
                                     >
                                         <CaretRightOutlined />
-                                        <span className="ml-2 text-[1rem]">Xem ngay</span>
+                                        <span className="ml-2 text-[1rem]">{t('PlayNow')}</span>
                                     </Link>
 
                                     <div
@@ -380,7 +381,7 @@ export const FilmDetail = () => {
                                         onClick={handleAddToCollection}
                                     >
                                         {addedToCollection ? <CheckOutlined /> : <PlusOutlined />}
-                                        <span className="ml-2 text-[1rem]">Xem sau</span>
+                                        <span className="ml-2 text-[1rem]">{t('WatchLater')}</span>
                                     </div>
                                 </div>
                             </div>

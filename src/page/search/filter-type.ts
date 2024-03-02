@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { endpoint } from '../../utils/baseUrl';
+import { t } from '../../utils/i18n';
 
 export type Option = {
     label: string;
@@ -28,7 +29,7 @@ export const defaultFilterItems: FilterItem[] = [
                 value: 'highRated',
             },
             {
-                label: 'Lượt yêu thích',
+                label: t('Favorites'),
                 value: 'highFavorited',
             },
         ],

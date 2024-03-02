@@ -4,6 +4,7 @@ import './index.scss';
 import { Link } from 'react-router-dom';
 import { EpisodeFilm } from '../../../model/film';
 import { CaretRightOutlined } from '@ant-design/icons';
+import { t } from '../../../utils/i18n';
 
 interface FilmDetail {
     episodes: EpisodeFilm[];
@@ -27,7 +28,9 @@ const FilmDetailEpisodes: React.FC<FilmDetailEpisodesProps> = ({ filmDetail }) =
 
     return (
         <>
-            <p className="episodes-length">Tổng số tập : {episodes.length}</p>
+            <p className="episodes-length">
+                {t('TotalNumberOfEpisodes')} : {episodes.length}
+            </p>
 
             <div className="grid grid-cols-5 gap-x-20 gap-y-[5.1rem] mt-8 episode-item">
                 {visibleEpisodes.map((episode) => (
