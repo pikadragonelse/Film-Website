@@ -1,3 +1,6 @@
+import { ReactNode } from "react";
+import { t } from "../../utils/i18n";
+
 export type Genre = {
     genre_id: number;
     name: string;
@@ -9,7 +12,7 @@ export interface ChildrenCategoriesHeader {
 }
 
 export interface CategoriesHeader {
-    title?: string;
+    title?: ReactNode | string;
     children?: ChildrenCategoriesHeader[];
     queryParam?: string;
 }
@@ -39,13 +42,13 @@ export const handleDataHomeHeader = (data: DataHeader) => {
     });
     const itemsHeader: CategoriesHeader[] = [
         {
-            title: 'Thể loại',
+            title: t('Category'),
             children: genres,
             queryParam: queryParamMap[listKey[2]],
         },
-        { title: 'Quốc gia', children: nations, queryParam: queryParamMap[listKey[0]] },
+        { title: t('Country'), children: nations, queryParam: queryParamMap[listKey[0]] },
         {
-            title: 'Năm sản xuất',
+            title: t('YearOfManufacture'),
             children: releasedYears,
             queryParam: queryParamMap[listKey[1]],
         },

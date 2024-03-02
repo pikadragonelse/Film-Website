@@ -13,6 +13,7 @@ import { DAFilm, Film } from '../../model/film';
 import { RootState } from '../../redux/store';
 import { request } from '../../utils/request';
 import './index.scss';
+import { t } from '../../utils/i18n';
 
 export type DataMovieByGenre = {
     genreId: number;
@@ -159,11 +160,11 @@ export const HomePage = () => {
             <Slide />
             <div className="container-home"></div>
             <Spin spinning={loading} size="large" className="mt-96">
-                <ListFilm isShow={false} title="Phim thịnh hành" listFilm={trendingData} />
+                <ListFilm isShow={false} title={t('PopularMovies')} listFilm={trendingData} />
                 <HistoryMoviesHome dataHistorymovies={dataHistorymovies} />
                 <div className="!mt-10"></div>
-                <ListFilm isShow={false} title="Dành cho VIP" listFilm={dataFilmVip} />
-                <ListFilm isShow={false} title="Hôm nay xem gì ?" listFilm={dataRecommend} />
+                <ListFilm isShow={false} title={t('ForVip')} listFilm={dataFilmVip} />
+                <ListFilm isShow={false} title={t('WhatToWatchToday')} listFilm={dataRecommend} />
                 <Link
                     to={'/VIPpackage'}
                     onClick={() => {
@@ -178,7 +179,11 @@ export const HomePage = () => {
                 </Link>
                 <ListReserveMovies listFilm={dataReserve} />
                 {dataActorFamous.length > 0 && (
-                    <CastFamousHome title="Người nổi tiếng" DAlist={dataActorFamous} size={146} />
+                    <CastFamousHome
+                        title={t('PopularCelebrities')}
+                        DAlist={dataActorFamous}
+                        size={146}
+                    />
                 )}
                 {renderListFilmsByGenre()}
             </Spin>

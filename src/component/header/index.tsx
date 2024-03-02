@@ -27,6 +27,8 @@ import { ContentModalHistoryTitle } from './modalHistoryTitle';
 import { ContentModalUser } from './modalUser';
 import { ContentModalVip } from './modalVip';
 import { ContentModalVipTitle } from './modalVipTitle';
+import Language from '../language';
+import { t } from '../../utils/i18n';
 export type Header = { className?: string };
 
 export const Header = ({ className }: Header) => {
@@ -152,7 +154,7 @@ export const Header = ({ className }: Header) => {
                 </div>
                 <div
                     style={{
-                        width: isLogin === true ? '21rem' : '16rem',
+                        width: isLogin === true ? '28rem' : '23rem',
                         marginRight: 'var(--spacing-lg)',
                     }}
                     className="flex justify-between items-center lg:order-2 mt-2"
@@ -171,6 +173,9 @@ export const Header = ({ className }: Header) => {
                             </Popover>
                         </>
                     ) : null}
+
+                    <Language />
+
                     <Popover
                         title={<ContentModalVipTitle />}
                         overlayStyle={{ maxWidth: '20%' }}
@@ -240,7 +245,7 @@ export const Header = ({ className }: Header) => {
                         <Link to="/login">
                             <Button type="primary" className="flex items-center">
                                 <LoginOutlined />
-                                Đăng nhập
+                                {t('Login')}
                             </Button>
                         </Link>
                     )}

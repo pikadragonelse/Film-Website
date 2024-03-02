@@ -4,6 +4,7 @@ import { Collapse, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import React from 'react';
 import './index.scss';
+import { t } from '../../../utils/i18n';
 
 export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail }) => {
     const { token } = theme.useToken();
@@ -19,7 +20,7 @@ export const FilmDetailOverall: React.FC<{ filmDetail: any }> = ({ filmDetail })
     const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
         {
             key: '1',
-            label: 'Mô tả chi tiết',
+            label: t('DetailedDescription'),
             children: (
                 <p className="overall-info" style={{ width: '88%' }}>
                     {descriptions}

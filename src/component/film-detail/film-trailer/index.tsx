@@ -2,6 +2,7 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import { Collapse } from 'antd';
 import React from 'react';
 import ReactPlayer from 'react-player';
+import { t } from '../../../utils/i18n';
 
 const { Panel } = Collapse;
 
@@ -14,7 +15,7 @@ const FilmDetailTrailer: React.FC<{ filmDetail: any }> = ({ filmDetail }) => {
             className="ml-[-10px] !mt-[-6px]"
             expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
         >
-            <Panel header={<span style={{ fontSize: '16px' }}>Trailer </span>} key="1">
+            <Panel header={<span style={{ fontSize: '16px' }}>{t('Trailer')} </span>} key="1">
                 <div className="overall-info">
                     <ReactPlayer
                         url={filmDetail.trailerURL}

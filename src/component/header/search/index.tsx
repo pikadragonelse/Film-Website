@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { CloseOutlined, SearchOutlined } from '@ant-design/icons';
 import './index.scss';
+import { t } from '../../../utils/i18n';
 
 export const Search = () => {
     const [searchValue, setSearchValue] = useState<string>('');
@@ -39,7 +40,7 @@ export const Search = () => {
                 ref={valueRef}
                 value={searchValue}
                 spellCheck={false}
-                placeholder="Tìm kiếm"
+                placeholder={t('Search')}
                 onChange={handleChange}
                 onKeyDown={(event) => (event.key === 'Enter' ? handleSearch() : undefined)}
             />

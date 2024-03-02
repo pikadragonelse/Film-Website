@@ -21,6 +21,7 @@ import { FilmItem } from '../film-item';
 import './index.scss';
 import { Movie } from './type';
 import { FacebookShareButton } from 'react-share';
+import { t } from '../../utils/i18n';
 
 const Slide: React.FC = () => {
     const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -359,7 +360,7 @@ const Slide: React.FC = () => {
                                         key={movie.movieId}
                                     >
                                         <CaretRightOutlined className="btn-icon" />
-                                        Xem ngay
+                                        {t('PlayNow')}
                                     </Link>
 
                                     <button

@@ -202,3 +202,31 @@ ul {
 :where(.css-i46qwz) a:hover {
     color: white !important;
 }
+
+:where(.css-dev-only-do-not-override-i46qwz).ant-collapse
+    > .ant-collapse-item
+    > .ant-collapse-header {
+    color: white !important;
+}
+
+:where(.css-dev-only-do-not-override-i46qwz).ant-progress
+    .ant-progress-inner:not(.ant-progress-circle-gradient)
+    .ant-progress-circle-path {
+    stroke: var(--primary-color);
+}
+
+:where(.css-dev-only-do-not-override-i46qwz).ant-pagination .ant-pagination-item-active {
+    color: var(--primary-color);
+}
+
+:where(.css-dev-only-do-not-override-i46qwz).ant-pagination .ant-pagination-item a {
+    color: var(--primary-color);
+}
+
+:where(.css-dev-only-do-not-override-i46qwz).ant-pagination .ant-pagination-item-active {
+    border-color: var(--primary-color);
+}
+
+:where(.css-dev-only-do-not-override-i46qwz).ant-list .ant-list-item .ant-list-item-action > li {
+    color: white;
+}
