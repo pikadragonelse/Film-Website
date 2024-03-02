@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { request } from '../../utils/request';
 import { FilmItem } from '../film-item';
 import './index.scss';
+import { t } from '../../utils/i18n';
 interface Reservation {
     movieId?: number;
 }
@@ -12,7 +13,7 @@ interface Reservation {
 export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId }: FilmItem) => {
     const [isLoadingImg, setIsLoadingImg] = useState(true);
     const [isReserved, setIsReserved] = useState(false);
-    const [initialButtonText, setInitialButtonText] = useState('Đặt lịch');
+    const [initialButtonText, setInitialButtonText] = useState(t('Reserve'));
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -37,10 +38,10 @@ export const ItemReserveMovie = ({ title, posterURL, level, releaseDate, movieId
 
                         if (matchingReservation) {
                             setIsReserved(true);
-                            setInitialButtonText('Hủy');
+                            setInitialButtonText(t('Cancel'));
                         } else {
                             setIsReserved(false);
-                            setInitialButtonText('Đặt lịch');
+                            setInitialButtonText(t('Reserve'));
                         }
                     } else {
                         console.error('Unexpected format for reservations data:', responseData);

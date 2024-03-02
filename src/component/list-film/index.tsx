@@ -1,14 +1,14 @@
 import { DownOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import { Button, Carousel, Col, Dropdown, MenuProps, Row } from 'antd';
 import { CarouselRef } from 'antd/es/carousel';
-import { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Film } from '../../model/film';
 import { FilmItem } from '../film-item';
 import './index.scss';
 
 export type ListFilm = {
-    title?: string;
+    title?: ReactNode | string;
     subInfo?: Array<string>;
     sessions?: MenuProps['items'];
     listFilm: Array<Film>;
@@ -75,9 +75,7 @@ export const ListFilm = ({
                             className={`mt-1 text-red-500 hover:text-red-600 mr-20 ${
                                 listFilm.length < 6 ? 'hidden' : ''
                             }`}
-                        >
-                            Xem tất cả
-                        </Link>
+                        ></Link>
                     )}
                 </div>
                 <div className="list-sub-info">

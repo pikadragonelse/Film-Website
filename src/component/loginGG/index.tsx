@@ -33,7 +33,7 @@ const LoginGG = () => {
 
         try {
             const response: AxiosResponse<{ token: string }> = await axios.get(
-                `https://movies-app.me/api/auth/google/callback?${encodedParams.toString()}`,
+                `http://localhost:8000/api/auth/google/callback?${encodedParams.toString()}`,
             );
 
             let refreshToken = response.data.token;

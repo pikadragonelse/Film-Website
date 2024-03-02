@@ -1,16 +1,14 @@
 import { Button, Checkbox, Form, Input, notification } from 'antd';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Logo } from '../../asset/icon/logo';
 import { setIsLogin, setUsername } from '../../redux/isLoginSlice';
-import './index.scss';
-import GoogleLogin from 'react-google-login';
-import { gapi } from 'gapi-script';
 import { endpoint } from '../../utils/baseUrl';
-import { FacebookFilled, GoogleOutlined } from '@ant-design/icons';
+import './index.scss';
+import { t } from '../../utils/i18n';
 
 type FieldType = {
     username?: string;
@@ -79,7 +77,7 @@ export const Login: React.FC = () => {
             });
     };
     const onSuccessGG = () => {
-        window.location.href = 'https://movies-app.me/api/auth/google';
+        window.location.href = 'http://localhost:8000/api/auth/google';
         // notification.success({
         //     message: 'Đăng nhập thành công',
         //     description: 'Chúc mừng, bạn đã đăng nhập thành công',
@@ -195,7 +193,7 @@ export const Login: React.FC = () => {
                                     htmlType="submit"
                                     loading={loading}
                                 >
-                                    Đăng nhập
+                                    {t('Login')}
                                 </Button>
                             </Form.Item>
                             <div className="!flex gap-[17px]">

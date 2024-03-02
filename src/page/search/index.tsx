@@ -13,6 +13,7 @@ import { endpoint } from '../../utils/baseUrl';
 import { FilterItem } from '../../model/filter';
 import { Genre } from '../../component/header/handle-data-header';
 import { QueryFilter, defaultFilterItems } from './filter-type';
+import { t } from '../../utils/i18n';
 
 export const SearchPage: React.FC = () => {
     const { search } = useLocation();
@@ -167,7 +168,7 @@ export const SearchPage: React.FC = () => {
                     </div>
                 ))}
                 <Button className="btn-filter" type="primary" onClick={handleSetFilterParams}>
-                    Lọc phim
+                    {t('FilmFilter')}
                 </Button>
             </div>
             <hr className="my-6 border-neutral-800" />
@@ -191,7 +192,7 @@ export const SearchPage: React.FC = () => {
                         spinning={isLoading}
                     >
                         <PaginationFilm
-                            title={`Kết quả tìm kiếm`}
+                            title={t('SearchResults')}
                             number={4}
                             listFilm={searchResults}
                             amountMovies={amountMovies}

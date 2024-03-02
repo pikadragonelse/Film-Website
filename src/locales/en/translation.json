@@ -1,0 +1,20 @@
+{
+    "Category": "Category",
+    "Country":"Country",
+    "YearOfManufacture":"Year of manufacture",
+    "Login": "Login",
+    "Overall": "Overall",
+    "PlayNow": "Play Now",
+    "Search": "Search",
+    "PopularMovies":"Popular movies",
+    "ForVip": "Only for VIP",
+    "WhatToWatchToday":"What to watch today?",
+    "Reserve":"Reserve",
+    "Cancel":"Cancel",
+    "PopularCelebrities":"Popular Celebrities",
+    "Action":"Action",
+    "SeeAll":"See all",
+    "SearchResults":"Search Results",
+    "Criteria":"Criteria",
+    "FilmFilter": "Film Filter"
+}
